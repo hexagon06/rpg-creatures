@@ -4,7 +4,7 @@ import axios from 'axios'
 export async function getCreatures (): Promise<Creature[]> {
   try {
     const response = await axios
-      .get<Creature[]>('http://localhost:3000/creature')
+      .get<Creature[]>('http://localhost:3000/creature/')
     return response.data
   } catch (e) {
     console.error(e)
