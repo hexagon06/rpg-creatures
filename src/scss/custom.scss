@@ -1,0 +1,14 @@
+
+// variable overrides
+
+
+// import bootstrap scss
+@import "../../node_modules/bootstrap/scss/bootstrap";
+@import '../../node_modules/bootstrap-vue/src/index';
+
+// style overrides
+
+html,body {
+  height: 100%;
+  max-height: 100%;
+}

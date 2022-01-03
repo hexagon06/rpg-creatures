@@ -1,11 +1,12 @@
 <template>
-  <div id="app">
+  <div id="app" class="container-fluid mh-100 h-100 d-flex flex-column">
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/creatures">Creatures</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <router-view />
+
+    <router-view class="mh-75 h-75" />
   </div>
 </template>
 
