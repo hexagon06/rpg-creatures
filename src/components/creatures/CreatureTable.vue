@@ -7,12 +7,14 @@
     selectable
     select-mode="single"
     sticky-header="80%"
-    per-page="20"
-    current-page="2"
+    :current-page="currentPage"
+    :per-page="perPage"
     :items="creatures"
     :fields="fields"
+    :filter="filter"
+    :filter-function="filterFunction"
+    @filtered="onFiltered"
   >
-    <template #table-caption><h1>This is the creature page</h1></template>
     <!-- for column templates: https://bootstrap-vue.org/docs/components/table#scoped-field-slots -->
     <template #cell(environment)="data">
       <array-pills :data="data.value" />
@@ -41,6 +43,8 @@ import { Creature } from "../../types/creatures";
 import { BTable } from "bootstrap-vue";
 import CreatureFilters from "./CreatureFilters.vue";
 import ArrayPills from "../shared/ArrayPills.vue";
+import { creatureMapper } from "../../store/creatures";
+import { creatureStore } from "../../store";
 
 export default Vue.extend({
   components: {
@@ -71,7 +75,23 @@ export default Vue.extend({
         { key: "alignment" }, // needs formatter
         { key: "system" },
       ],
+      filterFields: ["name", "type", "environment", "tags"],
     };
+  },
+  computed: {
+    ...creatureMapper.mapState(["search", "currentPage", "perPage"]),
+    filter(): string {
+      return this.search;
+    },
+  },
+  methods: {
+    filterFunction(data: Creature, filter: string): boolean {
+      return data.name.toLowerCase().includes(filter.toLowerCase());
+    },
+    onFiltered(filteredItems: Creature[]): void {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      creatureStore.mutations.setFilteredCount(filteredItems.length);
+    },
   },
 });
 </script>
