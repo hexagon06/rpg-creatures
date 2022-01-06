@@ -50,6 +50,7 @@ class CreatureActions extends Actions<CreatureState, CreatureGetters, CreatureMu
   async fetchCreatures () {
     var results = await getCreatures()
     this.mutations.setCreatures(results)
+    this.mutations.setFilteredCount(results.length)
   }
   async fetchSearch () {
     var search = window.sessionStorage.getItem(KEY_CREATURE_SEARCH)
