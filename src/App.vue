@@ -1,16 +1,16 @@
 <template>
   <div id="app" class="container-fluid mh-100 h-100 d-flex flex-column">
-    <div id="nav">
+    <div id="nav" class="header">
       <router-link to="/">Home</router-link> |
       <router-link to="/creatures">Creatures</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-
-    <router-view class="mh-75 h-75" />
+    <router-view class="flex-1-1-0" />
+    <div class="footer"></div>
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -30,5 +30,11 @@
       color: #42b983;
     }
   }
+}
+
+.header {
+}
+.footer {
+  height: $footer-height;
 }
 </style>

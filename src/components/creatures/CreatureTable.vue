@@ -6,7 +6,7 @@
     responsive
     selectable
     select-mode="single"
-    sticky-header="80%"
+    sticky-header="100%"
     :current-page="currentPage"
     :per-page="perPage"
     :items="creatures"
@@ -14,6 +14,8 @@
     :filter="filter"
     :filter-function="filterFunction"
     @filtered="onFiltered"
+    @row-selected="onRowSelected"
+    class="creature-table"
   >
     <!-- for column templates: https://bootstrap-vue.org/docs/components/table#scoped-field-slots -->
     <template #cell(environment)="data">
@@ -92,11 +94,17 @@ export default Vue.extend({
       // Trigger pagination to update the number of buttons/pages due to filtering
       creatureStore.mutations.setFilteredCount(filteredItems.length);
     },
+    onRowSelected(items: Creature) {
+      // this.selected = items;
+    },
   },
 });
 </script>
 
 <style lang="scss" scoped>
+.creature-table {
+  margin-bottom: 0 !important;
+}
 img {
   object-fit: contain;
 }

@@ -1,14 +1,21 @@
 
-// variable overrides
-
 
 // import bootstrap scss
 @import "../../node_modules/bootstrap/scss/bootstrap";
 @import '../../node_modules/bootstrap-vue/src/index';
+
+// variable overrides
+$header-height: 2rem;
+$footer-height: 2rem;
+
 
 // style overrides
 
 html,body {
   height: 100%;
   max-height: 100%;
+}
+
+.flex-1-1-0 {
+  flex: 1 1 0 !important;
 }
