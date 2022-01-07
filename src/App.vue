@@ -38,3 +38,10 @@
   height: $footer-height;
 }
 </style>
+
+<style src="../node_modules/vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style lang="scss">
+.multiselect__tags {
+  padding: 0 40px 0 8px;
+}
+</style>

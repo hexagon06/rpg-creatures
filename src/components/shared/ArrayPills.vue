@@ -5,8 +5,8 @@
       :key="item"
       class="badge badge-pill mr-1"
       :class="variant"
-      >{{ item }}</span
-    >
+      >{{ item }}
+    </span>
   </div>
 </template>
 

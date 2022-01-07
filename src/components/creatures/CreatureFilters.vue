@@ -4,67 +4,64 @@
     <b-collapse id="filters">
       <div class="row">
         <div class="col-sm-12 col-md-3">
-          <label for="search-text">Search:</label>
+          <label for="search-text">Size:</label>
           <b-form-input
             id="search-text"
             type="search"
+            placeholder="Search"
             v-model="search"
             debounce="300"
           ></b-form-input>
         </div>
         <div class="col-sm-12 col-md-3">
           <label for="size-filter">Size:</label>
-          <b-form-select
+          <pill-multiselect
             id="size-filter"
             v-model="sizeFilter"
             :options="sizeOptions"
-            multiple
-          ></b-form-select>
+            placeholder="Select size(s)"
+          />
         </div>
         <div class="col-sm-12 col-md-3">
           <label for="type-filter">Type:</label>
-          <b-form-select
+          <pill-multiselect
             id="type-filter"
             v-model="typeFilter"
             :options="typeOptions"
-            multiple
-          ></b-form-select>
+            placeholder="Select type(s)"
+          ></pill-multiselect>
         </div>
         <div class="col-sm-12 col-md-3">
           <label for="environment-filter">Environment:</label>
-          <b-form-select
+          <pill-multiselect
             id="environment-filter"
             v-model="environmentFilter"
             :options="environmentOptions"
-            multiple
-          ></b-form-select>
+          ></pill-multiselect>
         </div>
         <div class="col-sm-12 col-md-3">
           <label for="tags-filter">Tags:</label>
-          <b-form-select
+          <pill-multiselect
             id="tags-filter"
             v-model="tagsFilter"
             :options="tagsOptions"
-            multiple
-          ></b-form-select>
+          ></pill-multiselect>
         </div>
         <div class="col-sm-12 col-md-3">
           <label for="system-filter">System:</label>
-          <b-form-select
+          <pill-multiselect
             id="system-filter"
             v-model="systemFilter"
             :options="systemOptions"
-            multiple
-          ></b-form-select>
+          ></pill-multiselect>
         </div>
         <div class="col-sm-12 col-md-3">
           <label for="cr-filter">CR:</label>
-          <b-form-select
+          <pill-multiselect
             id="cr-filter"
             v-model="crFilter"
             :options="crOptions"
-            multiple
-          ></b-form-select>
+          ></pill-multiselect>
         </div>
       </div>
     </b-collapse>
@@ -75,8 +72,16 @@
 import Vue from "vue";
 import { filterStore } from "../../store";
 import { filterMapper } from "../../store/filter";
+import { Multiselect } from "vue-multiselect";
+import ArrayPills from "../shared/ArrayPills.vue";
+import PillMultiselect from "../shared/PillMultiselect.vue";
 
 export default Vue.extend({
+  components: {
+    Multiselect,
+    ArrayPills,
+    "pill-multiselect": PillMultiselect,
+  },
   async created() {
     // fetch from the local store
     await filterStore.actions.fetchSearch();
@@ -149,6 +154,3 @@ export default Vue.extend({
   },
 });
 </script>
-
-<style lang="scss" scoped>
-</style>
