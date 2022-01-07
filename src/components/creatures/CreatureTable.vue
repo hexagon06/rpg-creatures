@@ -35,13 +35,7 @@
       <array-pills :data="data.value" :variant="'badge-info'" />
     </template>
     <template #cell(image)="data">
-      <b-img-lazy
-        v-if="data.value"
-        :src="data.value"
-        rounded
-        height="150px"
-        width="150px"
-      />
+      <thumbnail v-if="data.value" :url="data.value" />
     </template>
   </b-table>
 </template>
@@ -56,12 +50,14 @@ import { creatureMapper } from "../../store/creatures";
 import { creatureStore } from "../../store";
 import { CreatureFilter, filterMapper } from "../../store/filter";
 import { difference } from "lodash";
+import Thumbnail from "./Thumbnail.vue";
 
 export default Vue.extend({
   components: {
     "b-table": BTable,
     "creature-filters": CreatureFilters,
     "array-pills": ArrayPills,
+    Thumbnail,
   },
   props: {
     creatures: {
@@ -131,8 +127,5 @@ function valueContainsSet<T>(value: T[], filter: T[]): boolean {
 <style lang="scss" scoped>
 .creature-table {
   margin-bottom: 0 !important;
-}
-img {
-  object-fit: contain;
 }
 </style>
