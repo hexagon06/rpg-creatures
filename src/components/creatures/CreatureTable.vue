@@ -18,6 +18,13 @@
     class="creature-table"
   >
     <!-- for column templates: https://bootstrap-vue.org/docs/components/table#scoped-field-slots -->
+    <template #cell(link)="data">
+      <a v-if="data && data.value" :href="data.value" target="_blank">
+        <font-awesome-icon
+          icon="fa-solid fa-arrow-up-right-from-square"
+        ></font-awesome-icon>
+      </a>
+    </template>
     <template #cell(environment)="data">
       <array-pills :data="data.value" />
     </template>
