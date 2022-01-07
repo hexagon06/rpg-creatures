@@ -47,6 +47,8 @@ import CreatureFilters from "./CreatureFilters.vue";
 import ArrayPills from "../shared/ArrayPills.vue";
 import { creatureMapper } from "../../store/creatures";
 import { creatureStore } from "../../store";
+import { CreatureFilter, filterMapper } from "../../store/filter";
+import { difference } from "lodash";
 
 export default Vue.extend({
   components: {
@@ -66,7 +68,7 @@ export default Vue.extend({
       // https://bootstrap-vue.org/docs/components/table#field-definition-reference
       fields: [
         // { key: "id" },
-        // {key: "link"}, // needs formatter
+        { key: "link" }, // needs formatter
         { key: "name", sortable: true, stickyColumn: true, isRowHeader: true },
         { key: "image" }, // needs formatter
         { key: "size" },
@@ -81,14 +83,24 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...creatureMapper.mapState(["search", "currentPage", "perPage"]),
-    filter(): string {
-      return this.search;
+    ...creatureMapper.mapState(["currentPage", "perPage"]),
+    ...filterMapper.mapState(["search"]),
+    ...filterMapper.mapGetters(["getFilter"]),
+    filter(): CreatureFilter {
+      return this.getFilter();
     },
   },
   methods: {
-    filterFunction(data: Creature, filter: string): boolean {
-      return data.name.toLowerCase().includes(filter.toLowerCase());
+    filterFunction(data: Creature, filter: CreatureFilter): boolean {
+      return (
+        data.name.toLowerCase().includes(filter.search.toLowerCase()) &&
+        valueIsInSet(data.size, filter.size) &&
+        valueIsInSet(data.type, filter.type) &&
+        valueIsInSet(data.type, filter.system) &&
+        valueIsInSet(data.cr, filter.cr) &&
+        valueContainsSet(data.environment, filter.environment) &&
+        valueContainsSet(data.tags, filter.tags)
+      );
     },
     onFiltered(filteredItems: Creature[]): void {
       // Trigger pagination to update the number of buttons/pages due to filtering
@@ -99,6 +111,14 @@ export default Vue.extend({
     },
   },
 });
+
+function valueIsInSet<T>(value: T, filter: T[]): boolean {
+  return filter.length === 0 || filter.indexOf(value) >= 0;
+}
+
+function valueContainsSet<T>(value: T[], filter: T[]): boolean {
+  return filter.length === 0 || difference(filter, value).length === 0;
+}
 </script>
 
 <style lang="scss" scoped>

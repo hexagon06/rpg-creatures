@@ -2,12 +2,9 @@ import { getCreatures } from '@/api/creature'
 import { Creature } from '@/types/creatures'
 import { Getters, Module, createMapper, Actions, Mutations } from 'vuex-smart-module'
 
-const KEY_CREATURE_SEARCH = 'creatureSearch'
-
 class CreatureState {
   creatures: Creature[] = [];
   initialized = false;
-  search = '';
   currentPage = 1;
   filteredCount = 0;
   perPage = 20;
@@ -25,10 +22,6 @@ class CreatureMutations extends Mutations<CreatureState> {
   }
   setInitialized (init: boolean) {
     this.state.initialized = init
-  }
-  setSearch (search: string) {
-    this.state.search = search
-    window.sessionStorage.setItem(KEY_CREATURE_SEARCH, search)
   }
   setFilteredCount (count: number) {
     this.state.filteredCount = count
@@ -51,12 +44,6 @@ class CreatureActions extends Actions<CreatureState, CreatureGetters, CreatureMu
     var results = await getCreatures()
     this.mutations.setCreatures(results)
     this.mutations.setFilteredCount(results.length)
-  }
-  async fetchSearch () {
-    var search = window.sessionStorage.getItem(KEY_CREATURE_SEARCH)
-    if (search) {
-      this.mutations.setSearch(search)
-    }
   }
 }
 
