@@ -9,7 +9,7 @@
     :preserve-search="true"
     :placeholder="placeholder"
     :show-labels="false"
-    :preselect-first="true"
+    :preselect-first="false"
   >
     <template slot="selection" slot-scope="{ values }">
       <div class="d-flex">
