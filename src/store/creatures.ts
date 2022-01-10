@@ -1,9 +1,11 @@
 import { getCreatures } from '@/api/creature'
 import { Creature } from '@/types/creatures'
+import Vue from 'vue'
 import { Getters, Module, createMapper, Actions, Mutations } from 'vuex-smart-module'
 
 class CreatureState {
   creatures: Creature[] = [];
+  selectedCreature: Creature | undefined
   initialized = false;
   currentPage = 1;
   filteredCount = 0;
@@ -33,6 +35,10 @@ class CreatureMutations extends Mutations<CreatureState> {
   setPerPage (amount: number) {
     this.state.perPage = amount
   }
+  setSelectedCreature (creature?: Creature) {
+    // need to do this with set because the mappers and reactive stuff does not handle nullable properly
+    Vue.set(this.state, 'selectedCreature', creature)
+  }
 }
 
 class CreatureActions extends Actions<CreatureState, CreatureGetters, CreatureMutations, CreatureActions> {
@@ -44,6 +50,14 @@ class CreatureActions extends Actions<CreatureState, CreatureGetters, CreatureMu
     var results = await getCreatures()
     this.mutations.setCreatures(results)
     this.mutations.setFilteredCount(results.length)
+  }
+  async setSelectedCreature (id?: number) {
+    if (id === undefined) {
+      this.commit('setSelectedCreature', undefined)
+    } else {
+      const creature = this.getters.get(id)
+      this.commit('setSelectedCreature', creature)
+    }
   }
 }
 

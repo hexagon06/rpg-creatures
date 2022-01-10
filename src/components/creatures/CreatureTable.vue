@@ -14,7 +14,7 @@
     :filter="filter"
     :filter-function="filterFunction"
     @filtered="onFiltered"
-    @row-selected="onRowSelected"
+    @row-selected="$emit('select', $event)"
     class="creature-table"
   >
     <!-- for column templates: https://bootstrap-vue.org/docs/components/table#scoped-field-slots -->
@@ -32,7 +32,7 @@
       <array-pills :data="data.value" :variant="'badge-success'" />
     </template>
     <template #cell(alignment)="data">
-      <array-pills :data="data.value" :variant="'badge-info'" />
+      <alignment :values="data.value" />
     </template>
     <template #cell(image)="data">
       <thumbnail v-if="data.value" :url="data.value" />
@@ -51,6 +51,7 @@ import { creatureStore } from "../../store";
 import { CreatureFilter, filterMapper } from "../../store/filter";
 import { difference } from "lodash";
 import Thumbnail from "./Thumbnail.vue";
+import Alignment from "./Alignment.vue";
 
 export default Vue.extend({
   components: {
@@ -58,6 +59,7 @@ export default Vue.extend({
     "creature-filters": CreatureFilters,
     "array-pills": ArrayPills,
     Thumbnail,
+    Alignment,
   },
   props: {
     creatures: {
@@ -80,6 +82,7 @@ export default Vue.extend({
         { key: "environment" }, // needs formatter
         { key: "tags" }, // needs formatter
         { key: "alignment" }, // needs formatter
+        { key: "page", sortable: true },
         { key: "system" },
       ],
       filterFields: ["name", "type", "environment", "tags"],

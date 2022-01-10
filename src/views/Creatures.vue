@@ -1,5 +1,9 @@
 <template>
   <div class="d-flex flex-column">
+    <creature-sidebar
+      id="sidebar-creature"
+      v-model="sidebarCreatureOpen"
+    ></creature-sidebar>
     <creature-filters class="py-2" />
     <div class="flex-1-1-0" style="overflow: auto">
       <b-skeleton-wrapper :loading="loading">
@@ -12,7 +16,12 @@
           >
           </b-skeleton-table>
         </template>
-        <creature-table :creatures="creatures" />
+        <creature-table
+          :creatures="creatures"
+          @select="selectCreatures"
+          aria-controls="sidebar-creature"
+          :aria-expanded="sidebarCreatureOpen"
+        />
       </b-skeleton-wrapper>
     </div>
     <creature-pagination />
@@ -26,12 +35,20 @@ import { creatureStore } from "../store/index";
 import { creatureMapper } from "../store/creatures";
 import CreatureFilters from "../components/creatures/CreatureFilters.vue";
 import CreaturePagination from "../components/creatures/CreaturePagination.vue";
+import CreatureSidebar from "../components/creatures/CreatureSidebar.vue";
+import { Creature } from "@/types/creatures";
 
 export default Vue.extend({
-  components: { CreatureTable, CreatureFilters, CreaturePagination },
+  components: {
+    CreatureTable,
+    CreatureFilters,
+    CreaturePagination,
+    CreatureSidebar,
+  },
   data() {
     return {
       loading: true,
+      sidebarCreatureOpen: false,
     };
   },
   async created() {
@@ -41,7 +58,22 @@ export default Vue.extend({
     this.loading = false;
   },
   computed: {
-    ...creatureMapper.mapState(["creatures"]),
+    ...creatureMapper.mapState(["creatures", "selectedCreature"]),
+  },
+  methods: {
+    async selectCreatures(data: Creature[]) {
+      if (data.length === 0) {
+        this.sidebarCreatureOpen = false;
+        await creatureStore.actions.setSelectedCreature(undefined);
+      } else if (data.length !== 1) {
+        throw new Error(
+          `unsupported amount of creatures selected (${data.length})`
+        );
+      } else if (this.selectedCreature?.id !== data[0].id) {
+        await creatureStore.actions.setSelectedCreature(data[0].id);
+        this.sidebarCreatureOpen = true;
+      }
+    },
   },
 });
 </script>

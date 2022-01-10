@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="data && data.length > 0">
     <span
       v-for="item in data"
       :key="item"
