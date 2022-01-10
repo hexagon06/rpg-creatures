@@ -1,5 +1,5 @@
 export type Creature = {
-  id: number
+  id?: number
   link?: string //
   source?: string //
   page?: string //
@@ -28,7 +28,6 @@ export type Creature = {
   swimSpeed?: number //
   climbSpeed?: number //
   burrowSpeed?: number //
-  inspiration: boolean
   comments?: string //
   image?: string //
 }

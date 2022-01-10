@@ -24,7 +24,7 @@ export default Vue.extend({
       switch (alignment.toLowerCase()) {
         case "chaotic":
           return "warning";
-        case "lawfull":
+        case "lawful":
           return "info";
         case "good":
           return "success";

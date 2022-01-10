@@ -16,6 +16,7 @@ export type CreatureFilter = {
 }
 
 class FilterState {
+  initialized: boolean = false
   search = '';
   sizeOptions: string[] = [];
   sizeSelection: string[] = [];
@@ -29,6 +30,7 @@ class FilterState {
   systemSelection: string[] = [];
   crOptions: number[] = [];
   crSelection: number[] = [];
+  organisationOptions: string[] = ['not loaded'];
 }
 
 class FilterGetters extends Getters<FilterState> {
@@ -82,6 +84,15 @@ class FilterMutations extends Mutations<FilterState> {
   }
   setCR (sizes: number[]) {
     this.state.crSelection = sizes
+  }
+  addEnvironment (environment: string) {
+    this.state.environmentOptions.push(environment)
+  }
+  addOrganisation (organisation: string) {
+    this.state.organisationOptions.push(organisation)
+  }
+  addTag (tag: string) {
+    this.state.tagsOptions.push(tag)
   }
 }
 
@@ -148,6 +159,7 @@ class FilterActions extends Actions<FilterState, FilterGetters, FilterMutations,
       systemOptions: toUniqueStrings(creatures.map(c => c.system)),
       crOptions: toUniqueNumbers(creatures.map(c => c.cr)),
     })
+    this.state.initialized = true
   }
   storeSelection () {
     const {
@@ -168,6 +180,15 @@ class FilterActions extends Actions<FilterState, FilterGetters, FilterMutations,
       crSelection
     }
     window.sessionStorage.setItem(KEY_CREATURE_FILTERS, JSON.stringify(selection))
+  }
+  async addEnvironment (environment: string) {
+    this.mutations.addEnvironment(environment)
+  }
+  async addOrganisation (organisation: string) {
+    this.mutations.addOrganisation(organisation)
+  }
+  async addTag (tag: string) {
+    this.mutations.addTag(tag)
   }
 }
 

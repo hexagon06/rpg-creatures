@@ -1,4 +1,4 @@
-import { getCreatures } from '@/api/creature'
+import { createCreature, getCreatures } from '@/api/creature'
 import { Creature } from '@/types/creatures'
 import Vue from 'vue'
 import { Getters, Module, createMapper, Actions, Mutations } from 'vuex-smart-module'
@@ -39,6 +39,9 @@ class CreatureMutations extends Mutations<CreatureState> {
     // need to do this with set because the mappers and reactive stuff does not handle nullable properly
     Vue.set(this.state, 'selectedCreature', creature)
   }
+  addCreature (creature: Creature) {
+    this.state.creatures.push(creature)
+  }
 }
 
 class CreatureActions extends Actions<CreatureState, CreatureGetters, CreatureMutations, CreatureActions> {
@@ -58,6 +61,12 @@ class CreatureActions extends Actions<CreatureState, CreatureGetters, CreatureMu
       const creature = this.getters.get(id)
       this.commit('setSelectedCreature', creature)
     }
+  }
+  async createCreature (creature: Creature) {
+    // making sure we allow google to generate an id
+    creature.id = undefined
+    await createCreature(creature)
+    this.mutations.addCreature(creature)
   }
 }
 

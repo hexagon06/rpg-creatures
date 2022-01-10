@@ -10,6 +10,8 @@
     :placeholder="placeholder"
     :show-labels="false"
     :preselect-first="false"
+    :taggable="taggable"
+    @tag="$emit('tag', $event)"
   >
     <template slot="selection" slot-scope="{ values }">
       <div class="d-flex">
@@ -52,6 +54,10 @@ export default Vue.extend({
     placeholder: {
       type: String,
       default: "select",
+    },
+    taggable: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: {

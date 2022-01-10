@@ -4,7 +4,10 @@
       id="sidebar-creature"
       v-model="sidebarCreatureOpen"
     ></creature-sidebar>
-    <creature-filters class="py-2" />
+    <div class="d-flex">
+      <creature-filters class="flex-fill py-2" />
+      <create> </create>
+    </div>
     <div class="flex-1-1-0" style="overflow: auto">
       <b-skeleton-wrapper :loading="loading">
         <template #loading>
@@ -37,6 +40,7 @@ import CreatureFilters from "../components/creatures/CreatureFilters.vue";
 import CreaturePagination from "../components/creatures/CreaturePagination.vue";
 import CreatureSidebar from "../components/creatures/CreatureSidebar.vue";
 import { Creature } from "@/types/creatures";
+import Create from "@/components/creatures/Create.vue";
 
 export default Vue.extend({
   components: {
@@ -44,6 +48,7 @@ export default Vue.extend({
     CreatureFilters,
     CreaturePagination,
     CreatureSidebar,
+    Create,
   },
   data() {
     return {
