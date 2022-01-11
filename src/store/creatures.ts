@@ -1,5 +1,6 @@
-import { createCreature, getCreatures } from '@/api/creature'
+import { createCreature, getCreatures, updateCreature } from '@/api/creature'
 import { Creature } from '@/types/creatures'
+import { cloneDeep } from 'lodash'
 import Vue from 'vue'
 import { Getters, Module, createMapper, Actions, Mutations } from 'vuex-smart-module'
 
@@ -42,6 +43,12 @@ class CreatureMutations extends Mutations<CreatureState> {
   addCreature (creature: Creature) {
     this.state.creatures.push(creature)
   }
+  updateCreature (creature: Creature) {
+    const newCreatures = cloneDeep(this.state.creatures)
+    const index = newCreatures.findIndex(c => c.id === creature.id)
+    newCreatures[index] = creature
+    this.state.creatures = newCreatures
+  }
 }
 
 class CreatureActions extends Actions<CreatureState, CreatureGetters, CreatureMutations, CreatureActions> {
@@ -65,8 +72,13 @@ class CreatureActions extends Actions<CreatureState, CreatureGetters, CreatureMu
   async createCreature (creature: Creature) {
     // making sure we allow google to generate an id
     creature.id = undefined
-    await createCreature(creature)
+    const newId = await createCreature(creature)
+    creature.id = newId
     this.mutations.addCreature(creature)
+  }
+  async updateCreature (creature: Creature) {
+    await updateCreature(creature)
+    this.mutations.updateCreature(creature)
   }
 }
 

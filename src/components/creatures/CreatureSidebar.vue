@@ -15,6 +15,7 @@
     <p v-else>no creature is selected.</p>
     <template #footer="{ hide }">
       <div class="d-flex bg-dark text-light align-items-center px-3 py-2">
+        <edit v-if="creatureIsSelected" :creature="selectedCreature" />
         <strong class="mr-auto"></strong>
         <b-button size="sm" @click="hide">Close</b-button>
       </div>
@@ -26,10 +27,12 @@
 import { creatureMapper } from "@/store/creatures";
 import Vue from "vue";
 import CreatureDetails from "./CreatureDetails.vue";
+import Edit from "./Edit.vue";
 
 export default Vue.extend({
   components: {
     CreatureDetails,
+    Edit,
   },
   props: {
     value: {

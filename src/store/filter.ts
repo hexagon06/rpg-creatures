@@ -94,6 +94,9 @@ class FilterMutations extends Mutations<FilterState> {
   addTag (tag: string) {
     this.state.tagsOptions.push(tag)
   }
+  setInitialized (init: boolean) {
+    this.state.initialized = init
+  }
 }
 
 class FilterActions extends Actions<FilterState, FilterGetters, FilterMutations, FilterActions> {
@@ -159,7 +162,7 @@ class FilterActions extends Actions<FilterState, FilterGetters, FilterMutations,
       systemOptions: toUniqueStrings(creatures.map(c => c.system)),
       crOptions: toUniqueNumbers(creatures.map(c => c.cr)),
     })
-    this.state.initialized = true
+    this.mutations.setInitialized(true)
   }
   storeSelection () {
     const {

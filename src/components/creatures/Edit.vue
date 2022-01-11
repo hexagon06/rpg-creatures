@@ -1,12 +1,11 @@
 <template>
   <div>
-    <b-button v-b-modal.create-modal>Create</b-button>
+    <b-button v-b-modal.edit-modal>Edit</b-button>
     <b-modal
-      id="create-modal"
-      title="Create-a-Creature"
+      id="edit-modal"
+      title="Edit-a-Creature"
       size="lg"
       scrollable
-      @show="reset"
       @ok="ok"
       @hide="hide"
     >
@@ -15,7 +14,7 @@
         @submit.stop.prevent="handleSubmit"
         :validated="validState.validated"
       >
-        <creature-form v-model="creature" />
+        <creature-form v-model="creatureCopy" />
       </b-form>
     </b-modal>
   </div>
@@ -25,39 +24,34 @@
 import { creatureStore, filterStore } from "@/store";
 import { Creature } from "@/types/creatures";
 import { BForm, BvModalEvent } from "bootstrap-vue";
-import Vue from "vue";
+import { cloneDeep } from "lodash";
+import Vue, { PropType } from "vue";
 import CreatureForm from "./CreatureForm.vue";
-
-function createCreature(): Creature {
-  return {
-    name: "",
-    size: "Medium",
-    alignment: [],
-    organisation: [],
-    environment: [],
-    tags: [],
-  };
-}
 
 export default Vue.extend({
   components: {
     "creature-form": CreatureForm,
   },
+  props: {
+    creature: {
+      type: Object as PropType<Creature>,
+      required: true,
+    },
+  },
   data() {
     return {
-      creature: createCreature(),
       validState: {
         validated: false,
       },
+      creatureCopy: cloneDeep(this.creature),
     };
   },
-  async created() {
-    this.reset();
+  watch: {
+    creature: "setCopy",
   },
   methods: {
-    reset() {
-      this.creature = createCreature();
-      this.validState.validated = false;
+    setCopy(value: Creature) {
+      this.creatureCopy = cloneDeep(this.creature);
     },
     async ok(e: BvModalEvent) {
       e.preventDefault();
@@ -69,11 +63,11 @@ export default Vue.extend({
         return;
       }
       // Todo: set hpFormula
-      await creatureStore.actions.createCreature(this.creature);
+      await creatureStore.actions.updateCreature(this.creatureCopy);
       await filterStore.actions.fetchSearch();
       // Hide the modal manually
       this.$nextTick(() => {
-        this.$bvModal.hide("create-modal");
+        this.$bvModal.hide("edit-modal");
       });
     },
     checkFormValidity() {

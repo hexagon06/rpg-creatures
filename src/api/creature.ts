@@ -24,11 +24,23 @@ export async function getCreature (id: number): Promise<Creature | undefined> {
   }
 }
 
-export async function createCreature (creature: Creature): Promise<void> {
+export async function createCreature (creature: Creature): Promise<number> {
   try {
     const response = await axios
-      .post(CREATURE_URI, creature)
+      .post<{ id: number }>(`${CREATURE_URI}create`, creature)
+    console.log(`post id: ${response.data}`)
+    return response.data.id
   } catch (e) {
     console.error(e)
+    throw new Error('failed to create')
+  }
+}
+
+export async function updateCreature (creature: Creature): Promise<void> {
+  try {
+    await axios.post<{ id: number }>(`${CREATURE_URI}update`, creature)
+  } catch (e) {
+    console.error(e)
+    throw new Error('failed to create')
   }
 }
