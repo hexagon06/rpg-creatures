@@ -2,7 +2,6 @@
   <!-- caption-top < only works without sticky header -->
   <b-table
     hover
-    striped
     responsive
     selectable
     select-mode="single"
@@ -14,8 +13,9 @@
     :filter="filter"
     :filter-function="filterFunction"
     @filtered="onFiltered"
-    @row-selected="$emit('select', $event)"
+    @row-selected="selectCreature"
     class="creature-table"
+    ref="creatureTable"
   >
     <!-- for column templates: https://bootstrap-vue.org/docs/components/table#scoped-field-slots -->
     <template #cell(link)="data">
@@ -106,15 +106,23 @@ export default Vue.extend({
         valueIsInSet(data.cr, filter.cr) &&
         valueContainsSet(data.environment, filter.environment) &&
         valueContainsSet(data.tags, filter.tags) &&
-        valueIsInSet(data.source, filter.source)
+        valueIsInSet(data.source, filter.source) &&
+        valueIsFilter(data.favorite, filter.favorite)
       );
     },
     onFiltered(filteredItems: Creature[]): void {
       // Trigger pagination to update the number of buttons/pages due to filtering
       creatureStore.mutations.setFilteredCount(filteredItems.length);
     },
-    onRowSelected(items: Creature) {
-      // this.selected = items;
+    selectCreature(items: Creature[]) {
+      if (items.length > 0) {
+        this.$emit("select", items);
+        var table = this.$refs.creatureTable;
+        if (table) {
+          // we don't actually want to keep it selected, just nicely clickable
+          (table as BTable).clearSelected();
+        }
+      }
     },
   },
 });
@@ -125,6 +133,10 @@ function valueIsInSet<T>(value: T, filter: T[]): boolean {
 
 function valueContainsSet<T>(value: T[], filter: T[]): boolean {
   return filter.length === 0 || difference(filter, value).length === 0;
+}
+
+function valueIsFilter(value: boolean, filter: boolean): boolean {
+  return filter ? value === filter : true;
 }
 </script>
 

@@ -44,10 +44,17 @@ class CreatureMutations extends Mutations<CreatureState> {
     this.state.creatures.push(creature)
   }
   updateCreature (creature: Creature) {
-    const newCreatures = cloneDeep(this.state.creatures)
-    const index = newCreatures.findIndex(c => c.id === creature.id)
-    newCreatures[index] = creature
-    this.state.creatures = newCreatures
+    const storedCreature = this.state.creatures.find(c => c.id === creature.id)
+    // using assign so we dont add the update source to the vue state. 
+    // this way we can using that object to edit
+    Object.assign(storedCreature, creature)
+  }
+  updateFavorite (update: { creatureId: number, favorite: boolean }) {
+    const { favorite, creatureId } = update
+    // const index = this.state.creatures.findIndex(c => c.id === update.creatureId)
+    // Vue.set(this.state.creatures[index], 'favorite', update.favorite)
+    const creature = this.state.creatures.find(c => c.id === creatureId)
+    Object.assign(creature, { favorite })
   }
 }
 
@@ -76,9 +83,16 @@ class CreatureActions extends Actions<CreatureState, CreatureGetters, CreatureMu
     creature.id = newId
     this.mutations.addCreature(creature)
   }
+  async updateFavorite (update: { creatureId: number, favorite: boolean }) {
+    this.mutations.updateFavorite(update)
+    const creature = this.getters.get(update.creatureId)
+    if (creature) {
+      await updateCreature(creature)
+    }
+  }
   async updateCreature (creature: Creature) {
-    await updateCreature(creature)
     this.mutations.updateCreature(creature)
+    await updateCreature(creature)
   }
 }
 

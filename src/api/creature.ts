@@ -28,7 +28,6 @@ export async function createCreature (creature: Creature): Promise<number> {
   try {
     const response = await axios
       .post<{ id: number }>(`${CREATURE_URI}create`, creature)
-    console.log(`post id: ${response.data}`)
     return response.data.id
   } catch (e) {
     console.error(e)

@@ -385,6 +385,16 @@
     </b-form-group>
 
     <b-form-group
+      id="input-favorite-group"
+      label="Favorite"
+      label-for="input-favorite"
+    >
+      <b-form-checkbox
+        id="input-favorite"
+        v-model="creature.favorite"
+      ></b-form-checkbox>
+    </b-form-group>
+    <b-form-group
       id="input-comments-group"
       label="Comments"
       label-for="input-comments"

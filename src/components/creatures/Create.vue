@@ -35,6 +35,7 @@ function createCreature(): Creature {
     organisation: [],
     environment: [],
     tags: [],
+    favorite: false,
   };
 }
 

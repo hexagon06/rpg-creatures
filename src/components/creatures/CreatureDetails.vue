@@ -16,6 +16,7 @@
     ></thumbnail>
     <b-container fluid>
       <alignment :values="value.alignment"> </alignment>
+      <favorite v-model="favorite" />
       <labeled-prop label="AC" :amount="value.ac" />
       <labeled-prop label="CR" :amount="value.cr" />
     </b-container>
@@ -62,6 +63,8 @@ import Thumbnail from "./Thumbnail.vue";
 import Abilities from "./Abilities.vue";
 import LabeledProp from "../shared/LabeledProp.vue";
 import ArrayPills from "../shared/ArrayPills.vue";
+import Favorite from "../shared/Favorite.vue";
+import { creatureStore } from "@/store";
 
 export default Vue.extend({
   components: {
@@ -71,6 +74,7 @@ export default Vue.extend({
     Abilities,
     LabeledProp,
     ArrayPills,
+    Favorite,
   },
   props: {
     value: {
@@ -86,7 +90,21 @@ export default Vue.extend({
     creatureAbilities(): RPGAbilities {
       return { ...this.value };
     },
+    favorite: {
+      get(): boolean {
+        return this.value.favorite;
+      },
+      async set(value: boolean) {
+        if (this.value.id) {
+          await creatureStore.actions.updateFavorite({
+            creatureId: this.value.id,
+            favorite: value,
+          });
+        }
+      },
+    },
   },
+  methods: {},
 });
 </script>
 

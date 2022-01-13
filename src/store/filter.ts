@@ -14,6 +14,7 @@ export type CreatureFilter = {
   system: string[],
   cr: number[],
   source: string[],
+  favorite: boolean,
 }
 
 class FilterState {
@@ -34,6 +35,7 @@ class FilterState {
   organisationOptions: string[] = ['not loaded'];
   sourceSelection: string[] = [];
   sourceOptions: string[] = [];
+  favoriteSelection: boolean = false;
 }
 
 class FilterGetters extends Getters<FilterState> {
@@ -47,6 +49,7 @@ class FilterGetters extends Getters<FilterState> {
       system: this.state.systemSelection,
       cr: this.state.crSelection,
       source: this.state.sourceSelection,
+      favorite: this.state.favoriteSelection
     }
   }
 }

@@ -74,7 +74,10 @@ export default Vue.extend({
         throw new Error(
           `unsupported amount of creatures selected (${data.length})`
         );
-      } else if (this.selectedCreature?.id !== data[0].id) {
+      } else if (
+        this.selectedCreature?.id !== data[0].id ||
+        !this.sidebarCreatureOpen
+      ) {
         await creatureStore.actions.setSelectedCreature(data[0].id);
         this.sidebarCreatureOpen = true;
       }

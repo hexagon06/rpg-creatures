@@ -51,7 +51,7 @@ export default Vue.extend({
   },
   methods: {
     setCopy(value: Creature) {
-      this.creatureCopy = cloneDeep(this.creature);
+      this.creatureCopy = cloneDeep(value);
     },
     async ok(e: BvModalEvent) {
       e.preventDefault();
