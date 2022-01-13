@@ -34,14 +34,26 @@
         label-for="input-page"
         class="flex-shrink"
       >
-        <b-form-input
-          id="input-page"
-          v-model="creature.page"
-          placeholder="#"
-          number
-          @keypress="isNumber"
-          :disabled="creature.source === '' || creature.source === undefined"
-        ></b-form-input>
+        <div class="d-flex">
+          <b-button
+            :disabled="creature.page === undefined"
+            @click="() => creature.page--"
+            >&lt;</b-button
+          >
+          <b-form-input
+            id="input-page"
+            v-model="creature.page"
+            placeholder="#"
+            number
+            @keypress="isNumber"
+            :disabled="creature.source === '' || creature.source === undefined"
+          ></b-form-input>
+          <b-button
+            :disabled="creature.page === undefined"
+            @click="() => creature.page++"
+            >&gt;</b-button
+          >
+        </div>
       </b-form-group>
     </div>
     <!-- todo suggestions based on current systems -->
@@ -68,6 +80,7 @@
           id="input-image"
           v-model="creature.image"
           placeholder="http://google.image.share/..."
+          @update="imgUrlUpdate"
         ></b-form-input>
       </b-form-group>
       <thumbnail v-if="creature.image" :url="creature.image" />
@@ -78,10 +91,10 @@
           id="input-size"
           v-model="creature.size"
           :options="options.size"
-          :searchable="false"
           :clear-on-select="false"
           :show-labels="false"
           :preselect-first="false"
+          @input="sizeChange"
         ></multiselect>
       </b-form-group>
       <!-- todo add suggestion based dropdown with custom option -->
@@ -124,7 +137,6 @@
           v-model="creature.cr"
           placeholder="2"
           number
-          @keypress="isNumber"
         ></b-form-input>
       </b-form-group>
     </div>
@@ -516,6 +528,42 @@ export default Vue.extend({
       if (mod !== undefined) {
         if (mod < 0) return mod.toString();
         else return `+${mod}`;
+      }
+    },
+    imgUrlUpdate(value: string) {
+      var rx = new RegExp(
+        "^(https://static.wikia.nocookie.net/.*)(?=/revision/latest?)"
+      );
+      const result = rx.exec(value);
+      if (result) {
+        this.creature.image = result[1];
+      } else {
+        this.creature.image = value;
+      }
+    },
+    // todo make this based on a watched property instead of an interface event
+    sizeChange(newSize: string) {
+      switch (newSize) {
+        case "Tiny":
+          this.creature.hitDice = 4;
+          break;
+        case "Small":
+          this.creature.hitDice = 6;
+          break;
+        case "Medium":
+          this.creature.hitDice = 8;
+          break;
+        case "Large":
+          this.creature.hitDice = 10;
+          break;
+        case "Huge":
+          this.creature.hitDice = 12;
+          break;
+        case "Gargantuan":
+          this.creature.hitDice = 20;
+          break;
+        default:
+          break;
       }
     },
   },

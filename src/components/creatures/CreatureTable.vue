@@ -102,10 +102,11 @@ export default Vue.extend({
         data.name.toLowerCase().includes(filter.search.toLowerCase()) &&
         valueIsInSet(data.size, filter.size) &&
         valueIsInSet(data.type, filter.type) &&
-        valueIsInSet(data.type, filter.system) &&
+        valueIsInSet(data.system, filter.system) &&
         valueIsInSet(data.cr, filter.cr) &&
         valueContainsSet(data.environment, filter.environment) &&
-        valueContainsSet(data.tags, filter.tags)
+        valueContainsSet(data.tags, filter.tags) &&
+        valueIsInSet(data.source, filter.source)
       );
     },
     onFiltered(filteredItems: Creature[]): void {

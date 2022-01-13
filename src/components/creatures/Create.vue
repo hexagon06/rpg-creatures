@@ -31,7 +31,6 @@ import CreatureForm from "./CreatureForm.vue";
 function createCreature(): Creature {
   return {
     name: "",
-    size: "Medium",
     alignment: [],
     organisation: [],
     environment: [],
@@ -49,6 +48,7 @@ export default Vue.extend({
       validState: {
         validated: false,
       },
+      saved: {},
     };
   },
   async created() {
@@ -56,7 +56,7 @@ export default Vue.extend({
   },
   methods: {
     reset() {
-      this.creature = createCreature();
+      this.creature = { ...createCreature(), ...this.saved };
       this.validState.validated = false;
     },
     async ok(e: BvModalEvent) {
@@ -71,6 +71,11 @@ export default Vue.extend({
       // Todo: set hpFormula
       await creatureStore.actions.createCreature(this.creature);
       await filterStore.actions.fetchSearch();
+      this.saved = {
+        source: this.creature.source,
+        page: this.creature.page,
+        system: this.creature.system,
+      };
       // Hide the modal manually
       this.$nextTick(() => {
         this.$bvModal.hide("create-modal");

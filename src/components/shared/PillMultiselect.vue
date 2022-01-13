@@ -5,7 +5,7 @@
     :options="options"
     :multiple="true"
     :close-on-select="false"
-    :clear-on-select="false"
+    :clear-on-select="true"
     :preserve-search="true"
     :placeholder="placeholder"
     :show-labels="false"

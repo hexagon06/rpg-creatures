@@ -63,6 +63,14 @@
             :options="crOptions"
           ></pill-multiselect>
         </div>
+        <div class="col-sm-12 col-md-3">
+          <label for="cr-filter">Source:</label>
+          <pill-multiselect
+            id="cr-filter"
+            v-model="sourceFilter"
+            :options="sourceOptions"
+          ></pill-multiselect>
+        </div>
       </div>
     </b-collapse>
   </div>
@@ -94,6 +102,7 @@ export default Vue.extend({
       "tagsOptions",
       "systemOptions",
       "environmentOptions",
+      "sourceOptions",
     ]),
     search: {
       get(): string {
@@ -149,6 +158,14 @@ export default Vue.extend({
       },
       async set(value: string[]) {
         await filterStore.actions.setEnvironments(value);
+      },
+    },
+    sourceFilter: {
+      get(): string[] {
+        return filterStore.state.sourceSelection;
+      },
+      async set(value: string[]) {
+        await filterStore.actions.setSources(value);
       },
     },
   },
