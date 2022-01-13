@@ -1,10 +1,13 @@
 <template>
   <div class="container-fluid d-flex">
-    <b-button v-b-toggle.filters variant="primary">Filters</b-button>
-    <b-collapse id="filters">
+    <b-button v-b-toggle.filters variant="primary"
+      >Filters
+      <span v-if="filterCount">({{ filteredCount }}/{{ creatureCount }})</span>
+    </b-button>
+    <b-collapse id="filters" v-b-visible="filtersAreVisible">
       <div class="d-flex flex-wrap justify-content-start mx-2">
         <div class="mr-2">
-          <label for="search-text">Size:</label>
+          <label for="search-text">Name:</label>
           <b-form-input
             id="search-text"
             type="search"
@@ -81,18 +84,26 @@
         </div>
       </div>
     </b-collapse>
+    <span v-if="showRecap" class="align-self-center ml-2 text-info">{{
+      recap
+    }}</span>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { filterStore } from "../../store";
+import { creatureStore, filterStore } from "../../store";
 import { filterMapper } from "../../store/filter";
 import { Multiselect } from "vue-multiselect";
 import ArrayPills from "../shared/ArrayPills.vue";
 import PillMultiselect from "../shared/PillMultiselect.vue";
+import { creatureMapper } from "@/store/creatures";
 
 const IS_FAVORITE = "is favorite";
+
+function stringFilter<T>(array: T[], label: string): string {
+  return array.length > 0 ? `${label} ${array.toString()}` : "";
+}
 
 export default Vue.extend({
   components: {
@@ -103,6 +114,7 @@ export default Vue.extend({
   data() {
     return {
       favoriteOptions: [IS_FAVORITE],
+      showRecap: true,
     };
   },
   async created() {
@@ -119,6 +131,27 @@ export default Vue.extend({
       "environmentOptions",
       "sourceOptions",
     ]),
+    ...creatureMapper.mapState(["filteredCount"]),
+    creatureCount(): number {
+      return creatureStore.state.creatures.length;
+    },
+    filterCount(): number {
+      return this.creatureCount - this.filteredCount;
+    },
+    recap(): string {
+      const allOptions = [
+        this.search,
+        stringFilter(this.sourceFilter, "in"),
+        stringFilter(this.environmentFilter, "from"),
+        stringFilter(this.sizeFilter, "is"),
+        stringFilter(this.tagsFilter, "with"),
+        stringFilter(this.typeFilter, "is"),
+        stringFilter(this.systemFilter, "for"),
+        stringFilter(this.crFilter, "CR is"),
+        this.favoriteFilter.length > 0 ? "is favorite" : "",
+      ];
+      return allOptions.join(" ");
+    },
     search: {
       get(): string {
         return filterStore.state.search;
@@ -192,6 +225,11 @@ export default Vue.extend({
           value.findIndex((v) => v === IS_FAVORITE) !== -1
         );
       },
+    },
+  },
+  methods: {
+    filtersAreVisible(isVisible: boolean) {
+      this.showRecap = !isVisible;
     },
   },
 });
