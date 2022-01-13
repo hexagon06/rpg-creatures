@@ -76,6 +76,9 @@ class FilterMutations extends Mutations<FilterState> {
   setSources (sources: string[]) {
     this.state.sourceSelection = sources
   }
+  setFavorite (favorite: boolean) {
+    this.state.favoriteSelection = favorite
+  }
   setFilterOptions (options: {
     sizeOptions: string[],
     typeOptions: string[],
@@ -144,6 +147,10 @@ class FilterActions extends Actions<FilterState, FilterGetters, FilterMutations,
     this.mutations.setSources(sources)
     this.actions.storeSelection()
   }
+  setFavorites (favorite: boolean) {
+    this.mutations.setFavorite(favorite)
+    this.actions.storeSelection()
+  }
 
   async fetchSearch () {
     var filterString = window.sessionStorage.getItem(KEY_CREATURE_FILTERS)
@@ -156,7 +163,8 @@ class FilterActions extends Actions<FilterState, FilterGetters, FilterMutations,
         tagsSelection,
         systemSelection,
         crSelection,
-        sourceSelection } = JSON.parse(filterString)
+        sourceSelection,
+        favoriteSelection } = JSON.parse(filterString)
 
       if (search) this.mutations.setSearch(search)
       if (sizeSelection) this.mutations.setSizes(sizeSelection)
@@ -166,6 +174,7 @@ class FilterActions extends Actions<FilterState, FilterGetters, FilterMutations,
       if (systemSelection) this.mutations.setSystems(systemSelection)
       if (crSelection) this.mutations.setCR(crSelection)
       if (sourceSelection) this.mutations.setSources(sourceSelection)
+      if (favoriteSelection) this.mutations.setFavorite(favoriteSelection)
     }
 
     if (!creatureStore.state.initialized) await creatureStore.actions.initialize()
@@ -191,7 +200,8 @@ class FilterActions extends Actions<FilterState, FilterGetters, FilterMutations,
       environmentSelection,
       tagsSelection,
       systemSelection,
-      crSelection } = this.state
+      crSelection,
+      favoriteSelection } = this.state
     const selection = {
       search,
       sizeSelection,
@@ -199,7 +209,8 @@ class FilterActions extends Actions<FilterState, FilterGetters, FilterMutations,
       environmentSelection,
       tagsSelection,
       systemSelection,
-      crSelection
+      crSelection,
+      favoriteSelection
     }
     window.sessionStorage.setItem(KEY_CREATURE_FILTERS, JSON.stringify(selection))
   }

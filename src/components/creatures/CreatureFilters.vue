@@ -2,8 +2,8 @@
   <div class="container-fluid d-flex">
     <b-button v-b-toggle.filters variant="primary">Filters</b-button>
     <b-collapse id="filters">
-      <div class="row">
-        <div class="col-sm-12 col-md-3">
+      <div class="d-flex flex-wrap justify-content-start mx-2">
+        <div class="mr-2">
           <label for="search-text">Size:</label>
           <b-form-input
             id="search-text"
@@ -13,7 +13,7 @@
             debounce="300"
           ></b-form-input>
         </div>
-        <div class="col-sm-12 col-md-3">
+        <div class="mr-2">
           <label for="size-filter">Size:</label>
           <pill-multiselect
             id="size-filter"
@@ -22,7 +22,7 @@
             placeholder="Select size(s)"
           />
         </div>
-        <div class="col-sm-12 col-md-3">
+        <div class="mr-2">
           <label for="type-filter">Type:</label>
           <pill-multiselect
             id="type-filter"
@@ -31,7 +31,7 @@
             placeholder="Select type(s)"
           ></pill-multiselect>
         </div>
-        <div class="col-sm-12 col-md-3">
+        <div class="mr-2">
           <label for="environment-filter">Environment:</label>
           <pill-multiselect
             id="environment-filter"
@@ -39,7 +39,7 @@
             :options="environmentOptions"
           ></pill-multiselect>
         </div>
-        <div class="col-sm-12 col-md-3">
+        <div class="mr-2">
           <label for="tags-filter">Tags:</label>
           <pill-multiselect
             id="tags-filter"
@@ -47,7 +47,7 @@
             :options="tagsOptions"
           ></pill-multiselect>
         </div>
-        <div class="col-sm-12 col-md-3">
+        <div class="mr-2">
           <label for="system-filter">System:</label>
           <pill-multiselect
             id="system-filter"
@@ -55,7 +55,7 @@
             :options="systemOptions"
           ></pill-multiselect>
         </div>
-        <div class="col-sm-12 col-md-3">
+        <div class="mr-2">
           <label for="cr-filter">CR:</label>
           <pill-multiselect
             id="cr-filter"
@@ -63,12 +63,20 @@
             :options="crOptions"
           ></pill-multiselect>
         </div>
-        <div class="col-sm-12 col-md-3">
+        <div class="mr-2">
           <label for="cr-filter">Source:</label>
           <pill-multiselect
             id="cr-filter"
             v-model="sourceFilter"
             :options="sourceOptions"
+          ></pill-multiselect>
+        </div>
+        <div class="mr-2">
+          <label for="favorite-filter">Favorite:</label>
+          <pill-multiselect
+            id="favorite-filter"
+            v-model="favoriteFilter"
+            :options="favoriteOptions"
           ></pill-multiselect>
         </div>
       </div>
@@ -84,11 +92,18 @@ import { Multiselect } from "vue-multiselect";
 import ArrayPills from "../shared/ArrayPills.vue";
 import PillMultiselect from "../shared/PillMultiselect.vue";
 
+const IS_FAVORITE = "is favorite";
+
 export default Vue.extend({
   components: {
     Multiselect,
     ArrayPills,
     "pill-multiselect": PillMultiselect,
+  },
+  data() {
+    return {
+      favoriteOptions: [IS_FAVORITE],
+    };
   },
   async created() {
     // fetch from the local store
@@ -166,6 +181,16 @@ export default Vue.extend({
       },
       async set(value: string[]) {
         await filterStore.actions.setSources(value);
+      },
+    },
+    favoriteFilter: {
+      get(): string[] {
+        return filterStore.state.favoriteSelection ? [IS_FAVORITE] : [];
+      },
+      async set(value: string[]) {
+        await filterStore.actions.setFavorites(
+          value.findIndex((v) => v === IS_FAVORITE) !== -1
+        );
       },
     },
   },
