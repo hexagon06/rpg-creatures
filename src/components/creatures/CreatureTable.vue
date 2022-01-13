@@ -8,7 +8,7 @@
     sticky-header="100%"
     :current-page="currentPage"
     :per-page="perPage"
-    :items="creatures"
+    :items="tableCreatures"
     :fields="fields"
     :filter="filter"
     :filter-function="filterFunction"
@@ -17,6 +17,7 @@
     class="creature-table"
     ref="creatureTable"
   >
+    <template #row> </template>
     <!-- for column templates: https://bootstrap-vue.org/docs/components/table#scoped-field-slots -->
     <template #cell(link)="data">
       <a v-if="data && data.value" :href="data.value" target="_blank">
@@ -94,6 +95,11 @@ export default Vue.extend({
     ...filterMapper.mapGetters(["getFilter"]),
     filter(): CreatureFilter {
       return this.getFilter();
+    },
+    tableCreatures(): (Creature & { _rowVariant?: string })[] {
+      return this.creatures.map((c) => {
+        return { ...c, _rowVariant: c.favorite ? "warning" : undefined };
+      });
     },
   },
   methods: {
