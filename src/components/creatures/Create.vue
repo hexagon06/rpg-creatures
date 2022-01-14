@@ -69,6 +69,7 @@ export default Vue.extend({
       if (!this.checkFormValidity()) {
         return;
       }
+      this.creature.page = this.creature.page?.toString();
       // Todo: set hpFormula
       await creatureStore.actions.createCreature(this.creature);
       await filterStore.actions.fetchSearch();
@@ -76,6 +77,8 @@ export default Vue.extend({
         source: this.creature.source,
         page: this.creature.page,
         system: this.creature.system,
+        alignment: this.creature.alignment,
+        type: this.creature.type,
       };
       // Hide the modal manually
       this.$nextTick(() => {

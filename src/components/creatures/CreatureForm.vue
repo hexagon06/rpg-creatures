@@ -37,7 +37,7 @@
         <div class="d-flex">
           <b-button
             :disabled="creature.page === undefined"
-            @click="() => creature.page--"
+            @click="() => (creature.page--).toString()"
             >&lt;</b-button
           >
           <b-form-input
@@ -50,7 +50,7 @@
           ></b-form-input>
           <b-button
             :disabled="creature.page === undefined"
-            @click="() => creature.page++"
+            @click="() => (creature.page++).toString()"
             >&gt;</b-button
           >
         </div>

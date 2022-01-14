@@ -62,6 +62,7 @@ export default Vue.extend({
       if (!this.checkFormValidity()) {
         return;
       }
+      this.creatureCopy.page = this.creatureCopy.page?.toString();
       // Todo: set hpFormula
       await creatureStore.actions.updateCreature(this.creatureCopy);
       await filterStore.actions.fetchSearch();
