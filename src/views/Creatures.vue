@@ -6,7 +6,7 @@
     ></creature-sidebar>
     <div class="d-flex">
       <creature-filters class="flex-fill py-2" />
-      <create> </create>
+      <create-creature> </create-creature>
     </div>
     <div class="flex-1-1-0" style="overflow: auto">
       <b-skeleton-wrapper :loading="loading">
@@ -33,23 +33,10 @@
 
 <script lang="ts">
 import Vue from "vue";
-import CreatureTable from "../components/creatures/CreatureTable.vue";
-import { creatureStore } from "../store/index";
-import { creatureMapper } from "../store/creatures";
-import CreatureFilters from "../components/creatures/CreatureFilters.vue";
-import CreaturePagination from "../components/creatures/CreaturePagination.vue";
-import CreatureSidebar from "../components/creatures/CreatureSidebar.vue";
+import { creatureStore, creatureMapper } from "@/store";
 import { Creature } from "@/types/creatures";
-import Create from "@/components/creatures/Create.vue";
 
 export default Vue.extend({
-  components: {
-    CreatureTable,
-    CreatureFilters,
-    CreaturePagination,
-    CreatureSidebar,
-    Create,
-  },
   data() {
     return {
       loading: true,

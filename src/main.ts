@@ -7,9 +7,12 @@ import { addFontAwesome } from './font-awesome'
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import './scss/custom.scss'
+import { addSharedComponents, addCreatureComponents, addShopComponents } from '@/components'
 
 addFontAwesome()
-
+addSharedComponents()
+addCreatureComponents()
+addShopComponents()
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin

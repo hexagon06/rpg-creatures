@@ -21,17 +21,13 @@
 </template>
 
 <script lang="ts">
-import { creatureStore, filterStore } from "@/store";
-import { Creature } from "@/types/creatures";
-import { BForm, BvModalEvent } from "bootstrap-vue";
 import { cloneDeep } from "lodash";
 import Vue, { PropType } from "vue";
-import CreatureForm from "./CreatureForm.vue";
+import { BForm, BvModalEvent } from "bootstrap-vue";
+import { creatureStore, filterStore } from "@/store";
+import { Creature } from "@/types/creatures";
 
 export default Vue.extend({
-  components: {
-    "creature-form": CreatureForm,
-  },
   props: {
     creature: {
       type: Object as PropType<Creature>,

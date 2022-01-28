@@ -92,12 +92,13 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { creatureStore, filterStore } from "../../store";
-import { filterMapper } from "../../store/filter";
 import { Multiselect } from "vue-multiselect";
-import ArrayPills from "../shared/ArrayPills.vue";
-import PillMultiselect from "../shared/PillMultiselect.vue";
-import { creatureMapper } from "@/store/creatures";
+import {
+  creatureStore,
+  filterStore,
+  creatureMapper,
+  filterMapper,
+} from "@/store";
 
 const IS_FAVORITE = "is favorite";
 
@@ -108,8 +109,6 @@ function stringFilter<T>(array: T[], label: string): string {
 export default Vue.extend({
   components: {
     Multiselect,
-    ArrayPills,
-    "pill-multiselect": PillMultiselect,
   },
   data() {
     return {

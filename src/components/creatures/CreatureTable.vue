@@ -43,24 +43,19 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { Creature } from "../../types/creatures";
 import { BTable } from "bootstrap-vue";
-import CreatureFilters from "./CreatureFilters.vue";
-import ArrayPills from "../shared/ArrayPills.vue";
-import { creatureMapper } from "../../store/creatures";
-import { creatureStore } from "../../store";
-import { CreatureFilter, filterMapper } from "../../store/filter";
 import { difference } from "lodash";
-import Thumbnail from "./Thumbnail.vue";
-import Alignment from "./Alignment.vue";
+import { Creature } from "@/types/creatures";
+import {
+  creatureStore,
+  creatureMapper,
+  CreatureFilter,
+  filterMapper,
+} from "@/store";
 
 export default Vue.extend({
   components: {
     "b-table": BTable,
-    "creature-filters": CreatureFilters,
-    "array-pills": ArrayPills,
-    Thumbnail,
-    Alignment,
   },
   props: {
     creatures: {

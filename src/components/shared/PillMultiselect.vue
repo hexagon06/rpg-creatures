@@ -35,12 +35,10 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import { Multiselect } from "vue-multiselect";
-import ArrayPills from "../shared/ArrayPills.vue";
 
 export default Vue.extend({
   components: {
     Multiselect,
-    ArrayPills,
   },
   props: {
     value: {

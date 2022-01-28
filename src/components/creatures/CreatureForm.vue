@@ -413,20 +413,13 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import PillMultiselect from "../shared/PillMultiselect.vue";
 import { Multiselect } from "vue-multiselect";
-import { filterStore } from "@/store";
-import { filterMapper } from "@/store/filter";
+import { filterStore, filterMapper } from "@/store";
 import { Creature } from "@/types/creatures";
-import Thumbnail from "./Thumbnail.vue";
-import AlignmentEditor from "./AlignmentEditor.vue";
 
 export default Vue.extend({
   components: {
-    "pill-multiselect": PillMultiselect,
     Multiselect,
-    Thumbnail,
-    "alignment-editor": AlignmentEditor,
   },
   props: {
     value: Object as PropType<Creature>,

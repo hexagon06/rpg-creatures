@@ -35,8 +35,8 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { creatureStore } from "../../store";
-import { creatureMapper } from "../../store/creatures";
+import { creatureStore, creatureMapper } from "@/store";
+
 export default Vue.extend({
   data() {
     return {

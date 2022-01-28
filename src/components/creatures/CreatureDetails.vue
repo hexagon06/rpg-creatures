@@ -55,27 +55,11 @@
 </template>
 
 <script lang="ts">
-import { Creature, RPGAbilities } from "@/types/creatures";
 import Vue, { PropType } from "vue";
-import SourceReference from "../shared/SourceReference.vue";
-import Alignment from "./Alignment.vue";
-import Thumbnail from "./Thumbnail.vue";
-import Abilities from "./Abilities.vue";
-import LabeledProp from "../shared/LabeledProp.vue";
-import ArrayPills from "../shared/ArrayPills.vue";
-import Favorite from "../shared/Favorite.vue";
+import { Creature, RPGAbilities } from "@/types/creatures";
 import { creatureStore } from "@/store";
 
 export default Vue.extend({
-  components: {
-    SourceReference,
-    Thumbnail,
-    Alignment,
-    Abilities,
-    LabeledProp,
-    ArrayPills,
-    Favorite,
-  },
   props: {
     value: {
       type: Object as PropType<Creature>,

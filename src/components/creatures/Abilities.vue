@@ -28,8 +28,8 @@
 </template>
 
 <script lang="ts">
-import { RPGAbilities } from "@/types/creatures";
 import Vue, { PropType } from "vue";
+import { RPGAbilities } from "@/types/creatures";
 
 export default Vue.extend({
   props: {

@@ -1,12 +1,11 @@
 <template>
   <div>
-    <b-button v-b-modal.create-modal>Create</b-button>
+    <b-button v-b-modal.edit-modal>Edit</b-button>
     <b-modal
-      id="create-modal"
-      title="Create-a-Creature"
+      id="edit-modal"
+      title="Edit-a-Shop"
       size="lg"
       scrollable
-      @show="reset"
       @ok="ok"
       @hide="hide"
     >
@@ -15,46 +14,40 @@
         @submit.stop.prevent="handleSubmit"
         :validated="validState.validated"
       >
-        <creature-form v-model="creature" />
+        <!-- <shop-form v-model="shopCopy" /> -->
       </b-form>
     </b-modal>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { cloneDeep } from "lodash";
+import Vue, { PropType } from "vue";
 import { BForm, BvModalEvent } from "bootstrap-vue";
-import { creatureStore, filterStore } from "@/store";
-import { Creature } from "@/types/creatures";
-
-function createCreature(): Creature {
-  return {
-    name: "",
-    alignment: [],
-    organisation: [],
-    environment: [],
-    tags: [],
-    favorite: false,
-  };
-}
+import { shopStore } from "@/store";
+import { Shop } from "@/types/shops";
 
 export default Vue.extend({
+  props: {
+    shop: {
+      type: Object as PropType<Shop>,
+      required: true,
+    },
+  },
   data() {
     return {
-      creature: createCreature(),
       validState: {
         validated: false,
       },
-      saved: {},
+      shopCopy: cloneDeep(this.shop),
     };
   },
-  async created() {
-    this.reset();
+  watch: {
+    shop: "setCopy",
   },
   methods: {
-    reset() {
-      this.creature = { ...createCreature(), ...this.saved };
-      this.validState.validated = false;
+    setCopy(value: Shop) {
+      this.shopCopy = cloneDeep(value);
     },
     async ok(e: BvModalEvent) {
       e.preventDefault();
@@ -65,20 +58,11 @@ export default Vue.extend({
       if (!this.checkFormValidity()) {
         return;
       }
-      this.creature.page = this.creature.page?.toString();
       // Todo: set hpFormula
-      await creatureStore.actions.createCreature(this.creature);
-      await filterStore.actions.fetchSearch();
-      this.saved = {
-        source: this.creature.source,
-        page: this.creature.page,
-        system: this.creature.system,
-        alignment: this.creature.alignment,
-        type: this.creature.type,
-      };
+      await shopStore.actions.updateShop(this.shopCopy);
       // Hide the modal manually
       this.$nextTick(() => {
-        this.$bvModal.hide("create-modal");
+        this.$bvModal.hide("edit-modal");
       });
     },
     checkFormValidity() {

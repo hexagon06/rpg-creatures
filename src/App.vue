@@ -3,6 +3,7 @@
     <div id="nav" class="header">
       <router-link to="/">Home</router-link> |
       <router-link to="/creatures">Creatures</router-link> |
+      <router-link to="/shops">Shops</router-link> |
       <router-link to="/about">About</router-link>
     </div>
     <router-view class="flex-1-1-0" />

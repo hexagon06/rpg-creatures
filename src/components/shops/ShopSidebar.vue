@@ -1,21 +1,17 @@
 <template>
   <b-sidebar
-    id="sidebar-creature"
-    title="Creature-details"
-    :no-header="creatureIsSelected"
+    id="sidebar-shop"
+    title="Shop-details"
+    :no-header="shopIsSelected"
     :visible="value"
     @change="close"
     shadow
   >
-    <creature-details
-      v-if="creatureIsSelected"
-      v-model="selectedCreature"
-      :imgSize="278"
-    />
-    <p v-else>no creature is selected.</p>
+    <shop-details v-if="shopIsSelected" v-model="selectedShop" :imgSize="278" />
+    <p v-else>no shop is selected.</p>
     <template #footer="{ hide }">
       <div class="d-flex bg-dark text-light align-items-center px-3 py-2">
-        <edit-creature v-if="creatureIsSelected" :creature="selectedCreature" />
+        <edit-shop v-if="shopIsSelected" :shop="selectedShop" />
         <strong class="mr-auto"></strong>
         <b-button size="sm" @click="hide">Close</b-button>
       </div>
@@ -25,7 +21,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { creatureMapper } from "@/store/creatures";
+import { shopMapper } from "@/store/shops";
 
 export default Vue.extend({
   props: {
@@ -35,9 +31,9 @@ export default Vue.extend({
     },
   },
   computed: {
-    ...creatureMapper.mapState(["selectedCreature"]),
-    creatureIsSelected(): boolean {
-      return this.selectedCreature !== undefined;
+    ...shopMapper.mapState(["selectedShop"]),
+    shopIsSelected(): boolean {
+      return this.selectedShop !== undefined;
     },
   },
   methods: {
