@@ -37,7 +37,7 @@ export default Vue.extend({
       return this.value !== undefined;
     },
     value(): string | undefined {
-      if (this.text !== undefined) {
+      if (this.text !== undefined && this.text.trim().length > 0) {
         return this.text;
       } else if (this.amount !== undefined) {
         return this.amount.toString();

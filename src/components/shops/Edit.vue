@@ -14,7 +14,7 @@
         @submit.stop.prevent="handleSubmit"
         :validated="validState.validated"
       >
-        <!-- <shop-form v-model="shopCopy" /> -->
+        <shop-form v-model="shopCopy" />
       </b-form>
     </b-modal>
   </div>

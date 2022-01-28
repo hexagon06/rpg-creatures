@@ -24,6 +24,9 @@
         ></font-awesome-icon>
       </a>
     </template>
+    <template #cell(image)="data">
+      <thumbnail v-if="data.value" :url="data.value" />
+    </template>
   </b-table>
 </template>
 

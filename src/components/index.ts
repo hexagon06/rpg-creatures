@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { ArrayPills, Favorite, LabeledProp, PillMultiselect, SourceReference, Thumbnail } from './shared'
 import { Edit as CreatureEdit, Create as CreatureCreate, CreatureForm, Alignment, Abilities, AlignmentEditor, CreatureDetails, CreatureFilters, Create, CreaturePagination, CreatureSidebar, CreatureTable } from './creatures'
-import { Edit as ShopEdit, ShopDetails, ShopSidebar, ShopTable } from './shops'
+import { Edit as ShopEdit, ShopDetails, ShopForm, ShopSidebar, ShopTable } from './shops'
 
 export function addCreatureComponents () {
   Vue.component('abilities', Abilities)
@@ -29,6 +29,7 @@ export function addSharedComponents () {
 export function addShopComponents () {
   Vue.component('edit-shop', ShopEdit)
   Vue.component('shop-details', ShopDetails)
+  Vue.component('shop-form', ShopForm)
   Vue.component('shop-sidebar', ShopSidebar)
   Vue.component('shop-table', ShopTable)
 }
