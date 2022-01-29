@@ -7,7 +7,7 @@
       :url="value.image"
     ></thumbnail>
     <b-container fluid>
-      <favorite v-model="favorite" disabled />
+      <favorite v-model="favorite" />
       <labeled-prop label="Speciality" :text="value.speciality" />
       <labeled-prop label="Proprietor" :text="value.proprietor" />
       <b-row v-if="value.description">
@@ -25,6 +25,7 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import { Shop } from "@/types/shops";
+import { shopStore } from "@/store";
 
 export default Vue.extend({
   props: {
@@ -43,15 +44,15 @@ export default Vue.extend({
     },
     favorite: {
       get(): boolean {
-        return false; //return this.value.favorite;
+        return this.value.favorite;
       },
       async set(value: boolean) {
-        // if (this.value.id) {
-        //   await creatureStore.actions.updateFavorite({
-        //     creatureId: this.value.id,
-        //     favorite: value,
-        //   });
-        // }
+        if (this.value.id) {
+          await shopStore.actions.updateFavorite({
+            shopId: this.value.id,
+            favorite: value,
+          });
+        }
       },
     },
   },

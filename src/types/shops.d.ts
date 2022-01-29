@@ -7,6 +7,7 @@ export type Shop = {
   description?: string
   image?: string
   link?: string
+  favorite: boolean
 }
 
 export type ShopFilter = {

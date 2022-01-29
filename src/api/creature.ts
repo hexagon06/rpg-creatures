@@ -40,6 +40,6 @@ export async function updateCreature (creature: Creature): Promise<void> {
     await axios.post<{ id: number }>(`${CREATURE_URI}update`, creature)
   } catch (e) {
     console.error(e)
-    throw new Error('failed to create')
+    throw new Error('failed to update')
   }
 }
