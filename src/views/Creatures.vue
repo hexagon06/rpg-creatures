@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { creatureStore, creatureMapper } from "@/store";
+import { creatureStore, creatureMapper, abilityStore } from "@/store";
 import { Creature } from "@/types/creatures";
 
 export default Vue.extend({
@@ -46,6 +46,9 @@ export default Vue.extend({
   async created() {
     if (!creatureStore.state.initialized) {
       await creatureStore.actions.initialize();
+    }
+    if (!abilityStore.state.initialized) {
+      await abilityStore.actions.initialize();
     }
     this.loading = false;
   },

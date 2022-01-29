@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { ArrayPills, Favorite, LabeledProp, PillMultiselect, SourceReference, Thumbnail } from './shared'
-import { Edit as CreatureEdit, Create as CreatureCreate, CreatureForm, Alignment, Abilities, AlignmentEditor, CreatureDetails, CreatureFilters, Create, CreaturePagination, CreatureSidebar, CreatureTable } from './creatures'
+import { Edit as CreatureEdit, Create as CreatureCreate, CreatureForm, Alignment, Abilities, AlignmentEditor, CreatureDetails, CreatureFilters, Create, CreaturePagination, CreatureSidebar, CreatureTable, CreatureAbilityEditor } from './creatures'
 import { Edit as ShopEdit, ShopDetails, ShopForm, ShopSidebar, ShopTable } from './shops'
 import { Create as AbilityCreate, AbilityDetails, AbilityForm, AbilitySidebar, AbilityTable, Edit as AbilityEdit, CreatureAbility } from './abilities'
 
@@ -16,6 +16,7 @@ export function addCreatureComponents () {
   Vue.component('creature-sidebar', CreatureSidebar)
   Vue.component('creature-table', CreatureTable)
   Vue.component('edit-creature', CreatureEdit)
+  Vue.component('creature-ability-editor', CreatureAbilityEditor)
 }
 
 export function addSharedComponents () {

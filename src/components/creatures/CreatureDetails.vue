@@ -17,16 +17,29 @@
     <b-container fluid>
       <alignment :values="value.alignment"> </alignment>
       <favorite v-model="favorite" />
+      <!-- Hit points -->
+      <labeled-prop v-if="hasFormula" label="HP" :text="hpFormula" />
+      <labeled-prop v-if="!hasFormula" label="HP" :amount="value.hp" />
+      <labeled-prop
+        v-if="!hasFormula"
+        label="hit dice"
+        :amount="value.hitDice"
+      />
+      <labeled-prop
+        v-if="!hasFormula"
+        label="amount hit dice"
+        :amount="value.amountHitDice"
+      />
+      <labeled-prop
+        v-if="!hasFormula"
+        label="hp formula"
+        :amount="value.hpFormula"
+      />
       <labeled-prop label="AC" :amount="value.ac" />
       <labeled-prop label="CR" :amount="value.cr" />
     </b-container>
     <abilities :abilities="creatureAbilities"></abilities>
     <b-container fluid>
-      <!-- Hit points -->
-      <labeled-prop label="HP" :amount="value.hp" />
-      <labeled-prop label="hit dice" :amount="value.hitDice" />
-      <labeled-prop label="amount hit dice" :amount="value.amountHitDice" />
-      <labeled-prop label="hp formula" :amount="value.hpFormula" />
       <!-- Speed -->
       <labeled-prop label="speed" :amount="value.speed" />
       <labeled-prop label="flying" :amount="value.flyingSpeed" />
@@ -58,8 +71,11 @@
 import Vue, { PropType } from "vue";
 import { Creature, RPGAbilities } from "@/types/creatures";
 import { creatureStore } from "@/store";
+import { toHitDiceFormula, toMod } from "@/shared";
+import LabeledProp from "../shared/LabeledProp.vue";
 
 export default Vue.extend({
+  components: { LabeledProp },
   props: {
     value: {
       type: Object as PropType<Creature>,
@@ -86,6 +102,19 @@ export default Vue.extend({
           });
         }
       },
+    },
+    conMod(): number | undefined {
+      return toMod(this.value.constitution);
+    },
+    hpFormula(): string {
+      return toHitDiceFormula(
+        this.value.hitDice,
+        this.value.amountHitDice,
+        this.conMod
+      );
+    },
+    hasFormula(): boolean {
+      return this.hpFormula.length > 0;
     },
   },
   methods: {},

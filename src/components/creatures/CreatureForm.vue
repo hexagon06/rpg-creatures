@@ -435,6 +435,8 @@
       ></pill-multiselect>
     </b-form-group>
 
+    <creature-ability-editor v-model="creature.abilityKeys" />
+
     <b-form-group
       id="input-favorite-group"
       label="Favorite"
@@ -467,6 +469,7 @@ import Vue, { PropType } from "vue";
 import { Multiselect } from "vue-multiselect";
 import { filterStore, filterMapper } from "@/store";
 import { Creature } from "@/types/creatures";
+import { toHitDiceFormula, toMod } from "@/shared";
 
 export default Vue.extend({
   components: {
@@ -513,26 +516,11 @@ export default Vue.extend({
       return toMod(this.creature.charisma);
     },
     hpFormula(): string {
-      if (this.creature.hitDice && this.creature.amountHitDice) {
-        if (this.conMod !== undefined) {
-          const diceAverage = (this.creature.hitDice + 1) / 2;
-          const mod = this.conMod > 0 ? this.conMod : 0;
-          const hpAverage = Math.floor(
-            this.creature.amountHitDice * (diceAverage + mod)
-          );
-
-          return `${hpAverage} (${this.creature.amountHitDice}d${
-            this.creature.hitDice
-          }${
-            mod && mod !== 0
-              ? this.modString(this.creature.amountHitDice * mod)
-              : ""
-          })`;
-        } else {
-          return `${this.creature.amountHitDice}d${this.creature.hitDice}`;
-        }
-      }
-      return "";
+      return toHitDiceFormula(
+        this.creature.hitDice,
+        this.creature.amountHitDice,
+        this.conMod
+      );
     },
   },
   watch: {
@@ -622,12 +610,6 @@ export default Vue.extend({
     },
   },
 });
-
-function toMod(ability?: number): number | undefined {
-  if (ability) {
-    return Math.floor((ability - 10) / 2);
-  }
-}
 </script>
 
 <style lang="scss" scoped>
