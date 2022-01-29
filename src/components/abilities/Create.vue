@@ -26,7 +26,7 @@ import Vue from "vue";
 import { BForm, BvModalEvent } from "bootstrap-vue";
 import { abilityStore, filterStore } from "@/store";
 import { Ability } from "@/types/abilities";
-import { Guid } from "@/components/shared";
+import { Guid } from "@/shared";
 
 function createAbility(): Ability {
   return {

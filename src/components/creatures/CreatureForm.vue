@@ -32,6 +32,32 @@
           required
         ></b-form-input> -->
       </b-form-group>
+      <b-form-group
+        v-if="creature.nameIsNoun"
+        id="input-pronoun1-group"
+        label="pronoun 1"
+        label-for="input-pronoun1"
+        class="flex-shrink align-self-end ml-2"
+      >
+        <b-form-input
+          id="input-pronoun1"
+          v-model="creature.pronoun1"
+          placeholder="it"
+        ></b-form-input>
+      </b-form-group>
+      <b-form-group
+        v-if="creature.nameIsNoun"
+        id="input-pronoun2-group"
+        label="pronoun 2"
+        label-for="input-pronoun2"
+        class="flex-shrink align-self-end ml-2"
+      >
+        <b-form-input
+          id="input-pronoun2"
+          v-model="creature.pronoun2"
+          placeholder="its"
+        ></b-form-input>
+      </b-form-group>
     </div>
     <b-form-group id="input-link-group" label="Link" label-for="input-link">
       <b-form-input

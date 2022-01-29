@@ -11,6 +11,7 @@
           </p>
         </b-col>
       </b-row>
+      <creature-ability :ability="value" :creature="defaultCreature" />
       <array-pills :data="value.dice" :variant="'badge-light'" />
       <source-reference :link="value.link"></source-reference>
     </b-container>
@@ -20,6 +21,8 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import { Ability } from "@/types/abilities";
+import { createDefaultCreature } from "@/shared";
+import { Creature } from "@/types/creatures";
 
 export default Vue.extend({
   props: {
@@ -27,6 +30,19 @@ export default Vue.extend({
       type: Object as PropType<Ability>,
       required: true,
     },
+  },
+  data() {
+    return {
+      defaultCreature: {
+        ...createDefaultCreature("Test Creature"),
+        strength: 14,
+        dexterity: 14,
+        constitution: 14,
+        intelligence: 14,
+        wisdom: 14,
+        charisma: 14,
+      } as Creature,
+    };
   },
 });
 </script>
