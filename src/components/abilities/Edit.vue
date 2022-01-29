@@ -3,7 +3,7 @@
     <b-button v-b-modal.edit-modal>Edit</b-button>
     <b-modal
       id="edit-modal"
-      title="Edit-a-Shop"
+      title="Edit-a-Ability"
       size="lg"
       scrollable
       @ok="ok"
@@ -14,7 +14,7 @@
         @submit.stop.prevent="handleSubmit"
         :validated="validState.validated"
       >
-        <shop-form v-model="shopCopy" />
+        <ability-form v-model="abilityCopy" />
       </b-form>
     </b-modal>
   </div>
@@ -24,13 +24,13 @@
 import { cloneDeep } from "lodash";
 import Vue, { PropType } from "vue";
 import { BForm, BvModalEvent } from "bootstrap-vue";
-import { shopStore } from "@/store";
-import { Shop } from "@/types/shops";
+import { abilityStore } from "@/store";
+import { Ability } from "@/types/abilities";
 
 export default Vue.extend({
   props: {
-    shop: {
-      type: Object as PropType<Shop>,
+    ability: {
+      type: Object as PropType<Ability>,
       required: true,
     },
   },
@@ -39,15 +39,15 @@ export default Vue.extend({
       validState: {
         validated: false,
       },
-      shopCopy: cloneDeep(this.shop),
+      abilityCopy: cloneDeep(this.ability),
     };
   },
   watch: {
-    shop: "setCopy",
+    ability: "setCopy",
   },
   methods: {
-    setCopy(value: Shop) {
-      this.shopCopy = cloneDeep(value);
+    setCopy(value: Ability) {
+      this.abilityCopy = cloneDeep(value);
     },
     async ok(e: BvModalEvent) {
       e.preventDefault();
@@ -59,7 +59,7 @@ export default Vue.extend({
         return;
       }
       // Todo: set hpFormula
-      await shopStore.actions.updateShop(this.shopCopy);
+      await abilityStore.actions.updateAbility(this.abilityCopy);
       // Hide the modal manually
       this.$nextTick(() => {
         this.$bvModal.hide("edit-modal");

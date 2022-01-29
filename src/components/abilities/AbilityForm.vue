@@ -1,19 +1,19 @@
 <template>
   <div>
-    <b-form-group id="input-name-group" label="Name" label-for="input-name">
-      <b-form-input
-        id="input-name"
-        v-model="ability.name"
-        placeholder="Wolf"
-        required
-      ></b-form-input>
-    </b-form-group>
     <b-form-group id="input-key-group" label="Key" label-for="input-key">
       <b-form-input
         id="input-key"
         v-model="ability.key"
         placeholder="xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
         disabled
+      ></b-form-input>
+    </b-form-group>
+    <b-form-group id="input-name-group" label="Name" label-for="input-name">
+      <b-form-input
+        id="input-name"
+        v-model="ability.name"
+        placeholder="Wolf"
+        required
       ></b-form-input>
     </b-form-group>
     <b-form-group

@@ -1,13 +1,38 @@
 <template>
   <div>
-    <b-form-group id="input-name-group" label="Name" label-for="input-name">
-      <b-form-input
-        id="input-name"
-        v-model="creature.name"
-        placeholder="Wolf"
-        required
-      ></b-form-input>
-    </b-form-group>
+    <div class="d-flex">
+      <b-form-group
+        id="input-name-group"
+        label="Name"
+        label-for="input-name"
+        class="flex-fill"
+      >
+        <b-form-input
+          id="input-name"
+          v-model="creature.name"
+          placeholder="Wolf"
+          required
+        ></b-form-input>
+      </b-form-group>
+      <b-form-group
+        id="input-is-noun-group"
+        label-for="input-is-noun"
+        class="flex-shrink align-self-end ml-3 mb-4"
+      >
+        <b-form-checkbox
+          id="input-is-noun"
+          v-model="creature.nameIsNoun"
+          required
+        >
+          Is Noun
+        </b-form-checkbox>
+        <!-- <b-form-input
+          id="input-is-noun"
+          v-model="creature.nameIsNoun"
+          required
+        ></b-form-input> -->
+      </b-form-group>
+    </div>
     <b-form-group id="input-link-group" label="Link" label-for="input-link">
       <b-form-input
         id="input-link"

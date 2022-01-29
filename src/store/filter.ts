@@ -1,6 +1,6 @@
 import { Getters, Module, createMapper, Actions, Mutations } from 'vuex-smart-module'
 import { abilityStore, creatureStore } from '.'
-import { filter, max, uniq } from 'lodash'
+import { filter, uniq } from 'lodash'
 
 const KEY_CREATURE_FILTERS = 'creature-filters'
 

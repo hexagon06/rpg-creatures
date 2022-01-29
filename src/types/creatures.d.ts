@@ -30,7 +30,9 @@ export type Creature = {
   burrowSpeed?: number //
   comments?: string //
   image?: string //
-  favorite: boolean
+  favorite: boolean //
+  abilityKeys: string[]
+  nameIsNoun: boolean
 }
 
 type RPGAbilities = {
