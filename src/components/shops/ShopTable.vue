@@ -88,7 +88,7 @@ export default Vue.extend({
     selectShop(items: Shop[]) {
       if (items.length > 0) {
         this.$emit("select", items);
-        var table = this.$refs.creatureTable;
+        var table = this.$refs.shopTable;
         if (table) {
           // we don't actually want to keep it selected, just nicely clickable
           (table as BTable).clearSelected();

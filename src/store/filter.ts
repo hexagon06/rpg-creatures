@@ -1,5 +1,5 @@
 import { Getters, Module, createMapper, Actions, Mutations } from 'vuex-smart-module'
-import { creatureStore } from '.'
+import { abilityStore, creatureStore } from '.'
 import { filter, max, uniq } from 'lodash'
 
 const KEY_CREATURE_FILTERS = 'creature-filters'
@@ -28,6 +28,7 @@ class FilterState {
   environmentSelection: string[] = [];
   tagsOptions: string[] = [];
   tagsSelection: string[] = [];
+  abilityTagsOptions: string[] = [];
   systemOptions: string[] = [];
   systemSelection: string[] = [];
   crOptions: number[] = [];
@@ -84,15 +85,17 @@ class FilterMutations extends Mutations<FilterState> {
     typeOptions: string[],
     environmentOptions: string[],
     tagsOptions: string[],
+    abilityTagsOptions: string[],
     systemOptions: string[],
     crOptions: number[],
     sourceOptions: string[],
   }): void {
-    const { sizeOptions, typeOptions, environmentOptions, tagsOptions, systemOptions, crOptions, sourceOptions } = options
+    const { sizeOptions, typeOptions, environmentOptions, tagsOptions, abilityTagsOptions, systemOptions, crOptions, sourceOptions } = options
     this.state.sizeOptions = sizeOptions
     this.state.typeOptions = typeOptions
     this.state.environmentOptions = environmentOptions
     this.state.tagsOptions = tagsOptions
+    this.state.abilityTagsOptions = abilityTagsOptions
     this.state.systemOptions = systemOptions
     this.state.crOptions = crOptions
     this.state.sourceOptions = sourceOptions
@@ -108,6 +111,9 @@ class FilterMutations extends Mutations<FilterState> {
   }
   addTag (tag: string) {
     this.state.tagsOptions.push(tag)
+  }
+  addAbilityTag (tag: string) {
+    this.state.abilityTagsOptions.push(tag)
   }
   setInitialized (init: boolean) {
     this.state.initialized = init
@@ -180,12 +186,14 @@ class FilterActions extends Actions<FilterState, FilterGetters, FilterMutations,
     if (!creatureStore.state.initialized) await creatureStore.actions.initialize()
 
     var creatures = creatureStore.state.creatures
+    var abilities = abilityStore.state.abilities
 
     this.mutations.setFilterOptions({
       sizeOptions: toUniqueStrings(creatures.map(c => c.size)),
       typeOptions: toUniqueStrings(creatures.map(c => c.type)),
       environmentOptions: toUniqueStrings(creatures.flatMap(c => c.environment)),
       tagsOptions: toUniqueStrings(creatures.flatMap(c => c.tags)),
+      abilityTagsOptions: toUniqueStrings(abilities.flatMap(c => c.tags)),
       systemOptions: toUniqueStrings(creatures.map(c => c.system)),
       crOptions: toUniqueNumbers(creatures.map(c => c.cr)),
       sourceOptions: toUniqueStrings(creatures.map(c => c.source))
@@ -222,6 +230,9 @@ class FilterActions extends Actions<FilterState, FilterGetters, FilterMutations,
   }
   async addTag (tag: string) {
     this.mutations.addTag(tag)
+  }
+  async addAbilityTag (tag: string) {
+    this.mutations.addAbilityTag(tag)
   }
 }
 
