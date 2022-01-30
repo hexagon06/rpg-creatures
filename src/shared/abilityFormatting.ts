@@ -5,7 +5,7 @@ import { uniq } from 'lodash'
 const propertiesRegex = new RegExp(/(#[\w-]+)/, 'gm')
 const variablesRegex = new RegExp(/(\$[\w-]+)/, 'gm')
 const spellsRegex = new RegExp(/(~[\w\s]+~)/, 'gm')
-const returnRegex = new RegExp(/([\r\n])/, 'gm')
+const returnRegex = new RegExp(/(?:[\r\n])/, 'gm')
 const formulaeRegex = new RegExp(/(\^[\w]+)/, 'gm')
 
 export type AbilityFormat = {
@@ -119,7 +119,6 @@ export function setVariables (text: string, format: AbilityFormat, values: Creat
       const hpAverage = Math.floor(
         kvvp.a * ((Number(kvvp.n) + 1) / 2)
       )
-      console.log(`${kvvp.n} ${kvvp.a} ${hpAverage} ${(kvvp.n + 1)} ${(kvvp.n + 1) / 2}`)
 
       newText = newText.replaceAll(`^${kvvp.k}`, `(${hpAverage}) ${kvvp.a}d${kvvp.n}`)
     } else {
@@ -144,6 +143,36 @@ export function formatAbilityForCreature (text: string, creature: Creature, valu
     invalidProperties: creatureText.invalid,
   }
 }
+export function formatForRender (text: string) {
+  const format = parseFormatText(text)
+
+  const paragraphs = text.split(returnRegex)
+  // console.log(paragraphs)
+  const texted = paragraphs.map(p => formatTextParts(p))
+  return texted
+}
+
+export type TextPart = {
+  text: string
+  isSpell: boolean
+}
+
+function formatTextParts (text: string): TextPart[] {
+  const split = text.split(spellsRegex)
+  return split.map(s => {
+    if (spellsRegex.test(s)) {
+      return {
+        text: s.slice(1, s.length - 1),
+        isSpell: true,
+      }
+    } else {
+      return {
+        text: s,
+        isSpell: false,
+      }
+    }
+  })
+}
 
 const LEGENDARY_FORMAT = '#Name can take 3 legendary actions, choosing from the options below. Only one legendary action option can be used at a time and only at the end of another creature\'s turn. #Name regains spent legendary actions at the start of #pron2 turn.'
 
@@ -153,3 +182,4 @@ export function getLegendaryText (creature: Creature): string {
   const creatureText = setProperties(LEGENDARY_FORMAT, format, properties)
   return creatureText.text
 }
+

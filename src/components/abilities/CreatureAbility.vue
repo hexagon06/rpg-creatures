@@ -1,6 +1,18 @@
 <template>
   <div class="text-left">
-    <b>{{ ability.name }}.</b> {{ formattedText }}
+    <!-- <b>{{ ability.name }}.</b> {{ formattedText }} -->
+
+    <p v-for="(paragraph, index) in formattedParagraphs" :key="index">
+      <span v-if="index === 0" class="font-weight-bold font-italic"
+        >{{ ability.name }}.</span
+      >
+      <span
+        v-for="(text, i) in paragraph"
+        :key="`${ability.key}-${index}-${i}`"
+        :class="text.isSpell ? 'font-italic' : ''"
+        >{{ text.text }}</span
+      >
+    </p>
   </div>
 </template>
 
@@ -8,7 +20,11 @@
 import Vue, { PropType } from "vue";
 import { Ability, CreatureAbilityValues } from "@/types/abilities";
 import { Creature } from "@/types/creatures";
-import { formatAbilityForCreature } from "@/shared/abilityFormatting";
+import {
+  formatAbilityForCreature,
+  formatForRender,
+  TextPart,
+} from "@/shared/abilityFormatting";
 
 export default Vue.extend({
   props: {
@@ -36,6 +52,9 @@ export default Vue.extend({
     },
     formattedText(): string {
       return this.formatResult.text;
+    },
+    formattedParagraphs(): TextPart[][] {
+      return formatForRender(this.formattedText);
     },
   },
 });
