@@ -1,5 +1,7 @@
 <template>
-  <b-spinner v-if="isLoading" type="grow" label="Loading..."></b-spinner>
+  <div v-if="isLoading" class="d-flex w-100 justify-content-center">
+    <b-spinner type="grow" label="Loading..."></b-spinner>
+  </div>
   <b-container v-else class="d-flex" fluid>
     <b-row class="mb-5">
       <b-col cols="8">
@@ -17,6 +19,7 @@
           v-model="creatureCopy"
           :imgSize="278"
           @favorite="favoriteChange"
+          class="sticky-top"
         />
       </b-col>
     </b-row>

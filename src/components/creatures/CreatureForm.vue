@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="text-left">
     <div class="d-flex">
       <b-form-group
         id="input-name-group"

@@ -117,9 +117,13 @@ export default Vue.extend({
   computed: {
     ...filterMapper.mapState(["abilityTagsOptions"]),
     formatResult() {
-      const result = formatAbilityForCreature(this.ability.text, {
-        ...this.defaultCreature,
-      });
+      const result = formatAbilityForCreature(
+        this.ability.text,
+        {
+          ...this.defaultCreature,
+        },
+        { key: this.ability.key, variables: [], formulae: [] }
+      );
 
       return result;
     },

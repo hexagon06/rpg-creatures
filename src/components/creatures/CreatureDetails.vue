@@ -47,6 +47,23 @@
       <labeled-prop label="climbing" :amount="value.climbSpeed" />
       <labeled-prop label="burrow" :amount="value.burrowSpeed" />
 
+      <hr v-if="skills.length > 0" />
+      <creature-ability
+        v-for="ma in skills"
+        :key="ma.ability.key"
+        :ability="ma.ability"
+        :creature="value"
+        :values="ma.values"
+      />
+      <hr v-if="actions.length > 0" />
+      <creature-ability
+        v-for="ma in actions"
+        :key="ma.ability.key"
+        :ability="ma.ability"
+        :creature="value"
+        :values="ma.values"
+      />
+      <hr />
       <array-pills :data="value.tags" :variant="'badge-success'" />
       <b-row v-if="value.comments">
         <b-col>
@@ -70,9 +87,14 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import { Creature, RPGAbilities } from "@/types/creatures";
-import { creatureStore } from "@/store";
+import { abilityMapper } from "@/store";
 import { toHitDiceFormula, toMod } from "@/shared";
 import LabeledProp from "../shared/LabeledProp.vue";
+import {
+  MappedAbility,
+  toAbilityValues,
+  toMappedAbility,
+} from "@/types/abilities";
 
 export default Vue.extend({
   components: { LabeledProp },
@@ -87,6 +109,7 @@ export default Vue.extend({
     },
   },
   computed: {
+    ...abilityMapper.mapState(["abilities"]),
     creatureAbilities(): RPGAbilities {
       return { ...this.value };
     },
@@ -112,6 +135,17 @@ export default Vue.extend({
     },
     hasFormula(): boolean {
       return this.hpFormula.length > 0;
+    },
+    mappedAbilities(): MappedAbility[] {
+      return this.value.abilityKeys.map((ak) =>
+        toMappedAbility(this.abilities, toAbilityValues(ak))
+      );
+    },
+    skills(): MappedAbility[] {
+      return this.mappedAbilities.filter((ma) => ma.ability.type === "skill");
+    },
+    actions(): MappedAbility[] {
+      return this.mappedAbilities.filter((ma) => ma.ability.type === "action");
     },
   },
   methods: {},

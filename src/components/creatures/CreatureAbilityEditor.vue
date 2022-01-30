@@ -1,25 +1,49 @@
 <template>
-  <div>
+  <div class="d-flex flex-column">
     <h2>Abilities</h2>
-    <multiselect
-      id="input-size"
-      v-model="selection"
-      :options="abilityOptions"
-      :clear-on-select="true"
-      :preselect-first="false"
-      placeholder="add ability"
-      label="name"
-      @input="addAbility"
-    ></multiselect>
-    <div v-for="am in abilityMapped" :key="am.ability.key">
-      {{ am.ability.name }}
+    <div class="flex-row">
+      <multiselect
+        id="input-size"
+        v-model="selection"
+        :options="abilityOptions"
+        :clear-on-select="true"
+        :preselect-first="false"
+        placeholder="add ability"
+        label="name"
+        @input="addAbility"
+      ></multiselect>
+    </div>
+
+    <div v-for="am in abilityMapped" :key="am.ability.key" class="d-flex">
+      <p>{{ am.ability.name }}</p>
+
+      <creature-ability-value
+        v-model="am.values"
+        :ability="am.ability"
+        class="mx-3"
+        @input="valuesChanged"
+      />
+
+      <b-button
+        variant="danger"
+        class="ml-auto align-self-center"
+        @click="remove(am.ability)"
+      >
+        -
+      </b-button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { abilityMapper } from "@/store";
-import { Ability } from "@/types/abilities";
+import {
+  Ability,
+  CreatureAbilityValues,
+  MappedAbility,
+  toAbilityValues,
+  toMappedAbility,
+} from "@/types/abilities";
 import { differenceBy } from "lodash";
 import Vue, { PropType } from "vue";
 import Multiselect from "vue-multiselect";
@@ -42,22 +66,12 @@ export default Vue.extend({
   computed: {
     ...abilityMapper.mapState(["abilities"]),
     abilityValues(): CreatureAbilityValues[] {
-      return this.value.map(
-        (v) => JSON.parse(v.replaceAll("§", ",")) as CreatureAbilityValues
-      );
+      return this.value.map(toAbilityValues);
     },
-    abilityMapped(): { ability: Ability; values: CreatureAbilityValues }[] {
-      return this.abilityValues.map((values) => {
-        const ability = this.abilities.find((a) => a.key === values.key);
-        if (ability) {
-          return {
-            values,
-            ability,
-          };
-        } else {
-          throw new Error("ability should not be undefined");
-        }
-      });
+    abilityMapped(): MappedAbility[] {
+      return this.abilityValues.map((values) =>
+        toMappedAbility(this.abilities, values)
+      );
     },
     abilityOptions(): Ability[] {
       return differenceBy(
@@ -71,27 +85,33 @@ export default Vue.extend({
     addAbility(value: Ability) {
       this.selection = undefined;
 
+      const abilityValues = this.abilityValues.concat([
+        {
+          key: value.key,
+          variables: [],
+          formulae: [],
+        },
+      ]);
+      this.submit(abilityValues);
+    },
+    remove(ability: Ability) {
+      const abilityValues = this.abilityMapped
+        .filter((ma) => ma.values.key !== ability.key)
+        .map((ma) => ma.values);
+      this.submit(abilityValues);
+    },
+    submit(values: CreatureAbilityValues[]): void {
       this.$emit(
         "input",
-        this.value.concat([
-          JSON.stringify({
-            key: value.key,
-            variables: [],
-            formulae: [],
-          }).replaceAll(",", "§"),
-        ])
+        values.map((v) => JSON.stringify(v).replaceAll(",", "§"))
       );
+    },
+    valuesChanged(values: CreatureAbilityValues) {
+      const abilityValues = this.abilityMapped.map((am) => am.values);
+      this.submit(abilityValues);
     },
   },
 });
-
-type kvp = { k: string; v: string };
-type kvvp = { k: string; a: number; n: number };
-type CreatureAbilityValues = {
-  key: string;
-  variables: kvp[];
-  formulae: kvvp[];
-};
 </script>
 
 <style lang="scss" scoped>

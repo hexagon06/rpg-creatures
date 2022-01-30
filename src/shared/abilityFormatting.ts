@@ -1,3 +1,4 @@
+import { CreatureAbilityValues } from '@/types/abilities'
 import { Creature } from '@/types/creatures'
 import { uniq } from 'lodash'
 
@@ -75,7 +76,7 @@ export function setProperties (text: string, format: AbilityFormat, creature: Cr
     }
   })
   return {
-    newText,
+    text: newText,
     invalid
   }
 }
@@ -97,13 +98,41 @@ export function toProperties (creature: Creature): CreatureProperties {
   }
 }
 
-export function formatAbilityForCreature (text: string, creature: Creature) {
+export function setVariables (text: string, format: AbilityFormat, values: CreatureAbilityValues) {
+  const missingVariables = [] as string[]
+  const missingFormulae = [] as string[]
+  let newText = text
+  format.variables.forEach(variable => {
+    const kvp = values.variables.find(v => v.k === variable)
+    if (kvp) {
+      newText = newText.replaceAll(`$${kvp.k}`, kvp.v)
+    } else {
+      missingVariables.push(variable)
+    }
+  })
+  format.formulae.forEach(formula => {
+    const kvvp = values.formulae.find(f => f.k === formula)
+    if (kvvp) {
+      newText = newText.replaceAll(`^${kvvp.k}`, `${kvvp.a}d${kvvp.n}`)
+    } else {
+      missingFormulae.push(formula)
+    }
+  })
+  return {
+    text: newText,
+    missingVariables,
+    missingFormulae,
+  }
+}
+
+export function formatAbilityForCreature (text: string, creature: Creature, values: CreatureAbilityValues) {
   const format = parseFormatText(text)
   const properties = toProperties(creature)
-  const newText = setProperties(text, format, properties)
+  const creatureText = setProperties(text, format, properties)
+  const variableText = setVariables(creatureText.text, format, values)
 
   return {
-    text: newText.newText,
-    invalidProperties: newText.invalid,
+    ...variableText,
+    invalidProperties: creatureText.invalid,
   }
 }

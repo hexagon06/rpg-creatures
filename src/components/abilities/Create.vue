@@ -35,7 +35,7 @@ function createAbility(): Ability {
     text: "",
     tags: [],
     dice: [],
-    isAction: false,
+    type: "skill",
   };
 }
 
