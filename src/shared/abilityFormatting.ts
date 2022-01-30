@@ -33,6 +33,7 @@ export function parseFormatText (text: string): AbilityFormat {
 }
 
 export type CreatureProperties = {
+  Name: string
   name: string
   pron1: string
   pron2: string
@@ -45,6 +46,7 @@ export type CreatureProperties = {
   speed?: number
 }
 const creaturePropertiesInstance: CreatureProperties = {
+  Name: '',
   name: '',
   pron1: '',
   pron2: '',
@@ -90,6 +92,7 @@ export function toProperties (creature: Creature): CreatureProperties {
     wisdom, charisma, speed } = creature
 
   return {
+    Name: nameIsNoun ? name : `The ${name}`,
     name: nameIsNoun ? name : `the ${name}`,
     pron1: pronoun1 ?? 'it',
     pron2: pronoun2 ?? 'its',
