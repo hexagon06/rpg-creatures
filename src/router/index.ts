@@ -13,34 +13,27 @@ const routes: Array<RouteConfig> = [
   {
     path: '/about',
     name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () => import('../views/About.vue')
+  },
+  {
+    path: '/creature/:id',
+    name: 'Creature Details',
+    component: () => import('../views/CreatureDetails.vue')
   },
   {
     path: '/creatures',
     name: 'Creatures',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Creatures.vue')
+    component: () => import('../views/Creatures.vue')
   },
   {
     path: '/shops',
     name: 'Shops',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Shops.vue')
+    component: () => import('../views/Shops.vue')
   },
   {
     path: '/abilities',
     name: 'Abilities',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Abilities.vue')
+    component: () => import('../views/Abilities.vue')
   }
 ]
 

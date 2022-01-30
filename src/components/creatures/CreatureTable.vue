@@ -19,6 +19,14 @@
   >
     <template #row> </template>
     <!-- for column templates: https://bootstrap-vue.org/docs/components/table#scoped-field-slots -->
+    <template #cell(id)="data">
+      <router-link
+        :to="{ name: 'Creature Details', params: { id: data.value } }"
+        target="_blank"
+      >
+        <font-awesome-icon icon="fa-regular fa-pen-to-square"
+      /></router-link>
+    </template>
     <template #cell(link)="data">
       <a v-if="data && data.value" :href="data.value" target="_blank">
         <font-awesome-icon
@@ -68,7 +76,6 @@ export default Vue.extend({
     return {
       // https://bootstrap-vue.org/docs/components/table#field-definition-reference
       fields: [
-        // { key: "id" },
         { key: "link" }, // needs formatter
         { key: "name", sortable: true, stickyColumn: true, isRowHeader: true },
         { key: "image" }, // needs formatter
@@ -80,6 +87,7 @@ export default Vue.extend({
         { key: "alignment" }, // needs formatter
         { key: "page", sortable: true },
         { key: "system" },
+        { key: "id", label: "" },
       ],
       filterFields: ["name", "type", "environment", "tags"],
     };

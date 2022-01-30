@@ -11,6 +11,7 @@
       v-if="creatureIsSelected"
       v-model="selectedCreature"
       :imgSize="278"
+      @favorite="favoriteChange"
     />
     <p v-else>no creature is selected.</p>
     <template #footer="{ hide }">
@@ -26,6 +27,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { creatureMapper } from "@/store/creatures";
+import { creatureStore } from "@/store";
 
 export default Vue.extend({
   props: {
@@ -43,6 +45,14 @@ export default Vue.extend({
   methods: {
     close(value: boolean) {
       this.$emit("input", value);
+    },
+    async favoriteChange(value: boolean) {
+      if (this.selectedCreature && this.selectedCreature.id) {
+        await creatureStore.actions.updateFavorite({
+          creatureId: this.selectedCreature.id,
+          favorite: value,
+        });
+      }
     },
   },
 });

@@ -6,4 +6,5 @@ export type Ability = {
   text: string
   tags: string[]
   dice: string[]
+  isAction: boolean
 }

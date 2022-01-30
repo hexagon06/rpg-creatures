@@ -96,10 +96,7 @@ export default Vue.extend({
       },
       async set(value: boolean) {
         if (this.value.id) {
-          await creatureStore.actions.updateFavorite({
-            creatureId: this.value.id,
-            favorite: value,
-          });
+          this.$emit("favorite", value);
         }
       },
     },
