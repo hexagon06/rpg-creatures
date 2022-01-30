@@ -41,7 +41,7 @@ export default Vue.extend({
       fields: [
         // { key: "id" },
         { key: "name", sortable: true, stickyColumn: true, isRowHeader: true },
-        { key: "key", sortable: true }, // needs formatter
+        { key: "type", sortable: true },
         { key: "tags" },
       ],
       filterFields: ["name", "type", "environment", "tags"],

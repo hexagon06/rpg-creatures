@@ -47,22 +47,51 @@
       <labeled-prop label="climbing" :amount="value.climbSpeed" />
       <labeled-prop label="burrow" :amount="value.burrowSpeed" />
 
-      <hr v-if="skills.length > 0" />
-      <creature-ability
-        v-for="ma in skills"
-        :key="ma.ability.key"
-        :ability="ma.ability"
-        :creature="value"
-        :values="ma.values"
-      />
-      <hr v-if="actions.length > 0" />
-      <creature-ability
-        v-for="ma in actions"
-        :key="ma.ability.key"
-        :ability="ma.ability"
-        :creature="value"
-        :values="ma.values"
-      />
+      <div v-if="skills.length > 0">
+        <hr />
+        <creature-ability
+          v-for="ma in skills"
+          :key="ma.ability.key"
+          :ability="ma.ability"
+          :creature="value"
+          :values="ma.values"
+        />
+      </div>
+      <div v-if="actions.length > 0">
+        <h3 class="text-left mt-3">Actions</h3>
+        <hr />
+        <creature-ability
+          v-for="ma in actions"
+          :key="ma.ability.key"
+          :ability="ma.ability"
+          :creature="value"
+          :values="ma.values"
+        />
+      </div>
+      <div v-if="reactions.length > 0">
+        <h3 class="text-left mt-3">Reactions</h3>
+        <hr />
+        <creature-ability
+          v-for="ma in reactions"
+          :key="ma.ability.key"
+          :ability="ma.ability"
+          :creature="value"
+          :values="ma.values"
+        />
+      </div>
+      <div v-if="legendaries.length > 0">
+        <h3 class="text-left mt-3">Legendary Actions</h3>
+        <hr />
+        <p class="text-left">{{ legendaryActionText }}</p>
+        <creature-ability
+          v-for="ma in legendaries"
+          :key="ma.ability.key"
+          :ability="ma.ability"
+          :creature="value"
+          :values="ma.values"
+        />
+      </div>
+
       <hr />
       <array-pills :data="value.tags" :variant="'badge-success'" />
       <b-row v-if="value.comments">
@@ -95,6 +124,7 @@ import {
   toAbilityValues,
   toMappedAbility,
 } from "@/types/abilities";
+import { getLegendaryText } from "@/shared/abilityFormatting";
 
 export default Vue.extend({
   components: { LabeledProp },
@@ -146,6 +176,19 @@ export default Vue.extend({
     },
     actions(): MappedAbility[] {
       return this.mappedAbilities.filter((ma) => ma.ability.type === "action");
+    },
+    reactions(): MappedAbility[] {
+      return this.mappedAbilities.filter(
+        (ma) => ma.ability.type === "reaction"
+      );
+    },
+    legendaries(): MappedAbility[] {
+      return this.mappedAbilities.filter(
+        (ma) => ma.ability.type === "legendary"
+      );
+    },
+    legendaryActionText(): string {
+      return getLegendaryText(this.value);
     },
   },
   methods: {},

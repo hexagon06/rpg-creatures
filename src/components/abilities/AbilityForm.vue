@@ -12,9 +12,25 @@
       <b-form-input
         id="input-name"
         v-model="ability.name"
-        placeholder="Wolf"
+        placeholder="Shortsword"
         required
       ></b-form-input>
+    </b-form-group>
+    <b-form-group
+      id="input-type-group"
+      label="Type"
+      label-for="input-type"
+      class="flex-fill"
+    >
+      <multiselect
+        id="input-type"
+        v-model="ability.type"
+        :options="abilityTypeOptions"
+        deselect-label="Can't remove this value"
+        :allow-empty="false"
+        :show-labels="false"
+        placeholder="Select type"
+      ></multiselect>
     </b-form-group>
     <b-form-group
       id="input-text-group"
@@ -43,6 +59,7 @@
     <creature-ability
       :ability="ability"
       :creature="defaultCreature"
+      :values="abilityValues"
       class="mb-3"
     />
     <div v-if="abilityFormat.spells.length > 0" class="d-flex">
@@ -86,7 +103,7 @@
 
 <script lang="ts">
 import { filterMapper, filterStore } from "@/store";
-import { Ability } from "@/types/abilities";
+import { Ability, CreatureAbilityValues } from "@/types/abilities";
 import { createDefaultCreature } from "@/shared";
 import Vue, { PropType } from "vue";
 import { Creature } from "@/types/creatures";
@@ -95,8 +112,12 @@ import {
   formatAbilityForCreature,
   parseFormatText,
 } from "@/shared/abilityFormatting";
+import { Multiselect } from "vue-multiselect";
 
 export default Vue.extend({
+  components: {
+    Multiselect,
+  },
   props: {
     value: Object as PropType<Ability>,
   },
@@ -112,6 +133,12 @@ export default Vue.extend({
         wisdom: 14,
         charisma: 14,
       } as Creature,
+      abilityTypeOptions: ["skill", "action", "reaction", "legendary"],
+      abilityValues: {
+        key: "",
+        variables: [],
+        formulae: [],
+      } as CreatureAbilityValues,
     };
   },
   computed: {

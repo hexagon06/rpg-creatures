@@ -116,7 +116,12 @@ export function setVariables (text: string, format: AbilityFormat, values: Creat
   format.formulae.forEach(formula => {
     const kvvp = values.formulae.find(f => f.k === formula)
     if (kvvp) {
-      newText = newText.replaceAll(`^${kvvp.k}`, `${kvvp.a}d${kvvp.n}`)
+      const hpAverage = Math.floor(
+        kvvp.a * ((Number(kvvp.n) + 1) / 2)
+      )
+      console.log(`${kvvp.n} ${kvvp.a} ${hpAverage} ${(kvvp.n + 1)} ${(kvvp.n + 1) / 2}`)
+
+      newText = newText.replaceAll(`^${kvvp.k}`, `(${hpAverage}) ${kvvp.a}d${kvvp.n}`)
     } else {
       missingFormulae.push(formula)
     }
@@ -138,4 +143,13 @@ export function formatAbilityForCreature (text: string, creature: Creature, valu
     ...variableText,
     invalidProperties: creatureText.invalid,
   }
+}
+
+const LEGENDARY_FORMAT = '#Name can take 3 legendary actions, choosing from the options below. Only one legendary action option can be used at a time and only at the end of another creature\'s turn. #Name regains spent legendary actions at the start of #pron2 turn.'
+
+export function getLegendaryText (creature: Creature): string {
+  const format = parseFormatText(LEGENDARY_FORMAT)
+  const properties = toProperties(creature)
+  const creatureText = setProperties(LEGENDARY_FORMAT, format, properties)
+  return creatureText.text
 }
