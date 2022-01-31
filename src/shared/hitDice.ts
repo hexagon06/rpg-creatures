@@ -1,3 +1,17 @@
+export function toDiceFormula (amount: number, dice: number, mod: number): string {
+  const diceAverage = (dice + 1) / 2
+  mod = Math.max(0, mod)
+  const hpAverage = Math.floor(
+    (amount * diceAverage) + mod
+  )
+
+  return `${hpAverage} (${amount}d${dice
+    }${mod && mod !== 0
+      ? modString(mod)
+      : ""
+    })`
+}
+
 export function toHitDiceFormula (hitDice?: number, amount?: number, conMod?: number): string {
   if (hitDice && amount) {
     if (conMod !== undefined) {
@@ -19,7 +33,7 @@ export function toHitDiceFormula (hitDice?: number, amount?: number, conMod?: nu
   return ""
 }
 
-function modString (mod?: number): string | undefined {
+export function modString (mod?: number): string | undefined {
   if (mod !== undefined) {
     if (mod < 0) return mod.toString()
     else return `+${mod}`

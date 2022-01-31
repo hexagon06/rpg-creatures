@@ -4,12 +4,12 @@
 
     <p v-for="(paragraph, index) in formattedParagraphs" :key="index">
       <span v-if="index === 0" class="font-weight-bold font-italic"
-        >{{ ability.name }}.</span
-      >
+        >{{ ability.name }}.
+      </span>
       <span
         v-for="(text, i) in paragraph"
         :key="`${ability.key}-${index}-${i}`"
-        :class="text.isSpell ? 'font-italic' : ''"
+        :class="text.isSpell || text.italic ? 'font-italic' : ''"
         >{{ text.text }}</span
       >
     </p>

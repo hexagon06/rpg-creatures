@@ -38,6 +38,13 @@
           @input="changeValue"
           required
         ></b-form-input>
+        <b-form-input
+          :id="`input-var-${kvvp.k}-mod`"
+          v-model="kvvp.m"
+          placeholder="mod"
+          @input="changeValue"
+          required
+        ></b-form-input>
       </b-form-group>
     </div>
   </div>
@@ -78,6 +85,7 @@ export default Vue.extend({
           k: v,
           a: value?.a ?? 0,
           n: value?.n ?? 0,
+          m: value?.m ?? 0,
         };
       });
     },

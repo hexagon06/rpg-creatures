@@ -20,7 +20,7 @@ export type CreatureAbilityValues = {
 export type MappedAbility = { ability: Ability; values: CreatureAbilityValues }
 
 type kvp = { k: string; v: string }
-type kvvp = { k: string; a: number; n: number }
+type kvvp = { k: string; a: number; n: number, m: number }
 
 export function toAbilityValues (value: string): CreatureAbilityValues {
   return JSON.parse(value.replaceAll("§", ",")) as CreatureAbilityValues

@@ -1,12 +1,15 @@
 import { CreatureAbilityValues } from '@/types/abilities'
 import { Creature } from '@/types/creatures'
-import { uniq } from 'lodash'
+import { isNumber, uniq } from 'lodash'
+import { toMod } from '.'
+import { modString, toDiceFormula } from './hitDice'
 
 const propertiesRegex = new RegExp(/(#[\w-]+)/, 'gm')
 const variablesRegex = new RegExp(/(\$[\w-]+)/, 'gm')
 const spellsRegex = new RegExp(/(~[\w\s]+~)/, 'gm')
 const returnRegex = new RegExp(/(?:[\r\n])/, 'gm')
 const formulaeRegex = new RegExp(/(\^[\w]+)/, 'gm')
+const cursiveRegex = new RegExp(/(_[\w\s:]+_)/, 'gm')
 
 export type AbilityFormat = {
   properties: string[]
@@ -32,6 +35,10 @@ export function parseFormatText (text: string): AbilityFormat {
   }
 }
 
+function toProficiency (cr: number): number {
+  return Math.max(1, Math.ceil(cr / 4)) + 1
+}
+
 export type CreatureProperties = {
   Name: string
   name: string
@@ -44,7 +51,15 @@ export type CreatureProperties = {
   wisdom?: number
   charisma?: number
   speed?: number
+  prof_str: number,
+  prof_dex: number,
+  prof_con: number,
+  prof_wis: number,
+  prof_int: number,
+  prof_cha: number,
+  proficiency: number,
 }
+
 const creaturePropertiesInstance: CreatureProperties = {
   Name: '',
   name: '',
@@ -57,6 +72,13 @@ const creaturePropertiesInstance: CreatureProperties = {
   wisdom: 0,
   charisma: 0,
   speed: 0,
+  prof_str: 0,
+  prof_dex: 0,
+  prof_con: 0,
+  prof_wis: 0,
+  prof_int: 0,
+  prof_cha: 0,
+  proficiency: 0,
 }
 
 type propertyKey = keyof CreatureProperties
@@ -71,7 +93,11 @@ export function setProperties (text: string, format: AbilityFormat, creature: Cr
     if (isPropertyKey(property)) {
       const value = creature[property]
       if (value !== undefined) {
-        newText = newText.replaceAll(`#${property}`, value.toString())
+        if (isNumber(value)) {
+          newText = newText.replaceAll(`#${property}`, modString(value) ?? '')
+        } else {
+          newText = newText.replaceAll(`#${property}`, value)
+        }
       }
     } else {
       invalid.push(property)
@@ -89,7 +115,9 @@ export function toProperties (creature: Creature): CreatureProperties {
     pronoun1, pronoun2,
     strength, dexterity,
     constitution, intelligence,
-    wisdom, charisma, speed } = creature
+    wisdom, charisma, speed, cr } = creature
+
+  const proficiency = cr === undefined ? 0 : toProficiency(cr)
 
   return {
     Name: nameIsNoun ? name : `The ${name}`,
@@ -97,7 +125,14 @@ export function toProperties (creature: Creature): CreatureProperties {
     pron1: pronoun1 ?? 'it',
     pron2: pronoun2 ?? 'its',
     strength, dexterity, constitution, intelligence, wisdom, charisma,
-    speed
+    speed,
+    proficiency,
+    prof_str: (toMod(strength) ?? 0) + proficiency,
+    prof_dex: (toMod(dexterity) ?? 0) + proficiency,
+    prof_con: (toMod(constitution) ?? 0) + proficiency,
+    prof_wis: (toMod(wisdom) ?? 0) + proficiency,
+    prof_int: (toMod(intelligence) ?? 0) + proficiency,
+    prof_cha: (toMod(charisma) ?? 0) + proficiency,
   }
 }
 
@@ -116,11 +151,8 @@ export function setVariables (text: string, format: AbilityFormat, values: Creat
   format.formulae.forEach(formula => {
     const kvvp = values.formulae.find(f => f.k === formula)
     if (kvvp) {
-      const hpAverage = Math.floor(
-        kvvp.a * ((Number(kvvp.n) + 1) / 2)
-      )
-
-      newText = newText.replaceAll(`^${kvvp.k}`, `(${hpAverage}) ${kvvp.a}d${kvvp.n}`)
+      const formText = toDiceFormula(Number(kvvp.a), Number(kvvp.n), Number(kvvp.m))
+      newText = newText.replaceAll(`^${kvvp.k}`, formText)
     } else {
       missingFormulae.push(formula)
     }
@@ -147,7 +179,6 @@ export function formatForRender (text: string) {
   const format = parseFormatText(text)
 
   const paragraphs = text.split(returnRegex)
-  // console.log(paragraphs)
   const texted = paragraphs.map(p => formatTextParts(p))
   return texted
 }
@@ -155,23 +186,37 @@ export function formatForRender (text: string) {
 export type TextPart = {
   text: string
   isSpell: boolean
+  italic: boolean
 }
 
 function formatTextParts (text: string): TextPart[] {
   const split = text.split(spellsRegex)
   return split.map(s => {
     if (spellsRegex.test(s)) {
-      return {
+      return [{
         text: s.slice(1, s.length - 1),
         isSpell: true,
-      }
+        italic: false
+      }]
     } else {
-      return {
-        text: s,
-        isSpell: false,
-      }
+      const cSplit = s.split(cursiveRegex)
+      return cSplit.map(cs => {
+        if (cursiveRegex.test(cs)) {
+          return {
+            text: cs.slice(1, cs.length - 1),
+            isSpell: false,
+            italic: true,
+          }
+        } else {
+          return {
+            text: cs,
+            isSpell: false,
+            italic: false,
+          }
+        }
+      })
     }
-  })
+  }).flat()
 }
 
 const LEGENDARY_FORMAT = '#Name can take 3 legendary actions, choosing from the options below. Only one legendary action option can be used at a time and only at the end of another creature\'s turn. #Name regains spent legendary actions at the start of #pron2 turn.'
