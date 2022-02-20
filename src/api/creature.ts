@@ -14,7 +14,7 @@ export async function getCreatures (): Promise<Creature[]> {
   }
 }
 
-export async function getCreature (id: number): Promise<Creature | undefined> {
+export async function getCreature (id: string): Promise<Creature | undefined> {
   try {
     const response = await axios
       .get<Creature>(`${CREATURE_URI}${id}`)
@@ -24,10 +24,10 @@ export async function getCreature (id: number): Promise<Creature | undefined> {
   }
 }
 
-export async function createCreature (creature: Creature): Promise<number> {
+export async function createCreature (creature: Creature): Promise<string> {
   try {
     const response = await axios
-      .post<{ id: number }>(`${CREATURE_URI}create`, creature)
+      .post<{ id: string }>(`${CREATURE_URI}create`, creature)
     return response.data.id
   } catch (e) {
     console.error(e)
@@ -37,7 +37,7 @@ export async function createCreature (creature: Creature): Promise<number> {
 
 export async function updateCreature (creature: Creature): Promise<void> {
   try {
-    await axios.post<{ id: number }>(`${CREATURE_URI}update`, creature)
+    await axios.post<{ id: string }>(`${CREATURE_URI}update`, creature)
   } catch (e) {
     console.error(e)
     throw new Error('failed to update')

@@ -13,8 +13,7 @@
     "baseUrl": ".",
     "types": [
       "webpack-env",
-      "mocha",
-      "chai"
+      "jest",
     ],
     "paths": {
       "@/*": [
@@ -32,6 +31,7 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
+    "src/**/*.spec.ts",
     "tests/**/*.ts",
     "tests/**/*.tsx"
   ],

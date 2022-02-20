@@ -25,9 +25,8 @@
     "vuex-smart-module": "^1.0.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.11",
+    "@types/jest": "^27.4.0",
     "@types/lodash": "^4.14.178",
-    "@types/mocha": "^5.2.4",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-typescript": "~4.5.0",
@@ -35,7 +34,6 @@
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/test-utils": "^1.0.3",
-    "chai": "^4.1.2",
     "prettier": "^2.5.1",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",

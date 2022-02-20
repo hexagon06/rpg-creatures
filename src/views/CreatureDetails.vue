@@ -43,8 +43,8 @@ export default Vue.extend({
     };
   },
   computed: {
-    id(): number {
-      return Number(this.$route.params.id);
+    id(): string {
+      return this.$route.params.id;
     },
   },
   async created() {

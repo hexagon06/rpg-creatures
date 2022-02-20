@@ -14,7 +14,7 @@ class CreatureState {
 }
 
 class CreatureGetters extends Getters<CreatureState> {
-  get (id: number): Creature | undefined {
+  get (id: string): Creature | undefined {
     return this.state.creatures.find((creature) => creature.id === id)
   }
 }
@@ -49,7 +49,7 @@ class CreatureMutations extends Mutations<CreatureState> {
     // this way we can using that object to edit
     Object.assign(storedCreature, creature)
   }
-  updateFavorite (update: { creatureId: number, favorite: boolean }) {
+  updateFavorite (update: { creatureId: string, favorite: boolean }) {
     const { favorite, creatureId } = update
     // const index = this.state.creatures.findIndex(c => c.id === update.creatureId)
     // Vue.set(this.state.creatures[index], 'favorite', update.favorite)
@@ -68,7 +68,7 @@ class CreatureActions extends Actions<CreatureState, CreatureGetters, CreatureMu
     this.mutations.setCreatures(results)
     this.mutations.setFilteredCount(results.length)
   }
-  async setSelectedCreature (id?: number) {
+  async setSelectedCreature (id?: string) {
     if (id === undefined) {
       this.commit('setSelectedCreature', undefined)
     } else {
@@ -83,7 +83,7 @@ class CreatureActions extends Actions<CreatureState, CreatureGetters, CreatureMu
     creature.id = newId
     this.mutations.addCreature(creature)
   }
-  async updateFavorite (update: { creatureId: number, favorite: boolean }) {
+  async updateFavorite (update: { creatureId: string, favorite: boolean }) {
     this.mutations.updateFavorite(update)
     const creature = this.getters.get(update.creatureId)
     if (creature) {
