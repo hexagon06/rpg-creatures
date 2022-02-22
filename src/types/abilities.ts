@@ -1,6 +1,6 @@
+import { IdItem } from '.'
 
-export type Ability = {
-  id?: number
+export type Ability = IdItem & {
   name: string
   key: string
   text: string

@@ -1,5 +1,6 @@
-export type Creature = {
-  id?: string
+import { IdItem } from '.'
+
+export type Creature = IdItem & {
   link?: string
   source?: string
   page?: string

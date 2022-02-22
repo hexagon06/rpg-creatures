@@ -13,7 +13,7 @@ class AbilityState {
 }
 
 class AbilityGetters extends Getters<AbilityState> {
-  get (id: number): Ability | undefined {
+  get (id: string): Ability | undefined {
     return this.state.abilities.find((ability) => ability.id === id)
   }
 }
@@ -48,7 +48,7 @@ class AbilityMutations extends Mutations<AbilityState> {
     // this way we can using that object to edit
     Object.assign(storedAbility, ability)
   }
-  updateFavorite (update: { abilityId: number, favorite: boolean }) {
+  updateFavorite (update: { abilityId: string, favorite: boolean }) {
     const { favorite, abilityId } = update
     // const index = this.state.abilities.findIndex(c => c.id === update.abilityId)
     // Vue.set(this.state.abilitys[index], 'favorite', update.favorite)
@@ -67,7 +67,7 @@ class AbilityActions extends Actions<AbilityState, AbilityGetters, AbilityMutati
     this.mutations.setAbilities(results)
     this.mutations.setFilteredCount(results.length)
   }
-  async setSelectedAbility (id?: number) {
+  async setSelectedAbility (id?: string) {
     if (id === undefined) {
       this.commit('setSelectedAbility', undefined)
     } else {
@@ -82,7 +82,7 @@ class AbilityActions extends Actions<AbilityState, AbilityGetters, AbilityMutati
     ability.id = newId
     this.mutations.addAbility(ability)
   }
-  async updateFavorite (update: { abilityId: number, favorite: boolean }) {
+  async updateFavorite (update: { abilityId: string, favorite: boolean }) {
     this.mutations.updateFavorite(update)
     const ability = this.getters.get(update.abilityId)
     if (ability) {

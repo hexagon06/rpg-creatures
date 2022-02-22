@@ -1,13 +1,14 @@
 import { Creature } from '@/types/creatures'
-import axios from 'axios'
+import { firebaseClient } from './firebaseClient'
+import { FirestoreAcces } from './firestoreAccess'
 
-const CREATURE_URI = 'http://localhost:3000/creature/'
+const CREATURE_COLLECTION = 'creatures'
 
 export async function getCreatures (): Promise<Creature[]> {
   try {
-    const response = await axios
-      .get<Creature[]>(CREATURE_URI)
-    return response.data
+    const firestore = new FirestoreAcces<Creature>(firebaseClient.store, CREATURE_COLLECTION)
+
+    return await firestore.get()
   } catch (e) {
     console.error(e)
     return []
@@ -16,9 +17,9 @@ export async function getCreatures (): Promise<Creature[]> {
 
 export async function getCreature (id: string): Promise<Creature | undefined> {
   try {
-    const response = await axios
-      .get<Creature>(`${CREATURE_URI}${id}`)
-    return response.data
+    const firestore = new FirestoreAcces<Creature>(firebaseClient.store, CREATURE_COLLECTION)
+
+    return await firestore.getById(id)
   } catch (e) {
     console.error(e)
   }
@@ -26,9 +27,9 @@ export async function getCreature (id: string): Promise<Creature | undefined> {
 
 export async function createCreature (creature: Creature): Promise<string> {
   try {
-    const response = await axios
-      .post<{ id: string }>(`${CREATURE_URI}create`, creature)
-    return response.data.id
+    const firestore = new FirestoreAcces<Creature>(firebaseClient.store, CREATURE_COLLECTION)
+
+    return await firestore.add(creature)
   } catch (e) {
     console.error(e)
     throw new Error('failed to create')
@@ -37,7 +38,8 @@ export async function createCreature (creature: Creature): Promise<string> {
 
 export async function updateCreature (creature: Creature): Promise<void> {
   try {
-    await axios.post<{ id: string }>(`${CREATURE_URI}update`, creature)
+    const firestore = new FirestoreAcces<Creature>(firebaseClient.store, CREATURE_COLLECTION)
+    await firestore.update(creature)
   } catch (e) {
     console.error(e)
     throw new Error('failed to update')
