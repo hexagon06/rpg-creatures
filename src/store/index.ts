@@ -5,6 +5,7 @@ import { abilityModule } from './abilities'
 import { creatureModule } from './creatures'
 import { filterModule } from './filter'
 import { shopModule } from './shops'
+import { userModule } from './users'
 
 export { abilityMapper } from './abilities'
 export { creatureMapper } from './creatures'
@@ -21,6 +22,7 @@ export const rootModule = new Module({
     creatureModule,
     filterModule,
     shopModule,
+    userModule,
   }
 })
 
@@ -40,3 +42,4 @@ export const creatureStore = rootModule.context(store).modules.creatureModule
 export const filterStore = rootModule.context(store).modules.filterModule
 export const shopStore = rootModule.context(store).modules.shopModule
 export const abilityStore = rootModule.context(store).modules.abilityModule
+export const userStore = rootModule.context(store).modules.userModule

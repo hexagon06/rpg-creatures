@@ -3,6 +3,7 @@ import { ArrayPills, Favorite, LabeledProp, PillMultiselect, SourceReference, Th
 import { Edit as CreatureEdit, Create as CreatureCreate, CreatureForm, Alignment, Abilities, AlignmentEditor, CreatureDetails, CreatureFilters, Create, CreaturePagination, CreatureSidebar, CreatureTable, CreatureAbilityEditor, CreatureAbilityValueEditor } from './creatures'
 import { Edit as ShopEdit, ShopDetails, ShopForm, ShopSidebar, ShopTable } from './shops'
 import { Create as AbilityCreate, AbilityDetails, AbilityForm, AbilitySidebar, AbilityTable, Edit as AbilityEdit, CreatureAbility } from './abilities'
+import { UserSign } from './users'
 
 export function addCreatureComponents () {
   Vue.component('abilities', Abilities)
@@ -45,4 +46,8 @@ export function addAbilityComponents () {
   Vue.component('ability-sidebar', AbilitySidebar)
   Vue.component('ability-table', AbilityTable)
   Vue.component('creature-ability', CreatureAbility)
+}
+
+export function addUserComponents () {
+  Vue.component('user-sign', UserSign)
 }

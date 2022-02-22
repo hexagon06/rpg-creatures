@@ -1,11 +1,14 @@
 <template>
   <div id="app" class="container-fluid mh-100 h-100 d-flex flex-column">
-    <div id="nav" class="header">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/creatures">Creatures</router-link> |
-      <router-link to="/shops">Shops</router-link> |
-      <router-link to="/Abilities">Abilities</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="d-flex">
+      <div id="nav" class="header">
+        <router-link to="/">Home</router-link> |
+        <router-link to="/creatures">Creatures</router-link> |
+        <router-link to="/shops">Shops</router-link> |
+        <router-link to="/Abilities">Abilities</router-link> |
+        <router-link to="/about">About</router-link>
+      </div>
+      <user-sign class="ml-auto"></user-sign>
     </div>
     <router-view class="flex-1-1-0" />
     <div class="footer"></div>
