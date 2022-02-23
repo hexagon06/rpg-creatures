@@ -2,18 +2,44 @@
   <div id="app" class="container-fluid mh-100 h-100 d-flex flex-column">
     <div class="d-flex">
       <div id="nav" class="header">
-        <router-link to="/">Home</router-link> |
-        <router-link to="/creatures">Creatures</router-link> |
-        <router-link to="/shops">Shops</router-link> |
-        <router-link to="/Abilities">Abilities</router-link> |
-        <router-link to="/about">About</router-link>
+        <span v-for="(link, i) in filteredLinks" :key="i"
+          >{{ i > 0 ? " | " : ""
+          }}<router-link :to="link.path">{{ link.label }}</router-link></span
+        >
       </div>
-      <user-sign class="ml-auto"></user-sign>
+      <user-sign class="ml-auto p-4"></user-sign>
     </div>
     <router-view class="flex-1-1-0" />
     <div class="footer"></div>
   </div>
 </template>
+
+<script lang="ts">
+import Vue from "vue";
+import { userStore } from "./store";
+
+export default Vue.extend({
+  data() {
+    return {
+      links: [
+        { label: "Home", path: "/" },
+        { label: "Creatures", path: "/creatures", condition: true },
+        { label: "Shops", path: "/shops", condition: true },
+        { label: "Abilities", path: "/abilities", condition: true },
+      ],
+    };
+  },
+  computed: {
+    signedIn(): boolean {
+      return userStore.getters.isIsSignedIn();
+    },
+    filteredLinks(): { label: string; path: string }[] {
+      return this.links.filter((l) => (l.condition ? this.signedIn : true));
+    },
+  },
+});
+</script>
+
 
 <style lang="scss" scoped>
 #app {

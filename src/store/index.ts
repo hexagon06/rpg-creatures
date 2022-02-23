@@ -1,3 +1,5 @@
+import { auth } from '@/api'
+import { onAuthStateChanged } from 'firebase/auth'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { createStore, Module } from 'vuex-smart-module'

@@ -8,7 +8,8 @@
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "emulate": "firebase emulators:start"
+    "emulate": "firebase emulators:start",
+    "deploy:rules": "firebase deploy --only firestore:rules"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.3.0-beta3",

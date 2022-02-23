@@ -1,9 +1,9 @@
 import { auth } from '@/api'
-import { onAuthStateChanged, signInWithEmailAndPassword, signOut, User } from 'firebase/auth'
+import { onAuthStateChanged, signOut, User } from 'firebase/auth'
 import Vue from 'vue'
 import { Getters, Mutations, Actions, Module, createMapper } from 'vuex-smart-module'
-import { userStore } from './index'
 import { cloneDeep } from 'lodash'
+import { userStore } from '.'
 
 class UserState {
   currentUser?: User
@@ -42,6 +42,8 @@ export const userModule = new Module({
   actions: UserActions
 })
 
+export const userMapper = createMapper(userModule)
+
 onAuthStateChanged(auth.auth, (user) => {
   if (user) {
     userStore.actions.signIn(user)
@@ -49,5 +51,3 @@ onAuthStateChanged(auth.auth, (user) => {
     userStore.actions.signOut()
   }
 })
-
-export const userMapper = createMapper(userModule)

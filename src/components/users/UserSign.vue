@@ -1,8 +1,7 @@
 <template>
   <div>
     <div v-if="isSignedIn">
-      <span>{{ currentUser.displayName }}</span>
-      <span>{{ currentUser.email }}</span>
+      <span class="mr-3">{{ currentUser.displayName }}</span>
       <b-button @click="signOut">sign out</b-button>
     </div>
     <div v-else>
