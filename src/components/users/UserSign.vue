@@ -1,7 +1,10 @@
 <template>
   <div>
     <div v-if="isSignedIn">
-      <span class="mr-3">{{ currentUser.displayName }}</span>
+      <span v-if="currentUser.displayName" class="mr-3">{{
+        currentUser.displayName
+      }}</span>
+      <span v-else class="mr-3">{{ currentUser.email }}</span>
       <b-button @click="signOut">sign out</b-button>
     </div>
     <div v-else>
@@ -76,8 +79,11 @@ export default Vue.extend({
       this.form.password = "";
     },
     async signIn() {
+      console.log("sign in");
+
       const { email, password } = this.form;
       await auth.signIn(email, password);
+      console.log("after sign in");
     },
   },
 });

@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <router-view></router-view>
-  </div>
+  <div>Account</div>
 </template>
 
 <script lang="ts">
