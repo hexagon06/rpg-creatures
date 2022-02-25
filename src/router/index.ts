@@ -1,7 +1,6 @@
 import { userStore } from '@/store'
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
-import { nextTick } from 'vue/types/umd'
 import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
@@ -9,6 +8,10 @@ Vue.use(VueRouter)
 const routes: Array<RouteConfig> = [
   {
     path: '/',
+    redirect: { name: 'Home' }
+  },
+  {
+    path: '/home',
     name: 'Home',
     component: Home
   },
@@ -36,33 +39,20 @@ const routes: Array<RouteConfig> = [
     meta: { requiresAuth: true },
     component: () => import('../views/Abilities.vue')
   },
-  // {
-  //   path: "/users",
-  //   name: 'Users',
-  //   meta: { requiresAuth: true, requiresAdmin: true },
-  //   redirect: 'Account',
-  //   component: () => import('../views/Users.vue'),
-  //   children: [
-  //     {
-  //       path: 'invite',
-  //       name: 'Invite',
-  //       meta: { requiresAuth: true, requiresAdmin: true },
-  //       component: () => import('../components/users/Invite.vue')
-  //     },
-  //     {
-  //       path: 'finishSignup',
-  //       name: 'Finish Signup',
-  //       meta: { guest: true },
-  //       component: () => import('../components/users/FinishSignup.vue')
-  //     },
-  //     {
-  //       path: 'account',
-  //       name: 'Account',
-  //       meta: { requiresAuth: true },
-  //       component: () => import('../components/users/Account.vue')
-  //     }
-  //   ]
-  // }
+
+  {
+    path: '/encounter',
+    name: 'Encounters',
+    component: () => import('../views/Encounters.vue'),
+    children: [
+      {
+        path: ':id',
+        name: 'Encounter',
+        component: () => import('../components/encounters/Encounter.vue'),
+        props: true
+      },
+    ]
+  },
 ]
 
 const router = new VueRouter({

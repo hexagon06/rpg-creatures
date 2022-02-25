@@ -3,7 +3,7 @@ import { onAuthStateChanged, signOut, User } from 'firebase/auth'
 import Vue from 'vue'
 import { Getters, Mutations, Actions, Module, createMapper } from 'vuex-smart-module'
 import { cloneDeep } from 'lodash'
-import { userStore } from '.'
+import { indexesStore, userStore } from '.'
 
 class UserState {
   currentUser?: User
@@ -32,6 +32,7 @@ class UserActions extends Actions<UserState, UserGetters, UserMutations, UserAct
   }
   async signIn (user: User) {
     this.mutations.setUser(user)
+    await indexesStore.actions.initialize(user.uid)
   }
 }
 
