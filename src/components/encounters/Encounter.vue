@@ -20,6 +20,10 @@ export default Vue.extend({
       encounter: undefined as Encounter | undefined,
     };
   },
+  async created() {
+    await encounterStore.actions.fetch(this.id);
+    this.encounter = encounterStore.state.encounter;
+  },
   props: {
     id: {
       type: String,
