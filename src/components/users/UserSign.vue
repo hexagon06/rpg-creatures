@@ -79,11 +79,8 @@ export default Vue.extend({
       this.form.password = "";
     },
     async signIn() {
-      console.log("sign in");
-
       const { email, password } = this.form;
       await auth.signIn(email, password);
-      console.log("after sign in");
     },
   },
 });

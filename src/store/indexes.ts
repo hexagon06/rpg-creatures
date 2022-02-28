@@ -1,5 +1,6 @@
 import { inititialize as initializeIndexes, set } from '@/api/indexes'
 import { EncounterIndex, Indexes } from '@/types'
+import { deepCopy, deepExtend } from '@firebase/util'
 import { Getters, Module, createMapper, Actions, Mutations } from 'vuex-smart-module'
 import { userStore } from '.'
 
@@ -16,13 +17,21 @@ class IndexesMutations extends Mutations<IndexesState> {
   addEncounter (encounter: EncounterIndex) {
     this.state.encounters = this.state.encounters.concat([encounter])
   }
+  updateEncounter (encounter: EncounterIndex) {
+    const encounters = deepCopy(this.state.encounters)
+    const instance = encounters.find(e => e.id == encounter.id)
+
+    if (instance) {
+      deepExtend(instance, encounter)
+      this.state.encounters = encounters
+    }
+  }
   inititialized () {
     this.state.initialized = true
   }
   set (indexes: Indexes) {
     this.state.encounters = indexes.encounters
   }
-  // TODO: implement set/ update
 }
 
 class IndexesActions extends Actions<IndexesState, IndexesGetters, IndexesMutations, IndexesActions> {
@@ -43,6 +52,21 @@ class IndexesActions extends Actions<IndexesState, IndexesGetters, IndexesMutati
       throw new Error('initialize() should have been called')
     }
     this.mutations.addEncounter(encounter)
+    if (userStore.state.currentUser) {
+      set({
+        id: userStore.state.currentUser.uid,
+        encounters: this.state.encounters,
+      })
+    } else {
+      throw new Error(`expected user id to be set`)
+    }
+  }
+  async updateEncounter (encounter: EncounterIndex) {
+    if (!this.state.initialized) {
+      throw new Error('initialize() should have been called')
+    }
+    this.mutations.updateEncounter(encounter)
+
     if (userStore.state.currentUser) {
       set({
         id: userStore.state.currentUser.uid,

@@ -1,10 +1,21 @@
-import { IdItem } from '.'
+import { IdItem, Tag } from '.'
 
-export type Creature = IdItem & {
+export type CreatureBase = {
+  name: string
+  type?: string
+  cr?: number
+  tags: string[]
+  newTags: Tag[]
+  system?: string
+  favorite: boolean
+}
+
+export type CreatureIndex = Reference & EncounterBase
+
+export type Creature = IdItem & EncounterBase & {
   link?: string
   source?: string
   page?: string
-  name: string
   size?: string
   type?: string
   alignment: string[]
@@ -20,18 +31,14 @@ export type Creature = IdItem & {
   charisma?: number
   hpFormula?: string
   speed?: number
-  cr?: number
   organisation: string[]
   environment: string[]
-  system?: string
-  tags: string[]
   flyingSpeed?: number
   swimSpeed?: number
   climbSpeed?: number
   burrowSpeed?: number
   comments?: string
   image?: string
-  favorite: boolean
   abilityKeys: string[]
   nameIsNoun: boolean
   pronoun1?: string

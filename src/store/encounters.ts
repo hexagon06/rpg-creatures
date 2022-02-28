@@ -1,4 +1,4 @@
-import { createEncounter, getEncounter } from '@/api/encounterApi'
+import { createEncounter, getEncounter, updateEncounter } from '@/api/encounterApi'
 import { Encounter, EncounterIndex } from '@/types'
 import { Getters, Module, createMapper, Actions, Mutations } from 'vuex-smart-module'
 import { indexesStore } from '.'
@@ -29,12 +29,7 @@ class EncounterActions extends Actions<EncounterState, EncounterGetters, Encount
       environment: []
     }
     const id = await createEncounter(encounter)
-    const encounterIndex: EncounterIndex = {
-      id: id,
-      name: encounter.name,
-      synopsis: encounter.synopsis,
-      tags: encounter.tags,
-    }
+    const encounterIndex: EncounterIndex = getIndex(id, encounter)
     await indexesStore.actions.addEncounter(encounterIndex)
     this.mutations.select(encounter)
   }
@@ -43,6 +38,25 @@ class EncounterActions extends Actions<EncounterState, EncounterGetters, Encount
 
     if (encounter) this.mutations.select(encounter)
     else throw new Error('encounter not found')
+  }
+  async save (encounter: Encounter) {
+    try {
+      await updateEncounter(encounter)
+      const index = getIndex(encounter.id!, encounter)
+      await indexesStore.actions.updateEncounter(index)
+    } catch (error) {
+      console.error('Encounter update failed: ', error)
+      throw error
+    }
+  }
+}
+
+function getIndex (id: string, encounter: Encounter): EncounterIndex {
+  return {
+    id: id,
+    name: encounter.name,
+    synopsis: encounter.synopsis,
+    tags: encounter.tags,
   }
 }
 

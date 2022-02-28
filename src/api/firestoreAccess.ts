@@ -1,5 +1,6 @@
 import { IdItem } from '@/types'
 import { addDoc, collection, deleteDoc, doc, Firestore, getDoc, Query, query, setDoc, updateDoc, writeBatch } from 'firebase/firestore'
+import { cloneDeep } from 'lodash'
 import { getCollection } from './firestoreUtils'
 
 export class FirestoreAcces<T extends IdItem> {
@@ -68,7 +69,7 @@ export class FirestoreAcces<T extends IdItem> {
     // https://firebase.google.com/docs/firestore/manage-data/add-data#update-data
     const { id } = item
     if (id === undefined) throw new Error('item.id is undefined, use add(item) instead')
-    const entity = item as any
+    const entity = cloneDeep(item) as any
     delete entity.id
     try {
       await updateDoc(doc(this.db, this.collection, id), entity)
