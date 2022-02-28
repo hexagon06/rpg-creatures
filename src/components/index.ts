@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { ArrayPills, Favorite, LabeledProp, PillMultiselect, SourceReference, Thumbnail } from './shared'
+import { ArrayPills, Favorite, LabeledProp, ListCard, PillMultiselect, SourceReference, Thumbnail } from './shared'
 import { Edit as CreatureEdit, Create as CreatureCreate, CreatureForm, Alignment, Abilities, AlignmentEditor, CreatureDetails, CreatureFilters, Create, CreaturePagination, CreatureSidebar, CreatureTable, CreatureAbilityEditor, CreatureAbilityValueEditor } from './creatures'
 import { Edit as ShopEdit, ShopDetails, ShopForm, ShopSidebar, ShopTable } from './shops'
 import { Create as AbilityCreate, AbilityDetails, AbilityForm, AbilitySidebar, AbilityTable, Edit as AbilityEdit, CreatureAbility } from './abilities'
@@ -28,6 +28,7 @@ export function addSharedComponents () {
   Vue.component('pill-multiselect', PillMultiselect)
   Vue.component('source-reference', SourceReference)
   Vue.component('thumbnail', Thumbnail)
+  Vue.component('list-card', ListCard)
 }
 
 export function addShopComponents () {

@@ -1,10 +1,11 @@
 import { createEncounter, getEncounter, updateEncounter } from '@/api/encounterApi'
-import { Encounter, EncounterIndex } from '@/types'
+import { Encounter, EncounterIndex, FilledEncounter } from '@/types'
 import { Getters, Module, createMapper, Actions, Mutations } from 'vuex-smart-module'
 import { indexesStore } from '.'
 
 class EncounterState {
   encounter?: Encounter
+  filledEncounter?: FilledEncounter
 }
 
 class EncounterGetters extends Getters<EncounterState> {
@@ -13,6 +14,9 @@ class EncounterGetters extends Getters<EncounterState> {
 class EncounterMutations extends Mutations<EncounterState> {
   select (encounter: Encounter) {
     this.state.encounter = encounter
+  }
+  selectFilled (encounter: FilledEncounter) {
+    this.state.filledEncounter = encounter
   }
 }
 
@@ -36,7 +40,11 @@ class EncounterActions extends Actions<EncounterState, EncounterGetters, Encount
   async fetch (id: string) {
     const encounter = await getEncounter(id)
 
-    if (encounter) this.mutations.select(encounter)
+    if (encounter) {
+      this.mutations.select(encounter)
+      // TODO: fetch all linked items
+      this.mutations.selectFilled(encounter)
+    }
     else throw new Error('encounter not found')
   }
   async save (encounter: Encounter) {

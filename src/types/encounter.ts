@@ -1,11 +1,11 @@
-import { IdItem, Reference, ReferenceCount } from '.'
+import { CreatureIndex, IdItem, Reference, ReferenceCount } from '.'
 import { Tag } from './tags'
 
 export type EncounterBase = {
   name: string
   synopsis: string
   tags: Tag[]
-  group? :string
+  group?: string
 }
 
 export type EncounterIndex = Reference & EncounterBase
@@ -16,5 +16,14 @@ export type Encounter = IdItem & EncounterBase & {
   reward?: string
   locations: Reference[]
   creatures: ReferenceCount[]
+  environment: string[]
+}
+
+export type FilledEncounter = IdItem & EncounterBase & {
+  flavorText: string
+  description: string
+  reward?: string
+  locations: Reference[]
+  creatures: (CreatureIndex & { count: number })[]
   environment: string[]
 }

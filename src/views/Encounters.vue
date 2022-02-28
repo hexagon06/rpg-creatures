@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex">
-    <div class="sidebar border-right border-info pt-3">
+    <div class="sidebar border-right border-info pt-3 sticky-top">
       <div>
         <b-button variant="primary" @click="createEncounter">Create</b-button>
       </div>

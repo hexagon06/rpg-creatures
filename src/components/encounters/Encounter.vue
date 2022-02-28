@@ -69,7 +69,6 @@
               v-model="form.flavorText"
               placeholder="You enter the darkest dungeon and it smells damp"
               aria-describedby="flavor-text-help-block"
-              required
             ></b-form-textarea>
             <b-form-text id="flavor-text-help-block"
               >Write a short text you can read out when starting this
@@ -84,14 +83,16 @@
             label="Description:"
             label-for="input-description"
           >
-            <b-form-textarea
+            <v-md-editor
+              v-model="form.description"
+              height="400px"
+              aria-describedby="description-help-block"
+            ></v-md-editor>
+            <!-- <b-form-textarea
               id="input-description"
               v-model="form.description"
               placeholder="The walls of the dungeon are made of slimey goo, anyone getting too close must make a save"
-              aria-describedby="description-help-block"
-              rows="10"
-              required
-            ></b-form-textarea>
+            ></b-form-textarea> -->
             <b-form-text id="description-help-block">
               Describe the encounter, what the adventurers encounter, what
               challenge there may be, etc.
@@ -110,7 +111,6 @@
               v-model="form.reward"
               placeholder="3d20+50 gold and the Sword of Hannah"
               aria-describedby="reward-help-block"
-              required
             ></b-form-input>
             <b-form-text id="reward-help-block"
               >What are possible rewards for the adventurers?</b-form-text
@@ -127,7 +127,6 @@
               v-model="form.group"
               placeholder="The Adventurers"
               aria-describedby="group-help-block"
-              required
             ></b-form-input>
             <b-form-text id="group-help-block"
               >If this encounter is made for a specific adventure or group of
@@ -140,7 +139,8 @@
     </b-card>
   </div>
   <div v-else>
-    <b-card class="m-3 text-left">
+    <!-- info card -->
+    <b-card class="m-3 text-left sticky-top">
       <b-card-title>
         <div class="d-flex">
           <h1>{{ encounter.name }}</h1>
@@ -156,69 +156,45 @@
       <b-card-text class="font-italic font-weight-bolder text-secondary">
         {{ encounter.synopsis }}
       </b-card-text>
+    </b-card>
+    <!-- description card -->
+    <b-card class="m-3 text-left">
       <b-card-text class="pl-5">
         {{ encounter.flavorText }}
       </b-card-text>
       <b-card-text>
-        {{ encounter.description }}
+        <v-md-preview
+          :text="encounter.description"
+          :default-show-toc="true"
+        ></v-md-preview>
       </b-card-text>
       <b-card-text v-if="encounter.reward">
         <h2>Rewards:</h2>
         {{ encounter.reward }}
       </b-card-text>
-      <b-card-body v-if="hasReferences">
-        <div class="d-flex flex-column flex-md-row align-items-stretch">
-          <div
-            v-if="locations && locations.length > 0"
-            class="flex-fill bd-highlight p-2 mx-2 mb-2 mb-md-0"
-          >
-            <h3>Locations</h3>
-            <hr />
-            <b-list-group v-if="locations && locations.length > 0" flush>
-              <b-list-group-item
-                v-for="location in locations"
-                :key="location.id"
-                >{{ location.name }}</b-list-group-item
-              >
-            </b-list-group>
-          </div>
-          <div
-            v-if="creatures && creatures.length > 0"
-            class="flex-fill bd-highlight p-2 mx-2 mb-2 mb-md-0"
-          >
-            <h3>Creatures</h3>
-            <hr />
-            <b-list-group v-if="creatures && creatures.length > 0" flush>
-              <b-list-group-item
-                v-for="creature in creatures"
-                :key="creature.id"
-                >{{ creature.name }}</b-list-group-item
-              >
-            </b-list-group>
-          </div>
-          <div
-            v-if="encounter.environment && encounter.environment.length > 0"
-            class="flex-fill bd-highlight p-2 mx-2 mb-2 mb-md-0"
-          >
-            <h3>Environments</h3>
-            <hr />
-            <b-list-group
-              v-if="encounter.environment && encounter.environment.length > 0"
-              flush
-            >
-              <b-list-group-item
-                v-for="environment in encounter.environment"
-                :key="environment"
-                >{{ environment }}</b-list-group-item
-              >
-            </b-list-group>
-          </div>
-        </div>
-      </b-card-body>
       <b-card-body v-if="encounter.tags && encounter.tags.length > 0">
         <array-pills :data="encounter.tags"></array-pills>
       </b-card-body>
     </b-card>
+
+    <!-- reference lists -->
+    <div class="px-3 mb-5">
+      <list-card
+        v-if="locations && locations.length"
+        title="Locations"
+        :list="locations"
+      ></list-card>
+      <list-card
+        v-if="creatures && creatures.length"
+        title="Creatures"
+        :list="creatures"
+      ></list-card>
+      <list-card
+        v-if="environments && environments.length"
+        title="Environments"
+        :list="environments"
+      ></list-card>
+    </div>
   </div>
 </template>
 
@@ -228,7 +204,7 @@
 // creatures: ReferenceCount[]
 // environment: string[]
 import { encounterStore } from "@/store";
-import { Creature, Encounter } from "@/types";
+import { Encounter, FilledEncounter, ReferenceListItem } from "@/types";
 import { BForm } from "bootstrap-vue";
 import { cloneDeep } from "lodash";
 import Vue from "vue";
@@ -237,7 +213,7 @@ export default Vue.extend({
   components: { ArrayPills },
   data() {
     return {
-      encounter: undefined as Encounter | undefined,
+      encounter: undefined as FilledEncounter | undefined,
       form: undefined as Encounter | undefined,
       editing: false,
       saving: false,
@@ -261,11 +237,26 @@ export default Vue.extend({
     loading(): boolean {
       return this.encounter === undefined;
     },
-    locations(): string[] {
+    locations(): ReferenceListItem[] {
       return [];
     },
-    creatures(): Creature[] {
-      return [];
+    creatures(): ReferenceListItem[] {
+      return (
+        this.encounter?.creatures.map((c) => {
+          return {
+            id: c.id,
+            label: c.name,
+            routerName: "Creatures",
+          };
+        }) ?? []
+      );
+    },
+    environments(): ReferenceListItem[] {
+      return (
+        this.encounter?.environment.map((e) => {
+          return { id: e, label: e };
+        }) ?? []
+      );
     },
     hasReferences(): boolean {
       return (
