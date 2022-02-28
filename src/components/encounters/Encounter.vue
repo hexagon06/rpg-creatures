@@ -40,6 +40,101 @@
             </b-form-text>
             <b-form-invalid-feedback>Invalid name</b-form-invalid-feedback>
           </b-form-group>
+          <b-form-group
+            id="input-group-synopsis"
+            label="Synopsis:"
+            label-for="input-synopsis"
+          >
+            <b-form-input
+              id="input-synopsis"
+              v-model="form.synopsis"
+              placeholder="A short story"
+              aria-describedby="synopsis-help-block"
+              required
+            ></b-form-input>
+            <b-form-text id="synopsis-help-block"
+              >One or two short sentences describing the encounter</b-form-text
+            >
+            <b-form-invalid-feedback
+              >Synopsis is invalid</b-form-invalid-feedback
+            >
+          </b-form-group>
+          <b-form-group
+            id="input-group-flavor-text"
+            label="Flavor Text:"
+            label-for="input-flavor-text"
+          >
+            <b-form-textarea
+              id="input-flavor-text"
+              v-model="form.flavorText"
+              placeholder="You enter the darkest dungeon and it smells damp"
+              aria-describedby="flavor-text-help-block"
+              required
+            ></b-form-textarea>
+            <b-form-text id="flavor-text-help-block"
+              >Write a short text you can read out when starting this
+              encounter.</b-form-text
+            >
+            <b-form-invalid-feedback
+              >Flavor Text is invalid</b-form-invalid-feedback
+            >
+          </b-form-group>
+          <b-form-group
+            id="input-group-description"
+            label="Description:"
+            label-for="input-description"
+          >
+            <b-form-textarea
+              id="input-description"
+              v-model="form.description"
+              placeholder="The walls of the dungeon are made of slimey goo, anyone getting too close must make a save"
+              aria-describedby="description-help-block"
+              rows="10"
+              required
+            ></b-form-textarea>
+            <b-form-text id="description-help-block">
+              Describe the encounter, what the adventurers encounter, what
+              challenge there may be, etc.
+            </b-form-text>
+            <b-form-invalid-feedback
+              >Description is invalid</b-form-invalid-feedback
+            >
+          </b-form-group>
+          <b-form-group
+            id="input-group-reward"
+            label="Reward:"
+            label-for="input-reward"
+          >
+            <b-form-input
+              id="input-reward"
+              v-model="form.reward"
+              placeholder="3d20+50 gold and the Sword of Hannah"
+              aria-describedby="reward-help-block"
+              required
+            ></b-form-input>
+            <b-form-text id="reward-help-block"
+              >What are possible rewards for the adventurers?</b-form-text
+            >
+            <b-form-invalid-feedback>Reward is invalid</b-form-invalid-feedback>
+          </b-form-group>
+          <b-form-group
+            id="input-group-group"
+            label="Group:"
+            label-for="input-group"
+          >
+            <b-form-input
+              id="input-group"
+              v-model="form.group"
+              placeholder="The Adventurers"
+              aria-describedby="group-help-block"
+              required
+            ></b-form-input>
+            <b-form-text id="group-help-block"
+              >If this encounter is made for a specific adventure or group of
+              adventurers you can mention them here.</b-form-text
+            >
+            <b-form-invalid-feedback>Group is invalid</b-form-invalid-feedback>
+          </b-form-group>
         </b-card-body>
       </b-form>
     </b-card>
@@ -128,13 +223,7 @@
 </template>
 
 <script lang="ts">
-// name: string
-// synopsis: string
 // tags: Tag[]
-// group? :string
-// flavorText: string
-// description: string
-// reward?: string
 // locations: Reference[]
 // creatures: ReferenceCount[]
 // environment: string[]
