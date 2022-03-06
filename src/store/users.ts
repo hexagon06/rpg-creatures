@@ -37,8 +37,6 @@ class UserActions extends Actions<UserState, UserGetters, UserMutations, UserAct
   async signIn (user: User) {
     this.mutations.setUser(user)
     await indexesStore.actions.initialize(user.uid)
-    // const token = await user.getIdTokenResult()
-    // this.mutations.setAdmin(token.claims.role?.toString().includes('admin'))
   }
 }
 

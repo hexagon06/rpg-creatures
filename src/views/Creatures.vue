@@ -34,30 +34,23 @@
 
 <script lang="ts">
 import Vue from "vue";
-import {
-  creatureStore,
-  creatureMapper,
-  abilityStore,
-  indexesMapper,
-} from "@/store";
+import { creatureStore, creatureMapper, indexesMapper } from "@/store";
 import { Creature } from "@/types/creatures";
+import { userMapper } from "@/store/users";
 
 export default Vue.extend({
   data() {
     return {
-      loading: true,
       sidebarCreatureOpen: false,
     };
   },
-  async created() {
-    if (!abilityStore.state.initialized) {
-      await abilityStore.actions.initialize();
-    }
-    this.loading = false;
-  },
   computed: {
-    ...indexesMapper.mapState(["creatures"]),
+    ...indexesMapper.mapState(["creatures", "initialized"]),
     ...creatureMapper.mapState(["selectedCreature"]),
+    ...userMapper.mapState(["currentUser"]),
+    loading(): boolean {
+      return this.initialized === false;
+    },
   },
   methods: {
     async selectCreatures(data: Creature[]) {
