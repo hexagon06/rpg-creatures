@@ -9,14 +9,14 @@
     </b-skeleton-wrapper>
   </div>
   <div v-else-if="editing">
-    <b-card class="m-3 text-left">
-      <b-form
-        @submit="save"
-        @reset="reset"
-        novalidate
-        :validated="validated"
-        ref="encounterForm"
-      >
+    <b-form
+      @submit.prevent="save"
+      @reset="reset"
+      novalidate
+      :validated="validated"
+      ref="encounterForm"
+    >
+      <b-card class="m-3 text-left">
         <b-card-title class="d-flex">
           <b-button type="submit" class="ml-auto">Save</b-button>
         </b-card-title>
@@ -56,7 +56,7 @@
               >One or two short sentences describing the encounter</b-form-text
             >
             <b-form-invalid-feedback
-              >Synopsis is invalid</b-form-invalid-feedback
+              >Synopsis is required</b-form-invalid-feedback
             >
           </b-form-group>
           <b-form-group
@@ -135,8 +135,31 @@
             <b-form-invalid-feedback>Group is invalid</b-form-invalid-feedback>
           </b-form-group>
         </b-card-body>
-      </b-form>
-    </b-card>
+      </b-card>
+      <b-card>
+        <b-card-body>
+          <b-form-group
+            id="input-creature-group"
+            label="Creatures"
+            label-for="input-creature"
+          >
+            <multiselect
+              id="input-size"
+              multiple
+              v-model="form.creatures"
+              :options="creatureOptions"
+              :clear-on-select="false"
+              :close-on-select="false"
+              :show-labels="true"
+              :preselect-first="false"
+              :preserve-search="true"
+              label="name"
+              track-by="id"
+            ></multiselect>
+          </b-form-group>
+        </b-card-body>
+      </b-card>
+    </b-form>
   </div>
   <div v-else>
     <!-- info card -->
@@ -203,15 +226,17 @@
 // locations: Reference[]
 // creatures: ReferenceCount[]
 // environment: string[]
-import { encounterStore } from "@/store";
+import { encounterStore, indexesMapper } from "@/store";
 import { fillEncounter } from "@/store/encounters";
 import { Encounter, FilledEncounter, ReferenceListItem } from "@/types";
 import { BForm } from "bootstrap-vue";
 import { cloneDeep } from "lodash";
 import Vue from "vue";
 import ArrayPills from "../shared/ArrayPills.vue";
+import { Multiselect } from "vue-multiselect";
+
 export default Vue.extend({
-  components: { ArrayPills },
+  components: { ArrayPills, Multiselect },
   data() {
     return {
       encounter: undefined as FilledEncounter | undefined,
@@ -237,6 +262,9 @@ export default Vue.extend({
     id: "fetchEncounter",
   },
   computed: {
+    ...indexesMapper.mapState({
+      creatureOptions: (state) => state.creatures,
+    }),
     loading(): boolean {
       return this.encounter === undefined;
     },
@@ -249,7 +277,7 @@ export default Vue.extend({
           return {
             id: c.id,
             label: c.name,
-            routerName: "Creatures",
+            routerName: "Creature Details",
           };
         }) ?? []
       );
