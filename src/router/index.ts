@@ -40,12 +40,12 @@ const routes: Array<RouteConfig> = [
   //   meta: { requiresAuth: true },
   //   component: () => import('../views/Abilities.vue')
   // },
-  {
-    path: '/maintenance',
-    name: 'Maintenance',
-    meta: { requiresAuth: true },
-    component: () => import('../views/Maintenance.vue')
-  },
+  // {
+  //   path: '/maintenance',
+  //   name: 'Maintenance',
+  //   meta: { requiresAuth: true },
+  //   component: () => import('../views/Maintenance.vue')
+  // },
 
   {
     path: '/encounter',

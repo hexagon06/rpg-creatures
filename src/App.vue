@@ -28,12 +28,12 @@ export default Vue.extend({
         { label: "Creatures", path: "/creatures", condition: true },
         // { label: "Shops", path: "/shops", condition: true },
         // { label: "Abilities", path: "/abilities", condition: true },
-        {
-          label: "Maintenance",
-          path: "/maintenance",
-          condition: true,
-          admin: true,
-        },
+        // {
+        //   label: "Maintenance",
+        //   path: "/maintenance",
+        //   condition: true,
+        //   admin: true,
+        // },
       ],
     };
   },
