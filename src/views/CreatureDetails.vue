@@ -81,10 +81,7 @@ export default Vue.extend({
       // Todo: set hpFormula
       await creatureStore.actions.updateCreature(this.creatureCopy);
       await filterStore.actions.fetchSearch();
-      // Hide the modal manually
-      this.$nextTick(() => {
-        this.$bvModal.hide("edit-modal");
-      });
+      this.$router.back();
     },
     checkFormValidity() {
       var form = this.$refs?.form as BForm;
