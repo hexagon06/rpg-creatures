@@ -14,6 +14,18 @@ export type CreatureBase = {
   type?: string
 }
 
+export function creatureLabel (creature: CreatureBase): string {
+  const descriptors: string[] = []
+
+  if (creature.cr !== undefined) descriptors.push(`CR${creature.cr}`)
+  if (creature.type !== undefined) descriptors.push(creature.type)
+  if (descriptors.length > 0) {
+    return `${creature.name} (${descriptors.join(' ')})`
+  } else {
+    return `${creature.name}`
+  }
+}
+
 export type CreatureIndex = Reference & CreatureBase
 
 export function getCreatureIndex (creature: Creature): CreatureIndex {

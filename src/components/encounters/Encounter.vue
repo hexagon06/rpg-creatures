@@ -1,5 +1,23 @@
 <template>
-  <div v-if="editing">
+  <div v-if="loading">
+    <b-card class="m-3 text-left sticky-top">
+      <b-skeleton-wrapper :loading="loading">
+        <template #loading>
+          <div class="d-flex">
+            <div class="flex-fill">
+              <b-skeleton height="2.5rem" width="40%"></b-skeleton>
+              <b-skeleton class="w-50 mt-3"></b-skeleton>
+            </div>
+            <b-skeleton
+              type="button"
+              class="ml-auto align-self-start"
+            ></b-skeleton>
+          </div>
+        </template>
+      </b-skeleton-wrapper>
+    </b-card>
+  </div>
+  <div v-else-if="editing">
     <b-form
       @submit.prevent="save"
       @reset="reset"
@@ -155,35 +173,21 @@
   <div v-else>
     <!-- info card -->
     <b-card class="m-3 text-left sticky-top">
-      <b-skeleton-wrapper :loading="loading">
-        <template #loading>
-          <div class="d-flex">
-            <div class="flex-fill">
-              <b-skeleton height="2.5rem" width="40%"></b-skeleton>
-              <b-skeleton class="w-50 mt-3"></b-skeleton>
-            </div>
-            <b-skeleton
-              type="button"
-              class="ml-auto align-self-start"
-            ></b-skeleton>
-          </div>
-        </template>
-        <b-card-title>
-          <div class="d-flex">
-            <h1>{{ encounter.name }}</h1>
-            <b-button
-              variant="primary"
-              @click="edit"
-              class="ml-auto align-self-start"
-            >
-              Edit
-            </b-button>
-          </div>
-        </b-card-title>
-        <b-card-text class="font-italic font-weight-bolder text-secondary">
-          {{ encounter.synopsis }}
-        </b-card-text>
-      </b-skeleton-wrapper>
+      <b-card-title>
+        <div class="d-flex">
+          <h1>{{ encounter.name }}</h1>
+          <b-button
+            variant="primary"
+            @click="edit"
+            class="ml-auto align-self-start"
+          >
+            Edit
+          </b-button>
+        </div>
+      </b-card-title>
+      <b-card-text class="font-italic font-weight-bolder text-secondary">
+        {{ encounter.synopsis }}
+      </b-card-text>
     </b-card>
     <!-- description card -->
     <b-card class="m-3 text-left">
@@ -230,9 +234,14 @@
 // tags: Tag[]
 // locations: Reference[]
 // environment: string[]
-import { encounterStore } from "@/store";
+import { encounterStore, indexesMapper } from "@/store";
 import { encounterMapper, fillEncounter } from "@/store/encounters";
-import { Encounter, FilledEncounter, ReferenceListItem } from "@/types";
+import {
+  creatureLabel,
+  Encounter,
+  FilledEncounter,
+  ReferenceListItem,
+} from "@/types";
 import { BForm } from "bootstrap-vue";
 import { cloneDeep } from "lodash";
 import Vue from "vue";
@@ -264,6 +273,9 @@ export default Vue.extend({
   },
   computed: {
     ...encounterMapper.mapState(["filledEncounter"]),
+    ...indexesMapper.mapState({
+      creatureOptions: (state) => state.creatures,
+    }),
     loading(): boolean {
       return this.encounter === undefined;
     },
@@ -275,7 +287,7 @@ export default Vue.extend({
         this.encounter?.creatures.map((c) => {
           return {
             id: c.id,
-            label: c.name,
+            label: creatureLabel(c),
             routerName: "Creature Details",
           };
         }) ?? []
