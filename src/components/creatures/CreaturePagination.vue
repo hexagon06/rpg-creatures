@@ -23,7 +23,7 @@
     <b-col sm="7" md="9" class="my-1">
       <b-pagination
         v-model="currentPage"
-        :total-rows="filteredCount"
+        :total-rows="creatureFilterResult.count"
         :per-page="perPage"
         align="fill"
         size="sm"
@@ -35,7 +35,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { creatureStore, creatureMapper } from "@/store";
+import { filterMapper, filterStore } from "@/store";
 
 export default Vue.extend({
   data() {
@@ -44,21 +44,27 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...creatureMapper.mapState(["filteredCount"]),
+    ...filterMapper.mapState(["creatureFilterResult"]),
     currentPage: {
       get(): number {
-        return creatureStore.state.currentPage;
+        return this.creatureFilterResult.currentPage;
       },
       set(value: number) {
-        creatureStore.mutations.setCurrentPage(value);
+        filterStore.actions.setCreatureFilterResult({
+          ...this.creatureFilterResult,
+          currentPage: value,
+        });
       },
     },
     perPage: {
       get(): number {
-        return creatureStore.state.perPage;
+        return this.creatureFilterResult.pageSize;
       },
       set(value: number) {
-        creatureStore.mutations.setPerPage(value);
+        filterStore.actions.setCreatureFilterResult({
+          ...this.creatureFilterResult,
+          pageSize: value,
+        });
       },
     },
   },

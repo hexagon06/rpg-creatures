@@ -91,7 +91,7 @@
       <pill-multiselect
         id="input-tags"
         v-model="ability.tags"
-        :options="abilityTagsOptions"
+        :options="tagsOptions"
         :taggable="true"
         @tag="tagTag"
         placeholder="Select or create tags"
@@ -142,7 +142,10 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...filterMapper.mapState(["abilityTagsOptions"]),
+    ...filterMapper.mapState(["abilityOptions"]),
+    tagsOptions(): string[] {
+      return this.abilityOptions.tags;
+    },
     formatResult() {
       const result = formatAbilityForCreature(
         this.ability.text,

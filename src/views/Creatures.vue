@@ -5,7 +5,8 @@
       v-model="sidebarCreatureOpen"
     ></creature-sidebar>
     <div class="d-flex">
-      <creature-filters class="flex-fill py-2" />
+      <div></div>
+      <creature-filters v-if="!loading" class="flex-fill py-2" />
       <create-creature> </create-creature>
     </div>
     <div class="flex-1-1-0" style="overflow: auto">
@@ -33,27 +34,23 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { creatureStore, creatureMapper, abilityStore } from "@/store";
+import { creatureStore, creatureMapper, indexesMapper } from "@/store";
 import { Creature } from "@/types/creatures";
+import { userMapper } from "@/store/users";
 
 export default Vue.extend({
   data() {
     return {
-      loading: true,
       sidebarCreatureOpen: false,
     };
   },
-  async created() {
-    if (!creatureStore.state.initialized) {
-      await creatureStore.actions.initialize();
-    }
-    if (!abilityStore.state.initialized) {
-      await abilityStore.actions.initialize();
-    }
-    this.loading = false;
-  },
   computed: {
-    ...creatureMapper.mapState(["creatures", "selectedCreature"]),
+    ...indexesMapper.mapState(["creatures", "initialized"]),
+    ...creatureMapper.mapState(["selectedCreature"]),
+    ...userMapper.mapState(["currentUser"]),
+    loading(): boolean {
+      return this.initialized === false;
+    },
   },
   methods: {
     async selectCreatures(data: Creature[]) {

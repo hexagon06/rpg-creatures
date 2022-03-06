@@ -2,7 +2,9 @@
   <div class="container-fluid d-flex">
     <b-button v-b-toggle.filters variant="primary"
       >Filters
-      <span v-if="filterCount">({{ filteredCount }}/{{ creatureCount }})</span>
+      <span v-if="filteredCount">
+        ({{ filteredCount }}/{{ creatureCount }})
+      </span>
     </b-button>
     <b-collapse id="filters" v-b-visible="filtersAreVisible">
       <div class="d-flex flex-wrap justify-content-start mx-2">
@@ -74,14 +76,14 @@
             :options="sourceOptions"
           ></pill-multiselect>
         </div>
-        <div class="mr-2">
+        <!-- <div class="mr-2">
           <label for="favorite-filter">Favorite:</label>
           <pill-multiselect
             id="favorite-filter"
             v-model="favoriteFilter"
             :options="favoriteOptions"
           ></pill-multiselect>
-        </div>
+        </div> -->
       </div>
     </b-collapse>
     <span v-if="showRecap" class="align-self-center ml-2 text-info">{{
@@ -93,12 +95,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { Multiselect } from "vue-multiselect";
-import {
-  creatureStore,
-  filterStore,
-  creatureMapper,
-  filterMapper,
-} from "@/store";
+import { filterStore, filterMapper, indexesStore } from "@/store";
 
 const IS_FAVORITE = "is favorite";
 
@@ -121,21 +118,37 @@ export default Vue.extend({
     await filterStore.actions.fetchSearch();
   },
   computed: {
-    ...filterMapper.mapState([
-      "sizeOptions",
-      "crOptions",
-      "typeOptions",
-      "tagsOptions",
-      "systemOptions",
-      "environmentOptions",
-      "sourceOptions",
-    ]),
-    ...creatureMapper.mapState(["filteredCount"]),
-    creatureCount(): number {
-      return creatureStore.state.creatures.length;
+    ...filterMapper.mapState(["creatureOptions", "creatureFilter"]),
+    tagsOptions(): string[] {
+      return this.creatureOptions.tags;
     },
-    filterCount(): number {
-      return this.creatureCount - this.filteredCount;
+    environmentOptions(): string[] {
+      return this.creatureOptions.environment;
+    },
+    organisationOptions(): string[] {
+      return this.creatureOptions.organisation;
+    },
+    sizeOptions(): string[] {
+      return this.creatureOptions.size;
+    },
+    crOptions(): number[] {
+      return this.creatureOptions.cr;
+    },
+    typeOptions(): string[] {
+      return this.creatureOptions.type;
+    },
+    systemOptions(): string[] {
+      return this.creatureOptions.system;
+    },
+    sourceOptions(): string[] {
+      return this.creatureOptions.source;
+    },
+    ...filterMapper.mapState(["creatureFilter", "creatureFilterResult"]),
+    creatureCount(): number {
+      return indexesStore.state.creatures.length;
+    },
+    filteredCount(): number {
+      return this.creatureFilterResult.count;
     },
     recap(): string {
       const allOptions = [
@@ -147,84 +160,108 @@ export default Vue.extend({
         stringFilter(this.typeFilter, "is"),
         stringFilter(this.systemFilter, "for"),
         stringFilter(this.crFilter, "CR is"),
-        this.favoriteFilter.length > 0 ? "is favorite" : "",
+        // this.favoriteFilter.length > 0 ? "is favorite" : "",
       ];
       return allOptions.join(" ");
     },
     search: {
       get(): string {
-        return filterStore.state.search;
+        return filterStore.state.creatureFilter.search;
       },
       set(value: string): void {
-        filterStore.actions.setSearch(value);
+        filterStore.actions.setCreatureFilter({
+          ...this.creatureFilter,
+          search: value,
+        });
       },
     },
     sizeFilter: {
       get(): string[] {
-        return filterStore.state.sizeSelection;
+        return filterStore.state.creatureFilter.size;
       },
       set(value: string[]) {
-        return filterStore.actions.setSizes(value);
+        filterStore.actions.setCreatureFilter({
+          ...this.creatureFilter,
+          size: value,
+        });
       },
     },
     crFilter: {
       get(): number[] {
-        return filterStore.state.crSelection;
+        return filterStore.state.creatureFilter.cr;
       },
       async set(value: number[]) {
-        await filterStore.actions.setCR(value);
+        filterStore.actions.setCreatureFilter({
+          ...this.creatureFilter,
+          cr: value,
+        });
       },
     },
     tagsFilter: {
       get(): string[] {
-        return filterStore.state.tagsSelection;
+        return filterStore.state.creatureFilter.tags;
       },
       async set(value: string[]) {
-        await filterStore.actions.setTags(value);
+        filterStore.actions.setCreatureFilter({
+          ...this.creatureFilter,
+          tags: value,
+        });
       },
     },
     systemFilter: {
       get(): string[] {
-        return filterStore.state.systemSelection;
+        return filterStore.state.creatureFilter.system;
       },
       async set(value: string[]) {
-        await filterStore.actions.setSystems(value);
+        filterStore.actions.setCreatureFilter({
+          ...this.creatureFilter,
+          system: value,
+        });
       },
     },
     typeFilter: {
       get(): string[] {
-        return filterStore.state.typeSelection;
+        return filterStore.state.creatureFilter.type;
       },
       async set(value: string[]) {
-        await filterStore.actions.setTypes(value);
+        filterStore.actions.setCreatureFilter({
+          ...this.creatureFilter,
+          type: value,
+        });
       },
     },
     environmentFilter: {
       get(): string[] {
-        return filterStore.state.environmentSelection;
+        return filterStore.state.creatureFilter.environment;
       },
       async set(value: string[]) {
-        await filterStore.actions.setEnvironments(value);
+        filterStore.actions.setCreatureFilter({
+          ...this.creatureFilter,
+          environment: value,
+        });
       },
     },
     sourceFilter: {
       get(): string[] {
-        return filterStore.state.sourceSelection;
+        return filterStore.state.creatureFilter.source;
       },
       async set(value: string[]) {
-        await filterStore.actions.setSources(value);
+        filterStore.actions.setCreatureFilter({
+          ...this.creatureFilter,
+          source: value,
+        });
       },
     },
-    favoriteFilter: {
-      get(): string[] {
-        return filterStore.state.favoriteSelection ? [IS_FAVORITE] : [];
-      },
-      async set(value: string[]) {
-        await filterStore.actions.setFavorites(
-          value.findIndex((v) => v === IS_FAVORITE) !== -1
-        );
-      },
-    },
+    // favoriteFilter: {
+    //   get(): string[] {
+    //     return filterStore.state.creatureFilter.favorite ? [IS_FAVORITE] : [];
+    //   },
+    //   async set(value: string[]) {
+    //     await filterStore.actions.setFavorites(
+    //       value.findIndex((v) => v === IS_FAVORITE) !== -1
+    //     );
+    //   },
+    // },
   },
   methods: {
     filtersAreVisible(isVisible: boolean) {

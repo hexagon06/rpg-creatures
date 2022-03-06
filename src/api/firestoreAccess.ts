@@ -1,5 +1,6 @@
 import { IdItem } from '@/types'
-import { addDoc, collection, deleteDoc, doc, Firestore, getDoc, setDoc, updateDoc, writeBatch } from 'firebase/firestore'
+import { addDoc, collection, deleteDoc, doc, Firestore, getDoc, Query, query, setDoc, updateDoc, writeBatch } from 'firebase/firestore'
+import { cloneDeep } from 'lodash'
 import { getCollection } from './firestoreUtils'
 
 export class FirestoreAcces<T extends IdItem> {
@@ -9,6 +10,10 @@ export class FirestoreAcces<T extends IdItem> {
   constructor(
     private readonly db: Firestore,
     private readonly collection: string) {
+  }
+
+  ref () {
+    return collection(this.db, this.collection)
   }
 
   async get (): Promise<T[]> {
@@ -41,6 +46,7 @@ export class FirestoreAcces<T extends IdItem> {
   async add (item: T): Promise<string> {
     // https://firebase.google.com/docs/firestore/manage-data/add-data#add_a_document
     try {
+      delete item.id
       const reference = await addDoc(collection(this.db, this.collection), item)
       return reference.id
     } catch (error) {
@@ -49,11 +55,21 @@ export class FirestoreAcces<T extends IdItem> {
     }
   }
 
+  async addAt (item: T, path: string): Promise<void> {
+    try {
+      delete item.id
+      await setDoc(doc(this.db, this.collection, path), item)
+    } catch (error) {
+      console.error(`Error adding document to collection "${this.collection}" at ${path}: `, error)
+      throw error
+    }
+  }
+
   async update (item: T): Promise<void> {
     // https://firebase.google.com/docs/firestore/manage-data/add-data#update-data
     const { id } = item
     if (id === undefined) throw new Error('item.id is undefined, use add(item) instead')
-    const entity = item as any
+    const entity = cloneDeep(item) as any
     delete entity.id
     try {
       await updateDoc(doc(this.db, this.collection, id), entity)

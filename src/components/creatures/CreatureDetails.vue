@@ -167,7 +167,7 @@ export default Vue.extend({
       return this.hpFormula.length > 0;
     },
     mappedAbilities(): MappedAbility[] {
-      return this.value.abilityKeys.map((ak) =>
+      return this.value.abilityKeys.map((ak: string) =>
         toMappedAbility(this.abilities, toAbilityValues(ak))
       );
     },

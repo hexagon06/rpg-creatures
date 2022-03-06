@@ -492,11 +492,16 @@ export default Vue.extend({
     }
   },
   computed: {
-    ...filterMapper.mapState([
-      "tagsOptions",
-      "environmentOptions",
-      "organisationOptions",
-    ]),
+    ...filterMapper.mapState(["creatureOptions"]),
+    tagsOptions(): string[] {
+      return this.creatureOptions.tags;
+    },
+    environmentOptions(): string[] {
+      return this.creatureOptions.environment;
+    },
+    organisationOptions(): string[] {
+      return this.creatureOptions.organisation;
+    },
     strMod(): number | undefined {
       return toMod(this.creature.strength);
     },

@@ -22,7 +22,6 @@
     <template #cell(id)="data">
       <router-link
         :to="{ name: 'Creature Details', params: { id: data.value } }"
-        target="_blank"
       >
         <font-awesome-icon icon="fa-regular fa-pen-to-square"
       /></router-link>
@@ -40,9 +39,6 @@
     <template #cell(tags)="data">
       <array-pills :data="data.value" :variant="'badge-success'" />
     </template>
-    <template #cell(alignment)="data">
-      <alignment :values="data.value" />
-    </template>
     <template #cell(image)="data">
       <thumbnail v-if="data.value" :url="data.value" />
     </template>
@@ -53,13 +49,9 @@
 import Vue, { PropType } from "vue";
 import { BTable } from "bootstrap-vue";
 import { difference } from "lodash";
-import { Creature } from "@/types/creatures";
-import {
-  creatureStore,
-  creatureMapper,
-  CreatureFilter,
-  filterMapper,
-} from "@/store";
+import { CreatureIndex } from "@/types/creatures";
+import { filterMapper, filterStore } from "@/store";
+import { CreatureFilter } from "@/types/filter";
 
 export default Vue.extend({
   components: {
@@ -67,7 +59,7 @@ export default Vue.extend({
   },
   props: {
     creatures: {
-      type: Array as PropType<Creature[]>,
+      type: Array as PropType<CreatureIndex[]>,
       required: true,
     },
   },
@@ -84,7 +76,6 @@ export default Vue.extend({
         { key: "cr", label: "CR", sortable: true },
         { key: "environment" }, // needs formatter
         { key: "tags" }, // needs formatter
-        { key: "alignment" }, // needs formatter
         { key: "page", sortable: true },
         { key: "system" },
         { key: "id", label: "" },
@@ -93,20 +84,25 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...creatureMapper.mapState(["currentPage", "perPage"]),
-    ...filterMapper.mapState(["search"]),
+    ...filterMapper.mapState(["creatureFilter", "creatureFilterResult"]),
     ...filterMapper.mapGetters(["getFilter"]),
     filter(): CreatureFilter {
       return this.getFilter();
     },
-    tableCreatures(): (Creature & { _rowVariant?: string })[] {
+    tableCreatures(): (CreatureIndex & { _rowVariant?: string })[] {
       return this.creatures.map((c) => {
         return { ...c, _rowVariant: c.favorite ? "warning" : undefined };
       });
     },
+    currentPage(): number {
+      return this.creatureFilterResult.currentPage;
+    },
+    perPage(): number {
+      return this.creatureFilterResult.pageSize;
+    },
   },
   methods: {
-    filterFunction(data: Creature, filter: CreatureFilter): boolean {
+    filterFunction(data: CreatureIndex, filter: CreatureFilter): boolean {
       return (
         data.name.toLowerCase().includes(filter.search.toLowerCase()) &&
         valueIsInSet(data.size, filter.size) &&
@@ -119,11 +115,14 @@ export default Vue.extend({
         valueIsFilter(data.favorite, filter.favorite)
       );
     },
-    onFiltered(filteredItems: Creature[]): void {
+    onFiltered(filteredItems: CreatureIndex[]): void {
       // Trigger pagination to update the number of buttons/pages due to filtering
-      creatureStore.mutations.setFilteredCount(filteredItems.length);
+      filterStore.actions.setCreatureFilterResult({
+        ...this.creatureFilterResult,
+        count: filteredItems.length,
+      });
     },
-    selectCreature(items: Creature[]) {
+    selectCreature(items: CreatureIndex[]) {
       if (items.length > 0) {
         this.$emit("select", items);
         var table = this.$refs.creatureTable;

@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="container-fluid mh-100 h-100 d-flex flex-column">
-    <div class="d-flex">
+    <div class="d-flex shadow-sm">
       <div id="nav" class="header">
         <span v-for="(link, i) in filteredLinks" :key="i"
           >{{ i > 0 ? " | " : ""
@@ -17,24 +17,37 @@
 <script lang="ts">
 import Vue from "vue";
 import { userStore } from "./store";
+import { userMapper } from "./store/users";
 
 export default Vue.extend({
   data() {
     return {
       links: [
-        { label: "Home", path: "/" },
+        { label: "Home", path: "/home" },
+        { label: "Encounters", path: "/encounter", condition: true },
         { label: "Creatures", path: "/creatures", condition: true },
-        { label: "Shops", path: "/shops", condition: true },
-        { label: "Abilities", path: "/abilities", condition: true },
+        // { label: "Shops", path: "/shops", condition: true },
+        // { label: "Abilities", path: "/abilities", condition: true },
+        {
+          label: "Maintenance",
+          path: "/maintenance",
+          condition: true,
+          admin: true,
+        },
       ],
     };
   },
   computed: {
+    ...userMapper.mapState(["isAdmin"]),
     signedIn(): boolean {
       return userStore.getters.isIsSignedIn();
     },
     filteredLinks(): { label: string; path: string }[] {
-      return this.links.filter((l) => (l.condition ? this.signedIn : true));
+      return this.links.filter((l) => {
+        const c = l.condition ? this.signedIn : true;
+        const a = true; //l.admin ? this.isAdmin : true;
+        return c && a;
+      });
     },
   },
 });
@@ -57,7 +70,7 @@ export default Vue.extend({
     font-weight: bold;
     color: #2c3e50;
 
-    &.router-link-exact-active {
+    &.router-link-active {
       color: #42b983;
     }
   }

@@ -5,6 +5,8 @@ import { FirestoreAcces } from './firestoreAccess'
 const CREATURE_COLLECTION = 'creatures'
 
 export async function getCreatures (): Promise<Creature[]> {
+  console.warn('should not use getCreatures')
+
   try {
     const firestore = new FirestoreAcces<Creature>(firebaseClient.store, CREATURE_COLLECTION)
 

@@ -48,7 +48,7 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...filterMapper.mapState(["search"]),
+    // ...filterMapper.mapState(["search"]),
     ...filterMapper.mapGetters(["getFilter"]),
     tableAbilities(): (Ability & { _rowVariant?: string })[] {
       return this.abilities;
