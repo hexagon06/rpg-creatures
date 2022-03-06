@@ -51,16 +51,21 @@ class IndexesMutations extends Mutations<IndexesState> {
 }
 
 class IndexesActions extends Actions<IndexesState, IndexesGetters, IndexesMutations, IndexesActions> {
+  private initHandler?: Promise<void>
+
   async initialize (userId: string) {
-    if (!this.state.initialized || userId != this.state.userId) {
+    if (this.initHandler) return this.initHandler
+    else if (!this.state.initialized || userId != this.state.userId) {
       if (userStore.state.currentUser && !userStore.state.currentUser.isAnonymous) {
         const userId = userStore.state.currentUser.uid
-
-        const indexes = await initializeIndexes(userId)
-        this.mutations.set(indexes)
+        this.initHandler = initializeIndexes(userId).then(indexes => {
+          this.mutations.set(indexes)
+          this.mutations.inititialized()
+        })
+      } else {
+        this.initHandler = Promise.resolve()
+        this.mutations.inititialized()
       }
-
-      this.mutations.inititialized()
     }
   }
 

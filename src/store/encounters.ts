@@ -1,7 +1,9 @@
 import { createEncounter, getEncounter, updateEncounter } from '@/api/encounterApi'
 import { Encounter, EncounterIndex, FilledEncounter, getEncounterIndex } from '@/types'
+import { cloneDeep } from 'lodash'
+import Vue from 'vue'
 import { Getters, Module, createMapper, Actions, Mutations } from 'vuex-smart-module'
-import { indexesStore } from '.'
+import { indexesStore, userStore } from '.'
 
 class EncounterState {
   encounter?: Encounter
@@ -13,10 +15,12 @@ class EncounterGetters extends Getters<EncounterState> {
 
 class EncounterMutations extends Mutations<EncounterState> {
   select (encounter: Encounter) {
-    this.state.encounter = encounter
+    // this.state.encounter = encounter
+    Vue.set(this.state, 'encounter', cloneDeep(encounter))
   }
   selectFilled (encounter: FilledEncounter) {
-    this.state.filledEncounter = encounter
+    // this.state.filledEncounter = encounter
+    Vue.set(this.state, 'filledEncounter', cloneDeep(encounter))
   }
 }
 
@@ -38,13 +42,17 @@ class EncounterActions extends Actions<EncounterState, EncounterGetters, Encount
     this.mutations.select(encounter)
   }
   async fetch (id: string) {
+    this.state.encounter = undefined
+    this.state.filledEncounter = undefined
+
     const encounter = await getEncounter(id)
 
     if (encounter) {
-      this.mutations.select(encounter)
+      this.commit('select', encounter)
       // TODO: fetch all linked items
       const filled: FilledEncounter = fillEncounter(encounter)
-      this.mutations.selectFilled(filled)
+      this.commit('selectFilled', filled)
+
     }
     else throw new Error('encounter not found')
   }
