@@ -3,7 +3,7 @@
     <b-container>
       <b-row>
         <b-col>
-          <b-button @click="updateCreatureIndexes">
+          <b-button @click="updateCreatureIndexes" disabled>
             Update Creatures Indexes
           </b-button>
         </b-col>
@@ -22,21 +22,15 @@
 </template>
 
 <script lang="ts">
-import { getCreatures } from "@/api/creature";
-import { setCreatureIndexes } from "@/api/indexes";
-import { Creature, getCreatureIndex } from "@/types";
-
 import Vue from "vue";
 export default Vue.extend({
   methods: {
     async updateCreatureIndexes() {
-      const creatures = (await getCreatures()) as Creature[];
-      console.log(creatures);
-
-      const indexes = creatures.map((c) => getCreatureIndex(c));
-      console.log(indexes);
-
-      await setCreatureIndexes(indexes);
+      // const creatures = (await getCreatures()) as Creature[];
+      // console.log(creatures);
+      // const indexes = creatures.map((c) => getCreatureIndex(c));
+      // console.log(indexes);
+      // await setCreatureIndexes(indexes);
     },
   },
 });
