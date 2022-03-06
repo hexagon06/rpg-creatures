@@ -33,12 +33,7 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import { BTable } from "bootstrap-vue";
-import {
-  creatureStore,
-  creatureMapper,
-  CreatureFilter,
-  filterMapper,
-} from "@/store";
+import { filterMapper } from "@/store";
 import { Shop, ShopFilter } from "@/types/shops";
 
 export default Vue.extend({
@@ -67,15 +62,15 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...creatureMapper.mapState(["currentPage", "perPage"]),
-    ...filterMapper.mapState(["search"]),
-    ...filterMapper.mapGetters(["getFilter"]),
-    filter(): CreatureFilter {
-      return this.getFilter();
-    },
-    tableShops(): (Shop & { _rowVariant?: string })[] {
-      return this.shops;
-    },
+    // ...creatureMapper.mapState(["currentPage", "perPage"]),
+    // ...filterMapper.mapState(["search"]),
+    // ...filterMapper.mapGetters(["getFilter"]),
+    // filter(): CreatureFilter {
+    //   return this.getFilter();
+    // },
+    // tableShops(): (Shop & { _rowVariant?: string })[] {
+    //   return this.shops;
+    // },
   },
   methods: {
     filterFunction(data: Shop, filter: ShopFilter): boolean {
@@ -83,7 +78,7 @@ export default Vue.extend({
     },
     onFiltered(filteredItems: Shop[]): void {
       // Trigger pagination to update the number of buttons/pages due to filtering
-      creatureStore.mutations.setFilteredCount(filteredItems.length);
+      // creatureStore.mutations.setFilteredCount(filteredItems.length);
     },
     selectShop(items: Shop[]) {
       if (items.length > 0) {

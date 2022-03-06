@@ -27,7 +27,12 @@
 </template>
 
 <script lang="ts">
-import { abilityStore, creatureStore, filterStore } from "@/store";
+import {
+  abilityStore,
+  creatureMapper,
+  creatureStore,
+  filterStore,
+} from "@/store";
 import { Creature } from "@/types/creatures";
 import { BForm } from "bootstrap-vue";
 import { cloneDeep } from "lodash";
@@ -43,24 +48,30 @@ export default Vue.extend({
     };
   },
   computed: {
+    ...creatureMapper.mapState(["selectedCreature"]),
+
     id(): string {
       return this.$route.params.id;
     },
+  },
+  watch: {
+    selectedCreature: "updateFromStore",
   },
   async created() {
     if (!abilityStore.state.initialized) {
       await abilityStore.actions.initialize();
     }
-    if (!creatureStore.state.initialized) {
-      await creatureStore.actions.initialize();
-    }
-    var creature = creatureStore.getters.get(this.id);
-    if (creature) {
-      this.creatureCopy = cloneDeep(creature);
-    }
+    await creatureStore.actions.setSelectedCreature(this.id);
     this.isLoading = false;
   },
   methods: {
+    updateFromStore() {
+      console.log("updateFromStore");
+      var creature = creatureStore.state.selectedCreature; //.getters.get(this.id);
+      if (creature) {
+        this.creatureCopy = cloneDeep(creature);
+      }
+    },
     async handleSubmit() {
       // Exit when the form isn't valid
       if (!this.checkFormValidity()) {

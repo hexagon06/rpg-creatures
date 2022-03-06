@@ -1,4 +1,4 @@
-import { getAuth, connectAuthEmulator, signInWithEmailAndPassword, UserCredential, signOut as signAuthOut, isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth"
+import { getAuth, connectAuthEmulator, signInWithEmailAndPassword, UserCredential, signOut as signAuthOut } from "firebase/auth"
 
 export const auth = getAuth()
 if (process.env.NODE_ENV === 'development') {

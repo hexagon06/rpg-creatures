@@ -1,84 +1,37 @@
 import { Getters, Module, createMapper, Actions, Mutations } from 'vuex-smart-module'
-import { abilityStore, creatureStore } from '.'
+import { abilityStore, indexesStore } from '.'
 import { filter, uniq } from 'lodash'
+import { AbillityFilterOptions, CreatureFilter, CreatureFilterOptions, defaultCreatureFilterOptions, defaultResult, FilterResult } from '@/types/filter'
 
 const KEY_CREATURE_FILTERS = 'creature-filters'
 
 export type NumberBounds = { min: number, max: number }
-export type CreatureFilter = {
-  search: string,
-  size: string[],
-  type: string[],
-  environment: string[],
-  tags: string[],
-  system: string[],
-  cr: number[],
-  source: string[],
-  favorite: boolean,
-}
 
 class FilterState {
   initialized: boolean = false
-  search = '';
-  sizeOptions: string[] = [];
-  sizeSelection: string[] = [];
-  typeOptions: string[] = [];
-  typeSelection: string[] = [];
-  environmentOptions: string[] = [];
-  environmentSelection: string[] = [];
-  tagsOptions: string[] = [];
-  tagsSelection: string[] = [];
-  abilityTagsOptions: string[] = [];
-  systemOptions: string[] = [];
-  systemSelection: string[] = [];
-  crOptions: number[] = [];
-  crSelection: number[] = [];
-  organisationOptions: string[] = ['not loaded'];
-  sourceSelection: string[] = [];
-  sourceOptions: string[] = [];
-  favoriteSelection: boolean = false;
+
+  creatureFilter: CreatureFilter = new CreatureFilter()
+  creatureOptions: CreatureFilterOptions = defaultCreatureFilterOptions()
+  creatureFilterResult: FilterResult = defaultResult()
+
+  abilityOptions: AbillityFilterOptions = {
+    tags: []
+  }
 }
 
 class FilterGetters extends Getters<FilterState> {
   getFilter (): CreatureFilter {
-    return {
-      search: this.state.search,
-      size: this.state.sizeSelection,
-      type: this.state.typeSelection,
-      environment: this.state.environmentSelection,
-      tags: this.state.tagsSelection,
-      system: this.state.systemSelection,
-      cr: this.state.crSelection,
-      source: this.state.sourceSelection,
-      favorite: this.state.favoriteSelection
-    }
+    return this.state.creatureFilter
   }
 }
 
 class FilterMutations extends Mutations<FilterState> {
-  setSearch (search: string) {
-    this.state.search = search
+  setCreatureFilter (filter: CreatureFilter) {
+    Object.assign(this.state.creatureFilter, filter)
+    // Vue.set(this.state, 'selectedCreature', creature)
   }
-  setSizes (sizes: string[]) {
-    this.state.sizeSelection = sizes
-  }
-  setTypes (sizes: string[]) {
-    this.state.typeSelection = sizes
-  }
-  setEnvironments (sizes: string[]) {
-    this.state.environmentSelection = sizes
-  }
-  setTags (sizes: string[]) {
-    this.state.tagsSelection = sizes
-  }
-  setSystems (sizes: string[]) {
-    this.state.systemSelection = sizes
-  }
-  setSources (sources: string[]) {
-    this.state.sourceSelection = sources
-  }
-  setFavorite (favorite: boolean) {
-    this.state.favoriteSelection = favorite
+  setCreatureFilterResult (result: FilterResult) {
+    Object.assign(this.state.creatureFilterResult, result)
   }
   setFilterOptions (options: {
     sizeOptions: string[],
@@ -91,29 +44,27 @@ class FilterMutations extends Mutations<FilterState> {
     sourceOptions: string[],
   }): void {
     const { sizeOptions, typeOptions, environmentOptions, tagsOptions, abilityTagsOptions, systemOptions, crOptions, sourceOptions } = options
-    this.state.sizeOptions = sizeOptions
-    this.state.typeOptions = typeOptions
-    this.state.environmentOptions = environmentOptions
-    this.state.tagsOptions = tagsOptions
-    this.state.abilityTagsOptions = abilityTagsOptions
-    this.state.systemOptions = systemOptions
-    this.state.crOptions = crOptions
-    this.state.sourceOptions = sourceOptions
-  }
-  setCR (sizes: number[]) {
-    this.state.crSelection = sizes
+    this.state.creatureOptions.size = sizeOptions
+    this.state.creatureOptions.type = typeOptions
+    this.state.creatureOptions.environment = environmentOptions
+    this.state.creatureOptions.tags = tagsOptions
+    this.state.creatureOptions.system = systemOptions
+    this.state.creatureOptions.cr = crOptions
+    this.state.creatureOptions.source = sourceOptions
+
+    this.state.abilityOptions.tags = abilityTagsOptions
   }
   addEnvironment (environment: string) {
-    this.state.environmentOptions.push(environment)
+    this.state.creatureOptions.environment.push(environment)
   }
   addOrganisation (organisation: string) {
-    this.state.organisationOptions.push(organisation)
+    this.state.creatureOptions.organisation.push(organisation)
   }
   addTag (tag: string) {
-    this.state.tagsOptions.push(tag)
+    this.state.creatureOptions.tags.push(tag)
   }
   addAbilityTag (tag: string) {
-    this.state.abilityTagsOptions.push(tag)
+    this.state.abilityOptions.tags.push(tag)
   }
   setInitialized (init: boolean) {
     this.state.initialized = init
@@ -121,71 +72,25 @@ class FilterMutations extends Mutations<FilterState> {
 }
 
 class FilterActions extends Actions<FilterState, FilterGetters, FilterMutations, FilterActions> {
-  setSearch (sizes: string) {
-    this.mutations.setSearch(sizes)
-    this.actions.storeSelection()
-  }
-  setSizes (sizes: string[]) {
-    this.mutations.setSizes(sizes)
-    this.actions.storeSelection()
-  }
-  setTypes (sizes: string[]) {
-    this.mutations.setTypes(sizes)
-    this.actions.storeSelection()
-  }
-  setEnvironments (sizes: string[]) {
-    this.mutations.setEnvironments(sizes)
-    this.actions.storeSelection()
-  }
-  setTags (sizes: string[]) {
-    this.mutations.setTags(sizes)
-    this.actions.storeSelection()
-  }
-  setSystems (sizes: string[]) {
-    this.mutations.setSystems(sizes)
-    this.actions.storeSelection()
-  }
-  setCR (sizes: number[]) {
-    this.mutations.setCR(sizes)
-    this.actions.storeSelection()
-  }
-  setSources (sources: string[]) {
-    this.mutations.setSources(sources)
-    this.actions.storeSelection()
-  }
-  setFavorites (favorite: boolean) {
-    this.mutations.setFavorite(favorite)
-    this.actions.storeSelection()
+  async setCreatureFilter (filter: CreatureFilter) {
+    this.mutations.setCreatureFilter(filter)
   }
 
   async fetchSearch () {
     var filterString = window.sessionStorage.getItem(KEY_CREATURE_FILTERS)
     if (filterString) {
-      var {
-        search,
-        sizeSelection,
-        typeSelection,
-        environmentSelection,
-        tagsSelection,
-        systemSelection,
-        crSelection,
-        sourceSelection,
-        favoriteSelection } = JSON.parse(filterString)
+      var saved = JSON.parse(filterString)
 
-      if (search) this.mutations.setSearch(search)
-      if (sizeSelection) this.mutations.setSizes(sizeSelection)
-      if (typeSelection) this.mutations.setTypes(typeSelection)
-      if (environmentSelection) this.mutations.setEnvironments(environmentSelection)
-      if (tagsSelection) this.mutations.setTags(tagsSelection)
-      if (systemSelection) this.mutations.setSystems(systemSelection)
-      if (crSelection) this.mutations.setCR(crSelection)
-      if (sourceSelection) this.mutations.setSources(sourceSelection)
-      if (favoriteSelection) this.mutations.setFavorite(favoriteSelection)
+      if (saved?.creatureFilter) {
+        this.mutations.setCreatureFilter({
+          ...saved.creatureFilter
+        })
+      }
     }
 
-    if (!creatureStore.state.initialized) await creatureStore.actions.initialize()
+    if (!indexesStore.state.initialized) throw new Error('IndexStore should have been initialized before fetching search')
 
-    var creatures = creatureStore.state.creatures
+    var creatures = indexesStore.state.creatures
     var abilities = abilityStore.state.abilities
 
     this.mutations.setFilterOptions({
@@ -201,24 +106,17 @@ class FilterActions extends Actions<FilterState, FilterGetters, FilterMutations,
     this.mutations.setInitialized(true)
   }
   storeSelection () {
-    const {
-      search,
-      sizeSelection,
-      typeSelection,
-      environmentSelection,
-      tagsSelection,
-      systemSelection,
-      crSelection,
-      favoriteSelection } = this.state
+    // const {
+    //   search,
+    //   sizeSelection,
+    //   typeSelection,
+    //   environmentSelection,
+    //   tagsSelection,
+    //   systemSelection,
+    //   crSelection,
+    //   favoriteSelection } = this.state
     const selection = {
-      search,
-      sizeSelection,
-      typeSelection,
-      environmentSelection,
-      tagsSelection,
-      systemSelection,
-      crSelection,
-      favoriteSelection
+      creatureFilter: this.state.creatureFilter
     }
     window.sessionStorage.setItem(KEY_CREATURE_FILTERS, JSON.stringify(selection))
   }
@@ -233,6 +131,9 @@ class FilterActions extends Actions<FilterState, FilterGetters, FilterMutations,
   }
   async addAbilityTag (tag: string) {
     this.mutations.addAbilityTag(tag)
+  }
+  async setCreatureFilterResult (result: FilterResult) {
+    this.mutations.setCreatureFilterResult(result)
   }
 }
 

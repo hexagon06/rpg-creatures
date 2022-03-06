@@ -11,7 +11,7 @@ import { indexesModule } from './indexes'
 
 export { abilityMapper } from './abilities'
 export { creatureMapper } from './creatures'
-export { filterMapper, CreatureFilter } from './filter'
+export { filterMapper } from './filter'
 export { encounterMapper } from './encounters'
 export { shopMapper } from './shops'
 export { indexesMapper, } from './indexes'

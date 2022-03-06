@@ -27,27 +27,35 @@ const routes: Array<RouteConfig> = [
     meta: { requiresAuth: true },
     component: () => import('../views/Creatures.vue')
   },
+  // {
+  //   path: '/shops',
+  //   name: 'Shops',
+  //   meta: { requiresAuth: true },
+  //   component: () => import('../views/Shops.vue')
+  // },
+  // {
+  //   path: '/abilities',
+  //   name: 'Abilities',
+  //   meta: { requiresAuth: true },
+  //   component: () => import('../views/Abilities.vue')
+  // },
   {
-    path: '/shops',
-    name: 'Shops',
+    path: '/maintenance',
+    name: 'Maintenance',
     meta: { requiresAuth: true },
-    component: () => import('../views/Shops.vue')
-  },
-  {
-    path: '/abilities',
-    name: 'Abilities',
-    meta: { requiresAuth: true },
-    component: () => import('../views/Abilities.vue')
+    component: () => import('../views/Maintenance.vue')
   },
 
   {
     path: '/encounter',
     name: 'Encounters',
+    meta: { requiresAuth: true },
     component: () => import('../views/Encounters.vue'),
     children: [
       {
         path: ':id',
         name: 'Encounter',
+        meta: { requiresAuth: true },
         component: () => import('../components/encounters/Encounter.vue'),
         props: true
       },
@@ -60,12 +68,11 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (!userStore.getters.isIsSignedIn() && (to.name !== "Home" && to.name !== "Finish Signup")) {
-    next({ name: 'Home' })
+  if (to.meta) {
+    if (to.meta.requiresAuth && !userStore.getters.isIsSignedIn()) next({ name: 'Home' })
+    if (to.meta.requiresAdmin && !userStore.state.isAdmin) next({ name: 'Home' })
   }
-  else {
-    next()
-  }
+  next()
 })
 
 export default router

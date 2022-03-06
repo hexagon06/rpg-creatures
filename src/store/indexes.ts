@@ -1,5 +1,5 @@
 import { inititialize as initializeIndexes, set } from '@/api/indexes'
-import { EncounterIndex, Indexes } from '@/types'
+import { CreatureIndex, EncounterIndex, Indexes } from '@/types'
 import { deepCopy, deepExtend } from '@firebase/util'
 import { Getters, Module, createMapper, Actions, Mutations } from 'vuex-smart-module'
 import { userStore } from '.'
@@ -8,6 +8,7 @@ class IndexesState {
   initialized = false
   userId?: string
   encounters: EncounterIndex[] = []
+  creatures: CreatureIndex[] = []
 }
 
 class IndexesGetters extends Getters<IndexesState> {
@@ -26,11 +27,26 @@ class IndexesMutations extends Mutations<IndexesState> {
       this.state.encounters = encounters
     }
   }
+
+  addCreature (creature: CreatureIndex) {
+    this.state.creatures = this.state.creatures.concat([creature])
+  }
+  updateCreature (creature: CreatureIndex) {
+    const creatures = deepCopy(this.state.creatures)
+    const instance = creatures.find(e => e.id === creature.id)
+
+    if (instance) {
+      deepExtend(instance, creature)
+      this.state.creatures = creatures
+    }
+  }
+
   inititialized () {
     this.state.initialized = true
   }
   set (indexes: Indexes) {
     this.state.encounters = indexes.encounters
+    this.state.creatures = indexes.creatures
   }
 }
 
@@ -47,34 +63,40 @@ class IndexesActions extends Actions<IndexesState, IndexesGetters, IndexesMutati
       this.mutations.inititialized()
     }
   }
+
   async addEncounter (encounter: EncounterIndex) {
-    if (!this.state.initialized) {
-      throw new Error('initialize() should have been called')
-    }
-    this.mutations.addEncounter(encounter)
-    if (userStore.state.currentUser) {
-      set({
-        id: userStore.state.currentUser.uid,
-        encounters: this.state.encounters,
-      })
-    } else {
-      throw new Error(`expected user id to be set`)
-    }
+    this.dispatch('mutateIndex', () => this.mutations.addEncounter(encounter))
   }
   async updateEncounter (encounter: EncounterIndex) {
+    this.dispatch('mutateIndex', () => this.mutations.updateEncounter(encounter))
+  }
+
+  async addCreature (creature: CreatureIndex) {
+    this.dispatch('mutateIndex', () => this.mutations.addCreature(creature))
+  }
+  async updateCreature (creature: CreatureIndex) {
+    this.dispatch('mutateIndex', () => this.mutations.updateCreature(creature))
+  }
+
+  mutateIndex (mutation: () => void) {
     if (!this.state.initialized) {
       throw new Error('initialize() should have been called')
     }
-    this.mutations.updateEncounter(encounter)
+    mutation()
+    presistIndexes(this.state)
+  }
+}
 
-    if (userStore.state.currentUser) {
-      set({
-        id: userStore.state.currentUser.uid,
-        encounters: this.state.encounters,
-      })
-    } else {
-      throw new Error(`expected user id to be set`)
-    }
+function presistIndexes (data: { encounters: EncounterIndex[], creatures: CreatureIndex[] }) {
+  if (userStore.state.currentUser) {
+    const { encounters, creatures } = data
+    set({
+      id: userStore.state.currentUser.uid,
+      encounters,
+      creatures,
+    })
+  } else {
+    throw new Error(`expected user id to be set`)
   }
 }
 

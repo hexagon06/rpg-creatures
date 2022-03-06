@@ -204,6 +204,7 @@
 // creatures: ReferenceCount[]
 // environment: string[]
 import { encounterStore } from "@/store";
+import { fillEncounter } from "@/store/encounters";
 import { Encounter, FilledEncounter, ReferenceListItem } from "@/types";
 import { BForm } from "bootstrap-vue";
 import { cloneDeep } from "lodash";
@@ -222,7 +223,9 @@ export default Vue.extend({
   },
   async created() {
     await encounterStore.actions.fetch(this.id);
-    this.encounter = encounterStore.state.encounter;
+    if (encounterStore.state.encounter) {
+      this.encounter = fillEncounter(encounterStore.state.encounter);
+    }
   },
   props: {
     id: {
@@ -270,7 +273,9 @@ export default Vue.extend({
   methods: {
     async fetchEncounter(id: string) {
       await encounterStore.actions.fetch(id);
-      this.encounter = encounterStore.state.encounter;
+      if (encounterStore.state.encounter) {
+        this.encounter = fillEncounter(encounterStore.state.encounter);
+      }
       this.editing = false;
     },
     edit() {
@@ -288,8 +293,8 @@ export default Vue.extend({
           console.warn("invalid");
         } else {
           this.saving = true;
-          this.encounter = cloneDeep(this.form);
-          await encounterStore.actions.save(this.encounter);
+          this.encounter = fillEncounter(cloneDeep(this.form));
+          await encounterStore.actions.save(this.encounter!);
           this.saving = false;
           this.editing = false;
         }

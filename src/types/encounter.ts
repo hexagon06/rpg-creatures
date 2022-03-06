@@ -10,6 +10,15 @@ export type EncounterBase = {
 
 export type EncounterIndex = Reference & EncounterBase
 
+export function getEncounterIndex (id: string, encounter: Encounter): EncounterIndex {
+  return {
+    id: id,
+    name: encounter.name,
+    synopsis: encounter.synopsis,
+    tags: encounter.tags,
+  }
+}
+
 export type Encounter = IdItem & EncounterBase & {
   flavorText: string
   description: string

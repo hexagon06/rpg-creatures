@@ -26,18 +26,10 @@ import Vue from "vue";
 import { BForm, BvModalEvent } from "bootstrap-vue";
 import { creatureStore, filterStore } from "@/store";
 import { Creature } from "@/types/creatures";
+import { createDefaultCreature } from "@/shared";
 
 function createCreature(): Creature {
-  return {
-    name: "",
-    alignment: [],
-    organisation: [],
-    environment: [],
-    tags: [],
-    favorite: false,
-    abilityKeys: [],
-    nameIsNoun: false,
-  };
+  return createDefaultCreature("");
 }
 
 export default Vue.extend({

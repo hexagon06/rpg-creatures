@@ -7,6 +7,7 @@ import { indexesStore, userStore } from '.'
 
 class UserState {
   currentUser?: User
+  isAdmin: boolean = false
 }
 
 class UserGetters extends Getters<UserState> {
@@ -23,6 +24,9 @@ class UserMutations extends Mutations<UserState> {
       Vue.set(this.state, 'currentUser', user)
     }
   }
+  setAdmin (isAdmin: boolean) {
+    this.state.isAdmin = isAdmin
+  }
 }
 
 class UserActions extends Actions<UserState, UserGetters, UserMutations, UserActions> {
@@ -33,6 +37,8 @@ class UserActions extends Actions<UserState, UserGetters, UserMutations, UserAct
   async signIn (user: User) {
     this.mutations.setUser(user)
     await indexesStore.actions.initialize(user.uid)
+    // const token = await user.getIdTokenResult()
+    // this.mutations.setAdmin(token.claims.role?.toString().includes('admin'))
   }
 }
 
