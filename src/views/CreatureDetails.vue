@@ -65,7 +65,6 @@ export default Vue.extend({
   },
   methods: {
     updateFromStore() {
-      console.log("updateFromStore");
       var creature = creatureStore.state.selectedCreature; //.getters.get(this.id);
       if (creature) {
         this.creatureCopy = cloneDeep(creature);

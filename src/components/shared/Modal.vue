@@ -30,7 +30,17 @@
         >
           <button
             @click="cancel"
-            class="rounded-full bg-rouge border-gold border-2 w-8 h-8"
+            type="button"
+            class="
+              rounded-full
+              bg-rouge
+              border-gold border-2
+              w-8
+              h-8
+              flex
+              items-center
+              justify-center
+            "
           >
             <font-awesome-icon icon="fa-solid fa-xmark" />
           </button>
@@ -38,7 +48,16 @@
             @click="ok"
             type="submit"
             :disabled="!this.isValid"
-            class="rounded-full bg-rouge border-gold border-4 w-12 h-12"
+            class="
+              rounded-full
+              bg-rouge
+              border-gold border-4
+              w-12
+              h-12
+              flex
+              items-center
+              justify-center
+            "
           >
             <font-awesome-icon icon="fa-solid fa-check" />
           </button>
