@@ -1,22 +1,22 @@
 <template>
   <div>
     <b-container>
-      <b-row>
-        <b-col>
-          <b-button @click="updateCreatureIndexes" disabled>
+      <div>
+        <div>
+          <button @click="updateCreatureIndexes" disabled>
             Update Creatures Indexes
-          </b-button>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col><b-button disabled>Convert to new Tags</b-button></b-col>
-      </b-row>
-      <b-row>
-        <b-col><b-button disabled>Update abilities</b-button></b-col>
-      </b-row>
-      <b-row>
-        <b-col><b-button disabled>Update references</b-button></b-col>
-      </b-row>
+          </button>
+        </div>
+      </div>
+      <div>
+        <div><button disabled>Convert to new Tags</button></div>
+      </div>
+      <div>
+        <div><button disabled>Update abilities</button></div>
+      </div>
+      <div>
+        <div><button disabled>Update references</button></div>
+      </div>
     </b-container>
   </div>
 </template>

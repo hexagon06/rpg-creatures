@@ -1,7 +1,7 @@
 <template>
   <div>
-    <b-button v-b-modal.create-modal>Create</b-button>
-    <b-modal
+    <button>Create</button>
+    <div
       id="create-modal"
       title="Create-a-Creature"
       size="lg"
@@ -10,20 +10,19 @@
       @ok="ok"
       @hide="hide"
     >
-      <b-form
+      <form
         ref="form"
         @submit.stop.prevent="handleSubmit"
         :validated="validState.validated"
       >
         <creature-form v-model="creature" />
-      </b-form>
-    </b-modal>
+      </form>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { BForm, BvModalEvent } from "bootstrap-vue";
 import { creatureStore, filterStore } from "@/store";
 import { Creature } from "@/types/creatures";
 import { createDefaultCreature } from "@/shared";
@@ -50,7 +49,7 @@ export default Vue.extend({
       this.creature = { ...createCreature(), ...this.saved };
       this.validState.validated = false;
     },
-    async ok(e: BvModalEvent) {
+    async ok(e: Event) {
       e.preventDefault();
       await this.handleSubmit();
     },
@@ -72,19 +71,20 @@ export default Vue.extend({
       };
       // Hide the modal manually
       this.$nextTick(() => {
-        this.$bvModal.hide("create-modal");
+        // this.$bvModal.hide("create-modal");
       });
     },
     checkFormValidity() {
-      var form = this.$refs?.form as BForm;
-      const valid = form.checkValidity();
-      this.validState.validated = true;
-      return valid;
+      return false;
+      // var form = this.$refs?.form as BForm;
+      // const valid = form.checkValidity();
+      // this.validState.validated = true;
+      // return valid;
     },
-    hide(e: BvModalEvent) {
-      if (e.trigger === "backdrop") {
-        e.preventDefault();
-      }
+    hide(e: Event) {
+      // if (e.trigger === "backdrop") {
+      e.preventDefault();
+      // }
     },
   },
 });

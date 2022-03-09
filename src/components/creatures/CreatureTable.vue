@@ -1,6 +1,6 @@
 <template>
   <!-- caption-top < only works without sticky header -->
-  <b-table
+  <table
     hover
     responsive
     selectable
@@ -17,8 +17,7 @@
     class="creature-table"
     ref="creatureTable"
   >
-    <template #row> </template>
-    <!-- for column templates: https://bootstrap-vue.org/docs/components/table#scoped-field-slots -->
+    <!-- <template #row> </template>
     <template #cell(id)="data">
       <router-link
         :to="{ name: 'Creature Details', params: { id: data.value } }"
@@ -41,22 +40,18 @@
     </template>
     <template #cell(image)="data">
       <thumbnail v-if="data.value" :url="data.value" />
-    </template>
-  </b-table>
+    </template> -->
+  </table>
 </template>
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { BTable } from "bootstrap-vue";
 import { difference } from "lodash";
 import { CreatureIndex } from "@/types/creatures";
 import { filterMapper, filterStore } from "@/store";
 import { CreatureFilter } from "@/types/filter";
 
 export default Vue.extend({
-  components: {
-    "b-table": BTable,
-  },
   props: {
     creatures: {
       type: Array as PropType<CreatureIndex[]>,
@@ -64,9 +59,7 @@ export default Vue.extend({
     },
   },
   data() {
-    // we could use RowDetails, to show more information https://bootstrap-vue.org/docs/components/table#row-details-support
     return {
-      // https://bootstrap-vue.org/docs/components/table#field-definition-reference
       fields: [
         { key: "link" }, // needs formatter
         { key: "name", sortable: true, stickyColumn: true, isRowHeader: true },
@@ -128,7 +121,7 @@ export default Vue.extend({
         var table = this.$refs.creatureTable;
         if (table) {
           // we don't actually want to keep it selected, just nicely clickable
-          (table as BTable).clearSelected();
+          // (table as BTable).clearSelected();
         }
       }
     },

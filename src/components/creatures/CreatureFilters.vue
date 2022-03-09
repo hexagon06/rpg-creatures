@@ -1,22 +1,22 @@
 <template>
   <div class="container-fluid d-flex">
-    <b-button v-b-toggle.filters variant="primary"
-      >Filters
+    <button variant="primary">
+      Filters
       <span v-if="filteredCount">
         ({{ filteredCount }}/{{ creatureCount }})
       </span>
-    </b-button>
-    <b-collapse id="filters" v-b-visible="filtersAreVisible">
+    </button>
+    <div id="filters">
       <div class="d-flex flex-wrap justify-content-start mx-2">
         <div class="mr-2">
           <label for="search-text">Name:</label>
-          <b-form-input
+          <input
             id="search-text"
             type="search"
             placeholder="Search"
             v-model="search"
             debounce="300"
-          ></b-form-input>
+          />
         </div>
         <div class="mr-2">
           <label for="size-filter">Size:</label>
@@ -85,7 +85,7 @@
           ></pill-multiselect>
         </div> -->
       </div>
-    </b-collapse>
+    </div>
     <span v-if="showRecap" class="align-self-center ml-2 text-info">{{
       recap
     }}</span>

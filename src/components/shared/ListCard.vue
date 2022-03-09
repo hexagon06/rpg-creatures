@@ -1,9 +1,9 @@
 <template>
-  <b-card :title="title">
+  <div :title="title">
     <!-- <h3>Locations</h3> -->
     <hr />
-    <b-list-group flush>
-      <b-list-group-item v-for="item in list" :key="item.id">
+    <ul flush>
+      <li v-for="item in list" :key="item.id">
         <router-link
           v-if="item.routerName"
           :to="{ name: item.routerName, params: { id: item.id } }"
@@ -12,9 +12,9 @@
           {{ item.label }}
         </router-link>
         <span v-else>{{ item.label }}</span>
-      </b-list-group-item>
-    </b-list-group>
-  </b-card>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script lang="ts">

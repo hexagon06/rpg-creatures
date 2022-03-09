@@ -1,7 +1,7 @@
 <template>
-  <b-row>
-    <b-col sm="5" md="3" class="my-1">
-      <b-form-group
+  <div>
+    <div sm="5" md="3" class="my-1">
+      <div
         label="Per page"
         label-for="per-page-select"
         label-align-sm="right"
@@ -11,26 +11,26 @@
         label-size="sm"
         class="mb-0"
       >
-        <b-form-select
+        <button
           id="per-page-select"
-          v-model="perPage"
           :options="pageOptions"
           size="sm"
           class="col"
-        ></b-form-select>
-      </b-form-group>
-    </b-col>
-    <b-col sm="7" md="9" class="my-1">
-      <b-pagination
+        ></button>
+      </div>
+    </div>
+    <div sm="7" md="9" class="my-1">
+      pagination
+      <!-- <b-pagination
         v-model="currentPage"
         :total-rows="creatureFilterResult.count"
         :per-page="perPage"
         align="fill"
         size="sm"
         class="my-0 col"
-      ></b-pagination>
-    </b-col>
-  </b-row>
+      ></b-pagination> -->
+    </div>
+  </div>
 </template>
 
 <script lang="ts">

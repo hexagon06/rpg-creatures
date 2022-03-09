@@ -7,23 +7,12 @@
     </div> -->
     <!-- <create> </create> -->
     <div class="flex-1-1-0" style="overflow: auto">
-      <b-skeleton-wrapper :loading="loading">
-        <template #loading>
-          <b-skeleton-table
-            :rows="5"
-            :columns="6"
-            animation="throb"
-            width="85%"
-          >
-          </b-skeleton-table>
-        </template>
-        <shop-table
-          :shops="shops"
-          @select="selectShop"
-          aria-controls="sidebar-shop"
-          :aria-expanded="sidebarShopOpen"
-        />
-      </b-skeleton-wrapper>
+      <shop-table
+        :shops="shops"
+        @select="selectShop"
+        aria-controls="sidebar-shop"
+        :aria-expanded="sidebarShopOpen"
+      />
     </div>
     <!-- <creature-pagination /> -->
   </div>

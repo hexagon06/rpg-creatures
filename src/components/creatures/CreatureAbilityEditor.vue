@@ -24,13 +24,13 @@
         @input="valuesChanged"
       />
 
-      <b-button
+      <button
         variant="danger"
         class="ml-auto align-self-center"
         @click="remove(am.ability)"
       >
         -
-      </b-button>
+      </button>
     </div>
   </div>
 </template>

@@ -7,26 +7,15 @@
     <div class="d-flex">
       <div></div>
       <creature-filters v-if="!loading" class="flex-fill py-2" />
-      <create-creature> </create-creature>
+      <create-creature v-if="!loading"> </create-creature>
     </div>
     <div class="flex-1-1-0" style="overflow: auto">
-      <b-skeleton-wrapper :loading="loading">
-        <template #loading>
-          <b-skeleton-table
-            :rows="5"
-            :columns="6"
-            animation="throb"
-            width="85%"
-          >
-          </b-skeleton-table>
-        </template>
-        <creature-table
-          :creatures="creatures"
-          @select="selectCreatures"
-          aria-controls="sidebar-creature"
-          :aria-expanded="sidebarCreatureOpen"
-        />
-      </b-skeleton-wrapper>
+      <creature-table
+        :creatures="creatures"
+        @select="selectCreatures"
+        aria-controls="sidebar-creature"
+        :aria-expanded="sidebarCreatureOpen"
+      />
     </div>
     <creature-pagination />
   </div>

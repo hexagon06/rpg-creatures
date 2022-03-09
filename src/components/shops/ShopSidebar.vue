@@ -1,5 +1,5 @@
 <template>
-  <b-sidebar
+  <div
     id="sidebar-shop"
     title="Shop-details"
     :no-header="shopIsSelected"
@@ -9,14 +9,14 @@
   >
     <shop-details v-if="shopIsSelected" v-model="selectedShop" :imgSize="278" />
     <p v-else>no shop is selected.</p>
-    <template #footer="{ hide }">
+    <!-- <template #footer="{ hide }">
       <div class="d-flex bg-dark text-light align-items-center px-3 py-2">
         <edit-shop v-if="shopIsSelected" :shop="selectedShop" />
         <strong class="mr-auto"></strong>
-        <b-button size="sm" @click="hide">Close</b-button>
+        <button size="sm" @click="hide">Close</button>
       </div>
-    </template>
-  </b-sidebar>
+    </template> -->
+  </div>
 </template>
 
 <script lang="ts">

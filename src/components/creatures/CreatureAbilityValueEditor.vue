@@ -2,8 +2,8 @@
   <div class="d-flex">
     <div v-if="format.variables.length > 0">
       <label>Variables</label>
-      <b-form-group id="input-name-group" class="flex-fill">
-        <b-form-input
+      <div id="input-name-group" class="flex-fill">
+        <input
           v-for="kvp in variables"
           :key="kvp.k"
           :id="`input-var-${kvp.k}-name`"
@@ -11,12 +11,12 @@
           :placeholder="kvp.k"
           @input="changeValue"
           required
-        ></b-form-input>
-      </b-form-group>
+        />
+      </div>
     </div>
     <div v-if="format.formulae.length > 0">
       <label>Formulae</label>
-      <b-form-group
+      <div
         id="`input-var-${kvvp.k}`"
         v-for="kvvp in formulae"
         :key="kvvp.k"
@@ -24,28 +24,28 @@
         :label-for="`input-var-${kvvp.k}-amount`"
         class="flex-fill"
       >
-        <b-form-input
+        <input
           :id="`input-var-${kvvp.k}-amount`"
           v-model="kvvp.a"
           placeholder="amount"
           @input="changeValue"
           required
-        ></b-form-input>
-        <b-form-input
+        />
+        <input
           :id="`input-var-${kvvp.k}-dice`"
           v-model="kvvp.n"
           placeholder="dice"
           @input="changeValue"
           required
-        ></b-form-input>
-        <b-form-input
+        />
+        <input
           :id="`input-var-${kvvp.k}-mod`"
           v-model="kvvp.m"
           placeholder="mod"
           @input="changeValue"
           required
-        ></b-form-input>
-      </b-form-group>
+        />
+      </div>
     </div>
   </div>
 </template>

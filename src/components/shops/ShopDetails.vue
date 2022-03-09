@@ -1,5 +1,5 @@
 <template>
-  <b-card :title="value.name" :sub-title="`${subTitle}`" class="mt-3">
+  <div :title="value.name" :sub-title="`${subTitle}`" class="mt-3">
     <thumbnail
       v-if="value.image"
       :height="imgSize"
@@ -10,16 +10,16 @@
       <favorite v-model="favorite" />
       <labeled-prop label="Speciality" :text="value.speciality" />
       <labeled-prop label="Proprietor" :text="value.proprietor" />
-      <b-row v-if="value.description">
-        <b-col>
+      <div v-if="value.description">
+        <div>
           <p class="bg-light border border-info rounded-sm">
             {{ value.description }}
           </p>
-        </b-col>
-      </b-row>
+        </div>
+      </div>
       <source-reference :link="value.link"></source-reference>
     </b-container>
-  </b-card>
+  </div>
 </template>
 
 <script lang="ts">

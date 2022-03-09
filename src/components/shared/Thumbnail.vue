@@ -1,12 +1,5 @@
 <template>
   <div>
-    <b-skeleton-img
-      v-if="loading"
-      no-aspect
-      animation="fade"
-      :height="heightPx"
-      :width="widthPx"
-    ></b-skeleton-img>
     <b-img
       :src="url"
       rounded

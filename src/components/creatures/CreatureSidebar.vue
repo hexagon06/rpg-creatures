@@ -1,5 +1,5 @@
 <template>
-  <b-sidebar
+  <div
     id="sidebar-creature"
     title="Creature-details"
     :no-header="creatureIsSelected"
@@ -14,14 +14,14 @@
       @favorite="favoriteChange"
     />
     <p v-else>no creature is selected.</p>
-    <template #footer="{ hide }">
+    <!-- <template #footer="{ hide }">
       <div class="d-flex bg-dark text-light align-items-center px-3 py-2">
         <edit-creature v-if="creatureIsSelected" :creature="selectedCreature" />
         <strong class="mr-auto"></strong>
-        <b-button size="sm" @click="hide">Close</b-button>
+        <button size="sm" @click="hide">Close</button>
       </div>
-    </template>
-  </b-sidebar>
+    </template> -->
+  </div>
 </template>
 
 <script lang="ts">

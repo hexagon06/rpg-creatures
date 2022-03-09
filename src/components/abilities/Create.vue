@@ -1,7 +1,7 @@
 <template>
   <div>
-    <b-button v-b-modal.create-modal>Create</b-button>
-    <b-modal
+    <button v-div.create-modal>Create</button>
+    <div
       id="create-modal"
       title="Create-an-Ability"
       size="lg"
@@ -10,20 +10,19 @@
       @ok="ok"
       @hide="hide"
     >
-      <b-form
+      <form
         ref="form"
         @submit.stop.prevent="handleSubmit"
         :validated="validState.validated"
       >
         <ability-form v-model="ability" />
-      </b-form>
-    </b-modal>
+      </form>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { BForm, BvModalEvent } from "bootstrap-vue";
 import { abilityStore, filterStore } from "@/store";
 import { Ability } from "@/types/abilities";
 import { Guid } from "@/shared";
@@ -57,7 +56,7 @@ export default Vue.extend({
       this.ability = { ...createAbility(), ...this.saved };
       this.validState.validated = false;
     },
-    async ok(e: BvModalEvent) {
+    async ok(e: Event) {
       e.preventDefault();
       await this.handleSubmit();
     },
@@ -72,19 +71,20 @@ export default Vue.extend({
       this.saved = {};
       // Hide the modal manually
       this.$nextTick(() => {
-        this.$bvModal.hide("create-modal");
+        // this.$bvModal.hide("create-modal");
       });
     },
     checkFormValidity() {
-      var form = this.$refs?.form as BForm;
-      const valid = form.checkValidity();
-      this.validState.validated = true;
-      return valid;
+      return false;
+      // var form = this.$refs?.form as BForm;
+      // const valid = form.checkValidity();
+      // this.validState.validated = true;
+      // return valid;
     },
-    hide(e: BvModalEvent) {
-      if (e.trigger === "backdrop") {
-        e.preventDefault();
-      }
+    hide(e: Event) {
+      // if (e.trigger === "backdrop") {
+      e.preventDefault();
+      // }
     },
   },
 });

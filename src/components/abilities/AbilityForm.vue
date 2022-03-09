@@ -1,22 +1,22 @@
 <template>
   <div>
-    <b-form-group id="input-key-group" label="Key" label-for="input-key">
-      <b-form-input
+    <div id="input-key-group" label="Key" label-for="input-key">
+      <input
         id="input-key"
         v-model="ability.key"
         placeholder="xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
         disabled
-      ></b-form-input>
-    </b-form-group>
-    <b-form-group id="input-name-group" label="Name" label-for="input-name">
-      <b-form-input
+      />
+    </div>
+    <div id="input-name-group" label="Name" label-for="input-name">
+      <input
         id="input-name"
         v-model="ability.name"
         placeholder="Shortsword"
         required
-      ></b-form-input>
-    </b-form-group>
-    <b-form-group
+      />
+    </div>
+    <div
       id="input-type-group"
       label="Type"
       label-for="input-type"
@@ -31,20 +31,16 @@
         :show-labels="false"
         placeholder="Select type"
       ></multiselect>
-    </b-form-group>
-    <b-form-group
-      id="input-text-group"
-      label="Description"
-      label-for="input-text"
-    >
-      <b-form-textarea
+    </div>
+    <div id="input-text-group" label="Description" label-for="input-text">
+      <input
         id="input-text"
         v-model="ability.text"
         placeholder="Description with placeholders"
         rows="3"
         required
-      ></b-form-textarea>
-    </b-form-group>
+      ></input>
+    </div>
     <div
       v-if="formatResult.invalidProperties.length > 0"
       class="d-flex bg-warning"
@@ -82,7 +78,7 @@
       <label>Formulae</label>
       <array-pills :data="abilityFormat.formulae" :variant="'badge-info'" />
     </div>
-    <b-form-group
+    <div
       id="input-tags-group"
       label="Tags"
       label-for="input-tags"
@@ -96,7 +92,7 @@
         @tag="tagTag"
         placeholder="Select or create tags"
       ></pill-multiselect>
-    </b-form-group>
+    </div>
     <!-- custom controls for dice -->
   </div>
 </template>

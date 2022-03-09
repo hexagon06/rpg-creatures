@@ -1,5 +1,5 @@
 <template>
-  <b-card
+  <div
     :title="value.name"
     :sub-title="`${value.size} ${value.type}`"
     class="mt-3"
@@ -94,23 +94,23 @@
 
       <hr />
       <array-pills :data="value.tags" :variant="'badge-success'" />
-      <b-row v-if="value.comments">
-        <b-col>
+      <div v-if="value.comments">
+        <div>
           <p class="bg-light border border-info rounded-sm">
             {{ value.comments }}
           </p>
-        </b-col>
-      </b-row>
-      <b-row v-if="value.system">
-        <b-col>{{ value.system }}</b-col>
-      </b-row>
+        </div>
+      </div>
+      <div v-if="value.system">
+        <div>{{ value.system }}</div>
+      </div>
       <source-reference
         :link="value.link"
         :page="value.page"
         :source="value.source"
       ></source-reference>
     </b-container>
-  </b-card>
+  </div>
 </template>
 
 <script lang="ts">

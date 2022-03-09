@@ -5,43 +5,37 @@
         currentUser.displayName
       }}</span>
       <span v-else class="mr-3">{{ currentUser.email }}</span>
-      <b-button @click="signOut">sign out</b-button>
+      <button @click="signOut">sign out</button>
     </div>
     <div v-else>
-      <b-button v-b-modal="'signin-modal'" @click="startSignIn"
-        >sign in</b-button
-      >
-      <b-modal id="signin-modal" @ok="signIn">
-        <b-form @submit="signIn">
-          <b-form-group
+      <button @click="startSignIn">sign in</button>
+      <div id="signin-modal" @ok="signIn">
+        <form @submit="signIn">
+          <div
             id="input-group-1"
             label="Email address:"
             label-for="input-1"
             description="We'll never share your email with anyone else."
           >
-            <b-form-input
+            <input
               id="input-1"
               v-model="form.email"
               type="email"
               placeholder="Enter email"
               required
-            ></b-form-input>
-          </b-form-group>
-          <b-form-group
-            id="input-group-2"
-            label="Email address:"
-            label-for="input-2"
-          >
-            <b-form-input
+            />
+          </div>
+          <div id="input-group-2" label="Email address:" label-for="input-2">
+            <input
               id="input-2"
               v-model="form.password"
               type="password"
               placeholder="Enter password"
               required
-            ></b-form-input>
-          </b-form-group>
-        </b-form>
-      </b-modal>
+            />
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </template>

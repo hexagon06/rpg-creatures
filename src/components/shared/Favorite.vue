@@ -63,6 +63,8 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+$secondary: #f00;
+$warning: hsla(34, 100%, 50%, 0.856);
 .favoriting {
   display: inline-block;
 

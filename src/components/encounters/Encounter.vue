@@ -1,93 +1,70 @@
 <template>
-  <div v-if="loading">
-    <b-card class="m-3 text-left sticky-top">
-      <b-skeleton-wrapper :loading="loading">
-        <template #loading>
-          <div class="d-flex">
-            <div class="flex-fill">
-              <b-skeleton height="2.5rem" width="40%"></b-skeleton>
-              <b-skeleton class="w-50 mt-3"></b-skeleton>
-            </div>
-            <b-skeleton
-              type="button"
-              class="ml-auto align-self-start"
-            ></b-skeleton>
-          </div>
-        </template>
-      </b-skeleton-wrapper>
-    </b-card>
-  </div>
+  <div v-if="loading">loading</div>
   <div v-else-if="editing">
-    <b-form
+    <form
       @submit.prevent="save"
       @reset="reset"
       novalidate
       :validated="validated"
       ref="encounterForm"
     >
-      <b-card class="m-3 text-left">
-        <b-card-title class="d-flex">
-          <b-button type="submit" class="ml-auto">Save</b-button>
-        </b-card-title>
-        <b-card-body>
-          <b-form-group
-            id="input-group-1"
-            label="Encounter Name:"
-            label-for="input-2"
-          >
-            <b-form-input
+      <div class="m-3 text-left">
+        <div class="d-flex">
+          <button type="submit" class="ml-auto">Save</button>
+        </div>
+        <div>
+          <div id="input-group-1" label="Encounter Name:" label-for="input-2">
+            <input
               id="input-1"
               v-model="form.name"
               placeholder="Enter name"
               aria-describedby="password-help-block"
               required
-            ></b-form-input>
-            <b-form-text id="password-help-block">
+            />
+            <form-text id="password-help-block">
               Your password must be 8-20 characters long, contain letters and
               numbers, and must not contain spaces, special characters, or
               emoji.
-            </b-form-text>
-            <b-form-invalid-feedback>Invalid name</b-form-invalid-feedback>
-          </b-form-group>
-          <b-form-group
+            </form-text>
+            <form-invalid-feedback>Invalid name</form-invalid-feedback>
+          </div>
+          <div
             id="input-group-synopsis"
             label="Synopsis:"
             label-for="input-synopsis"
           >
-            <b-form-input
+            <input
               id="input-synopsis"
               v-model="form.synopsis"
               placeholder="A short story"
               aria-describedby="synopsis-help-block"
               required
-            ></b-form-input>
-            <b-form-text id="synopsis-help-block"
-              >One or two short sentences describing the encounter</b-form-text
+            />
+            <form-text id="synopsis-help-block"
+              >One or two short sentences describing the encounter</form-text
             >
-            <b-form-invalid-feedback
-              >Synopsis is required</b-form-invalid-feedback
-            >
-          </b-form-group>
-          <b-form-group
+            <form-invalid-feedback>Synopsis is required</form-invalid-feedback>
+          </div>
+          <div
             id="input-group-flavor-text"
             label="Flavor Text:"
             label-for="input-flavor-text"
           >
-            <b-form-textarea
+            <input
               id="input-flavor-text"
               v-model="form.flavorText"
               placeholder="You enter the darkest dungeon and it smells damp"
               aria-describedby="flavor-text-help-block"
-            ></b-form-textarea>
-            <b-form-text id="flavor-text-help-block"
+            ></input>
+            <form-text id="flavor-text-help-block"
               >Write a short text you can read out when starting this
-              encounter.</b-form-text
+              encounter.</form-text
             >
-            <b-form-invalid-feedback
-              >Flavor Text is invalid</b-form-invalid-feedback
+            <form-invalid-feedback
+              >Flavor Text is invalid</form-invalid-feedback
             >
-          </b-form-group>
-          <b-form-group
+          </div>
+          <div
             id="input-group-description"
             label="Description:"
             label-for="input-description"
@@ -97,57 +74,49 @@
               height="400px"
               aria-describedby="description-help-block"
             ></v-md-editor>
-            <!-- <b-form-textarea
+            <!-- <input
               id="input-description"
               v-model="form.description"
               placeholder="The walls of the dungeon are made of slimey goo, anyone getting too close must make a save"
-            ></b-form-textarea> -->
-            <b-form-text id="description-help-block">
+            ></input> -->
+            <form-text id="description-help-block">
               Describe the encounter, what the adventurers encounter, what
               challenge there may be, etc.
-            </b-form-text>
-            <b-form-invalid-feedback
-              >Description is invalid</b-form-invalid-feedback
+            </form-text>
+            <form-invalid-feedback
+              >Description is invalid</form-invalid-feedback
             >
-          </b-form-group>
-          <b-form-group
-            id="input-group-reward"
-            label="Reward:"
-            label-for="input-reward"
-          >
-            <b-form-input
+          </div>
+          <div id="input-group-reward" label="Reward:" label-for="input-reward">
+            <input
               id="input-reward"
               v-model="form.reward"
               placeholder="3d20+50 gold and the Sword of Hannah"
               aria-describedby="reward-help-block"
-            ></b-form-input>
-            <b-form-text id="reward-help-block"
-              >What are possible rewards for the adventurers?</b-form-text
+            />
+            <form-text id="reward-help-block"
+              >What are possible rewards for the adventurers?</form-text
             >
-            <b-form-invalid-feedback>Reward is invalid</b-form-invalid-feedback>
-          </b-form-group>
-          <b-form-group
-            id="input-group-group"
-            label="Group:"
-            label-for="input-group"
-          >
-            <b-form-input
+            <form-invalid-feedback>Reward is invalid</form-invalid-feedback>
+          </div>
+          <div id="input-group-group" label="Group:" label-for="input-group">
+            <input
               id="input-group"
               v-model="form.group"
               placeholder="The Adventurers"
               aria-describedby="group-help-block"
-            ></b-form-input>
-            <b-form-text id="group-help-block"
+            />
+            <form-text id="group-help-block"
               >If this encounter is made for a specific adventure or group of
-              adventurers you can mention them here.</b-form-text
+              adventurers you can mention them here.</form-text
             >
-            <b-form-invalid-feedback>Group is invalid</b-form-invalid-feedback>
-          </b-form-group>
-        </b-card-body>
-      </b-card>
-      <b-card>
-        <b-card-body>
-          <b-form-group
+            <form-invalid-feedback>Group is invalid</form-invalid-feedback>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div>
+          <div
             id="input-creature-group"
             label="Creatures"
             label-for="input-creature"
@@ -165,49 +134,49 @@
               label="name"
               track-by="id"
             ></multiselect>
-          </b-form-group>
-        </b-card-body>
-      </b-card>
-    </b-form>
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
   <div v-else>
     <!-- info card -->
-    <b-card class="m-3 text-left sticky-top">
-      <b-card-title>
+    <div class="m-3 text-left sticky-top">
+      <div>
         <div class="d-flex">
           <h1>{{ encounter.name }}</h1>
-          <b-button
+          <button
             variant="primary"
             @click="edit"
             class="ml-auto align-self-start"
           >
             Edit
-          </b-button>
+          </button>
         </div>
-      </b-card-title>
-      <b-card-text class="font-italic font-weight-bolder text-secondary">
+      </div>
+      <p class="font-italic font-weight-bolder text-secondary">
         {{ encounter.synopsis }}
-      </b-card-text>
-    </b-card>
+      </p>
+    </div>
     <!-- description card -->
-    <b-card class="m-3 text-left">
-      <b-card-text class="pl-5">
+    <div class="m-3 text-left">
+      <p class="pl-5">
         {{ encounter.flavorText }}
-      </b-card-text>
-      <b-card-text>
+      </p>
+      <div>
         <v-md-preview
           :text="encounter.description"
           :default-show-toc="true"
         ></v-md-preview>
-      </b-card-text>
-      <b-card-text v-if="encounter.reward">
+      </div>
+      <div v-if="encounter.reward">
         <h2>Rewards:</h2>
         {{ encounter.reward }}
-      </b-card-text>
-      <b-card-body v-if="encounter.tags && encounter.tags.length > 0">
+      </div>
+      <div v-if="encounter.tags && encounter.tags.length > 0">
         <array-pills :data="encounter.tags"></array-pills>
-      </b-card-body>
-    </b-card>
+      </div>
+    </div>
 
     <!-- reference lists -->
     <div class="px-3 mb-5">
@@ -242,7 +211,6 @@ import {
   FilledEncounter,
   ReferenceListItem,
 } from "@/types";
-import { BForm } from "bootstrap-vue";
 import { cloneDeep } from "lodash";
 import Vue from "vue";
 import ArrayPills from "../shared/ArrayPills.vue";
@@ -326,17 +294,17 @@ export default Vue.extend({
     },
     async save() {
       if (this.form) {
-        const form = this.$refs["encounterForm"] as BForm;
-        if (form.checkValidity() === false) {
-          console.warn("invalid");
-        } else {
-          this.saving = true;
-          this.encounter = fillEncounter(cloneDeep(this.form));
-          await encounterStore.actions.save(this.encounter!);
-          this.saving = false;
-          this.editing = false;
-        }
-        form.classList.add("was-validated");
+        // const form = this.$refs["encounterForm"] as BForm;
+        // if (form.checkValidity() === false) {
+        //   console.warn("invalid");
+        // } else {
+        //   this.saving = true;
+        //   this.encounter = fillEncounter(cloneDeep(this.form));
+        //   await encounterStore.actions.save(this.encounter!);
+        //   this.saving = false;
+        //   this.editing = false;
+        // }
+        // form.classList.add("was-validated");
       }
     },
   },
@@ -344,11 +312,12 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+$sidebar-width: 300px;
 .entity-selector {
   width: $sidebar-width;
   min-width: $sidebar-width;
 }
 .bd-highlight {
-  background-color: darken($white, 5);
+  background-color: darken(#fff, 5);
 }
 </style>

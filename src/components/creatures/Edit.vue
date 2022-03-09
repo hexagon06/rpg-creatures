@@ -1,7 +1,7 @@
 <template>
   <div>
-    <b-button v-b-modal.edit-modal>Edit</b-button>
-    <b-modal
+    <button v-div.edit-modal>Edit</button>
+    <div
       id="edit-modal"
       title="Edit-a-Creature"
       size="lg"
@@ -9,21 +9,20 @@
       @ok="ok"
       @hide="hide"
     >
-      <b-form
+      <form
         ref="form"
         @submit.stop.prevent="handleSubmit"
         :validated="validState.validated"
       >
         <creature-form v-model="creatureCopy" />
-      </b-form>
-    </b-modal>
+      </form>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { cloneDeep } from "lodash";
 import Vue, { PropType } from "vue";
-import { BForm, BvModalEvent } from "bootstrap-vue";
 import { creatureStore, filterStore } from "@/store";
 import { Creature } from "@/types/creatures";
 
@@ -49,7 +48,7 @@ export default Vue.extend({
     setCopy(value: Creature) {
       this.creatureCopy = cloneDeep(value);
     },
-    async ok(e: BvModalEvent) {
+    async ok(e: Event) {
       e.preventDefault();
       await this.handleSubmit();
     },
@@ -64,19 +63,20 @@ export default Vue.extend({
       await filterStore.actions.fetchSearch();
       // Hide the modal manually
       this.$nextTick(() => {
-        this.$bvModal.hide("edit-modal");
+        // this.$bvModal.hide("edit-modal");
       });
     },
     checkFormValidity() {
-      var form = this.$refs?.form as BForm;
-      const valid = form.checkValidity();
-      this.validState.validated = true;
-      return valid;
+      return false;
+      // var form = this.$refs?.form as BForm;
+      // const valid = form.checkValidity();
+      // this.validState.validated = true;
+      // return valid;
     },
-    hide(e: BvModalEvent) {
-      if (e.trigger === "backdrop") {
-        e.preventDefault();
-      }
+    hide(e: Event) {
+      // if (e.trigger === "backdrop") {
+      e.preventDefault();
+      // }
     },
   },
 });
