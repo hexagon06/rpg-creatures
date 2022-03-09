@@ -24,6 +24,7 @@ import { addFontAwesome } from './font-awesome'
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import './scss/custom.scss'
+import './assets/tailwind.css'
 import { addSharedComponents, addCreatureComponents, addShopComponents, addAbilityComponents, addUserComponents } from '@/components'
 
 addFontAwesome()

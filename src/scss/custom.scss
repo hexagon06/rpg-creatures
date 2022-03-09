@@ -6,11 +6,23 @@ $footer-height: 2rem;
 
 $sidebar-width: 200px;
 
+$rouge: #85424E;
+$brown: #392F24;
+$purple: #9C4DD1;
+$dark-blue: #252439;
+$gold: #D1B74D;
+
+
 // style overrides
 
 html,body {
   height: 100%;
   max-height: 100%;
+}
+
+body {
+  background: #392F24;
+  color: white;
 }
 
 .flex-1-1-0 {

@@ -1,13 +1,15 @@
 <template>
-  <div id="app" class="container-fluid mh-100 h-100 d-flex flex-column">
-    <div class="d-flex shadow-sm">
-      <div id="nav" class="header">
-        <span v-for="(link, i) in filteredLinks" :key="i"
-          >{{ i > 0 ? " | " : ""
-          }}<router-link :to="link.path">{{ link.label }}</router-link></span
-        >
+  <div id="app" class="max-h-screen">
+    <div class="flex shadow-sm bg-dark-blue py-2 border-b-gold border-b-4">
+      <!-- <div class=""></div> -->
+      <div id="nav" class="flex grow gap-3 justify-center pl-52">
+        <span v-for="(link, i) in filteredLinks" :key="i">
+          <router-link :to="link.path" class="text-gold font-bold text-lg">
+            {{ link.label }}
+          </router-link>
+        </span>
       </div>
-      <user-sign class="ml-auto p-4"></user-sign>
+      <user-sign class=""></user-sign>
     </div>
     <router-view class="flex-1-1-0" />
     <div class="footer"></div>
@@ -58,24 +60,10 @@ export default Vue.extend({
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
 }
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-active {
-      color: #42b983;
-    }
-  }
-}
-
-.header {
+.router-link-active {
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: $rouge;
 }
 .footer {
   height: $footer-height;

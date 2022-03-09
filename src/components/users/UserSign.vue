@@ -1,41 +1,46 @@
 <template>
-  <div>
-    <div v-if="isSignedIn">
-      <span v-if="currentUser.displayName" class="mr-3">{{
-        currentUser.displayName
-      }}</span>
+  <div class="text-purple mr-4">
+    <div v-if="isSignedIn" class="flex gap-2 items-center">
+      <span v-if="currentUser.displayName">{{ currentUser.displayName }}</span>
       <span v-else class="mr-3">{{ currentUser.email }}</span>
-      <button @click="signOut">sign out</button>
+      <button @click="signOut" class="text-3xl">
+        <font-awesome-icon icon="fa-solid fa-user" />
+      </button>
     </div>
     <div v-else>
-      <button @click="startSignIn">sign in</button>
-      <div id="signin-modal" @ok="signIn">
-        <form @submit="signIn">
-          <div
-            id="input-group-1"
-            label="Email address:"
-            label-for="input-1"
-            description="We'll never share your email with anyone else."
-          >
+      <button
+        @click="startSignIn"
+        class="rounded-full bg-gold border-purple border-2 w-9 h-9"
+      >
+        <font-awesome-icon icon="fa-solid fa-key" />
+      </button>
+      <form @submit="signIn">
+        <modal
+          v-if="isSigningIn"
+          :is-valid="isValid"
+          @reject="cancel"
+          class="text-white"
+        >
+          <div class="w-52 flex flex-col gap-1">
             <input
               id="input-1"
               v-model="form.email"
               type="email"
               placeholder="Enter email"
               required
+              class="rounded-t-lg"
             />
-          </div>
-          <div id="input-group-2" label="Email address:" label-for="input-2">
             <input
               id="input-2"
               v-model="form.password"
               type="password"
               placeholder="Enter password"
               required
+              class="rounded-b-lg"
             />
           </div>
-        </form>
-      </div>
+        </modal>
+      </form>
     </div>
   </div>
 </template>
@@ -63,6 +68,9 @@ export default Vue.extend({
     isSignedIn(): boolean {
       return userStore.getters.isIsSignedIn();
     },
+    isValid(): boolean {
+      return this.form.email.length > 0 && this.form.password.length > 0;
+    },
   },
   methods: {
     async signOut() {
@@ -71,10 +79,15 @@ export default Vue.extend({
     startSignIn() {
       this.form.email = "";
       this.form.password = "";
+      this.isSigningIn = true;
     },
     async signIn() {
       const { email, password } = this.form;
       await auth.signIn(email, password);
+      this.isSigningIn = false;
+    },
+    cancel() {
+      this.isSigningIn = false;
     },
   },
 });
