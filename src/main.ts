@@ -25,14 +25,10 @@ import { addFontAwesome } from './font-awesome'
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import './scss/custom.scss'
 import './assets/tailwind.css'
-import { addSharedComponents, addCreatureComponents, addShopComponents, addAbilityComponents, addUserComponents } from '@/components'
+import { addAllComponents } from '@/components'
 
 addFontAwesome()
-addSharedComponents()
-addCreatureComponents()
-addShopComponents()
-addAbilityComponents()
-addUserComponents()
+addAllComponents()
 
 Vue.config.productionTip = false
 

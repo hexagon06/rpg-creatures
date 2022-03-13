@@ -3,7 +3,7 @@
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
 /* import specific icons */
-import { faArrowUpRightFromSquare, faStar as faStarSolid, faKey, faUser, faXmark, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faArrowUpRightFromSquare, faStar as faStarSolid, faKey, faUser, faXmark, faCheck, faArrowLeft, faSave, faCross, faPen, faCircleDot } from '@fortawesome/free-solid-svg-icons'
 import { faStar, faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 /* import font awesome icon component */
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -13,7 +13,19 @@ import Vue from 'vue'
 
 export function addFontAwesome () {
   /* add icons to the library */
-  library.add(faArrowUpRightFromSquare, faStar, faStarSolid, faPenToSquare, faKey, faUser, faXmark, faCheck)
+  library.add(
+    faArrowUpRightFromSquare,
+    faStar,
+    faStarSolid,
+    faPenToSquare,
+    faKey,
+    faUser,
+    faXmark,
+    faCheck,
+    faArrowLeft,
+    faSave,
+    faPen,
+    faCircleDot)
   /* add font awesome icon component */
   Vue.component('font-awesome-icon', FontAwesomeIcon)
 }

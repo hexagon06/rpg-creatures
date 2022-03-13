@@ -1,5 +1,21 @@
 @tailwind base;
-
 @tailwind components;
-
 @tailwind utilities;
+
+@layer components {
+  .entity-grid {
+    @apply grid gap-2 grid-flow-row auto-rows-max grid-cols-1 lg:grid-cols-2 xl:grid-cols-3
+  }
+  .entity-grid-card {
+    @apply grow bg-rouge rounded-2xl border-2 border-dark-blue transition duration-700 ease-out hover:rounded-lg hover:transition-border-radius p-3
+  }
+  .button-round-large {
+    @apply rounded-full border-2 w-9 h-9
+  }
+  .button-on-dark-blue {
+    @apply bg-gold border-purple text-purple hover:text-white hover:bg-rouge
+  }
+  .button-on-gold {
+    @apply bg-dark-blue border-purple text-purple hover:bg-rouge hover:text-white disabled:bg-dark-blue-light disabled:hover:text-purple
+  }
+}

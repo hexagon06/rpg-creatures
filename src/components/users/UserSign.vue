@@ -13,7 +13,7 @@
     <div v-else>
       <button
         @click="startSignIn"
-        class="rounded-full bg-gold border-purple border-2 w-9 h-9"
+        class="button-round-large button-on-dark-blue"
       >
         <font-awesome-icon icon="fa-solid fa-key" />
       </button>
@@ -76,7 +76,7 @@ export default Vue.extend({
     async signOut() {
       await auth.signOut();
       if (this.$router.currentRoute.name !== "Home") {
-        this.$router.push("home");
+        this.$router.push({ name: "Home" });
       }
     },
     startSignIn() {

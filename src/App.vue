@@ -1,6 +1,16 @@
 <template>
   <div id="app" class="max-h-screen">
-    <div class="flex shadow-sm bg-dark-blue py-2 border-b-gold border-b-4">
+    <div
+      class="
+        flex
+        shadow-sm
+        bg-dark-blue
+        py-2
+        border-b-gold border-b-4
+        sticky
+        top-0
+      "
+    >
       <!-- <div class=""></div> -->
       <div id="nav" class="flex grow gap-3 justify-center pl-52">
         <span v-for="(link, i) in filteredLinks" :key="i">
@@ -11,16 +21,22 @@
       </div>
       <user-sign class=""></user-sign>
     </div>
-    <router-view class="flex-1-1-0" />
-    <div class="footer"></div>
+    <div class="flex">
+      <router-view
+        class="w-auto trasition-padding ease-in md:pl-52 flex-1-1-0"
+      />
+      <action-panel class="w-52 align-self-start" />
+    </div>
   </div>
 </template>
 <script lang="ts">
 import Vue from "vue";
+import ActionPanel from "./components/ActionPanel.vue";
 import { userStore } from "./store";
 import { userMapper } from "./store/users";
 
 export default Vue.extend({
+  components: { ActionPanel },
   data() {
     return {
       links: [
@@ -65,14 +81,20 @@ export default Vue.extend({
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: $rouge;
 }
-.footer {
-  height: $footer-height;
-}
 </style>
 
 <style src="../node_modules/vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style lang="scss">
 .multiselect__tags {
   padding: 0 40px 0 8px;
+}
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>

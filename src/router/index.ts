@@ -26,7 +26,7 @@ const routes: Array<RouteConfig> = [
     path: '/creatures',
     name: 'Creatures',
     meta: { requiresAuth: true },
-    component: () => import('../views/Creatures.vue')
+    component: () => import('../views/Creatures.vue'),
   },
   // {
   //   path: '/shops',
@@ -52,12 +52,35 @@ const routes: Array<RouteConfig> = [
     name: 'Encounters',
     meta: { requiresAuth: true },
     component: () => import('../views/Encounters.vue'),
+    redirect: '/encounter/list',
     children: [
+      {
+        path: 'list',
+        name: 'Encounter List',
+        meta: {
+          requiresAuth: true,
+          actionsComponent: 'encounters-filter'
+        },
+        component: () => import('../components/encounters/EncounterList.vue'),
+      },
       {
         path: ':id',
         name: 'Encounter',
-        meta: { requiresAuth: true },
+        meta: {
+          requiresAuth: true,
+          actionsComponent: 'encounter-actions'
+        },
         component: () => import('../components/encounters/Encounter.vue'),
+        props: true,
+      },
+      {
+        path: ':id/edit',
+        name: 'EditEncounter',
+        meta: {
+          requiresAuth: true,
+          actionsComponent: 'encounter-actions'
+        },
+        component: () => import('../components/encounters/EncounterEdit.vue'),
         props: true
       },
     ]

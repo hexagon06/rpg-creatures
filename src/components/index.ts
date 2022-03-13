@@ -1,11 +1,35 @@
 import Vue from 'vue'
-import { ArrayPills, Favorite, LabeledProp, ListCard, Modal, PillMultiselect, SourceReference, Thumbnail } from './shared'
+import { ArrayPills, Favorite, GridCard, LabeledProp, ListCard, Modal, PillMultiselect, SourceReference, Thumbnail } from './shared'
 import { Edit as CreatureEdit, Create as CreatureCreate, CreatureForm, Alignment, Abilities, AlignmentEditor, CreatureDetails, CreatureFilters, Create, CreaturePagination, CreatureSidebar, CreatureTable, CreatureAbilityEditor, CreatureAbilityValueEditor } from './creatures'
 import { Edit as ShopEdit, ShopDetails, ShopForm, ShopSidebar, ShopTable } from './shops'
 import { Create as AbilityCreate, AbilityDetails, AbilityForm, AbilitySidebar, AbilityTable, Edit as AbilityEdit, CreatureAbility } from './abilities'
 import { UserSign } from './users'
+import { default as ActionPanel } from './ActionPanel.vue'
+import { EncounterActions, EncountersFilter } from './encounters'
 
-export function addCreatureComponents () {
+export function addAllComponents () {
+  addSharedComponents()
+  addCreatureComponents()
+  addShopComponents()
+  addAbilityComponents()
+  addUserComponents()
+  addRootComponents()
+  addEncounterComponents()
+}
+
+function addSharedComponents () {
+  Vue.component('array-pills', ArrayPills)
+  Vue.component('favorite', Favorite)
+  Vue.component('labeled-prop', LabeledProp)
+  Vue.component('pill-multiselect', PillMultiselect)
+  Vue.component('source-reference', SourceReference)
+  Vue.component('thumbnail', Thumbnail)
+  Vue.component('list-card', ListCard)
+  Vue.component('modal', Modal)
+  Vue.component('grid-card', GridCard)
+}
+
+function addCreatureComponents () {
   Vue.component('abilities', Abilities)
   Vue.component('alignment', Alignment)
   Vue.component('alignment-editor', AlignmentEditor)
@@ -21,18 +45,12 @@ export function addCreatureComponents () {
   Vue.component('creature-ability-value', CreatureAbilityValueEditor)
 }
 
-export function addSharedComponents () {
-  Vue.component('array-pills', ArrayPills)
-  Vue.component('favorite', Favorite)
-  Vue.component('labeled-prop', LabeledProp)
-  Vue.component('pill-multiselect', PillMultiselect)
-  Vue.component('source-reference', SourceReference)
-  Vue.component('thumbnail', Thumbnail)
-  Vue.component('list-card', ListCard)
-  Vue.component('modal', Modal)
+function addEncounterComponents () {
+  Vue.component('encounters-filter', EncountersFilter)
+  Vue.component('encounter-actions', EncounterActions)
 }
 
-export function addShopComponents () {
+function addShopComponents () {
   Vue.component('edit-shop', ShopEdit)
   Vue.component('shop-details', ShopDetails)
   Vue.component('shop-form', ShopForm)
@@ -40,7 +58,7 @@ export function addShopComponents () {
   Vue.component('shop-table', ShopTable)
 }
 
-export function addAbilityComponents () {
+function addAbilityComponents () {
   Vue.component('create-ability', AbilityCreate)
   Vue.component('edit-ability', AbilityEdit)
   Vue.component('ability-details', AbilityDetails)
@@ -50,6 +68,10 @@ export function addAbilityComponents () {
   Vue.component('creature-ability', CreatureAbility)
 }
 
-export function addUserComponents () {
+function addUserComponents () {
   Vue.component('user-sign', UserSign)
+}
+
+function addRootComponents () {
+  Vue.component('action-panel', ActionPanel)
 }
