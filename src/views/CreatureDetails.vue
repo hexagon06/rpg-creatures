@@ -1,6 +1,6 @@
 <template>
   <div v-if="isLoading" class="d-flex w-100 justify-content-center">
-    <b-spinner type="grow" label="Loading..."></b-spinner>
+    Loading...
   </div>
   <div v-else class="d-flex" fluid>
     <div class="mb-5 row">

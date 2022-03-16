@@ -49,8 +49,6 @@ export const useEncounterStore = defineStore('encounters', {
 
       if (encounter) {
         this.encounter = encounter
-        const filled: FilledEncounter = fillEncounter(encounter)
-        this.filledEncounter = filled
       }
       else throw new Error('encounter not found')
     },
@@ -87,20 +85,20 @@ export const useEncounterStore = defineStore('encounters', {
 })
 
 // export const encounterMapper = createMapper(encounterModule)
-export function fillEncounter (encounter: Encounter): FilledEncounter {
-  return {
-    ...encounter,
-    creatures: encounter.creatures.map(ref => {
-      const cIndex = indexesStore.state.creatures.find(c => c.id === ref.id)
-      if (cIndex) {
-        return {
-          ...cIndex,
-          count: ref.count
-        }
-      } else {
-        throw new Error(`Expected a reference to a creature but no creature with the id ${ref.id} exists`)
-      }
-    })
-  }
-}
+// export function fillEncounter (encounter: Encounter): FilledEncounter {
+//   return {
+//     ...encounter,
+//     creatures: encounter.creatures.map(ref => {
+//       const cIndex = indexesStore.state.creatures.find(c => c.id === ref.id)
+//       if (cIndex) {
+//         return {
+//           ...cIndex,
+//           count: ref.count
+//         }
+//       } else {
+//         throw new Error(`Expected a reference to a creature but no creature with the id ${ref.id} exists`)
+//       }
+//     })
+//   }
+// }
 

@@ -1,14 +1,14 @@
 <template>
-  <b-container fluid>
-    <div no-gutters>
-      <div cols="2" class="border-right">STR</div>
-      <div cols="2" class="border-right">DEX</div>
-      <div cols="2" class="border-right">CON</div>
-      <div cols="2" class="border-right">INT</div>
-      <div cols="2" class="border-right">WIS</div>
-      <div cols="2">CHA</div>
+  <div fluid>
+    <div class="flex w-full">
+      <div class="border-right">STR</div>
+      <div class="border-right">DEX</div>
+      <div class="border-right">CON</div>
+      <div class="border-right">INT</div>
+      <div class="border-right">WIS</div>
+      <div>CHA</div>
     </div>
-    <div no-gutters>
+    <div>
       <div cols="2" class="border-right">{{ toStr(abilities.strength) }}</div>
       <div cols="2" class="border-right">{{ toStr(abilities.dexterity) }}</div>
       <div cols="2" class="border-right">
@@ -20,7 +20,7 @@
       <div cols="2" class="border-right">{{ toStr(abilities.wisdom) }}</div>
       <div cols="2">{{ toStr(abilities.charisma) }}</div>
     </div>
-  </b-container>
+  </div>
 </template>
 
 <script lang="ts">

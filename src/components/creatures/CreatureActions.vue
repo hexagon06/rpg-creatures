@@ -46,30 +46,30 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { useCreatureStore } from "@/store/creatures";
 import { mapState } from "pinia";
-import { useEncounterStore } from "@/store/encounters";
+import Vue from "vue";
 export default Vue.extend({
   computed: {
-    ...mapState(useEncounterStore, ["encounterForm", "encounter", "isDirty"]),
+    ...mapState(useCreatureStore, ["creature", "creatureForm", "isDirty"]),
     isEditing(): boolean {
-      return this.encounterForm !== undefined;
+      return this.creatureForm !== undefined;
     },
   },
   methods: {
     async back() {
-      await useEncounterStore().stopEdit();
+      await useCreatureStore().stopEdit();
       this.$router.back();
     },
     async reset() {
-      await useEncounterStore().startEdit();
+      await useCreatureStore().startEdit();
     },
     async save() {
-      await useEncounterStore().saveEdit();
+      await useCreatureStore().saveEdit();
     },
     async edit() {
-      await useEncounterStore().startEdit();
-      this.$router.push(`/encounter/${useEncounterStore().encounter?.id}/edit`);
+      await useCreatureStore().startEdit();
+      this.$router.push(`/creature/${useCreatureStore().creature?.id}/edit`);
     },
     setActive() {
       console.warn("setActive not implemented");

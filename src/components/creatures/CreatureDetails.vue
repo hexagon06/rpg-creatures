@@ -4,17 +4,18 @@
     :sub-title="`${value.size} ${value.type}`"
     class="mt-3"
   >
-    <b-container fluid>
+    <h1>{{ value.name }}</h1>
+    <div fluid>
       <array-pills :data="value.organisation" :variant="'badge-light'" />
       <array-pills :data="value.environment" :variant="'badge-secondary'" />
-    </b-container>
+    </div>
     <thumbnail
       v-if="value.image"
       :height="imgSize"
       :width="imgSize"
       :url="value.image"
     ></thumbnail>
-    <b-container fluid>
+    <div fluid>
       <alignment :values="value.alignment"> </alignment>
       <favorite v-model="favorite" />
       <!-- Hit points -->
@@ -37,9 +38,9 @@
       />
       <labeled-prop label="AC" :amount="value.ac" />
       <labeled-prop label="CR" :amount="value.cr" />
-    </b-container>
+    </div>
     <abilities :abilities="creatureAbilities"></abilities>
-    <b-container fluid>
+    <div fluid>
       <!-- Speed -->
       <labeled-prop label="speed" :amount="value.speed" />
       <labeled-prop label="flying" :amount="value.flyingSpeed" />
@@ -109,7 +110,7 @@
         :page="value.page"
         :source="value.source"
       ></source-reference>
-    </b-container>
+    </div>
   </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="loading">loading</div>
+  <div v-if="loading">Loading...</div>
   <div v-else>
     <!-- info card -->
     <div class="m-3 text-left sticky-top">
@@ -53,14 +53,9 @@
 // tags: Tag[]
 // locations: Reference[]
 // environment: string[]
-import { indexesMapper } from "@/store";
-import {
-  creatureLabel,
-  Encounter,
-  FilledEncounter,
-  ReferenceListItem,
-} from "@/types";
-import { cloneDeep } from "lodash";
+import { indexesStore } from "@/store";
+import { creatureLabel, ReferenceListItem } from "@/types";
+import { intersectionWith } from "lodash";
 import Vue from "vue";
 import ArrayPills from "../shared/ArrayPills.vue";
 import { Multiselect } from "vue-multiselect";
@@ -75,15 +70,6 @@ export default Vue.extend({
       required: true,
     },
   },
-  data() {
-    return {
-      encounter: undefined as FilledEncounter | undefined,
-      form: undefined as Encounter | undefined,
-      editing: false,
-      saving: false,
-      validated: false,
-    };
-  },
   async created() {
     this.fetchEncounter(this.id);
   },
@@ -91,10 +77,7 @@ export default Vue.extend({
     id: "fetchEncounter",
   },
   computed: {
-    ...mapState(useEncounterStore, ["filledEncounter"]),
-    ...indexesMapper.mapState({
-      creatureOptions: (state) => state.creatures,
-    }),
+    ...mapState(useEncounterStore, ["encounter"]),
     loading(): boolean {
       return this.encounter === undefined;
     },
@@ -102,15 +85,19 @@ export default Vue.extend({
       return [];
     },
     creatures(): ReferenceListItem[] {
-      return (
-        this.encounter?.creatures.map((c) => {
-          return {
-            id: c.id,
-            label: creatureLabel(c),
-            routerName: "Creature Details",
-          };
-        }) ?? []
-      );
+      return this.encounter && indexesStore.state.initialized
+        ? intersectionWith(
+            indexesStore.state.creatures,
+            this.encounter?.creatures,
+            (i, c) => c.id === i.id
+          ).map((c) => {
+            return {
+              id: c.id,
+              label: creatureLabel(c),
+              routerName: "Creature",
+            };
+          })
+        : [] ?? [];
     },
     environments(): ReferenceListItem[] {
       return (
@@ -130,34 +117,8 @@ export default Vue.extend({
   },
   methods: {
     async fetchEncounter(id: string) {
-      this.encounter = undefined;
-      this.editing = false;
       const store = useEncounterStore();
       await store.fetch(id);
-      this.encounter = store.filledEncounter;
-    },
-    edit() {
-      this.reset();
-      this.editing = true;
-    },
-    reset() {
-      this.form = cloneDeep(this.encounter);
-      this.validated = false;
-    },
-    async save() {
-      if (this.form) {
-        // const form = this.$refs["encounterForm"] as BForm;
-        // if (form.checkValidity() === false) {
-        //   console.warn("invalid");
-        // } else {
-        //   this.saving = true;
-        //   this.encounter = fillEncounter(cloneDeep(this.form));
-        //   await encounterStore.actions.save(this.encounter!);
-        //   this.saving = false;
-        //   this.editing = false;
-        // }
-        // form.classList.add("was-validated");
-      }
     },
   },
 });

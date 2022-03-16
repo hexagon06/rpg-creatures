@@ -1,12 +1,10 @@
 <template>
   <div>
-    <b-img
+    <img
       :src="url"
       rounded
-      :height="heightPx"
-      :width="widthPx"
+      :class="`w-[${widthPx}] h-[${heightPx}] ` + loading ? 'hiding' : ''"
       @load="loadDone('load')"
-      :class="loading ? 'hiding' : ''"
     />
   </div>
 </template>

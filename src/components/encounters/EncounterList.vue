@@ -21,11 +21,6 @@
 </template>
 
 <script lang="ts">
-// name: string
-// synopsis: string
-// tags: Tag[]
-// group?: string
-
 import { indexesMapper } from "@/store";
 import { useEncounterStore } from "@/store/encounters";
 import { mapActions } from "pinia";

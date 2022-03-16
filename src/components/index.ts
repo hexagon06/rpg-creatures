@@ -1,6 +1,10 @@
 import Vue from 'vue'
-import { ArrayPills, Favorite, GridCard, LabeledProp, ListCard, Modal, PillMultiselect, SourceReference, Thumbnail } from './shared'
-import { Edit as CreatureEdit, Create as CreatureCreate, CreatureForm, Alignment, Abilities, AlignmentEditor, CreatureDetails, CreatureFilters, Create, CreaturePagination, CreatureSidebar, CreatureTable, CreatureAbilityEditor, CreatureAbilityValueEditor } from './creatures'
+import { ArrayPills, Favorite, GridCard, InputWrapper, LabeledProp, ListCard, Modal, PillMultiselect, SourceReference, Thumbnail } from './shared'
+import {
+  CreatureForm, Alignment, Abilities, AlignmentEditor, CreatureDetails, CreatureFilters,
+  CreaturePagination, CreatureAbilityEditor, CreatureAbilityValueEditor,
+  CreaturesFilter, CreatureActions
+} from './creatures'
 import { Edit as ShopEdit, ShopDetails, ShopForm, ShopSidebar, ShopTable } from './shops'
 import { Create as AbilityCreate, AbilityDetails, AbilityForm, AbilitySidebar, AbilityTable, Edit as AbilityEdit, CreatureAbility } from './abilities'
 import { UserSign } from './users'
@@ -27,22 +31,21 @@ function addSharedComponents () {
   Vue.component('list-card', ListCard)
   Vue.component('modal', Modal)
   Vue.component('grid-card', GridCard)
+  Vue.component('input-wrapper', InputWrapper)
 }
 
 function addCreatureComponents () {
   Vue.component('abilities', Abilities)
   Vue.component('alignment', Alignment)
   Vue.component('alignment-editor', AlignmentEditor)
-  Vue.component('create-creature', CreatureCreate)
   Vue.component('creature-details', CreatureDetails)
   Vue.component('creature-filters', CreatureFilters)
   Vue.component('creature-form', CreatureForm)
   Vue.component('creature-pagination', CreaturePagination)
-  Vue.component('creature-sidebar', CreatureSidebar)
-  Vue.component('creature-table', CreatureTable)
-  Vue.component('edit-creature', CreatureEdit)
   Vue.component('creature-ability-editor', CreatureAbilityEditor)
   Vue.component('creature-ability-value', CreatureAbilityValueEditor)
+  Vue.component('creatures-filter', CreaturesFilter)
+  Vue.component('creature-actions', CreatureActions)
 }
 
 function addEncounterComponents () {

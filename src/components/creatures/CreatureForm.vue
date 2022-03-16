@@ -22,10 +22,10 @@
         <input
           id="input-is-noun"
           v-model="creature.nameIsNoun"
+          type="checkbox"
           required
-        >
-          Is Noun
-        </input>
+        />
+        Is Noun
         <!-- <input
           id="input-is-noun"
           v-model="creature.nameIsNoun"
@@ -317,10 +317,7 @@
         />
       </div>
       <span class="flex-fill"></span>
-      <button
-        variant="primary"
-        class="align-self-end mb-3"
-      >
+      <button variant="primary" class="align-self-end mb-3">
         More options
       </button>
     </div>
@@ -403,10 +400,7 @@
     <creature-ability-editor v-model="creature.abilityKeys" />
 
     <div id="input-favorite-group" label="Favorite" label-for="input-favorite">
-      <input
-        id="input-favorite"
-        v-model="creature.favorite"
-      ></input>
+      <input id="input-favorite" v-model="creature.favorite" />
     </div>
     <div id="input-comments-group" label="Comments" label-for="input-comments">
       <input
@@ -414,10 +408,8 @@
         v-model="creature.comments"
         placeholder="Something interesting..."
         rows="3"
-      ></input>
+      />
     </div>
-    <!-- </b-tab>
-    </b-tabs> -->
   </div>
 </template>
 
@@ -575,4 +567,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+input {
+  color: black;
+}
 </style>

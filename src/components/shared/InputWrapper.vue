@@ -1,0 +1,24 @@
+<template>
+  <div class="flex flex-col my-3">
+    <label class="text-stone-400 text-xs">{{ label }}</label>
+    <slot />
+    <p name="validation" v-if="!isValid" class="text-sm text-red-500">
+      *{{ validation }}
+    </p>
+    <p class="text-sm text-stone-400"><slot name="help" /></p>
+  </div>
+</template>
+
+<script lang="ts">
+import Vue from "vue";
+export default Vue.extend({
+  props: {
+    label: { type: String, required: true },
+    validation: { type: String, default: undefined },
+    isValid: { type: Boolean, default: true },
+  },
+});
+</script>
+
+<style lang="scss" scoped>
+</style>

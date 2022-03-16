@@ -23,9 +23,9 @@
     </div>
     <div class="flex">
       <router-view
-        class="w-auto trasition-padding ease-in md:pl-52 flex-1-1-0"
+        class="w-auto trasition-padding ease-in md:px-52 flex-1-1-0"
       />
-      <action-panel class="w-52 align-self-start" />
+      <action-panel class="w-52 align-self-start fixed top-14 right-0" />
     </div>
   </div>
 </template>
@@ -42,7 +42,7 @@ export default Vue.extend({
       links: [
         { label: "Home", path: "/home" },
         { label: "Encounters", path: "/encounter", condition: true },
-        { label: "Creatures", path: "/creatures", condition: true },
+        { label: "Creatures", path: "/creature", condition: true },
         // { label: "Shops", path: "/shops", condition: true },
         // { label: "Abilities", path: "/abilities", condition: true },
         // {

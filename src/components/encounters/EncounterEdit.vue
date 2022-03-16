@@ -1,66 +1,57 @@
 <template>
-  <div v-if="form">
+  <div v-if="loading">Loading...</div>
+  <div v-else>
     <form novalidate :validated="validated" ref="form">
       <div class="m-3 text-left">
-        <div class="d-flex">
-          <button type="submit" class="ml-auto text-red">Save</button>
-        </div>
         <div>
-          <div id="input-group-1" label="Encounter Name:" label-for="input-2">
+          <input-wrapper
+            label="Encounter Name"
+            validation="Invalid name"
+            :is-valid="encounterForm.name && encounterForm.name.length > 0"
+          >
             <input
               id="input-1"
-              v-model="form.name"
+              v-model="encounterForm.name"
               placeholder="Enter name"
               aria-describedby="password-help-block"
               required
             />
-            <p id="password-help-block">
-              Your password must be 8-20 characters long, contain letters and
-              numbers, and must not contain spaces, special characters, or
-              emoji.
-            </p>
-            <p class="text-red-500">Invalid name</p>
-          </div>
-          <div
-            id="input-group-synopsis"
-            label="Synopsis:"
-            label-for="input-synopsis"
+            <template v-slot:help>
+              Use a descriptive name to label the Encounter.
+            </template>
+          </input-wrapper>
+          <input-wrapper
+            label="Synopsis"
+            validation="Synopsis is required"
+            :is-valid="
+              encounterForm.synopsis && encounterForm.synopsis.length > 0
+            "
           >
             <input
               id="input-synopsis"
-              v-model="form.synopsis"
+              v-model="encounterForm.synopsis"
               placeholder="A short story"
               aria-describedby="synopsis-help-block"
               required
             />
-            <p id="synopsis-help-block">
+            <template v-slot:help>
               One or two short sentences describing the encounter
-            </p>
-            <p class="text-red-500">Synopsis is required</p>
-          </div>
-          <div
-            id="input-group-flavor-text"
-            label="Flavor Text:"
-            label-for="input-flavor-text"
-          >
-            <input
+            </template>
+          </input-wrapper>
+          <input-wrapper label="Flavor Text">
+            <textarea
               id="input-flavor-text"
-              v-model="form.flavorText"
+              v-model="encounterForm.flavorText"
               placeholder="You enter the darkest dungeon and it smells damp"
               aria-describedby="flavor-text-help-block"
             />
-            <p id="flavor-text-help-block">
+            <template v-slot:help>
               Write a short text you can read out when starting this encounter.
-            </p>
-            <p class="text-red-500">Flavor Text is invalid</p>
-          </div>
-          <div
-            id="input-group-description"
-            label="Description:"
-            label-for="input-description"
-          >
+            </template>
+          </input-wrapper>
+          <input-wrapper label="Description">
             <v-md-editor
-              v-model="form.description"
+              v-model="encounterForm.description"
               height="400px"
               aria-describedby="description-help-block"
             ></v-md-editor>
@@ -69,50 +60,44 @@
               v-model="form.description"
               placeholder="The walls of the dungeon are made of slimey goo, anyone getting too close must make a save"
             ></input> -->
-            <p id="description-help-block">
+            <template v-slot:help>
               Describe the encounter, what the adventurers encounter, what
               challenge there may be, etc.
-            </p>
-            <p class="text-red-500">Description is invalid</p>
-          </div>
-          <div id="input-group-reward" label="Reward:" label-for="input-reward">
+            </template>
+          </input-wrapper>
+          <input-wrapper label="Reward:">
             <input
               id="input-reward"
-              v-model="form.reward"
+              v-model="encounterForm.reward"
               placeholder="3d20+50 gold and the Sword of Hannah"
               aria-describedby="reward-help-block"
             />
-            <p id="reward-help-block">
+            <template v-slot:help>
               What are possible rewards for the adventurers?
-            </p>
-            <p class="text-red-500">Reward is invalid</p>
-          </div>
-          <div id="input-group-group" label="Group:" label-for="input-group">
+            </template>
+          </input-wrapper>
+          <input-wrapper
+            id="input-group-group"
+            label="Group:"
+            label-for="input-group"
+          >
             <input
               id="input-group"
-              v-model="form.group"
+              v-model="encounterForm.group"
               placeholder="The Adventurers"
               aria-describedby="group-help-block"
+              class="rounded-sm"
             />
-            <p id="group-help-block">
+            <template v-slot:help>
               If this encounter is made for a specific adventure or group of
               adventurers you can mention them here.
-            </p>
-            <p class="text-red-500">Group is invalid</p>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div>
-          <div
-            id="input-creature-group"
-            label="Creatures"
-            label-for="input-creature"
-          >
+            </template>
+          </input-wrapper>
+          <input-wrapper label="Creatures">
             <multiselect
               id="input-size"
               multiple
-              v-model="form.creatures"
+              v-model="encounterForm.creatures"
               :options="creatureOptions"
               :clear-on-select="false"
               :close-on-select="false"
@@ -122,13 +107,10 @@
               label="name"
               track-by="id"
             ></multiselect>
-          </div>
+          </input-wrapper>
         </div>
       </div>
     </form>
-  </div>
-  <div v-else>
-    no form {{ encounterForm ? encounterForm.name : "no encounterForm" }}
   </div>
 </template>
 
@@ -136,10 +118,8 @@
 // tags: Tag[]
 // locations: Reference[]
 // environment: string[]
-import { indexesMapper } from "@/store";
+import { indexesMapper, indexesStore } from "@/store";
 import { useEncounterStore } from "@/store/encounters";
-import { Encounter } from "@/types";
-import { isEqual } from "lodash";
 import Vue from "vue";
 import { Multiselect } from "vue-multiselect";
 import { mapWritableState } from "pinia";
@@ -154,7 +134,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      form: undefined as Encounter | undefined,
+      // form: undefined as Encounter | undefined,
       saving: false,
       validated: false,
     };
@@ -165,80 +145,39 @@ export default Vue.extend({
       await store.fetch(this.id);
     }
     await store.startEdit();
-    console.log("mounted");
-
-    this.form = this.encounterForm ? { ...this.encounterForm } : undefined;
+    // this.form = this.encounterForm ? { ...this.encounterForm } : undefined;
   },
   watch: {
-    encounterForm: function (n) {
-      console.log("encounterForm changed");
-
-      this.form = { ...n };
-    },
-    form: {
-      handler: function (n) {
-        const store = useEncounterStore();
-        if (!isEqual(store.encounterForm, this.form)) {
-          store.encounterForm = n;
-        }
-      },
-      deep: true,
-    },
+    // encounterForm: function (n) {
+    //   console.log("encounterForm changed");
+    //   this.form = { ...n };
+    // },
+    // form: {
+    //   handler: function (n) {
+    //     const store = useEncounterStore();
+    //     if (!isEqual(store.encounterForm, this.form)) {
+    //       store.encounterForm = n;
+    //     }
+    //   },
+    //   deep: true,
+    // },
   },
   computed: {
-    // ...mapState(useEncounterStore, ['encounterForm']),
     ...mapWritableState(useEncounterStore, ["encounterForm"]),
-    // ...encounterMapper.mapState(["encounterForm"]),
     ...indexesMapper.mapState({
       creatureOptions: (state) => state.creatures,
     }),
-    // encounterForm(): Encounter | undefined {
-    //   console.log("get encounterForm", encounterStore.state.encounterForm);
-
-    //   return encounterStore.state.encounterForm;
-    // },
-    // locations(): ReferenceListItem[] {
-    //   return [];
-    // },
-    // creatures(): ReferenceListItem[] {
-    //   return (
-    //     this.encounter?.creatures.map((c) => {
-    //       return {
-    //         id: c.id,
-    //         label: creatureLabel(c),
-    //         routerName: "Creature Details",
-    //       };
-    //     }) ?? []
-    //   );
-    // },
-    // environments(): ReferenceListItem[] {
-    //   return (
-    //     this.encounter?.environment.map((e) => {
-    //       return { id: e, label: e };
-    //     }) ?? []
-    //   );
-    // },
-    // hasReferences(): boolean {
-    //   return (
-    //     this.encounter !== undefined &&
-    //     (this.encounter.locations.length > 0 ||
-    //       this.encounter.environment.length > 0 ||
-    //       this.encounter.creatures.length > 0)
-    //   );
-    // },
+    loading(): boolean {
+      return (
+        !indexesStore.state.initialized ||
+        useEncounterStore().encounterForm === undefined
+      );
+    },
   },
 });
 </script>
 
 <style lang="scss" scoped>
-$sidebar-width: 300px;
-.entity-selector {
-  width: $sidebar-width;
-  min-width: $sidebar-width;
-}
-.bd-highlight {
-  background-color: darken(#fff, 5);
-}
 input {
   color: black;
 }
