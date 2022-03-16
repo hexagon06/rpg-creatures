@@ -26,20 +26,23 @@
 // tags: Tag[]
 // group?: string
 
-import { encounterMapper, encounterStore, indexesMapper } from "@/store";
+import { indexesMapper } from "@/store";
+import { useEncounterStore } from "@/store/encounters";
+import { mapActions } from "pinia";
 import Vue from "vue";
 export default Vue.extend({
   computed: {
     ...indexesMapper.mapState(["encounters", "initialized"]),
   },
   methods: {
-    ...encounterMapper.mapActions(["createEncounter"]),
+    ...mapActions(useEncounterStore, ["createEncounter"]),
     async create() {
       await this.createEncounter();
-      if (encounterStore.state.encounter?.id) {
+      const store = useEncounterStore();
+      if (store.encounter?.id) {
         this.$router.push({
           path: "encounter",
-          params: { id: encounterStore.state.encounter.id },
+          params: { id: store.encounter.id },
         });
       } else {
         throw Error("encounter should have been set");

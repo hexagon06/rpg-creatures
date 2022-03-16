@@ -26,6 +26,10 @@ import { addFontAwesome } from './font-awesome'
 import './scss/custom.scss'
 import './assets/tailwind.css'
 import { addAllComponents } from '@/components'
+// Pinia store
+import { createPinia, PiniaVuePlugin } from 'pinia'
+Vue.use(PiniaVuePlugin)
+const pinia = createPinia()
 
 addFontAwesome()
 addAllComponents()
@@ -35,5 +39,6 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
+  pinia,
   render: h => h(App)
 }).$mount('#app')

@@ -64,8 +64,7 @@
 // tags: Tag[]
 // locations: Reference[]
 // environment: string[]
-import { encounterStore, indexesMapper } from "@/store";
-import { encounterMapper, fillEncounter } from "@/store/encounters";
+import { indexesMapper } from "@/store";
 import {
   creatureLabel,
   Encounter,
@@ -76,6 +75,8 @@ import { cloneDeep } from "lodash";
 import Vue from "vue";
 import ArrayPills from "../shared/ArrayPills.vue";
 import { Multiselect } from "vue-multiselect";
+import { mapState } from "pinia";
+import { useEncounterStore } from "@/store/encounters";
 
 export default Vue.extend({
   components: { ArrayPills, Multiselect },
@@ -101,7 +102,7 @@ export default Vue.extend({
     id: "fetchEncounter",
   },
   computed: {
-    ...encounterMapper.mapState(["filledEncounter"]),
+    ...mapState(useEncounterStore, ["filledEncounter"]),
     ...indexesMapper.mapState({
       creatureOptions: (state) => state.creatures,
     }),
@@ -142,8 +143,9 @@ export default Vue.extend({
     async fetchEncounter(id: string) {
       this.encounter = undefined;
       this.editing = false;
-      await encounterStore.actions.fetch(id);
-      this.encounter = encounterStore.state.filledEncounter;
+      const store = useEncounterStore();
+      await store.fetch(id);
+      this.encounter = store.filledEncounter;
     },
     edit() {
       this.reset();

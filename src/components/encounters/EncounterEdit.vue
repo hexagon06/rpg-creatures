@@ -136,17 +136,13 @@
 // tags: Tag[]
 // locations: Reference[]
 // environment: string[]
-import { encounterStore, indexesMapper } from "@/store";
-import { encounterMapper, fillEncounter } from "@/store/encounters";
-import {
-  creatureLabel,
-  Encounter,
-  FilledEncounter,
-  ReferenceListItem,
-} from "@/types";
-import { cloneDeep, isEqual } from "lodash";
+import { indexesMapper } from "@/store";
+import { useEncounterStore } from "@/store/encounters";
+import { Encounter } from "@/types";
+import { isEqual } from "lodash";
 import Vue from "vue";
 import { Multiselect } from "vue-multiselect";
+import { mapWritableState } from "pinia";
 
 export default Vue.extend({
   components: { Multiselect },
@@ -164,13 +160,11 @@ export default Vue.extend({
     };
   },
   async mounted() {
-    if (
-      !encounterStore.state.encounter ||
-      encounterStore.state.encounter.id !== this.id
-    ) {
-      await encounterStore.actions.fetch(this.id);
+    const store = useEncounterStore();
+    if (!store.encounter || store.encounter.id !== this.id) {
+      await store.fetch(this.id);
     }
-    await encounterStore.actions.startEdit();
+    await store.startEdit();
     console.log("mounted");
 
     this.form = this.encounterForm ? { ...this.encounterForm } : undefined;
@@ -182,24 +176,27 @@ export default Vue.extend({
       this.form = { ...n };
     },
     form: {
-      handler: async function (n) {
-        if (!isEqual(encounterStore.state.encounterForm, this.form)) {
-          await encounterStore.mutations.editEncounter(n);
+      handler: function (n) {
+        const store = useEncounterStore();
+        if (!isEqual(store.encounterForm, this.form)) {
+          store.encounterForm = n;
         }
       },
       deep: true,
     },
   },
   computed: {
+    // ...mapState(useEncounterStore, ['encounterForm']),
+    ...mapWritableState(useEncounterStore, ["encounterForm"]),
     // ...encounterMapper.mapState(["encounterForm"]),
     ...indexesMapper.mapState({
       creatureOptions: (state) => state.creatures,
     }),
-    encounterForm(): Encounter | undefined {
-      console.log("get encounterForm", encounterStore.state.encounterForm);
+    // encounterForm(): Encounter | undefined {
+    //   console.log("get encounterForm", encounterStore.state.encounterForm);
 
-      return encounterStore.state.encounterForm;
-    },
+    //   return encounterStore.state.encounterForm;
+    // },
     // locations(): ReferenceListItem[] {
     //   return [];
     // },

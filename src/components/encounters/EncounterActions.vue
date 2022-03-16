@@ -49,17 +49,15 @@
 </template>
 
 <script lang="ts">
-import { encounterMapper, encounterStore } from "@/store";
 import Vue from "vue";
-import { isEqual } from "lodash";
+import { mapState } from "pinia";
+import { useEncounterStore } from "@/store/encounters";
 export default Vue.extend({
   computed: {
-    ...encounterMapper.mapState(["encounterForm", "encounter"]),
+    ...mapState(useEncounterStore, ["encounterForm", "encounter", "isDirty"]),
+    // ...encounterMapper.mapState(["encounterForm", "encounter"]),
     isEditing(): boolean {
       return this.encounterForm !== undefined;
-    },
-    isDirty(): boolean {
-      return !isEqual(this.encounterForm, this.encounter);
     },
   },
   mounted() {
@@ -67,20 +65,18 @@ export default Vue.extend({
   },
   methods: {
     async back() {
-      await encounterStore.actions.stopEdit();
+      await useEncounterStore().stopEdit();
       this.$router.back();
     },
     async reset() {
-      await encounterStore.actions.startEdit();
+      await useEncounterStore().startEdit();
     },
     async save() {
-      await encounterStore.actions.saveEdit();
+      await useEncounterStore().saveEdit();
     },
     async edit() {
-      await encounterStore.actions.startEdit();
-      this.$router.push(
-        `/encounter/${encounterStore.state.encounter?.id}/edit`
-      );
+      await useEncounterStore().startEdit();
+      this.$router.push(`/encounter/${useEncounterStore().encounter?.id}/edit`);
     },
     setActive() {
       console.warn("setActive not implemented");

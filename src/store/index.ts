@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 import { createStore, Module } from 'vuex-smart-module'
 import { abilityModule } from './abilities'
 import { creatureModule } from './creatures'
-import { encounterModule } from './encounters'
 import { filterModule } from './filter'
 import { shopModule } from './shops'
 import { userModule } from './users'
@@ -12,7 +11,6 @@ import { indexesModule } from './indexes'
 export { abilityMapper } from './abilities'
 export { creatureMapper } from './creatures'
 export { filterMapper } from './filter'
-export { encounterMapper } from './encounters'
 export { shopMapper } from './shops'
 export { indexesMapper, } from './indexes'
 class RootState {
@@ -24,7 +22,6 @@ export const rootModule = new Module({
   modules: {
     abilityModule,
     creatureModule,
-    encounterModule,
     filterModule,
     shopModule,
     userModule,
@@ -49,4 +46,3 @@ export const shopStore = rootModule.context(store).modules.shopModule
 export const abilityStore = rootModule.context(store).modules.abilityModule
 export const userStore = rootModule.context(store).modules.userModule
 export const indexesStore = rootModule.context(store).modules.indexesModule
-export const encounterStore = rootModule.context(store).modules.encounterModule
