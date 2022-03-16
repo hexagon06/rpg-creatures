@@ -3,18 +3,7 @@
   <div v-else>
     <!-- info card -->
     <div class="m-3 text-left sticky-top">
-      <div>
-        <div class="d-flex">
-          <h1>{{ encounter.name }}</h1>
-          <button
-            variant="primary"
-            @click="edit"
-            class="ml-auto align-self-start"
-          >
-            Edit
-          </button>
-        </div>
-      </div>
+      <h1>{{ encounter.name }}</h1>
       <p class="font-italic font-weight-bolder text-secondary">
         {{ encounter.synopsis }}
       </p>
