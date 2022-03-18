@@ -24,7 +24,7 @@ export const useEncounterStore = defineStore('encounters', {
     }
   },
   actions: {
-    async createEncounter (): Promise<void> {
+    async createEncounter (): Promise<string> {
       const encounter: Encounter = {
         name: 'new encounter',
         synopsis: '',
@@ -39,6 +39,7 @@ export const useEncounterStore = defineStore('encounters', {
       const encounterIndex: EncounterIndex = getEncounterIndex(id, encounter)
       await indexesStore.actions.addEncounter(encounterIndex)
       this.encounter = encounter
+      return id
     },
     async fetch (id: string) {
       this.encounter = undefined

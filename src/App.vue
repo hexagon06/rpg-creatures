@@ -21,7 +21,7 @@
       </div>
       <user-sign class=""></user-sign>
     </div>
-    <div class="flex">
+    <div class="flex mt-3">
       <router-view
         class="w-auto trasition-padding ease-in md:px-52 flex-1-1-0"
       />

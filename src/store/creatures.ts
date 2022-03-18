@@ -1,4 +1,4 @@
-import { getCreature, updateCreature } from '@/api/creature'
+import { createCreature, getCreature, updateCreature } from '@/api/creature'
 import { Creature, getCreatureIndex } from '@/types'
 import { deepEqual } from '@firebase/util'
 import { defineStore } from 'pinia'
@@ -23,6 +23,25 @@ export const useCreatureStore = defineStore('creatures', {
     }
   },
   actions: {
+    async createCreature (): Promise<string> {
+      const creature: Creature = {
+        abilityKeys: [],
+        abilityScores: {},
+        alignment: [],
+        environment: [],
+        favorite: false,
+        name: 'new creature',
+        nameIsNoun: false,
+        newTags: [],
+        organisation: [],
+        tags: []
+      }
+      const id = await createCreature(creature)
+      const creatureIndex = getCreatureIndex({ ...creature, id })
+      await indexesStore.actions.addCreature(creatureIndex)
+      this.creature = creature
+      return id
+    },
     async fetch (id: string) {
       this.creature = undefined
       this.creatureForm = undefined
@@ -62,29 +81,6 @@ export const useCreatureStore = defineStore('creatures', {
         this.creatureForm = undefined
       }
     },
-    async setSelectedCreature (id?: string) {
-      console.warn('disabled createCreature')
-      // if (id === undefined) {
-      //   this.selectedCreature = undefined
-      // } else {
-      //   const creature = await getCreature(id)
-      //   if (creature) {
-      //     this.selectedCreature = creature
-      //   } else {
-      //     console.warn('setSelectedCreature could not retrieve creature')
-      //   }
-      // }
-    },
-    async createCreature (creature: Creature) {
-      console.warn('disabled createCreature')
-      // making sure we allow google to generate an id
-
-      //   creature.id = undefined
-      //   const newId = await createCreature(creature)
-      // creature.id = newId
-      // this.selectedCreature = creature
-      //   await indexesStore.actions.addCreature(getCreatureIndex(creature))
-    },
     async updateFavorite (update: { creatureId: string, favorite: boolean }) {
       console.warn('not implementted: updateFavorite')
 
@@ -94,13 +90,6 @@ export const useCreatureStore = defineStore('creatures', {
       //   await updateCreature(creature)
       // }
     },
-    async updateCreature (creature: Creature) {
-      console.warn('disabled updateCreature')
-
-      // this.mutations.updateCreature(creature)
-      // await updateCreature(creature)
-      // await indexesStore.actions.updateCreature(getCreatureIndex(creature))
-    }
   }
 })
 
