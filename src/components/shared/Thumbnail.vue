@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <img
-      :src="url"
-      rounded
-      :class="`w-[${widthPx}] h-[${heightPx}] ` + loading ? 'hiding' : ''"
-      @load="loadDone('load')"
-    />
-  </div>
+  <img
+    :src="url"
+    rounded
+    class="object-contain w-36 h-36"
+    :class="loading ? 'hiding' : ''"
+    loading="lazy"
+    @load="loadDone('load')"
+  />
 </template>
 
 <script lang="ts">
@@ -47,6 +47,8 @@ export default Vue.extend({
   },
   methods: {
     loadDone(e: Event) {
+      console.log("loadDone");
+
       this.loading = false;
     },
   },
