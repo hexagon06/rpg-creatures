@@ -4,5 +4,12 @@ service cloud.firestore {
     match /{document=**} {
       allow get, write: if request.auth != null;
     }
+    match /creatures/{creatureId}{
+      allow read, write: if request.auth != null
+
+      match /userData/{dataId=**} {
+        allow read, write: if request.auth != null && resource.data.userId == request.auth.uid
+      }
+    }
   }
 }

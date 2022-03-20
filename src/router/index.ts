@@ -3,6 +3,7 @@ import { userStore } from '@/store'
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
+import Maintenance from '../views/Maintenance.vue'
 
 Vue.use(VueRouter)
 
@@ -91,6 +92,11 @@ const routes: Array<RouteConfig> = [
         props: true
       },
     ]
+  },
+  {
+    path: '/maintenance',
+    name: 'Maintenance',
+    component: Maintenance
   },
 ]
 

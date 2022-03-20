@@ -74,4 +74,11 @@ export type Creature = IdItem & CreatureBase & {
   speed?: number
   swimSpeed?: number
   wisdom?: number
+  userData?: UserCreatureData
+}
+
+export type UserCreatureData = IdItem & {
+  userId: string
+  comments?: string
+  favorite: boolean
 }

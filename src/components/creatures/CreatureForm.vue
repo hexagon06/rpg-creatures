@@ -369,13 +369,13 @@
     <creature-ability-editor v-model="creature.abilityKeys" />
 
     <input-wrapper label="Favorite">
-      <input id="input-is-noun" v-model="creature.favorite" type="checkbox" />
+      <input id="input-is-noun" v-model="favorite" type="checkbox" />
     </input-wrapper>
 
     <input-wrapper label="Comments">
       <textarea
         id="input-comments"
-        v-model="creature.comments"
+        v-model="comments"
         placeholder="Something interesting..."
         rows="3"
       />
@@ -394,6 +394,7 @@ import { Creature } from "@/types/creatures";
 import { toHitDiceFormula, toMod } from "@/shared";
 import { useFilterStore } from "@/store/filter";
 import { mapState } from "pinia";
+import { userStore } from "@/store";
 
 export default Vue.extend({
   components: {
@@ -461,6 +462,43 @@ export default Vue.extend({
         this.creature.amountHitDice,
         this.conMod
       );
+    },
+    favorite: {
+      get(): boolean {
+        return this.creature.userData?.favorite ?? false;
+      },
+      set(value: boolean) {
+        if (this.creature.userData) {
+          this.creature.userData = {
+            ...this.creature.userData,
+            favorite: value,
+          };
+        } else if (userStore.state.currentUser) {
+          this.creature.userData = {
+            userId: userStore.state.currentUser.uid,
+            favorite: value,
+          };
+        } else throw new Error("currentUser should be set");
+      },
+    },
+    comments: {
+      get(): string {
+        return this.creature.userData?.comments ?? "";
+      },
+      set(value: string) {
+        if (this.creature.userData) {
+          this.creature.userData = {
+            ...this.creature.userData,
+            comments: value,
+          };
+        } else if (userStore.state.currentUser) {
+          this.creature.userData = {
+            userId: userStore.state.currentUser.uid,
+            comments: value,
+            favorite: false,
+          };
+        } else throw new Error("currentUser should be set");
+      },
     },
   },
   watch: {

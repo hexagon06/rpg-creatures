@@ -96,9 +96,9 @@
     />
 
     <array-pills :data="value.tags" :variant="'badge-success'" />
-    <div v-if="value.comments">
+    <div v-if="value.userData !== undefined && value.userData.comments">
       <p class="bg-light border rounded-md mt-3 p-2">
-        {{ value.comments }}
+        {{ value.userData.comments }}
       </p>
     </div>
     <div class="flex justify-between mt-4">
@@ -119,7 +119,7 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import { Creature, RPGAbilities } from "@/types/creatures";
-import { abilityMapper } from "@/store";
+import { abilityMapper, userStore } from "@/store";
 import { toHitDiceFormula, toMod } from "@/shared";
 import LabeledProp from "../shared/LabeledProp.vue";
 import {
@@ -149,9 +149,15 @@ export default Vue.extend({
     },
     favorite: {
       get(): boolean {
-        return this.value.favorite;
+        return this.value.userData?.favorite ?? false;
       },
       async set(value: boolean) {
+        if (!this.value.userData && userStore.state.currentUser) {
+          this.value.userData = {
+            userId: userStore.state.currentUser?.uid,
+            favorite: value,
+          };
+        }
         if (this.value.id) {
           this.$emit("favorite", value);
         }
