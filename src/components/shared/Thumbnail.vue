@@ -4,7 +4,6 @@
     rounded
     class="object-contain"
     :class="loading ? 'hiding' : ''"
-    loading="lazy"
     @load="loadDone('load')"
   />
 </template>
