@@ -112,10 +112,11 @@
           validation="Image url is too big"
           :is-valid="!creature.image || creature.image.length < 300"
         />
-        <template v-slot:help
-          >link to somewhere on the internet ({{ creature.image.length }}/300
-          chars.)</template
-        >
+        <template v-slot:help>
+          link to somewhere on the internet ({{
+            creature.image ? creature.image.length : 0
+          }}/300 chars.)
+        </template>
       </input-wrapper>
       <thumbnail v-if="creature.image" :url="creature.image" />
     </div>

@@ -12,14 +12,11 @@ export async function getCreature (id: string): Promise<Creature | undefined> {
   try {
     const firestore = new FirestoreAcces<Creature>(firebaseClient.store, CREATURE_COLLECTION)
     const creature = await firestore.getById(id)
-    console.log('creature', creature)
 
     const colRef = collection(firebaseClient.store, `${CREATURE_COLLECTION}/${id}/userData`)
     const q = query(colRef, where('userId', '==', userStore.state.currentUser?.uid))
     const userData = await getDocs(q)
 
-    // const userData = await getCollection(firebaseClient.store, `${CREATURE_COLLECTION}/${id}/userData`)
-    console.log('userData', userData)
     if (creature && userData.docs.length > 0) {
       if (userData.docs.length > 1) console.warn('WARNING WARNING More than one doc retrieved')
 
@@ -27,8 +24,6 @@ export async function getCreature (id: string): Promise<Creature | undefined> {
         ...(userData.docs[0].data() as UserCreatureData),
         id: userData.docs[0].id
       }
-      console.log('creatuer.userData', creature.userData)
-
     }
     return creature
   } catch (e) {
@@ -64,7 +59,6 @@ export async function updateCreature (creature: Creature): Promise<void> {
 
     if (creature.userData) {
       const userDataStore = new FirestoreAcces<UserCreatureData>(firebaseClient.store, `${CREATURE_COLLECTION}/${id}/userData`)
-      console.log(creature.userData)
 
       if (creature.userData.id) {
         await userDataStore.update(creature.userData)
