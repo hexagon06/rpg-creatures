@@ -1,7 +1,7 @@
 <template>
-  <div v-if="hasValue" align-h="start" align-content="start" class="text-left">
+  <div v-if="hasValue" align-h="start" align-content="start" class="flex gap-3">
     <div cols="4">
-      <label class="font-weight-bold">{{ label }}</label>
+      <label class="font-bold">{{ label }}</label>
     </div>
     <div>
       <div>{{ value }}</div>

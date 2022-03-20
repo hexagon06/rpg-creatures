@@ -26,7 +26,15 @@
     </div>
     <div class="flex mt-3">
       <router-view
-        class="w-auto trasition-padding ease-in md:px-52 flex-1-1-0 max-w-full"
+        class="
+          w-auto
+          trasition-padding
+          ease-in
+          md:px-52
+          flex-1-1-0
+          max-w-full
+          mt-14
+        "
       />
       <action-panel class="w-52 align-self-start fixed top-14 right-0" />
     </div>

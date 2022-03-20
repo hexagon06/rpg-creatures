@@ -24,4 +24,10 @@
   input {
     @apply rounded-md px-2
   }
+  h1 {
+    @apply text-xl mb-3
+  }
+  hr {
+    @apply mt-2 mb-3
+  }
 }

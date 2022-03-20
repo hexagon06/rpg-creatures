@@ -208,7 +208,7 @@
             placeholder="10"
             number
             @keypress="isNumber"
-            class="w-8"
+            class="w-9"
           />
           <template v-slot:help>
             {{ modString(strMod) }}
@@ -221,7 +221,7 @@
             placeholder="10"
             number
             @keypress="isNumber"
-            class="w-8"
+            class="w-9"
           />
           <template v-slot:help>
             {{ modString(dexMod) }}
@@ -234,7 +234,7 @@
             placeholder="10"
             number
             @keypress="isNumber"
-            class="w-8"
+            class="w-9"
           />
           <template v-slot:help>
             {{ modString(conMod) }}
@@ -247,7 +247,7 @@
             placeholder="10"
             number
             @keypress="isNumber"
-            class="w-8"
+            class="w-9"
           />
           <template v-slot:help>
             {{ modString(intMod) }}
@@ -260,7 +260,7 @@
             placeholder="10"
             number
             @keypress="isNumber"
-            class="w-8"
+            class="w-9"
           />
           <template v-slot:help>
             {{ modString(wisMod) }}
@@ -273,7 +273,7 @@
             placeholder="10"
             number
             @keypress="isNumber"
-            class="w-8"
+            class="w-9"
           />
           <template v-slot:help>
             {{ modString(chaMod) }}
@@ -302,7 +302,7 @@
       </button>
     </div>
     <div v-if="showSpeeds" class="grid gap-2 max-w-full grid-cols-4">
-      <input-wrapper label="Flying" class="columns-3">
+      <input-wrapper label="Flying">
         <input
           id="input-flying"
           v-model="creature.flyingSpeed"

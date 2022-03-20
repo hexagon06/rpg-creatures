@@ -26,7 +26,7 @@ export default Vue.extend({
       default: undefined,
     },
     page: {
-      type: String,
+      type: Number,
       default: undefined,
     },
   },
