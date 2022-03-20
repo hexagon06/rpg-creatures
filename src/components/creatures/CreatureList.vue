@@ -2,7 +2,7 @@
   <div v-if="initialized" class="flex justify-center">
     <div class="entity-grid">
       <grid-card
-        v-for="creature in filteredCreatures"
+        v-for="creature in limitedCreatures"
         :key="creature.id"
         :to="{ name: 'Creature', params: { id: creature.id } }"
       >
@@ -40,6 +40,12 @@ import { difference, filter } from "lodash";
 import { mapState } from "pinia";
 import Vue from "vue";
 export default Vue.extend({
+  data() {
+    return {
+      loadSize: 6,
+      currentLoaded: 3,
+    };
+  },
   computed: {
     ...mapState(useFilterStore, ["creatureFilter"]),
     ...indexesMapper.mapState(["creatures", "initialized"]),
@@ -48,8 +54,39 @@ export default Vue.extend({
         filterCreature(value, this.creatureFilter)
       );
     },
+    limitedCreatures(): CreatureIndex[] {
+      return this.filteredCreatures.slice(
+        0,
+        this.loadSize * this.currentLoaded
+      );
+    },
+    maxLoaded(): number {
+      return this.filteredCreatures.length / this.loadSize;
+    },
   },
-  methods: {},
+  watch: {
+    filteredCreatures: function () {
+      window.scrollTo(0, 0);
+      this.currentLoaded = 3;
+    },
+  },
+  mounted() {
+    window.onscroll = () => {
+      const bottomOfWindow =
+        document.documentElement.scrollTop + window.innerHeight;
+      if (document.scrollingElement) {
+        const difference =
+          document.scrollingElement.scrollHeight - bottomOfWindow;
+        if (
+          difference !== 0 &&
+          difference < 200 &&
+          this.maxLoaded > this.currentLoaded
+        ) {
+          this.currentLoaded++;
+        }
+      }
+    };
+  },
 });
 
 function filterCreature(
