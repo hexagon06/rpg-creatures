@@ -21,4 +21,7 @@
   .button-on-gold {
     @apply bg-dark-blue border-purple text-purple hover:bg-rouge hover:text-white disabled:bg-dark-blue-light disabled:hover:text-purple
   }
+  input {
+    @apply rounded-md px-2
+  }
 }

@@ -7,8 +7,11 @@
         bg-dark-blue
         py-2
         border-b-gold border-b-4
-        sticky
+        fixed
         top-0
+        left-0
+        right-0
+        z-[100]
       "
     >
       <!-- <div class=""></div> -->
@@ -23,7 +26,7 @@
     </div>
     <div class="flex mt-3">
       <router-view
-        class="w-auto trasition-padding ease-in md:px-52 flex-1-1-0"
+        class="w-auto trasition-padding ease-in md:px-52 flex-1-1-0 max-w-full"
       />
       <action-panel class="w-52 align-self-start fixed top-14 right-0" />
     </div>

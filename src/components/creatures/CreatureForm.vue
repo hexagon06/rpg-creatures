@@ -301,8 +301,8 @@
         More options
       </button>
     </div>
-    <div v-if="showSpeeds" class="flex gap-2">
-      <input-wrapper label="Flying">
+    <div v-if="showSpeeds" class="grid gap-2 max-w-full grid-cols-4">
+      <input-wrapper label="Flying" class="columns-3">
         <input
           id="input-flying"
           v-model="creature.flyingSpeed"

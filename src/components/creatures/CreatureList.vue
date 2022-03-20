@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center">
-    <div class="creature-grid">
+    <div class="entity-grid">
       <grid-card
         v-for="creature in creatures"
         :key="creature.id"
