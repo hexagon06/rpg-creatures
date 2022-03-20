@@ -390,9 +390,10 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import { Multiselect } from "vue-multiselect";
-import { filterStore, filterMapper } from "@/store";
 import { Creature } from "@/types/creatures";
 import { toHitDiceFormula, toMod } from "@/shared";
+import { useFilterStore } from "@/store/filter";
+import { mapState } from "pinia";
 
 export default Vue.extend({
   components: {
@@ -411,8 +412,9 @@ export default Vue.extend({
     };
   },
   async created() {
-    if (!filterStore.state.initialized) {
-      await filterStore.actions.fetchSearch();
+    const store = useFilterStore();
+    if (!store.initialized) {
+      await store.fetchSearch();
     }
   },
   computed: {
@@ -425,7 +427,7 @@ export default Vue.extend({
         this.creature.climbSpeed !== undefined
       );
     },
-    ...filterMapper.mapState(["creatureOptions"]),
+    ...mapState(useFilterStore, ["creatureOptions"]),
     tagsOptions(): string[] {
       return this.creatureOptions.tags;
     },
@@ -475,15 +477,15 @@ export default Vue.extend({
       this.showSpeedsClicked = true;
     },
     async tagEnvironment(newEnvironment: string) {
-      await filterStore.actions.addEnvironment(newEnvironment);
+      await useFilterStore().addEnvironment(newEnvironment);
       this.creature.environment.push(newEnvironment);
     },
     async tagOrganisation(newOrganisation: string) {
-      await filterStore.actions.addOrganisation(newOrganisation);
+      await useFilterStore().addOrganisation(newOrganisation);
       this.creature.organisation.push(newOrganisation);
     },
     async tagTag(newTag: string) {
-      await filterStore.actions.addTag(newTag);
+      await useFilterStore().addTag(newTag);
       this.creature.tags.push(newTag);
     },
     isNumber(evt: KeyboardEvent | undefined): boolean {

@@ -32,7 +32,6 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { filterMapper } from "@/store";
 import { Shop, ShopFilter } from "@/types/shops";
 
 export default Vue.extend({

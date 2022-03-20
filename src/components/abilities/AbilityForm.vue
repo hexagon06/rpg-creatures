@@ -39,7 +39,7 @@
         placeholder="Description with placeholders"
         rows="3"
         required
-      ></input>
+      />
     </div>
     <div
       v-if="formatResult.invalidProperties.length > 0"
@@ -98,7 +98,6 @@
 </template>
 
 <script lang="ts">
-import { filterMapper, filterStore } from "@/store";
 import { Ability, CreatureAbilityValues } from "@/types/abilities";
 import { createDefaultCreature } from "@/shared";
 import Vue, { PropType } from "vue";
@@ -109,6 +108,8 @@ import {
   parseFormatText,
 } from "@/shared/abilityFormatting";
 import { Multiselect } from "vue-multiselect";
+import { mapState } from "pinia";
+import { useFilterStore } from "@/store/filter";
 
 export default Vue.extend({
   components: {
@@ -138,7 +139,7 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...filterMapper.mapState(["abilityOptions"]),
+    ...mapState(useFilterStore, ["abilityOptions"]),
     tagsOptions(): string[] {
       return this.abilityOptions.tags;
     },
@@ -160,7 +161,7 @@ export default Vue.extend({
   },
   methods: {
     async tagTag(newTag: string) {
-      await filterStore.actions.addAbilityTag(newTag);
+      await useFilterStore().addAbilityTag(newTag);
       this.ability.tags.push(newTag);
     },
   },

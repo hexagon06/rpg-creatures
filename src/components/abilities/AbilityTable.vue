@@ -20,8 +20,9 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { filterMapper } from "@/store";
 import { Ability } from "@/types/abilities";
+import { mapState } from "pinia";
+import { useFilterStore } from "@/store/filter";
 
 export default Vue.extend({
   props: {
@@ -43,7 +44,7 @@ export default Vue.extend({
   },
   computed: {
     // ...filterMapper.mapState(["search"]),
-    ...filterMapper.mapGetters(["getFilter"]),
+    ...mapState(useFilterStore, ["abilityOptions"]),
     tableAbilities(): (Ability & { _rowVariant?: string })[] {
       return this.abilities;
     },

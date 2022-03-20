@@ -14,9 +14,9 @@
     @tag="$emit('tag', $event)"
   >
     <template slot="selection" slot-scope="{ values }">
-      <div class="d-flex">
+      <div class="flex">
         <array-pills
-          class="flex-fill align-self-center"
+          class="flex-grow align-self-center"
           :data="values"
         ></array-pills>
         <button

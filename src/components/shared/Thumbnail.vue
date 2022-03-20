@@ -47,8 +47,6 @@ export default Vue.extend({
   },
   methods: {
     loadDone(e: Event) {
-      console.log("loadDone");
-
       this.loading = false;
     },
   },

@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import { ArrayPills, Favorite, GridCard, InputWrapper, LabeledProp, ListCard, Modal, PillMultiselect, SourceReference, Thumbnail } from './shared'
 import {
-  CreatureForm, Alignment, Abilities, AlignmentEditor, CreatureDetails, CreatureFilters,
-  CreaturePagination, CreatureAbilityEditor, CreatureAbilityValueEditor,
+  CreatureForm, Alignment, Abilities, AlignmentEditor, CreatureDetails,
+  CreatureAbilityEditor, CreatureAbilityValueEditor,
   CreaturesFilter, CreatureActions
 } from './creatures'
 import { Edit as ShopEdit, ShopDetails, ShopForm, ShopSidebar, ShopTable } from './shops'
@@ -39,9 +39,7 @@ function addCreatureComponents () {
   Vue.component('alignment', Alignment)
   Vue.component('alignment-editor', AlignmentEditor)
   Vue.component('creature-details', CreatureDetails)
-  Vue.component('creature-filters', CreatureFilters)
   Vue.component('creature-form', CreatureForm)
-  Vue.component('creature-pagination', CreaturePagination)
   Vue.component('creature-ability-editor', CreatureAbilityEditor)
   Vue.component('creature-ability-value', CreatureAbilityValueEditor)
   Vue.component('creatures-filter', CreaturesFilter)
