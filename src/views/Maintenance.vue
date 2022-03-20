@@ -8,7 +8,9 @@
           </button>
         </div>
         <div>
-          <button @click="fixCreatureUserData">Fix Creature user Data</button>
+          <button @click="fixCreatureUserData" disabled>
+            Fix Creature user Data
+          </button>
         </div>
       </div>
       <!-- <div>
@@ -51,54 +53,46 @@ export default Vue.extend({
       // await setCreatureIndexes(indexes);
     },
     async fixCreatureUserData() {
-      const firestore = new FirestoreAcces<Creature>(
-        firebaseClient.store,
-        "creatures"
-      );
-      const creatures = firestore.ref();
-      const commented = await getDocs(
-        query(creatures, where("comments", "!=", false))
-      );
-      const faved = await getDocs(
-        query(creatures, where("favorite", "!=", false))
-      );
-
-      const filtered = uniqBy(commented.docs.concat(faved.docs), (c) => c.id);
-
-      if (userStore.state.currentUser) {
-        const userId = userStore.state.currentUser?.uid;
-
-        const db = firebaseClient.store;
-        const batch = writeBatch(db);
-
-        for (let index = 0; index < filtered.length; index++) {
-          const creature = filtered[index].data();
-          const { comments, favorite } = creature;
-          const { id } = filtered[index];
-
-          const userDataCollection = collection(
-            db,
-            "creatures",
-            id,
-            "userData"
-          );
-
-          await addDoc(userDataCollection, {
-            comments,
-            favorite,
-            userId,
-          });
-
-          const creatureRef = doc(db, "creatures", id);
-          batch.update(creatureRef, {
-            ...creature,
-            comments: deleteField(),
-            favorite: deleteField(),
-          });
-        }
-
-        await batch.commit();
-      } else throw new Error("User was not set");
+      // const firestore = new FirestoreAcces<Creature>(
+      //   firebaseClient.store,
+      //   "creatures"
+      // );
+      // const creatures = firestore.ref();
+      // const commented = await getDocs(
+      //   query(creatures, where("comments", "!=", false))
+      // );
+      // const faved = await getDocs(
+      //   query(creatures, where("favorite", "!=", false))
+      // );
+      // const filtered = uniqBy(commented.docs.concat(faved.docs), (c) => c.id);
+      // if (userStore.state.currentUser) {
+      //   const userId = userStore.state.currentUser?.uid;
+      //   const db = firebaseClient.store;
+      //   const batch = writeBatch(db);
+      //   for (let index = 0; index < filtered.length; index++) {
+      //     const creature = filtered[index].data();
+      //     const { comments, favorite } = creature;
+      //     const { id } = filtered[index];
+      //     const userDataCollection = collection(
+      //       db,
+      //       "creatures",
+      //       id,
+      //       "userData"
+      //     );
+      //     await addDoc(userDataCollection, {
+      //       comments,
+      //       favorite,
+      //       userId,
+      //     });
+      //     const creatureRef = doc(db, "creatures", id);
+      //     batch.update(creatureRef, {
+      //       ...creature,
+      //       comments: deleteField(),
+      //       favorite: deleteField(),
+      //     });
+      //   }
+      //   await batch.commit();
+      // } else throw new Error("User was not set");
     },
   },
 });
