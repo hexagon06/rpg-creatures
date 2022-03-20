@@ -6,14 +6,53 @@
         :key="creature.id"
         :to="{ name: 'Creature', params: { id: creature.id } }"
       >
-        <div class="flex flex-col w-full h-full">
-          <h2 class="mb-3">{{ creature.name }}</h2>
-          <p class="line-clamp-2">{{ creature.cr }}</p>
-          <array-pills
-            :data="creature.tags"
-            class="line-clamp-1"
-            :title="creature.tags.join(', ')"
+        <div class="flex w-full h-full relative">
+          <div class="w-1/2 h-full">
+            <thumbnail
+              v-if="creature.image"
+              :url="creature.image"
+              class="w-full h-full"
+            ></thumbnail>
+          </div>
+          <p
+            v-if="creature.cr !== undefined"
+            class="
+              rounded-full
+              border-3
+              w-8
+              h-8
+              bg-gold
+              border-purple
+              text-purple
+              absolute
+              top-2
+              left-1/4
+              -ml-4
+              -mt-4
+              justify-center
+              text-center
+            "
+          >
+            {{ creature.cr }}
+          </p>
+          <favorite
+            v-if="creature.favorite"
+            v-model="creature.favorite"
+            class="absolute right-0 -mt-2 -mr-2"
           />
+          <div class="w-1/2 h-full pl-1">
+            <h2 class="mb-3 truncate" :title="creature.name">
+              {{ creature.name }}
+            </h2>
+            <i v-if="shortDescriptor(creature)">
+              {{ shortDescriptor(creature) }}
+            </i>
+            <array-pills
+              :data="creature.tags"
+              class="line-clamp-1"
+              :title="creature.tags.join(', ')"
+            />
+          </div>
         </div>
       </grid-card>
     </div>
@@ -21,16 +60,8 @@
 </template>
 
 <script lang="ts">
-// cr?: number
-// environment: string[]
-// favorite: boolean
-// name: string
 // newTags: Tag[]
-// image?: string
-// size?: string
 // system?: string
-// tags: string[]
-// type?: string
 
 import { indexesMapper } from "@/store";
 import { useFilterStore } from "@/store/filter";
@@ -86,6 +117,12 @@ export default Vue.extend({
         }
       }
     };
+  },
+  methods: {
+    shortDescriptor(creature: CreatureIndex): string | undefined {
+      const value = `${creature.size ?? ""} ${creature.type ?? ""}`.trim();
+      return value.length > 0 ? value : undefined;
+    },
   },
 });
 

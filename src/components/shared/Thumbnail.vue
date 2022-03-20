@@ -2,7 +2,7 @@
   <img
     :src="url"
     rounded
-    class="object-contain w-36 h-36"
+    class="object-contain"
     :class="loading ? 'hiding' : ''"
     loading="lazy"
     @load="loadDone('load')"
