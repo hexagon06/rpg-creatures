@@ -1,6 +1,6 @@
 <template>
   <!-- caption-top < only works without sticky header -->
-  <b-table
+  <table
     hover
     responsive
     selectable
@@ -17,7 +17,7 @@
     class="shop-table"
     ref="shopTable"
   >
-    <template #cell(link)="data">
+    <!-- <template #cell(link)="data">
       <a v-if="data && data.value" :href="data.value" target="_blank">
         <font-awesome-icon
           icon="fa-solid fa-arrow-up-right-from-square"
@@ -26,20 +26,15 @@
     </template>
     <template #cell(image)="data">
       <thumbnail v-if="data.value" :url="data.value" />
-    </template>
-  </b-table>
+    </template> -->
+  </table>
 </template>
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { BTable } from "bootstrap-vue";
-import { filterMapper } from "@/store";
 import { Shop, ShopFilter } from "@/types/shops";
 
 export default Vue.extend({
-  components: {
-    "b-table": BTable,
-  },
   props: {
     shops: {
       type: Array as PropType<Shop[]>,
@@ -47,9 +42,7 @@ export default Vue.extend({
     },
   },
   data() {
-    // we could use RowDetails, to show more information https://bootstrap-vue.org/docs/components/table#row-details-support
     return {
-      // https://bootstrap-vue.org/docs/components/table#field-definition-reference
       fields: [
         // { key: "id" },
         { key: "link" }, // needs formatter
@@ -86,7 +79,7 @@ export default Vue.extend({
         var table = this.$refs.shopTable;
         if (table) {
           // we don't actually want to keep it selected, just nicely clickable
-          (table as BTable).clearSelected();
+          // (table as BTable).clearSelected();
         }
       }
     },

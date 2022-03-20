@@ -3,8 +3,8 @@
     <!-- <b>{{ ability.name }}.</b> {{ formattedText }} -->
 
     <p v-for="(paragraph, index) in formattedParagraphs" :key="index">
-      <span v-if="index === 0" class="font-weight-bold font-italic"
-        >{{ ability.name }}.
+      <span v-if="index === 0" class="font-weight-bold font-italic">
+        {{ ability.name }}.
       </span>
       <span
         v-for="(text, i) in paragraph"

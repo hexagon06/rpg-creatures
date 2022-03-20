@@ -1,9 +1,9 @@
 <template>
-  <div v-if="data && data.length > 0">
+  <div v-if="data && data.length > 0" class="flex gap-1 my-2">
     <span
       v-for="item in data"
       :key="item"
-      class="badge badge-pill mr-1"
+      class="rounded-xl mr-1 px-2 bg-gold text-dark-blue"
       :class="variant"
       >{{ item }}
     </span>
@@ -21,7 +21,7 @@ export default Vue.extend({
     },
     variant: {
       type: String,
-      default: "badge-secondary",
+      default: "",
     },
   },
 });

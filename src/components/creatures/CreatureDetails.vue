@@ -1,116 +1,119 @@
 <template>
-  <b-card
-    :title="value.name"
-    :sub-title="`${value.size} ${value.type}`"
-    class="mt-3"
-  >
-    <b-container fluid>
-      <array-pills :data="value.organisation" :variant="'badge-light'" />
-      <array-pills :data="value.environment" :variant="'badge-secondary'" />
-    </b-container>
+  <div :title="value.name" :sub-title="`${value.size} ${value.type}`">
     <thumbnail
       v-if="value.image"
-      :height="imgSize"
-      :width="imgSize"
       :url="value.image"
+      class="w-1/3 h-60 float-right"
     ></thumbnail>
-    <b-container fluid>
-      <alignment :values="value.alignment"> </alignment>
-      <favorite v-model="favorite" />
-      <!-- Hit points -->
-      <labeled-prop v-if="hasFormula" label="HP" :text="hpFormula" />
-      <labeled-prop v-if="!hasFormula" label="HP" :amount="value.hp" />
-      <labeled-prop
-        v-if="!hasFormula"
-        label="hit dice"
-        :amount="value.hitDice"
-      />
-      <labeled-prop
-        v-if="!hasFormula"
-        label="amount hit dice"
-        :amount="value.amountHitDice"
-      />
-      <labeled-prop
-        v-if="!hasFormula"
-        label="hp formula"
-        :amount="value.hpFormula"
-      />
-      <labeled-prop label="AC" :amount="value.ac" />
-      <labeled-prop label="CR" :amount="value.cr" />
-    </b-container>
-    <abilities :abilities="creatureAbilities"></abilities>
-    <b-container fluid>
+    <h1 class="flex">
+      <span class="flex-grow">{{ value.name }}</span>
+      <favorite v-model="favorite" class="flex-grow" />
+    </h1>
+    <i>
+      {{ value.size }} {{ value.type }},
+      <span v-for="(a, i) in value.alignment" :key="i"> {{ a }}</span>
+    </i>
+    <hr class="mr-48 border-rouge" />
+    <labeled-prop label="Armor Class" :amount="value.ac" />
+    <!-- Hit points -->
+    <labeled-prop v-if="hasFormula" label="Hit Points" :text="hpFormula" />
+    <labeled-prop v-if="!hasFormula" label="HP" :amount="value.hp" />
+    <labeled-prop v-if="!hasFormula" label="hit dice" :amount="value.hitDice" />
+    <labeled-prop
+      v-if="!hasFormula"
+      label="amount hit dice"
+      :amount="value.amountHitDice"
+    />
+    <labeled-prop
+      v-if="!hasFormula"
+      label="hp formula"
+      :text="value.hpFormula"
+    />
+    <div fluid>
       <!-- Speed -->
-      <labeled-prop label="speed" :amount="value.speed" />
-      <labeled-prop label="flying" :amount="value.flyingSpeed" />
-      <labeled-prop label="swim" :amount="value.swimSpeed" />
-      <labeled-prop label="climbing" :amount="value.climbSpeed" />
-      <labeled-prop label="burrow" :amount="value.burrowSpeed" />
+      <labeled-prop label="Speed" :text="speed" />
+    </div>
+    <hr class="mr-48 border-rouge" />
 
-      <div v-if="skills.length > 0">
-        <hr />
-        <creature-ability
-          v-for="ma in skills"
-          :key="ma.ability.key"
-          :ability="ma.ability"
-          :creature="value"
-          :values="ma.values"
-        />
-      </div>
-      <div v-if="actions.length > 0">
-        <h3 class="text-left mt-3">Actions</h3>
-        <hr />
-        <creature-ability
-          v-for="ma in actions"
-          :key="ma.ability.key"
-          :ability="ma.ability"
-          :creature="value"
-          :values="ma.values"
-        />
-      </div>
-      <div v-if="reactions.length > 0">
-        <h3 class="text-left mt-3">Reactions</h3>
-        <hr />
-        <creature-ability
-          v-for="ma in reactions"
-          :key="ma.ability.key"
-          :ability="ma.ability"
-          :creature="value"
-          :values="ma.values"
-        />
-      </div>
-      <div v-if="legendaries.length > 0">
-        <h3 class="text-left mt-3">Legendary Actions</h3>
-        <hr />
-        <p class="text-left">{{ legendaryActionText }}</p>
-        <creature-ability
-          v-for="ma in legendaries"
-          :key="ma.ability.key"
-          :ability="ma.ability"
-          :creature="value"
-          :values="ma.values"
-        />
-      </div>
+    <abilities :abilities="creatureAbilities" class="max-w-fit"></abilities>
+    <hr class="mr-48 border-rouge" />
 
+    <labeled-prop label="CR" :amount="value.cr" />
+    <array-pills :data="value.organisation" :variant="'badge-light'" />
+    <array-pills :data="value.environment" :variant="'badge-secondary'" />
+    <hr class="mr-48 border-rouge" />
+
+    <div v-if="skills.length > 0">
+      <creature-ability
+        v-for="ma in skills"
+        :key="ma.ability.key"
+        :ability="ma.ability"
+        :creature="value"
+        :values="ma.values"
+      />
+      <hr class="mr-48 border-rouge" />
+    </div>
+
+    <div v-if="actions.length > 0">
+      <h3 class="text-left mt-3">Actions</h3>
       <hr />
-      <array-pills :data="value.tags" :variant="'badge-success'" />
-      <b-row v-if="value.comments">
-        <b-col>
-          <p class="bg-light border border-info rounded-sm">
-            {{ value.comments }}
-          </p>
-        </b-col>
-      </b-row>
-      <b-row v-if="value.system">
-        <b-col>{{ value.system }}</b-col>
-      </b-row>
-      <source-reference
-        :link="value.link"
-        :page="value.page"
-        :source="value.source"
-      ></source-reference>
-    </b-container>
-  </b-card>
+      <creature-ability
+        v-for="ma in actions"
+        :key="ma.ability.key"
+        :ability="ma.ability"
+        :creature="value"
+        :values="ma.values"
+      />
+    </div>
+    <div v-if="reactions.length > 0">
+      <h3 class="text-left mt-3">Reactions</h3>
+      <hr />
+      <creature-ability
+        v-for="ma in reactions"
+        :key="ma.ability.key"
+        :ability="ma.ability"
+        :creature="value"
+        :values="ma.values"
+      />
+    </div>
+    <div v-if="legendaries.length > 0">
+      <h3 class="text-left mt-3">Legendary Actions</h3>
+      <hr />
+      <p class="text-left">{{ legendaryActionText }}</p>
+      <creature-ability
+        v-for="ma in legendaries"
+        :key="ma.ability.key"
+        :ability="ma.ability"
+        :creature="value"
+        :values="ma.values"
+      />
+    </div>
+    <hr
+      v-if="
+        actions.length > 0 || reactions.length > 0 || legendaries.length > 0
+      "
+      class="mr-48 border-rouge"
+    />
+
+    <array-pills :data="value.tags" :variant="'badge-success'" />
+    <div v-if="value.comments">
+      <p class="bg-light border rounded-md mt-3 p-2">
+        {{ value.comments }}
+      </p>
+    </div>
+    <div class="flex justify-between mt-4">
+      <div v-if="value.system">
+        <div>{{ value.system }}</div>
+      </div>
+      <i>
+        <source-reference
+          :link="value.link"
+          :page="value.page"
+          :source="value.source"
+        ></source-reference>
+      </i>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -125,9 +128,10 @@ import {
   toMappedAbility,
 } from "@/types/abilities";
 import { getLegendaryText } from "@/shared/abilityFormatting";
+import Thumbnail from "../shared/Thumbnail.vue";
 
 export default Vue.extend({
-  components: { LabeledProp },
+  components: { LabeledProp, Thumbnail },
   props: {
     value: {
       type: Object as PropType<Creature>,
@@ -189,6 +193,18 @@ export default Vue.extend({
     },
     legendaryActionText(): string {
       return getLegendaryText(this.value);
+    },
+    speed(): string {
+      const value = [
+        { ft: this.value.speed },
+        { ft: this.value.burrowSpeed, label: "burrow" },
+        { ft: this.value.climbSpeed, label: "climb" },
+        { ft: this.value.flyingSpeed, label: "fly" },
+        { ft: this.value.swimSpeed, label: "swim" },
+      ]
+        .filter((v) => v.ft !== undefined)
+        .map((v) => `${v.label ? v.label : ""} ${v.ft} ft.`);
+      return value.join(", ").trim();
     },
   },
   methods: {},

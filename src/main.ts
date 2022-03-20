@@ -20,28 +20,25 @@ Vue.use(VMdPreview)
 import App from './App.vue'
 import router from './router'
 import { store } from './store'
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import { addFontAwesome } from './font-awesome'
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import './scss/custom.scss'
-import { addSharedComponents, addCreatureComponents, addShopComponents, addAbilityComponents, addUserComponents } from '@/components'
+import './assets/tailwind.css'
+import { addAllComponents } from '@/components'
+// Pinia store
+import { createPinia, PiniaVuePlugin } from 'pinia'
+Vue.use(PiniaVuePlugin)
+const pinia = createPinia()
 
 addFontAwesome()
-addSharedComponents()
-addCreatureComponents()
-addShopComponents()
-addAbilityComponents()
-addUserComponents()
-// Make BootstrapVue available throughout your project
-Vue.use(BootstrapVue)
-// Optionally install the BootstrapVue icon components plugin
-Vue.use(IconsPlugin)
+addAllComponents()
 
 Vue.config.productionTip = false
 
 new Vue({
   router,
   store,
+  pinia,
   render: h => h(App)
 }).$mount('#app')

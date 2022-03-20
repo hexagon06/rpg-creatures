@@ -8,23 +8,12 @@
       <create-ability class="ml-auto"> </create-ability>
     </div>
     <div class="flex-1-1-0" style="overflow: auto">
-      <b-skeleton-wrapper :loading="loading">
-        <template #loading>
-          <b-skeleton-table
-            :rows="5"
-            :columns="6"
-            animation="throb"
-            width="85%"
-          >
-          </b-skeleton-table>
-        </template>
-        <ability-table
-          :abilities="abilities"
-          @select="selectAbility"
-          aria-controls="sidebar-ability"
-          :aria-expanded="sidebarAbilityOpen"
-        />
-      </b-skeleton-wrapper>
+      <ability-table
+        :abilities="abilities"
+        @select="selectAbility"
+        aria-controls="sidebar-ability"
+        :aria-expanded="sidebarAbilityOpen"
+      />
     </div>
   </div>
 </template>

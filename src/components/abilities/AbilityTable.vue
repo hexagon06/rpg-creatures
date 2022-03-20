@@ -1,6 +1,6 @@
 <template>
   <!-- caption-top < only works without sticky header -->
-  <b-table
+  <table
     hover
     responsive
     selectable
@@ -12,22 +12,19 @@
     class="ability-table"
     ref="abilityTable"
   >
-    <template #cell(tags)="data">
+    <!-- <template #cell(tags)="data">
       <array-pills :data="data.value" :variant="'badge-success'" />
-    </template>
-  </b-table>
+    </template> -->
+  </table>
 </template>
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { BTable } from "bootstrap-vue";
-import { filterMapper } from "@/store";
 import { Ability } from "@/types/abilities";
+import { mapState } from "pinia";
+import { useFilterStore } from "@/store/filter";
 
 export default Vue.extend({
-  components: {
-    "b-table": BTable,
-  },
   props: {
     abilities: {
       type: Array as PropType<Ability[]>,
@@ -35,9 +32,7 @@ export default Vue.extend({
     },
   },
   data() {
-    // we could use RowDetails, to show more information https://bootstrap-vue.org/docs/components/table#row-details-support
     return {
-      // https://bootstrap-vue.org/docs/components/table#field-definition-reference
       fields: [
         // { key: "id" },
         { key: "name", sortable: true, stickyColumn: true, isRowHeader: true },
@@ -49,7 +44,7 @@ export default Vue.extend({
   },
   computed: {
     // ...filterMapper.mapState(["search"]),
-    ...filterMapper.mapGetters(["getFilter"]),
+    ...mapState(useFilterStore, ["abilityOptions"]),
     tableAbilities(): (Ability & { _rowVariant?: string })[] {
       return this.abilities;
     },
@@ -65,7 +60,7 @@ export default Vue.extend({
         var table = this.$refs.abilityTable;
         if (table) {
           // we don't actually want to keep it selected, just nicely clickable
-          (table as BTable).clearSelected();
+          // (table as BTable).clearSelected();
         }
       }
     },

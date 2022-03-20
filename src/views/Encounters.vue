@@ -1,98 +1,26 @@
 <template>
-  <div class="d-flex">
-    <div class="sidebar border-right border-info pt-3 sticky-top">
-      <b-skeleton-wrapper :loading="!initialized">
-        <template #loading>
-          <div class="d-flex flex-column pr-2 justify-content-md-center">
-            <b-skeleton
-              type="button"
-              class="align-self-center mb-2"
-            ></b-skeleton>
-            <b-skeleton></b-skeleton>
-            <b-skeleton></b-skeleton>
-            <b-skeleton></b-skeleton>
-            <b-skeleton></b-skeleton>
-            <b-skeleton></b-skeleton>
-            <b-skeleton></b-skeleton>
-            <b-skeleton></b-skeleton>
-            <b-skeleton></b-skeleton>
-          </div>
-        </template>
-        <div>
-          <b-button
-            variant="primary"
-            @click="createEncounter"
-            :disabled="!initialized"
-            >Create</b-button
-          >
-        </div>
-        <div class="d-flex flex-column">
-          <!-- navlins & router.push -->
-          <router-link
-            v-for="encounter in encounters"
-            :key="encounter.id"
-            :title="encounter.synopsis"
-            :to="{ name: 'Encounter', params: { id: encounter.id } }"
-            class="flex-row encounter-link"
-            >{{ encounter.name }}
-          </router-link>
-        </div>
-      </b-skeleton-wrapper>
-    </div>
-    <div class="flex-grow-1">
-      <router-view v-if="initialized"></router-view>
-    </div>
+  <div class="flex-grow-1 mb-20">
+    <transition name="fade" mode="out-in">
+      <router-view class="mx-4"></router-view>
+    </transition>
   </div>
 </template>
 
 <script lang="ts">
-import { encounterMapper, encounterStore, indexesMapper } from "@/store";
 import Vue from "vue";
-export default Vue.extend({
-  computed: {
-    ...indexesMapper.mapState(["encounters", "initialized"]),
-  },
-  created() {
-    if (
-      encounterStore.state.encounter?.id &&
-      this.$router.currentRoute.params.id === undefined
-    ) {
-      this.$router.push({
-        name: "Encounter",
-        params: { id: encounterStore.state.encounter.id },
-      });
-    }
-  },
-  methods: {
-    ...encounterMapper.mapActions(["createEncounter"]),
-    async create() {
-      await this.createEncounter();
-      if (encounterStore.state.encounter?.id) {
-        this.$router.push({
-          path: "encounter",
-          params: { id: encounterStore.state.encounter.id },
-        });
-      } else {
-        throw Error("encounter should have been set");
-      }
-    },
-  },
-});
+export default Vue.extend({});
 </script>
 
 <style lang="scss" scoped>
-.sidebar {
-  width: $sidebar-width;
-  min-width: $sidebar-width;
-  background: darken($color: white, $amount: 2);
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
 }
 
-a.encounter-link {
-  font-weight: bold;
-  color: #2c3e50;
-
-  &.router-link-exact-active {
-    color: #42b983;
-  }
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
 }
 </style>

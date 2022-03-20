@@ -17,47 +17,77 @@ const routes: Array<RouteConfig> = [
     component: Home
   },
   {
-    path: '/creature/:id',
-    name: 'Creature Details',
-    meta: { requiresAuth: true },
-    component: () => import('../views/CreatureDetails.vue')
-  },
-  {
-    path: '/creatures',
+    path: '/creature',
     name: 'Creatures',
     meta: { requiresAuth: true },
-    component: () => import('../views/Creatures.vue')
+    component: () => import('../views/Creatures.vue'),
+    redirect: '/creature/list',
+    children: [
+      {
+        path: 'list',
+        name: 'Creature List',
+        meta: {
+          requiresAuth: true,
+          actionsComponent: 'creatures-filter'
+        },
+        component: () => import('../components/creatures/CreatureList.vue')
+      },
+      {
+        path: ':id',
+        name: 'Creature',
+        meta: {
+          requiresAuth: true,
+          actionsComponent: 'creature-actions'
+        },
+        component: () => import('../components/creatures/Creature.vue'),
+        props: true
+      },
+      {
+        path: ':id/edit',
+        name: 'Edit Creature',
+        meta: {
+          requiresAuth: true,
+          actionsComponent: 'creature-actions'
+        },
+        component: () => import('../components/creatures/CreatureEdit.vue'),
+        props: true
+      },
+    ],
   },
-  // {
-  //   path: '/shops',
-  //   name: 'Shops',
-  //   meta: { requiresAuth: true },
-  //   component: () => import('../views/Shops.vue')
-  // },
-  // {
-  //   path: '/abilities',
-  //   name: 'Abilities',
-  //   meta: { requiresAuth: true },
-  //   component: () => import('../views/Abilities.vue')
-  // },
-  // {
-  //   path: '/maintenance',
-  //   name: 'Maintenance',
-  //   meta: { requiresAuth: true },
-  //   component: () => import('../views/Maintenance.vue')
-  // },
-
   {
     path: '/encounter',
     name: 'Encounters',
     meta: { requiresAuth: true },
     component: () => import('../views/Encounters.vue'),
+    redirect: '/encounter/list',
     children: [
+      {
+        path: 'list',
+        name: 'Encounter List',
+        meta: {
+          requiresAuth: true,
+          actionsComponent: 'encounters-filter'
+        },
+        component: () => import('../components/encounters/EncounterList.vue'),
+      },
       {
         path: ':id',
         name: 'Encounter',
-        meta: { requiresAuth: true },
+        meta: {
+          requiresAuth: true,
+          actionsComponent: 'encounter-actions'
+        },
         component: () => import('../components/encounters/Encounter.vue'),
+        props: true,
+      },
+      {
+        path: ':id/edit',
+        name: 'Edit Encounter',
+        meta: {
+          requiresAuth: true,
+          actionsComponent: 'encounter-actions'
+        },
+        component: () => import('../components/encounters/EncounterEdit.vue'),
         props: true
       },
     ]

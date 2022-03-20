@@ -1,21 +1,12 @@
 <template>
-  <div>
-    <b-skeleton-img
-      v-if="loading"
-      no-aspect
-      animation="fade"
-      :height="heightPx"
-      :width="widthPx"
-    ></b-skeleton-img>
-    <b-img
-      :src="url"
-      rounded
-      :height="heightPx"
-      :width="widthPx"
-      @load="loadDone('load')"
-      :class="loading ? 'hiding' : ''"
-    />
-  </div>
+  <img
+    :src="url"
+    rounded
+    class="object-contain"
+    :class="loading ? 'hiding' : ''"
+    loading="lazy"
+    @load="loadDone('load')"
+  />
 </template>
 
 <script lang="ts">

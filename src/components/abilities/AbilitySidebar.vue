@@ -1,5 +1,5 @@
 <template>
-  <b-sidebar
+  <div
     id="sidebar-ability"
     title="Ability-details"
     :no-header="abilityIsSelected"
@@ -13,14 +13,14 @@
       :imgSize="278"
     />
     <p v-else>no ability is selected.</p>
-    <template #footer="{ hide }">
+    <!-- <template #footer="{ hide }">
       <div class="d-flex bg-dark text-light align-items-center px-3 py-2">
         <edit-ability v-if="abilityIsSelected" :ability="selectedAbility" />
         <strong class="mr-auto"></strong>
-        <b-button size="sm" @click="hide">Close</b-button>
+        <button size="sm" @click="hide">Close</button>
       </div>
-    </template>
-  </b-sidebar>
+    </template> -->
+  </div>
 </template>
 
 <script lang="ts">

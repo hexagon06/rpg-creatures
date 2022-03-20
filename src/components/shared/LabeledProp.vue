@@ -1,17 +1,12 @@
 <template>
-  <b-row
-    v-if="hasValue"
-    align-h="start"
-    align-content="start"
-    class="text-left"
-  >
-    <b-col cols="4">
-      <label class="font-weight-bold">{{ label }}</label>
-    </b-col>
-    <b-col>
+  <div v-if="hasValue" align-h="start" align-content="start" class="flex gap-3">
+    <div cols="4">
+      <label class="font-bold">{{ label }}</label>
+    </div>
+    <div>
       <div>{{ value }}</div>
-    </b-col>
-  </b-row>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">

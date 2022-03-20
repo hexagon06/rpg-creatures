@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex">
+  <div class="flex gap-2">
     <multiselect
       id="input-size"
       v-model="organisation"
