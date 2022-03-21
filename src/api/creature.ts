@@ -1,7 +1,7 @@
 import { userStore } from '@/store'
 import { IdItem, UserCreatureData } from '@/types'
 import { Creature } from '@/types/creatures'
-import { addDoc, collection, getDocs, query, setDoc, where } from 'firebase/firestore'
+import { addDoc, collection, deleteField, getDocs, query, setDoc, where } from 'firebase/firestore'
 import { firebaseClient } from './firebaseClient'
 import { FirestoreAcces } from './firestoreAccess'
 import { getCollection } from './firestoreUtils'
@@ -17,7 +17,11 @@ export async function getCreature (id: string): Promise<Creature | undefined> {
     const q = query(colRef, where('userId', '==', userStore.state.currentUser?.uid))
     const userData = await getDocs(q)
 
+    console.log(creature)
+
     if (creature && userData.docs.length > 0) {
+      console.log(userData.docs.length, userStore.state.currentUser?.uid)
+
       if (userData.docs.length > 1) console.warn('WARNING WARNING More than one doc retrieved')
 
       creature.userData = {
@@ -52,7 +56,7 @@ export async function updateCreature (creature: Creature): Promise<void> {
   try {
     const firestore = new FirestoreAcces<Creature>(firebaseClient.store, CREATURE_COLLECTION)
 
-    const entity = { ...creature } as any
+    const entity = { ...creature, userData: deleteField() } as any
     const { id } = creature
 
     await firestore.update(entity)

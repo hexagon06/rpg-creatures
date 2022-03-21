@@ -93,11 +93,11 @@ const routes: Array<RouteConfig> = [
       },
     ]
   },
-  // {
-  //   path: '/maintenance',
-  //   name: 'Maintenance',
-  //   component: Maintenance
-  // },
+  {
+    path: '/maintenance',
+    name: 'Maintenance',
+    component: Maintenance
+  },
 ]
 
 const router = new VueRouter({
