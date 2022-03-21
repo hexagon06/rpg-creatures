@@ -13,7 +13,7 @@
           </button>
         </div> -->
         <div>
-          <button @click="removeUserData">
+          <button @click="removeUserData" disabled>
             Remove user Data object from creatures
           </button>
         </div>
@@ -101,32 +101,31 @@ export default Vue.extend({
     },
     async removeUserData() {
       // need to remove the field for all that have a userData object
-      const firestore = new FirestoreAcces<Creature>(
-        firebaseClient.store,
-        "creatures"
-      );
-      const creatures = firestore.ref();
-      const crittersWithData = await getDocs(
-        query(creatures, where("userData", "!=", false))
-      );
-
-      if (userStore.state.currentUser) {
-        console.log("removing data", crittersWithData.docs.length);
-        const userId = userStore.state.currentUser?.uid;
-        const db = firebaseClient.store;
-        const batch = writeBatch(db);
-        for (let index = 0; index < crittersWithData.docs.length; index++) {
-          const creature = crittersWithData.docs[index];
-          const creatureRef = doc(db, "creatures", creature.id);
-          batch.update(creatureRef, {
-            ...creature.data(),
-            id: deleteField(),
-            userData: deleteField(),
-          });
-        }
-        await batch.commit();
-      } else throw new Error("User was not set");
-      console.log("done");
+      // const firestore = new FirestoreAcces<Creature>(
+      //   firebaseClient.store,
+      //   "creatures"
+      // );
+      // const creatures = firestore.ref();
+      // const crittersWithData = await getDocs(
+      //   query(creatures, where("userData", "!=", false))
+      // );
+      // if (userStore.state.currentUser) {
+      //   console.log("removing data", crittersWithData.docs.length);
+      //   const userId = userStore.state.currentUser?.uid;
+      //   const db = firebaseClient.store;
+      //   const batch = writeBatch(db);
+      //   for (let index = 0; index < crittersWithData.docs.length; index++) {
+      //     const creature = crittersWithData.docs[index];
+      //     const creatureRef = doc(db, "creatures", creature.id);
+      //     batch.update(creatureRef, {
+      //       ...creature.data(),
+      //       id: deleteField(),
+      //       userData: deleteField(),
+      //     });
+      //   }
+      //   await batch.commit();
+      // } else throw new Error("User was not set");
+      // console.log("done");
     },
   },
 });
