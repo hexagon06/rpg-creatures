@@ -56,6 +56,23 @@ const routes: Array<RouteConfig> = [
     ],
   },
   {
+    path: '/session',
+    name: 'Sessions',
+    meta: { requiresAuth: true },
+    component: () => import('../views/Sessions.vue'),
+    redirect: '/session/list',
+    children: [
+      {
+        path: 'list',
+        name: 'Session List',
+        meta: {
+          requiresAuth: true,
+        },
+        component: () => import('../components/sessions/SessionList.vue'),
+      },
+    ]
+  },
+  {
     path: '/encounter',
     name: 'Encounters',
     meta: { requiresAuth: true },

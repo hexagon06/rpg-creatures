@@ -1,5 +1,5 @@
 import { inititialize as initializeIndexes, set } from '@/api/indexes'
-import { CreatureIndex, EncounterIndex, Indexes } from '@/types'
+import { CreatureIndex, EncounterIndex, Indexes, SessionPrep, SessionPrepIndex } from '@/types'
 import { deepCopy, deepExtend } from '@firebase/util'
 import { Getters, Module, createMapper, Actions, Mutations } from 'vuex-smart-module'
 import { userStore } from '.'
@@ -9,6 +9,7 @@ class IndexesState {
   userId?: string
   encounters: EncounterIndex[] = []
   creatures: CreatureIndex[] = []
+  sessions: SessionPrepIndex[] = []
 }
 
 class IndexesGetters extends Getters<IndexesState> {
@@ -38,6 +39,19 @@ class IndexesMutations extends Mutations<IndexesState> {
     if (instance) {
       deepExtend(instance, creature)
       this.state.creatures = creatures
+    }
+  }
+
+  addSession (session: SessionPrepIndex) {
+    this.state.sessions = this.state.sessions.concat([session])
+  }
+  updateSession (session: SessionPrepIndex) {
+    const sessions = deepCopy(this.state.sessions)
+    const instance = sessions.find(e => e.id === session.id)
+
+    if (instance) {
+      deepExtend(instance, session)
+      this.state.sessions = sessions
     }
   }
 
@@ -81,6 +95,13 @@ class IndexesActions extends Actions<IndexesState, IndexesGetters, IndexesMutati
   }
   async updateCreature (creature: CreatureIndex) {
     this.dispatch('mutateIndex', () => this.mutations.updateCreature(creature))
+  }
+
+  async addSession (session: SessionPrepIndex) {
+    this.dispatch('mutateIndex', () => this.mutations.addSession(session))
+  }
+  async updateSession (session: SessionPrepIndex) {
+    this.dispatch('mutateIndex', () => this.mutations.updateSession(session))
   }
 
   mutateIndex (mutation: () => void) {
