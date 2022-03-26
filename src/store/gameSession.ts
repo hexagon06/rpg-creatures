@@ -1,4 +1,4 @@
-import { createSession, getSession, updateSession } from '@/api/sessionApi'
+import { sessionApi } from '@/api/typed/sessionApi'
 import { getSessionPrepIndex, SessionPrep, SessionPrepIndex } from '@/types'
 import { deepEqual } from '@firebase/util'
 import { indexesStore, userStore } from '.'
@@ -33,18 +33,19 @@ export const useSessionStore = defineStore('sessions', {
         title: 'Session',
         userId: user.uid
       }
-      session.id = await createSession(session)
+      const id = await sessionApi.create(session)
+      session.id = id
       const sessionIndex: SessionPrepIndex = getSessionPrepIndex(session)
       await indexesStore.actions.addSession(sessionIndex)
       this.session = session
-      return session.id
+      return id
     },
     async fetch (id: string) {
       this.session = undefined
       // this.filledSession = undefined
       this.sessionForm = undefined
 
-      const session = await getSession(id)
+      const session = await sessionApi.get(id)
 
       if (session) {
         this.session = session
@@ -53,7 +54,7 @@ export const useSessionStore = defineStore('sessions', {
     },
     async save (session: SessionPrep) {
       try {
-        await updateSession(session)
+        await sessionApi.update(session)
         const index = getSessionPrepIndex(session)
         await indexesStore.actions.updateSession(index)
       } catch (error) {

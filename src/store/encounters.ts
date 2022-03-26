@@ -1,4 +1,4 @@
-import { createEncounter, getEncounter, updateEncounter } from '@/api/encounterApi'
+import { encounterApi } from '@/api/typed/encounterApi'
 import { Encounter, EncounterIndex, FilledEncounter, getEncounterIndex } from '@/types'
 import { deepEqual } from '@firebase/util'
 import { indexesStore } from '.'
@@ -35,7 +35,7 @@ export const useEncounterStore = defineStore('encounters', {
         creatures: [],
         environment: []
       }
-      const id = await createEncounter(encounter)
+      const id = await encounterApi.create(encounter)
       const encounterIndex: EncounterIndex = getEncounterIndex(id, encounter)
       await indexesStore.actions.addEncounter(encounterIndex)
       this.encounter = encounter
@@ -46,7 +46,7 @@ export const useEncounterStore = defineStore('encounters', {
       this.filledEncounter = undefined
       this.encounterForm = undefined
 
-      const encounter = await getEncounter(id)
+      const encounter = await encounterApi.get(id)
 
       if (encounter) {
         this.encounter = encounter
@@ -55,7 +55,7 @@ export const useEncounterStore = defineStore('encounters', {
     },
     async save (encounter: Encounter) {
       try {
-        await updateEncounter(encounter)
+        await encounterApi.update(encounter)
         const index = getEncounterIndex(encounter.id!, encounter)
         await indexesStore.actions.updateEncounter(index)
       } catch (error) {

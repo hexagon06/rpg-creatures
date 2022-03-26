@@ -1,4 +1,4 @@
-import { createCreature, getCreature, updateCreature } from '@/api/creature'
+import { creatureApi } from '@/api/typed/creatureApi'
 import { Creature, getCreatureIndex } from '@/types'
 import { deepEqual } from '@firebase/util'
 import { defineStore } from 'pinia'
@@ -36,7 +36,7 @@ export const useCreatureStore = defineStore('creatures', {
         organisation: [],
         tags: []
       }
-      const id = await createCreature(creature)
+      const id = await creatureApi.create(creature)
       const creatureIndex = getCreatureIndex({ ...creature, id })
       await indexesStore.actions.addCreature(creatureIndex)
       this.creature = creature
@@ -46,7 +46,7 @@ export const useCreatureStore = defineStore('creatures', {
       this.creature = undefined
       this.creatureForm = undefined
 
-      const creature = await getCreature(id)
+      const creature = await creatureApi.get(id)
 
       if (creature) {
         this.creature = creature
@@ -54,7 +54,7 @@ export const useCreatureStore = defineStore('creatures', {
     },
     async save (creature: Creature) {
       try {
-        await updateCreature(creature)
+        await creatureApi.update(creature)
         const index = getCreatureIndex(creature)
         await indexesStore.actions.updateCreature(index)
       } catch (error) {
