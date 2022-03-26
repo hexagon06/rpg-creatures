@@ -1,10 +1,9 @@
 import { userStore } from '@/store'
-import { IdItem, UserCreatureData } from '@/types'
+import { UserCreatureData } from '@/types'
 import { Creature } from '@/types/creatures'
-import { addDoc, collection, deleteField, getDocs, query, setDoc, where } from 'firebase/firestore'
+import { collection, deleteField, getDocs, query, where } from 'firebase/firestore'
 import { firebaseClient } from './firebaseClient'
 import { FirestoreAcces } from './firestoreAccess'
-import { getCollection } from './firestoreUtils'
 
 const CREATURE_COLLECTION = 'creatures'
 
