@@ -25,7 +25,7 @@ function createList (base: PrepSectionBase): ListPrep {
   return {
     ...base,
     prepType: 'list',
-    items: [],
+    items: [{ item: '' }],
     listType: 'bullet',
   }
 }

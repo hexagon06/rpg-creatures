@@ -26,10 +26,58 @@ import { addFontAwesome } from './font-awesome'
 import './scss/custom.scss'
 import './assets/tailwind.css'
 import { addAllComponents } from '@/components'
+// Vue Tailwind
+import VueTailwind from 'vue-tailwind'
+import {
+  // TInput,
+  // TTextarea,
+  TSelect,
+  // TRadio,
+  // TCheckbox,
+  // TButton,
+  // TInputGroup,
+  // TCard,
+  // TAlert,
+  // TModal,
+  TDropdown,
+  TRichSelect,
+  // TPagination,
+  // TTag,
+  // TRadioGroup,
+  // TCheckboxGroup,
+  // TTable,
+  // TDatepicker,
+  // TToggle,
+  // TDialog,
+} from 'vue-tailwind/dist/components'
+const settings = {
+  // https://www.vue-tailwind.com/docs/input-group
+  // Use the following syntax
+  // {component-name}: {
+  //   component: {importedComponentObject},
+  //   props: {
+  //     {propToOverride}: {newDefaultValue}
+  //     {propToOverride2}: {newDefaultValue2}
+  //   }
+  // }
+  't-select': {
+    component: TSelect,
+  },
+  't-dropdown': {
+    component: TDropdown,
+  },
+  't-rich-select': {
+    component: TRichSelect
+  },
+  // ...Rest of the components
+}
+Vue.use(VueTailwind, settings)
+
 // Pinia store
 import { createPinia, PiniaVuePlugin } from 'pinia'
 Vue.use(PiniaVuePlugin)
 const pinia = createPinia()
+
 
 addFontAwesome()
 addAllComponents()

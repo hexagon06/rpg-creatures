@@ -30,8 +30,11 @@
   .button-on-rouge:disabled {
     @apply bg-rouge-dark text-gold-dark
   }
+  select, option, input {
+    @apply text-black
+  }
   input {
-    @apply rounded-md px-2 text-black
+    @apply rounded-md px-2
   }
   h1 {
     @apply text-xl mb-3
