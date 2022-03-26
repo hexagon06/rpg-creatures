@@ -61,6 +61,7 @@ class IndexesMutations extends Mutations<IndexesState> {
   set (indexes: Indexes) {
     this.state.encounters = indexes.encounters
     this.state.creatures = indexes.creatures
+    this.state.sessions = indexes.sessions ?? []
   }
 }
 
@@ -113,13 +114,18 @@ class IndexesActions extends Actions<IndexesState, IndexesGetters, IndexesMutati
   }
 }
 
-function presistIndexes (data: { encounters: EncounterIndex[], creatures: CreatureIndex[] }) {
+function presistIndexes (data: {
+  encounters: EncounterIndex[],
+  creatures: CreatureIndex[],
+  sessions: SessionPrepIndex[]
+}) {
   if (userStore.state.currentUser) {
-    const { encounters, creatures } = data
+    const { encounters, creatures, sessions } = data
     set({
       id: userStore.state.currentUser.uid,
       encounters,
       creatures,
+      sessions,
     })
   } else {
     throw new Error(`expected user id to be set`)

@@ -22,27 +22,10 @@
 
 <script lang="ts">
 import { indexesMapper } from "@/store";
-import { useEncounterStore } from "@/store/encounters";
-import { mapActions } from "pinia";
 import Vue from "vue";
 export default Vue.extend({
   computed: {
     ...indexesMapper.mapState(["encounters", "initialized"]),
-  },
-  methods: {
-    ...mapActions(useEncounterStore, ["createEncounter"]),
-    async create() {
-      await this.createEncounter();
-      const store = useEncounterStore();
-      if (store.encounter?.id) {
-        this.$router.push({
-          path: "encounter",
-          params: { id: store.encounter.id },
-        });
-      } else {
-        throw Error("encounter should have been set");
-      }
-    },
   },
 });
 </script>

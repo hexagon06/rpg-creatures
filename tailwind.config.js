@@ -1,5 +1,6 @@
 const Color = require('color')
 const lighten = (clr, val) => Color(clr).lighten(val).rgb().string()
+const darken = (clr, val) => Color(clr).darken(val).rgb().string()
 
 module.exports = {
   mode: 'jit',
@@ -13,7 +14,11 @@ module.exports = {
         'dark-blue': '#252439',
         'dark-blue-light': lighten('#252439', .7),
         'gold': '#D1B74D',
+        'gold-light': lighten('#D1B74D', .7),
+        'gold-dark': darken('#D1B74D', .3),
         'rouge': '#85424E',
+        'rouge-light': lighten('#85424E', .7),
+        'rouge-dark': darken('#85424E', .3),
       },
       transitionProperty: {
         'border-radius': 'border-radius',

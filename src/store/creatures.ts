@@ -1,6 +1,7 @@
 import { creatureApi } from '@/api'
 import { Creature, getCreatureIndex } from '@/types'
 import { deepEqual } from '@firebase/util'
+import { cloneDeep } from 'lodash'
 import { defineStore } from 'pinia'
 import { indexesStore } from '.'
 
@@ -64,14 +65,14 @@ export const useCreatureStore = defineStore('creatures', {
     },
     async saveEdit () {
       if (this.creatureForm) {
-        const creature = { ...this.creatureForm }
+        const creature = cloneDeep(this.creatureForm)
         await this.save(creature)
         this.creature = creature
       }
     },
     async startEdit () {
       if (this.creature) {
-        this.creatureForm = { ...this.creature }
+        this.creatureForm = cloneDeep(this.creature)
       } else {
         throw new Error('no encounter selected')
       }

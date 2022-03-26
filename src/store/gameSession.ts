@@ -3,6 +3,7 @@ import { getSessionPrepIndex, SessionPrep, SessionPrepIndex } from '@/types'
 import { deepEqual } from '@firebase/util'
 import { indexesStore, userStore } from '.'
 import { defineStore } from 'pinia'
+import { cloneDeep } from 'lodash'
 
 export const useSessionStore = defineStore('sessions', {
   state: () => {
@@ -30,7 +31,7 @@ export const useSessionStore = defineStore('sessions', {
       const session: SessionPrep = {
         sections: [],
         synopsis: '',
-        title: 'Session',
+        title: 'New Session',
         userId: user.uid
       }
       const id = await sessionApi.create(session)
@@ -64,14 +65,14 @@ export const useSessionStore = defineStore('sessions', {
     },
     async saveEdit () {
       if (this.sessionForm) {
-        const session = { ...this.sessionForm }
+        const session = cloneDeep(this.sessionForm)
         await this.save(session)
         this.session = session
       }
     },
     async startEdit () {
       if (this.session) {
-        this.sessionForm = { ...this.session }
+        this.sessionForm = cloneDeep(this.session)
       } else {
         throw new Error('No session selected')
       }

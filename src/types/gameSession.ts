@@ -3,19 +3,19 @@ import { IdItem, Reference } from '.'
 export type SessionPrepBase = {
   title: string
   synopsis: string
+  previousSessionId?: string
 }
 
 export type SessionPrepIndex = Reference & SessionPrepBase
 
 export function getSessionPrepIndex (session: SessionPrep): SessionPrepIndex {
   if (!session.id || session.id.length === 0) throw new Error('session should have an id')
-  const { title, id, synopsis } = session
-  return { title, id, synopsis }
+  const { title, id, synopsis, previousSessionId } = session
+  return { title, id, synopsis, previousSessionId }
 }
 
 export type SessionPrep = IdItem & SessionPrepBase & {
   userId: string
-  previousSessionId?: string
 
   sections: PrepSection[]
 
@@ -35,26 +35,24 @@ export type SessionNote = {
 
 export type PrepType = PrepSection['prepType']
 
-function getPrep (label: string): PrepSection {
-  return {
-    prepType: 'image',
-    label,
-  } as PrepSection
-}
-
-export const t = getPrep('list')
-
-export type PrepSection = IdItem & {
+export type PrepSectionBase = {
   sortOrder: number
   label: string
-} & (
-    PlayerCharacterPrep |
-    SecretsPrep |
-    ListPrep |
-    TextPrep |
-    ChapterPrep |
-    ImagePrep |
-    LinkPrep)
+}
+
+export type PrepSection = IdItem & (
+  PlayerCharacterPrep |
+  SecretsPrep |
+  ListPrep |
+  TextPrep |
+  ChapterPrep |
+  ImagePrep |
+  LinkPrep)
+
+export type ChapterPrep = PrepSectionBase & {
+  prepType: 'chapter'
+  // only a title
+}
 
 export type PlayerCharacter = {
   player: string
@@ -64,12 +62,12 @@ export type PlayerCharacter = {
   characterHooks: string
 }
 
-export type PlayerCharacterPrep = {
-  prepType: 'playerCharacters'
+export type PlayerCharacterPrep = PrepSectionBase & {
+  prepType: 'player-characters'
   characters: PlayerCharacter[]
 }
 
-export type SecretsPrep = {
+export type SecretsPrep = PrepSectionBase & {
   prepType: 'secrets'
   label: 'Secrets'
   secrets: string[]
@@ -79,28 +77,23 @@ export type ListItem = IdItem & {
   item: string
 }
 
-export type ListPrep = {
+export type ListPrep = PrepSectionBase & {
   prepType: 'list'
   listType: 'bullet' | 'check' | 'numeric'
   items: ListItem[]
 }
 
-export type TextPrep = {
+export type TextPrep = PrepSectionBase & {
   prepType: 'text'
   text: string
 }
 
-export type ChapterPrep = {
-  prepType: 'chapter'
-  // only a title
-}
-
-export type ImagePrep = {
+export type ImagePrep = PrepSectionBase & {
   prepType: 'image'
   source: string
 }
 
-export type LinkPrep = {
+export type LinkPrep = PrepSectionBase & {
   prepType: 'link'
   link: string
 }

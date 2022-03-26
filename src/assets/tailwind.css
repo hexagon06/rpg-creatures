@@ -21,8 +21,17 @@
   .button-on-gold {
     @apply bg-dark-blue border-purple text-purple hover:bg-rouge hover:text-white disabled:bg-dark-blue-light disabled:hover:text-purple
   }
+  .button-on-brown {
+    @apply bg-gold border-dark-blue text-dark-blue hover:text-white hover:bg-rouge
+  }
+  .button-on-rouge {
+    @apply bg-rouge border-purple text-gold hover:text-white hover:bg-dark-blue
+  }
+  .button-on-rouge:disabled {
+    @apply bg-rouge-dark text-gold-dark
+  }
   input {
-    @apply rounded-md px-2
+    @apply rounded-md px-2 text-black
   }
   h1 {
     @apply text-xl mb-3

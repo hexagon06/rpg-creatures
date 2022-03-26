@@ -67,8 +67,29 @@ const routes: Array<RouteConfig> = [
         name: 'Session List',
         meta: {
           requiresAuth: true,
+          actionsComponent: 'sessions-filter'
         },
         component: () => import('../components/sessions/SessionList.vue'),
+      },
+      {
+        path: ':id',
+        name: 'Session',
+        meta: {
+          requiresAuth: true,
+          actionsComponent: 'session-actions'
+        },
+        component: () => import('../components/sessions/Session.vue'),
+        props: true,
+      },
+      {
+        path: ':id/edit',
+        name: 'Edit Session',
+        meta: {
+          requiresAuth: true,
+          actionsComponent: 'session-actions'
+        },
+        component: () => import('../components/sessions/SessionEdit.vue'),
+        props: true
       },
     ]
   },

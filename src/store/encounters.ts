@@ -3,6 +3,7 @@ import { Encounter, EncounterIndex, FilledEncounter, getEncounterIndex } from '@
 import { deepEqual } from '@firebase/util'
 import { indexesStore } from '.'
 import { defineStore } from 'pinia'
+import { cloneDeep } from 'lodash'
 
 export const useEncounterStore = defineStore('encounters', {
   state: () => {
@@ -54,6 +55,7 @@ export const useEncounterStore = defineStore('encounters', {
       else throw new Error('encounter not found')
     },
     async save (encounter: Encounter) {
+
       try {
         await encounterApi.update(encounter)
         const index = getEncounterIndex(encounter.id!, encounter)
@@ -65,14 +67,14 @@ export const useEncounterStore = defineStore('encounters', {
     },
     async saveEdit () {
       if (this.encounterForm) {
-        const encounter = { ...this.encounterForm }
+        const encounter = cloneDeep(this.encounterForm)
         await this.save(encounter)
         this.encounter = encounter
       }
     },
     async startEdit () {
       if (this.encounter) {
-        this.encounterForm = { ...this.encounter }
+        this.encounterForm = cloneDeep(this.encounter)
       } else {
         throw new Error('no encounter selected')
       }
