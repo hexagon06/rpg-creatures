@@ -1,32 +1,42 @@
 <template>
-  <div>
-    link
-    <input-wrapper
-      label="Chapter Title"
-      validation="Invalid title"
-      :is-valid="value.label && value.label.length > 0"
-    >
+  <div class="flex gap-3">
+    <input-wrapper label="Link label" class="w-1/3">
       <input
         id="input-1"
         v-model="value.label"
-        placeholder="Chapter title"
-        aria-describedby="password-help-block"
+        placeholder="click here..."
         required
       />
-      <template v-slot:help> What is the following data about </template>
     </input-wrapper>
-    <hr />
+    <input-wrapper
+      label="Link"
+      :validation="urlIsValid(value.link)"
+      :is-valid="value.link && value.link.length > 0 && value.link.length < 512"
+      class="w-2/3"
+    >
+      <input
+        id="input-1"
+        v-model="value.link"
+        placeholder="http://..."
+        required
+      />
+    </input-wrapper>
   </div>
 </template>
 
 <script lang="ts">
-import { ChapterPrep, LinkPrep } from "@/types";
+import { LinkPrep } from "@/types";
 import Vue, { PropType } from "vue";
 export default Vue.extend({
   props: {
     value: {
       type: Object as PropType<LinkPrep>,
       required: true,
+    },
+  },
+  methods: {
+    urlIsValid(url: string): string {
+      return url.length > 512 ? "source is too long" : "Invalid source";
     },
   },
 });

@@ -59,7 +59,7 @@ function createText (base: PrepSectionBase): TextPrep {
 
 export const prepSectionFactory = {
   create (type: PrepType): PrepSection {
-    const base = { sortOrder: 0, label: 'section' }
+    const base = { sortOrder: 0, label: '' }
     switch (type) {
       case 'chapter':
         return createChapter(base)

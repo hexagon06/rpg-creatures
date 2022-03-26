@@ -1,6 +1,5 @@
 <template>
   <div>
-    chapter
     <input-wrapper
       label="Chapter Title"
       validation="Invalid title"

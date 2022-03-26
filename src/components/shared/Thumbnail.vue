@@ -17,14 +17,6 @@ export default Vue.extend({
       type: String,
       required: true,
     },
-    width: {
-      type: Number,
-      default: 150,
-    },
-    height: {
-      type: Number,
-      default: 150,
-    },
   },
   data() {
     return {
@@ -34,14 +26,6 @@ export default Vue.extend({
   watch: {
     url() {
       this.loading = true;
-    },
-  },
-  computed: {
-    widthPx(): string {
-      return `${this.width}px`;
-    },
-    heightPx(): string {
-      return `${this.height}px`;
     },
   },
   methods: {

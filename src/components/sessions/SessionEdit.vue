@@ -41,7 +41,7 @@
       <div
         v-for="(section, i) in sortedSections"
         :key="'section' + i + '_' + section.id"
-        class="flex gap-3"
+        class="flex gap-3 max-w-full w-full"
       >
         <div class="flex flex-col gap-1">
           <button
@@ -64,7 +64,7 @@
         <component
           :value="section"
           :is="componentByType(section.prepType)"
-          class="flex-grow"
+          class="flex-grow min-w-full"
         ></component>
         <button
           @click="removeSection(section.sortOrder)"
@@ -96,9 +96,8 @@ import Vue from "vue";
 import { Multiselect } from "vue-multiselect";
 import { mapWritableState } from "pinia";
 import { PrepSection, PrepType } from "@/types";
-import { cloneDeep, sortBy } from "lodash";
+import { sortBy } from "lodash";
 import { prepSectionFactory } from "./factory";
-import { warn } from "vue-demi";
 
 type SectionButtons = {
   title: string;
@@ -196,7 +195,6 @@ export default Vue.extend({
       const after = this.sortedSections.slice(sortOrder + 1);
       after.forEach((s) => s.sortOrder--);
       const newSections = before.concat(after);
-      console.log("removeSection", sortOrder, before, after);
 
       if (this.sessionForm) {
         this.sessionForm.sections = newSections;
