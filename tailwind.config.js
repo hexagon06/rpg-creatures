@@ -10,6 +10,8 @@ module.exports = {
     extend: {
       colors: {
         'brown': '#392F24',
+        'brown-light': lighten('#392F24', .7),
+        'brown-dark': darken('#392F24', .3),
         'purple': '#9C4DD1',
         'dark-blue': '#252439',
         'dark-blue-light': lighten('#252439', .7),

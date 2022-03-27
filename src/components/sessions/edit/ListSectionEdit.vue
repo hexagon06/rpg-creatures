@@ -9,8 +9,7 @@
         <input
           id="input-1"
           v-model="value.label"
-          placeholder="Chapter title"
-          aria-describedby="password-help-block"
+          placeholder="List of..."
           required
         />
         <template v-slot:help> What is the list about </template>

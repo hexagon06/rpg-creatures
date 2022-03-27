@@ -42,7 +42,6 @@ export type PrepSectionBase = {
 
 export type PrepSection = IdItem & (
   PlayerCharacterPrep |
-  SecretsPrep |
   ListPrep |
   TextPrep |
   ChapterPrep |
@@ -65,12 +64,6 @@ export type PlayerCharacter = {
 export type PlayerCharacterPrep = PrepSectionBase & {
   prepType: 'player-characters'
   characters: PlayerCharacter[]
-}
-
-export type SecretsPrep = PrepSectionBase & {
-  prepType: 'secrets'
-  label: 'Secrets'
-  secrets: string[]
 }
 
 export type ListItem = IdItem & {

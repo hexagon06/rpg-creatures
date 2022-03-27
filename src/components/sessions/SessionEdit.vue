@@ -41,7 +41,7 @@
       <div
         v-for="(section, i) in sortedSections"
         :key="'section' + i + '_' + section.id"
-        class="flex gap-3 max-w-full w-full"
+        class="flex gap-3"
       >
         <div class="flex flex-col gap-1">
           <button
@@ -124,7 +124,6 @@ export default Vue.extend({
           type: "player-characters",
           icon: "fa-solid fa-user-plus",
         },
-        { title: "secrets", type: "secrets", icon: "fa-solid fa-user-secret" },
         { title: "list", type: "list", icon: "fa-solid fa-list" },
         { title: "text", type: "text", icon: "fa-solid fa-align-left" },
         {
@@ -173,8 +172,6 @@ export default Vue.extend({
       switch (type) {
         case "player-characters":
           return "section-edit-player-characters";
-        case "secrets":
-          return "section-edit-secrets";
         case "list":
           return "section-edit-list";
         case "text":

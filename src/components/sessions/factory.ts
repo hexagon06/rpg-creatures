@@ -1,4 +1,4 @@
-import { ChapterPrep, ImagePrep, LinkPrep, ListPrep, PlayerCharacter, PlayerCharacterPrep, PrepSection, PrepSectionBase, PrepType, SecretsPrep, TextPrep } from '@/types'
+import { ChapterPrep, ImagePrep, LinkPrep, ListPrep, PlayerCharacterPrep, PrepSection, PrepSectionBase, PrepType, TextPrep } from '@/types'
 
 
 function createChapter (base: PrepSectionBase): ChapterPrep {
@@ -41,14 +41,6 @@ function createPlayerCharacters (base: PrepSectionBase): PlayerCharacterPrep {
     }],
   }
 }
-function createSecrets (base: PrepSectionBase): SecretsPrep {
-  return {
-    ...base,
-    prepType: 'secrets',
-    label: 'Secrets',
-    secrets: [''],
-  }
-}
 function createText (base: PrepSectionBase): TextPrep {
   return {
     ...base,
@@ -71,8 +63,6 @@ export const prepSectionFactory = {
         return createList(base)
       case 'player-characters':
         return createPlayerCharacters(base)
-      case 'secrets':
-        return createSecrets(base)
       case 'text':
         return createText(base)
       default:
