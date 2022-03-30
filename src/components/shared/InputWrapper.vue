@@ -5,7 +5,7 @@
     <p name="validation" v-if="!isValid" class="text-sm text-red-500">
       *{{ validation }}
     </p>
-    <p class="text-sm text-stone-400"><slot name="help" /></p>
+    <p class="text-sm text-stone-400 text-right"><slot name="help" /></p>
   </div>
 </template>
 
