@@ -1,21 +1,6 @@
 <template>
   <div class="">
-    <div
-      v-if="routed"
-      class="
-        bg-gold
-        border-l-6 border-b-6
-        rounded-bl-huge
-        border-purple
-        text-dark-blue
-        max-h-fit
-        pl-4
-        pb-24
-        overflow-hidden
-        hidden
-        md:block
-      "
-    >
+    <div v-if="routed" class="action-menu md:action-menu-large">
       <component v-bind:is="routed" />
     </div>
   </div>

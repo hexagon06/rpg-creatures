@@ -1,57 +1,63 @@
 <template>
-  <div>
-    <div class="flex flex-col gap-3 justify-between pr-2 -ml-2">
+  <action-panel-filter>
+    <div class="flex flex-col gap-3 justify-between">
       <input
         id="search-text"
         type="search"
         placeholder="Search"
         v-model="search"
         debounce="300"
+        class="flex-grow"
       />
-      <pill-multiselect
-        id="size-filter"
-        v-model="sizeFilter"
-        :options="sizeOptions"
-        placeholder="Size(s)"
-      />
-      <pill-multiselect
-        id="type-filter"
-        v-model="typeFilter"
-        :options="typeOptions"
-        placeholder="Type(s)"
-      ></pill-multiselect>
-      <pill-multiselect
-        id="environment-filter"
-        v-model="environmentFilter"
-        :options="environmentOptions"
-        placeholder="Environment(s)"
-      ></pill-multiselect>
-      <pill-multiselect
-        id="tags-filter"
-        v-model="tagsFilter"
-        :options="tagsOptions"
-        placeholder="Tag(s)"
-      ></pill-multiselect>
-      <pill-multiselect
-        id="system-filter"
-        v-model="systemFilter"
-        :options="systemOptions"
-        placeholder="System(s)"
-      ></pill-multiselect>
-      <pill-multiselect
-        id="cr-filter"
-        v-model="crFilter"
-        :options="crOptions"
-        placeholder="CR(s)"
-      ></pill-multiselect>
-      <pill-multiselect
-        id="cr-filter"
-        v-model="sourceFilter"
-        :options="sourceOptions"
-        placeholder="Source(s)"
-      ></pill-multiselect>
+      <div
+        class="flex flex-col gap-2"
+        :class="showFilters ? '' : ' hidden md:block'"
+      >
+        <pill-multiselect
+          id="size-filter"
+          v-model="sizeFilter"
+          :options="sizeOptions"
+          placeholder="Size(s)"
+        />
+        <pill-multiselect
+          id="type-filter"
+          v-model="typeFilter"
+          :options="typeOptions"
+          placeholder="Type(s)"
+        ></pill-multiselect>
+        <pill-multiselect
+          id="environment-filter"
+          v-model="environmentFilter"
+          :options="environmentOptions"
+          placeholder="Environment(s)"
+        ></pill-multiselect>
+        <pill-multiselect
+          id="tags-filter"
+          v-model="tagsFilter"
+          :options="tagsOptions"
+          placeholder="Tag(s)"
+        ></pill-multiselect>
+        <pill-multiselect
+          id="system-filter"
+          v-model="systemFilter"
+          :options="systemOptions"
+          placeholder="System(s)"
+        ></pill-multiselect>
+        <pill-multiselect
+          id="cr-filter"
+          v-model="crFilter"
+          :options="crOptions"
+          placeholder="CR(s)"
+        ></pill-multiselect>
+        <pill-multiselect
+          id="cr-filter"
+          v-model="sourceFilter"
+          :options="sourceOptions"
+          placeholder="Source(s)"
+        ></pill-multiselect>
+      </div>
     </div>
-    <div class="absolute -bottom-4 left-24 right-2 flex gap-3 justify-center">
+    <template v-slot:buttons>
       <button
         @click="create"
         class="button-round-large button-on-gold"
@@ -59,8 +65,15 @@
       >
         <font-awesome-icon icon="fa-solid fa-plus" />
       </button>
-    </div>
-  </div>
+      <button
+        @click="toggleFilters"
+        class="button-round-large button-on-gold md:hidden"
+        title="toggle filters"
+      >
+        <font-awesome-icon icon="fa-solid fa-filter" />
+      </button>
+    </template>
+  </action-panel-filter>
 </template>
 
 <script lang="ts">
@@ -83,6 +96,7 @@ export default Vue.extend({
     return {
       favoriteOptions: [IS_FAVORITE],
       showRecap: true,
+      showFilters: false,
     };
   },
   async created() {
@@ -248,6 +262,9 @@ export default Vue.extend({
     },
     filtersAreVisible(isVisible: boolean) {
       this.showRecap = !isVisible;
+    },
+    toggleFilters() {
+      this.showFilters = !this.showFilters;
     },
   },
 });

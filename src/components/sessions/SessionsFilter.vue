@@ -1,9 +1,6 @@
 <template>
-  <div>
-    <div class="flex flex-col gap-3 justify-between pr-2 -ml-2">
-      <div>Sessions filter</div>
-    </div>
-    <div class="absolute -bottom-4 left-24 right-2 flex gap-3 justify-center">
+  <action-panel-filter>
+    <template v-slot:buttons>
       <button
         @click="create"
         class="button-round-large button-on-gold"
@@ -11,8 +8,8 @@
       >
         <font-awesome-icon icon="fa-solid fa-plus" />
       </button>
-    </div>
-  </div>
+    </template>
+  </action-panel-filter>
 </template>
 
 <script lang="ts">

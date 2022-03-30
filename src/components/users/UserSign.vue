@@ -1,8 +1,10 @@
 <template>
   <div class="text-purple mr-4">
     <div v-if="isSignedIn" class="flex gap-2 items-center">
-      <span v-if="currentUser.displayName">{{ currentUser.displayName }}</span>
-      <span v-else class="mr-3">{{ currentUser.email }}</span>
+      <span v-if="currentUser.displayName" class="mr-3 hidden md:block">{{
+        currentUser.displayName
+      }}</span>
+      <span v-else class="mr-3 hidden md:block">{{ currentUser.email }}</span>
       <button
         @click="signOut"
         class="text-3xl transition ease-in-out hover:scale-110 hover:text-gold"

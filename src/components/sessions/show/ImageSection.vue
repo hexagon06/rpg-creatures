@@ -2,7 +2,7 @@
   <thumbnail
     v-if="value.source"
     :url="value.source"
-    class="w-1/2 h-auto float-right"
+    class="w-full md:w-1/2 h-auto md:float-right"
   />
 </template>
 

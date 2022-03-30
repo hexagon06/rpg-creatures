@@ -1,5 +1,5 @@
 <template>
-  <div class="h-36 w-72 flex">
+  <div class="flex h-36 w-full md:w-72">
     <router-link :to="to" class="entity-grid-card">
       <div class="w-full h-full">
         <slot />

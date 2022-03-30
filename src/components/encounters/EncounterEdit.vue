@@ -3,7 +3,7 @@
   <div v-else>
     <form novalidate :validated="validated" ref="form">
       <div class="m-3 text-left">
-        <div>
+        <div class="flex flex-col gap-3">
           <input-wrapper
             label="Encounter Name"
             validation="Invalid name"

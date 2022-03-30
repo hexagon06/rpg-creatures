@@ -8,7 +8,7 @@
         :to="{ name: 'Session', params: { id: session.id } }"
       >
         <div class="flex flex-col w-full h-full">
-          <h2 class="mb-3">{{ session.name }}</h2>
+          <h2 class="mb-3">{{ session.title }}</h2>
           <p class="line-clamp-2">{{ session.synopsis }}</p>
         </div>
       </grid-card>

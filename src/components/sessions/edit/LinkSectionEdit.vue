@@ -1,6 +1,6 @@
 <template>
-  <div class="flex gap-3">
-    <input-wrapper label="Link label" class="w-1/3">
+  <div class="flex flex-wrap">
+    <input-wrapper label="Link label" class="w-full md:w-1/3 md:pr-2">
       <input
         id="input-1"
         v-model="value.label"
@@ -12,7 +12,7 @@
       label="Link"
       :validation="urlIsValid(value.link)"
       :is-valid="value.link && value.link.length > 0 && value.link.length < 512"
-      class="w-2/3"
+      class="w-full md:w-2/3"
     >
       <input
         id="input-1"

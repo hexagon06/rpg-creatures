@@ -7,7 +7,7 @@
     @apply grid gap-2 grid-flow-row auto-rows-max grid-cols-1 lg:grid-cols-2 xl:grid-cols-3
   }
   .entity-grid-card {
-    @apply grow bg-rouge rounded-2xl border-2 border-dark-blue transition duration-700 ease-out hover:rounded-lg hover:transition-border-radius p-3
+    @apply grow max-w-full bg-rouge rounded-2xl border-2 border-dark-blue transition duration-700 ease-out hover:rounded-lg hover:transition-border-radius p-3
   }
   .button-round {
     @apply rounded-full border w-6 h-6
@@ -44,5 +44,41 @@
   h3 { @apply text-xl mb-3 }
   hr {
     @apply mt-2 mb-3
+  }
+  .action-menu {
+    @apply bg-gold border-b-6 border-purple text-dark-blue w-full
+  }
+  .action-menu-large {
+    @apply border-l-6 rounded-bl-huge   max-h-fit pl-4 pb-24 overflow-hidden
+  }
+  .action-menu-filter {
+    @apply flex flex-col gap-3 justify-between mx-2 mb-5
+  }
+  .action-menu-filter-large {
+    @apply pr-2 -ml-2
+  }
+  .action-menu-bottom {
+    @apply absolute -bottom-4
+  }
+  .action-menu-filter-buttons {
+    @apply action-menu-bottom right-3 left-3 flex flex-row-reverse gap-3 justify-between
+  }
+  .action-menu-filter-buttons-large {
+    @apply left-24 right-2 flex justify-center
+  }
+  .action-menu-action {
+    @apply action-menu-bottom flex-row-reverse w-1/2 justify-between 
+  }
+  .action-menu-action-large {
+    @apply static w-full flex gap-3 justify-between pr-2 -ml-2
+  }
+  .link {
+    @apply text-gold hover:text-gold-dark
+  }
+  hr {
+    @apply border-rouge
+  }
+  .creature-rule {
+    @apply md:mr-48 
   }
 }

@@ -1,10 +1,12 @@
 <template>
-  <div class="text-left">
-    <div class="flex gap-2">
+  <div class="text-left flex flex-col gap-3">
+    <!-- naming -->
+    <div class="flex flex-full gap-2">
       <input-wrapper
         label="Creature Name"
         validation="Invalid name"
         :is-valid="creature.name && creature.name.length > 0"
+        class="flex-grow"
       >
         <input
           id="input-1"
@@ -14,7 +16,7 @@
         />
         <template v-slot:help> Is this a named character? </template>
       </input-wrapper>
-      <input-wrapper label="Is Noun">
+      <input-wrapper label="Is Noun" class="flex-shrink">
         <div class="flex h-6">
           <input
             id="input-is-noun"
@@ -23,9 +25,10 @@
             required
           />
         </div>
-        <template v-slot:help> Is this a named character? </template>
       </input-wrapper>
-      <input-wrapper v-if="creature.nameIsNoun" label="Subject">
+    </div>
+    <div v-if="creature.nameIsNoun" class="flex flex-full gap-2">
+      <input-wrapper label="Subject">
         <input
           id="input-pronoun1"
           v-model="creature.pronoun1"
@@ -33,7 +36,7 @@
           class="w-16"
         />
       </input-wrapper>
-      <input-wrapper v-if="creature.nameIsNoun" label="Possessive">
+      <input-wrapper label="Possessive">
         <input
           id="input-pronoun2"
           v-model="creature.pronoun2"
@@ -42,6 +45,7 @@
         />
       </input-wrapper>
     </div>
+    <!-- source -->
     <input-wrapper label="Link">
       <input
         id="input-link"
@@ -91,9 +95,9 @@
         </template>
       </input-wrapper>
     </div>
-    <!-- todo suggestions based on current systems -->
-    <!-- todo set this when a book is set with a system -->
     <input-wrapper label="Game System">
+      <!-- todo suggestions based on current systems -->
+      <!-- todo set this when a book is set with a system -->
       <input
         id="input-system"
         v-model="creature.system"
@@ -101,27 +105,38 @@
       />
       <template v-slot:help> What system this creature is made for </template>
     </input-wrapper>
-
-    <div class="flex gap-2">
-      <input-wrapper label="Image link" class="flex-grow">
-        <input
-          id="input-image"
-          v-model="creature.image"
-          placeholder="http://google.image.share/..."
-          @update="imgUrlUpdate"
+    <!-- image -->
+    <div>
+      <div class="flex flex-wrap w-full">
+        <input-wrapper
+          label="Source"
           validation="Image url is too big"
-          :is-valid="!creature.image || creature.image.length < 300"
+          :is-valid="
+            creature.image &&
+            creature.image.length > 0 &&
+            creature.image.length < 512
+          "
+          class="w-full md:w-2/3"
+        >
+          <input
+            id="input-1"
+            v-model="creature.image"
+            placeholder="http://..."
+            required
+          />
+        </input-wrapper>
+      </div>
+      <div>
+        <thumbnail
+          v-if="creature.image"
+          :url="creature.image"
+          class="w-24 h-24"
         />
-        <template v-slot:help>
-          link to somewhere on the internet ({{
-            creature.image ? creature.image.length : 0
-          }}/300 chars.)
-        </template>
-      </input-wrapper>
-      <thumbnail v-if="creature.image" :url="creature.image" />
+      </div>
     </div>
-    <div class="flex">
-      <input-wrapper label="Size">
+    <!-- creature type & size -->
+    <div class="flex gap-2">
+      <input-wrapper label="Size" class="flex-grow">
         <multiselect
           id="input-size"
           v-model="creature.size"
@@ -131,37 +146,35 @@
           :preselect-first="false"
           @input="sizeChange"
         ></multiselect>
-        <template v-slot:help> What system this creature is made for </template>
       </input-wrapper>
-      <input-wrapper label="Type">
+      <input-wrapper label="Type" class="flex-grow">
         <input id="input-type" v-model="creature.type" placeholder="humanoid" />
-        <template v-slot:help> What system this creature is made for </template>
       </input-wrapper>
     </div>
+    <!-- alignment -->
     <input-wrapper label="Alignment">
       <alignment-editor id="input-alignment" v-model="creature.alignment" />
     </input-wrapper>
-    <div
-      id="input-alignment-group"
-      label="Alignment"
-      label-for="input-alignment"
-    ></div>
-    <div class="flex gap-2">
-      <input-wrapper label="Armor class">
+    <!-- difficulty -->
+    <div class="flex flex-full gap-2">
+      <input-wrapper label="Armor class" class="w-20">
         <input
           id="input-ac"
           v-model="creature.ac"
           placeholder="13"
           number
           @keypress="isNumber"
+          class="w-16"
         />
-        <template v-slot:help>How hard the creature is to hit </template>
       </input-wrapper>
       <input-wrapper label="Challenge Rating">
-        <input id="input-cr" v-model="creature.cr" placeholder="2" number />
-        <template v-slot:help>
-          The difficulty of the creature, changes proficiency bonus
-        </template>
+        <input
+          id="input-cr"
+          v-model="creature.cr"
+          placeholder="2"
+          number
+          class="w-16"
+        />
       </input-wrapper>
     </div>
     <div class="flex gap-2">
@@ -197,9 +210,11 @@
           number
           @keypress="isNumber"
           :disabled="creature.hitDice + creature.amountHitDice > 0"
+          class="w-16"
         />
       </input-wrapper>
     </div>
+    <!-- ability scores -->
     <input-wrapper label="Ability scores">
       <div class="flex gap-2">
         <input-wrapper label="STR">
@@ -290,6 +305,7 @@
           placeholder="30"
           number
           @keypress="isNumber"
+          class="w-20"
         />
       </input-wrapper>
 

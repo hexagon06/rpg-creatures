@@ -1,10 +1,11 @@
 <template>
   <div class="flex gap-2 flex-col">
-    <div class="flex gap-3">
+    <div class="flex flex-wrap">
       <input-wrapper
         label="List Title"
         validation="Invalid title"
         :is-valid="value.label && value.label.length > 0"
+        class="w-full md:w-2/3 md:pr-2"
       >
         <input
           id="input-1"
@@ -12,9 +13,8 @@
           placeholder="List of..."
           required
         />
-        <template v-slot:help> What is the list about </template>
       </input-wrapper>
-      <input-wrapper label="List type">
+      <input-wrapper label="List type" class="md:w-1/3">
         <t-select
           v-model="value.listType"
           :options="['bullet', 'check', 'numeric']"
@@ -22,7 +22,7 @@
         ></t-select>
       </input-wrapper>
     </div>
-    <div class="flex gap-1 flex-col">
+    <div class="flex gap-2 flex-col">
       <div
         v-for="(item, i) in value.items"
         :key="i"

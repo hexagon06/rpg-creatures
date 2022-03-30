@@ -1,43 +1,45 @@
 <template>
   <div v-if="loading">Loading...</div>
   <div v-else>
-    <form novalidate :validated="validated" ref="form">
-      <div class="m-3 text-left">
-        <div>
-          <input-wrapper
-            label="Session Title"
-            validation="Invalid title"
-            :is-valid="sessionForm.title && sessionForm.title.length > 0"
-          >
-            <input
-              id="input-1"
-              v-model="sessionForm.title"
-              placeholder="Enter title"
-              aria-describedby="password-help-block"
-              required
-            />
-            <template v-slot:help>
-              Use a descriptive title to label the Session.
-            </template>
-          </input-wrapper>
-          <input-wrapper
-            label="Synopsis"
-            validation="Synopsis is required"
-            :is-valid="sessionForm.synopsis && sessionForm.synopsis.length > 0"
-          >
-            <input
-              id="input-synopsis"
-              v-model="sessionForm.synopsis"
-              placeholder="A short story"
-              aria-describedby="synopsis-help-block"
-              required
-            />
-            <template v-slot:help>
-              One or two short sentences describing the session
-            </template>
-          </input-wrapper>
-        </div>
-      </div>
+    <form
+      novalidate
+      :validated="validated"
+      ref="form"
+      class="flex flex-col gap-3"
+    >
+      <input-wrapper
+        label="Session Title"
+        validation="Invalid title"
+        :is-valid="sessionForm.title && sessionForm.title.length > 0"
+      >
+        <input
+          id="input-1"
+          v-model="sessionForm.title"
+          placeholder="Enter title"
+          aria-describedby="password-help-block"
+          required
+        />
+        <template v-slot:help>
+          Use a descriptive title to label the Session.
+        </template>
+      </input-wrapper>
+      <input-wrapper
+        label="Synopsis"
+        validation="Synopsis is required"
+        :is-valid="sessionForm.synopsis && sessionForm.synopsis.length > 0"
+      >
+        <input
+          id="input-synopsis"
+          v-model="sessionForm.synopsis"
+          placeholder="A short story"
+          aria-describedby="synopsis-help-block"
+          required
+        />
+        <template v-slot:help>
+          One or two short sentences describing the session
+        </template>
+      </input-wrapper>
+      <hr />
       <div
         v-for="(section, i) in sortedSections"
         :key="'section' + i + '_' + section.id"
@@ -64,7 +66,7 @@
         <component
           :value="section"
           :is="componentByType(section.prepType)"
-          class="flex-grow min-w-full"
+          class="flex-grow"
         ></component>
         <button
           @click="removeSection(section.sortOrder)"
