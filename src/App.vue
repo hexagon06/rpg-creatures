@@ -52,6 +52,7 @@ export default Vue.extend({
     return {
       links: [
         { label: "Home", path: "/home" },
+        { label: "Sessions", path: "/session", condition: true },
         { label: "Encounters", path: "/encounter", condition: true },
         { label: "Creatures", path: "/creature", condition: true },
         // { label: "Shops", path: "/shops", condition: true },

@@ -21,12 +21,27 @@
   .button-on-gold {
     @apply bg-dark-blue border-purple text-purple hover:bg-rouge hover:text-white disabled:bg-dark-blue-light disabled:hover:text-purple
   }
+  .button-on-brown {
+    @apply bg-gold border-dark-blue text-dark-blue hover:text-white hover:bg-rouge
+  }
+  .button-on-rouge {
+    @apply bg-rouge border-purple text-gold hover:text-white hover:bg-dark-blue
+  }
+  .button-on-rouge:disabled {
+    @apply bg-rouge-dark text-gold-dark
+  }
+  select, option, input {
+    @apply text-black
+  }
   input {
     @apply rounded-md px-2
   }
-  h1 {
-    @apply text-xl mb-3
+  h1, h2, h3 {
+    @apply  mb-3 font-bold
   }
+  h1 { @apply text-3xl }
+  h2 { @apply text-2xl mb-3 }
+  h3 { @apply text-xl mb-3 }
   hr {
     @apply mt-2 mb-3
   }

@@ -1,5 +1,6 @@
 const Color = require('color')
 const lighten = (clr, val) => Color(clr).lighten(val).rgb().string()
+const darken = (clr, val) => Color(clr).darken(val).rgb().string()
 
 module.exports = {
   mode: 'jit',
@@ -9,11 +10,17 @@ module.exports = {
     extend: {
       colors: {
         'brown': '#392F24',
+        'brown-light': lighten('#392F24', .7),
+        'brown-dark': darken('#392F24', .3),
         'purple': '#9C4DD1',
         'dark-blue': '#252439',
         'dark-blue-light': lighten('#252439', .7),
         'gold': '#D1B74D',
+        'gold-light': lighten('#D1B74D', .7),
+        'gold-dark': darken('#D1B74D', .3),
         'rouge': '#85424E',
+        'rouge-light': lighten('#85424E', .7),
+        'rouge-dark': darken('#85424E', .3),
       },
       transitionProperty: {
         'border-radius': 'border-radius',
@@ -45,9 +52,13 @@ module.exports = {
     }
   },
   variants: {
-    extend: {},
+    extend: {
+      opacity: ['disabled'],
+      cursor: ['disabled'],
+    },
   },
   plugins: [
     require('@tailwindcss/line-clamp'),
+    require('@tailwindcss/forms'),
   ],
 }

@@ -1,5 +1,5 @@
 import { inititialize as initializeIndexes, set } from '@/api/indexes'
-import { CreatureIndex, EncounterIndex, Indexes } from '@/types'
+import { CreatureIndex, EncounterIndex, Indexes, SessionPrep, SessionPrepIndex } from '@/types'
 import { deepCopy, deepExtend } from '@firebase/util'
 import { Getters, Module, createMapper, Actions, Mutations } from 'vuex-smart-module'
 import { userStore } from '.'
@@ -9,6 +9,7 @@ class IndexesState {
   userId?: string
   encounters: EncounterIndex[] = []
   creatures: CreatureIndex[] = []
+  sessions: SessionPrepIndex[] = []
 }
 
 class IndexesGetters extends Getters<IndexesState> {
@@ -41,12 +42,26 @@ class IndexesMutations extends Mutations<IndexesState> {
     }
   }
 
+  addSession (session: SessionPrepIndex) {
+    this.state.sessions = this.state.sessions.concat([session])
+  }
+  updateSession (session: SessionPrepIndex) {
+    const sessions = deepCopy(this.state.sessions)
+    const instance = sessions.find(e => e.id === session.id)
+
+    if (instance) {
+      deepExtend(instance, session)
+      this.state.sessions = sessions
+    }
+  }
+
   inititialized () {
     this.state.initialized = true
   }
   set (indexes: Indexes) {
     this.state.encounters = indexes.encounters
     this.state.creatures = indexes.creatures
+    this.state.sessions = indexes.sessions ?? []
   }
 }
 
@@ -83,6 +98,13 @@ class IndexesActions extends Actions<IndexesState, IndexesGetters, IndexesMutati
     this.dispatch('mutateIndex', () => this.mutations.updateCreature(creature))
   }
 
+  async addSession (session: SessionPrepIndex) {
+    this.dispatch('mutateIndex', () => this.mutations.addSession(session))
+  }
+  async updateSession (session: SessionPrepIndex) {
+    this.dispatch('mutateIndex', () => this.mutations.updateSession(session))
+  }
+
   mutateIndex (mutation: () => void) {
     if (!this.state.initialized) {
       throw new Error('initialize() should have been called')
@@ -92,13 +114,18 @@ class IndexesActions extends Actions<IndexesState, IndexesGetters, IndexesMutati
   }
 }
 
-function presistIndexes (data: { encounters: EncounterIndex[], creatures: CreatureIndex[] }) {
+function presistIndexes (data: {
+  encounters: EncounterIndex[],
+  creatures: CreatureIndex[],
+  sessions: SessionPrepIndex[]
+}) {
   if (userStore.state.currentUser) {
-    const { encounters, creatures } = data
+    const { encounters, creatures, sessions } = data
     set({
       id: userStore.state.currentUser.uid,
       encounters,
       creatures,
+      sessions,
     })
   } else {
     throw new Error(`expected user id to be set`)

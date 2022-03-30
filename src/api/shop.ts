@@ -15,6 +15,7 @@ export async function getShops (): Promise<Shop[]> {
   }
 }
 
+
 export async function updateShop (Shop: Shop): Promise<void> {
   try {
     await axios.post<{ id: number }>(`${CREATURE_URI}update`, Shop)

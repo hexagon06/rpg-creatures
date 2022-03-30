@@ -1,8 +1,9 @@
-import { createEncounter, getEncounter, updateEncounter } from '@/api/encounterApi'
+import { encounterApi } from '@/api'
 import { Encounter, EncounterIndex, FilledEncounter, getEncounterIndex } from '@/types'
 import { deepEqual } from '@firebase/util'
 import { indexesStore } from '.'
 import { defineStore } from 'pinia'
+import { cloneDeep } from 'lodash'
 
 export const useEncounterStore = defineStore('encounters', {
   state: () => {
@@ -35,7 +36,7 @@ export const useEncounterStore = defineStore('encounters', {
         creatures: [],
         environment: []
       }
-      const id = await createEncounter(encounter)
+      const id = await encounterApi.create(encounter)
       const encounterIndex: EncounterIndex = getEncounterIndex(id, encounter)
       await indexesStore.actions.addEncounter(encounterIndex)
       this.encounter = encounter
@@ -46,7 +47,7 @@ export const useEncounterStore = defineStore('encounters', {
       this.filledEncounter = undefined
       this.encounterForm = undefined
 
-      const encounter = await getEncounter(id)
+      const encounter = await encounterApi.get(id)
 
       if (encounter) {
         this.encounter = encounter
@@ -54,8 +55,9 @@ export const useEncounterStore = defineStore('encounters', {
       else throw new Error('encounter not found')
     },
     async save (encounter: Encounter) {
+
       try {
-        await updateEncounter(encounter)
+        await encounterApi.update(encounter)
         const index = getEncounterIndex(encounter.id!, encounter)
         await indexesStore.actions.updateEncounter(index)
       } catch (error) {
@@ -65,14 +67,14 @@ export const useEncounterStore = defineStore('encounters', {
     },
     async saveEdit () {
       if (this.encounterForm) {
-        const encounter = { ...this.encounterForm }
+        const encounter = cloneDeep(this.encounterForm)
         await this.save(encounter)
         this.encounter = encounter
       }
     },
     async startEdit () {
       if (this.encounter) {
-        this.encounterForm = { ...this.encounter }
+        this.encounterForm = cloneDeep(this.encounter)
       } else {
         throw new Error('no encounter selected')
       }
