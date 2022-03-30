@@ -3,17 +3,17 @@
     <input-wrapper label="Group name">
       <input id="input-1" v-model="value.label" placeholder="Adventurers..." />
     </input-wrapper>
-    <div class="flex gap-1 flex-col">
+    <div class="flex gap-2 flex-col">
       <div
         v-for="(character, i) in value.characters"
         :key="i"
         class="flex gap-2 flex-grow bg-brown-dark"
       >
-        <div class="flex-grow flex gap-x-2 flex-wrap">
-          <input-wrapper label="Player" class="w-full md:w-1/4">
+        <div class="flex-grow grid grid-cols-1 md:grid-cols-3 gap-x-2">
+          <input-wrapper label="Player" class="">
             <input id="input-1" v-model="character.player" placeholder="Name" />
           </input-wrapper>
-          <input-wrapper label="Player happiness" class="flex-grow">
+          <input-wrapper label="Player happiness" class="md:col-span-2">
             <input
               id="input-1"
               v-model="character.playerHappiness"
@@ -21,14 +21,14 @@
             />
           </input-wrapper>
 
-          <input-wrapper label="Character" class="w-full md:w-1/4">
+          <input-wrapper label="Character" class="">
             <input
               id="input-1"
               v-model="character.character"
               placeholder="The adventurer (bard)"
             />
           </input-wrapper>
-          <input-wrapper label="Character hooks" class="flex-grow">
+          <input-wrapper label="Character hooks" class="md:col-span-2">
             <input
               id="input-1"
               v-model="character.characterHooks"

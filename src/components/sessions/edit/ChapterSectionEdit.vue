@@ -4,6 +4,7 @@
       label="Chapter Title"
       validation="Invalid title"
       :is-valid="value.label && value.label.length > 0"
+      class="w-full"
     >
       <input
         id="input-1"

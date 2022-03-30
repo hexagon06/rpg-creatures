@@ -75,7 +75,10 @@
   .link {
     @apply text-gold hover:text-gold-dark
   }
+  hr {
+    @apply border-rouge
+  }
   .creature-rule {
-    @apply md:mr-48 border-rouge
+    @apply md:mr-48 
   }
 }

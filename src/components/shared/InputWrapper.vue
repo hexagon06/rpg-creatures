@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col my-3">
+  <div class="flex flex-col gap-1">
     <label class="text-stone-400 text-xs">{{ label }}</label>
     <slot />
     <p name="validation" v-if="!isValid" class="text-sm text-red-500">
