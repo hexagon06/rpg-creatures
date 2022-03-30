@@ -10,7 +10,7 @@ import { Create as AbilityCreate, AbilityDetails, AbilityForm, AbilitySidebar, A
 import { UserSign } from './users'
 import { default as ActionPanel } from './ActionPanel.vue'
 import { EncounterActions, EncountersFilter } from './encounters'
-import { ChapterSectionEdit, ImageSectionEdit, LinkSectionEdit, ListSectionEdit, PlayerCharactersSectionEdit, SessionActions, SessionsFilter, TextSectionEdit } from './sessions'
+import { ChapterSection, ChapterSectionEdit, ImageSection, ImageSectionEdit, LinkSection, LinkSectionEdit, ListSection, ListSectionEdit, PlayerCharactersSection, PlayerCharactersSectionEdit, SessionActions, SessionsFilter, TextSection, TextSectionEdit } from './sessions'
 
 export function addAllComponents () {
   addSharedComponents()
@@ -60,6 +60,13 @@ function addSessionComponents () {
   Vue.component('section-edit-list', ListSectionEdit)
   Vue.component('section-edit-player-characters', PlayerCharactersSectionEdit)
   Vue.component('section-edit-text', TextSectionEdit)
+
+  Vue.component('section-chapter', ChapterSection)
+  Vue.component('section-image', ImageSection)
+  Vue.component('section-link', LinkSection)
+  Vue.component('section-list', ListSection)
+  Vue.component('section-player-characters', PlayerCharactersSection)
+  Vue.component('section-text', TextSection)
 }
 
 function addSharedComponents () {

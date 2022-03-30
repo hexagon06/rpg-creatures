@@ -7,6 +7,13 @@
       <p class="font-italic font-weight-bolder text-secondary">
         {{ session.synopsis }}
       </p>
+      <component
+        v-for="(section, i) in sortedSections"
+        :key="'section' + i + '_' + section.id"
+        :value="section"
+        :is="componentByType(section.prepType)"
+        class=""
+      ></component>
     </div>
   </div>
 </template>
@@ -17,6 +24,8 @@ import ArrayPills from "../shared/ArrayPills.vue";
 import { Multiselect } from "vue-multiselect";
 import { mapState } from "pinia";
 import { useSessionStore } from "@/store/gameSession";
+import { PrepSection, PrepType } from "@/types";
+import { sortBy } from "lodash";
 
 export default Vue.extend({
   components: { ArrayPills, Multiselect },
@@ -37,11 +46,35 @@ export default Vue.extend({
     loading(): boolean {
       return this.session === undefined;
     },
+    sortedSections(): PrepSection[] {
+      if (this.session) {
+        return sortBy(this.session.sections, (s) => s.sortOrder);
+      }
+      return [];
+    },
   },
   methods: {
     async fetchSession(id: string) {
       const store = useSessionStore();
       await store.fetch(id);
+    },
+    componentByType(type: PrepType) {
+      switch (type) {
+        case "player-characters":
+          return "section-player-characters";
+        case "list":
+          return "section-list";
+        case "text":
+          return "section-text";
+        case "chapter":
+          return "section-chapter";
+        case "image":
+          return "section-image";
+        case "link":
+          return "section-link";
+        default:
+          throw new Error(`No component for type '${type}'`);
+      }
     },
   },
 });
