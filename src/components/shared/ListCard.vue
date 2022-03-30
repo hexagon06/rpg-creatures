@@ -7,7 +7,7 @@
         <router-link
           v-if="item.routerName"
           :to="{ name: item.routerName, params: { id: item.id } }"
-          class="encounter-link"
+          class="encounter-link link"
         >
           {{ item.label }}
         </router-link>
@@ -38,7 +38,10 @@ export default Vue.extend({
 <style lang="scss" scoped>
 a.encounter-link {
   font-weight: bold;
-  color: #2c3e50;
+  color: #d1b74d;
+  &:hover {
+    color: lighten(#d1b74d, 10);
+  }
 
   &.router-link-exact-active {
     color: #42b983;

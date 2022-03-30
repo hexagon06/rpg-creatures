@@ -72,4 +72,10 @@
   .action-menu-action-large {
     @apply static w-full flex gap-3 justify-between pr-2 -ml-2
   }
+  .link {
+    @apply text-gold hover:text-gold-dark
+  }
+  .creature-rule {
+    @apply md:mr-48 border-rouge
+  }
 }

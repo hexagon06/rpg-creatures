@@ -3,17 +3,17 @@
     <thumbnail
       v-if="value.image"
       :url="value.image"
-      class="w-1/3 h-60 float-right"
+      class="w-full md:w-1/3 h-auto md:float-right"
     ></thumbnail>
     <h1 class="flex">
       <span class="flex-grow">{{ value.name }}</span>
-      <favorite v-model="favorite" class="flex-grow" />
+      <favorite v-model="favorite" class="md:flex-grow" />
     </h1>
     <i>
       {{ value.size }} {{ value.type }},
       <span v-for="(a, i) in value.alignment" :key="i"> {{ a }}</span>
     </i>
-    <hr class="mr-48 border-rouge" />
+    <hr class="creature-rule" />
     <labeled-prop label="Armor Class" :amount="value.ac" />
     <!-- Hit points -->
     <labeled-prop v-if="hasFormula" label="Hit Points" :text="hpFormula" />
@@ -33,15 +33,15 @@
       <!-- Speed -->
       <labeled-prop label="Speed" :text="speed" />
     </div>
-    <hr class="mr-48 border-rouge" />
+    <hr class="creature-rule" />
 
     <abilities :abilities="creatureAbilities" class="max-w-fit"></abilities>
-    <hr class="mr-48 border-rouge" />
+    <hr class="creature-rule" />
 
     <labeled-prop label="CR" :amount="value.cr" />
     <array-pills :data="value.organisation" :variant="'badge-light'" />
     <array-pills :data="value.environment" :variant="'badge-secondary'" />
-    <hr class="mr-48 border-rouge" />
+    <hr class="creature-rule" />
 
     <div v-if="skills.length > 0">
       <creature-ability
@@ -51,12 +51,12 @@
         :creature="value"
         :values="ma.values"
       />
-      <hr class="mr-48 border-rouge" />
+      <hr class="creature-rule" />
     </div>
 
     <div v-if="actions.length > 0">
       <h3 class="text-left mt-3">Actions</h3>
-      <hr />
+      <hr class="creature-rule" />
       <creature-ability
         v-for="ma in actions"
         :key="ma.ability.key"
@@ -67,7 +67,7 @@
     </div>
     <div v-if="reactions.length > 0">
       <h3 class="text-left mt-3">Reactions</h3>
-      <hr />
+      <hr class="creature-rule" />
       <creature-ability
         v-for="ma in reactions"
         :key="ma.ability.key"
@@ -78,7 +78,7 @@
     </div>
     <div v-if="legendaries.length > 0">
       <h3 class="text-left mt-3">Legendary Actions</h3>
-      <hr />
+      <hr class="creature-rule" />
       <p class="text-left">{{ legendaryActionText }}</p>
       <creature-ability
         v-for="ma in legendaries"
@@ -92,7 +92,7 @@
       v-if="
         actions.length > 0 || reactions.length > 0 || legendaries.length > 0
       "
-      class="mr-48 border-rouge"
+      class="creature-rule"
     />
 
     <array-pills :data="value.tags" :variant="'badge-success'" />

@@ -1,21 +1,21 @@
 <template>
-  <div class="grid gap-x-6 gap-y-3 grid-cols-6 grid-rows-2">
-    <div class="border-right">STR</div>
-    <div class="border-right">DEX</div>
-    <div class="border-right">CON</div>
-    <div class="border-right">INT</div>
-    <div class="border-right">WIS</div>
+  <div class="grid grid-flow-row gap-x-6 gap-y-3 grid-cols-6">
+    <div>STR</div>
+    <div>DEX</div>
+    <div>CON</div>
+    <div>INT</div>
+    <div>WIS</div>
     <div>CHA</div>
 
-    <div cols="2" class="border-right">{{ toStr(abilities.strength) }}</div>
-    <div cols="2" class="border-right">{{ toStr(abilities.dexterity) }}</div>
-    <div cols="2" class="border-right">
+    <div cols="2">{{ toStr(abilities.strength) }}</div>
+    <div cols="2">{{ toStr(abilities.dexterity) }}</div>
+    <div cols="2">
       {{ toStr(abilities.constitution) }}
     </div>
-    <div cols="2" class="border-right">
+    <div cols="2">
       {{ toStr(abilities.intelligence) }}
     </div>
-    <div cols="2" class="border-right">{{ toStr(abilities.wisdom) }}</div>
+    <div cols="2">{{ toStr(abilities.wisdom) }}</div>
     <div cols="2">{{ toStr(abilities.charisma) }}</div>
   </div>
 </template>

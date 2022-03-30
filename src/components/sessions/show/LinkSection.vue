@@ -1,5 +1,5 @@
 <template>
-  <a :href="value.link" class="text-gold hover:text-gold-dark">
+  <a :href="value.link" class="link">
     {{ value.label }}
   </a>
 </template>
