@@ -7,7 +7,7 @@
         :to="{ name: 'Creature', params: { id: creature.id } }"
       >
         <div class="flex w-full h-full relative">
-          <div class="w-1/2 h-full">
+          <div class="w-1/3 md:w-1/2 h-full">
             <thumbnail
               v-if="creature.image"
               :url="creature.image"
@@ -40,7 +40,7 @@
             v-model="creature.favorite"
             class="absolute right-0 -mt-2 -mr-2"
           />
-          <div class="w-1/2 h-full pl-1">
+          <div class="w-2/3 md:w-1/2 h-full pl-1">
             <h2 class="mb-3 truncate" :title="creature.name">
               {{ creature.name }}
             </h2>
