@@ -20,11 +20,7 @@ class CreatureApi extends Api<Creature> {
     const q = query(colRef, where('userId', '==', userStore.state.currentUser?.uid))
     const userData = await getDocs(q)
 
-    console.log(creature)
-
     if (creature && userData.docs.length > 0) {
-      console.log(userData.docs.length, userStore.state.currentUser?.uid)
-
       if (userData.docs.length > 1) console.warn('WARNING WARNING More than one doc retrieved')
 
       creature.userData = {
