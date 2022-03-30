@@ -57,10 +57,19 @@
   .action-menu-filter-large {
     @apply pr-2 -ml-2
   }
+  .action-menu-bottom {
+    @apply absolute -bottom-4
+  }
   .action-menu-filter-buttons {
-    @apply absolute -bottom-4 right-3 left-3 flex flex-row-reverse gap-3 justify-between
+    @apply action-menu-bottom right-3 left-3 flex flex-row-reverse gap-3 justify-between
   }
   .action-menu-filter-buttons-large {
-    @apply left-24 right-2 justify-center
+    @apply left-24 right-2 flex justify-center
+  }
+  .action-menu-action {
+    @apply action-menu-bottom flex-row-reverse w-1/2 justify-between 
+  }
+  .action-menu-action-large {
+    @apply static w-full flex gap-3 justify-between pr-2 -ml-2
   }
 }

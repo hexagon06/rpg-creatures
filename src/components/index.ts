@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { ArrayPills, Favorite, GridCard, InputWrapper, LabeledProp, ListCard, Modal, PillMultiselect, SourceReference, Thumbnail, ActionPanelFilterContent as ActionPanelFilterContent } from './shared'
+import { ArrayPills, Favorite, GridCard, InputWrapper, LabeledProp, ListCard, Modal, PillMultiselect, SourceReference, Thumbnail, ActionPanelFilterContent as ActionPanelFilterContent, ActionPanelActionContent } from './shared'
 import {
   CreatureForm, Alignment, Abilities, AlignmentEditor, CreatureDetails,
   CreatureAbilityEditor, CreatureAbilityValueEditor,
@@ -81,6 +81,7 @@ function addSharedComponents () {
   Vue.component('grid-card', GridCard)
   Vue.component('input-wrapper', InputWrapper)
   Vue.component('action-panel-filter', ActionPanelFilterContent)
+  Vue.component('action-panel-action', ActionPanelActionContent)
 }
 
 function addShopComponents () {
