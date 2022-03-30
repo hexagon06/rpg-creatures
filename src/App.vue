@@ -14,17 +14,51 @@
         z-[100]
       "
     >
-      <!-- <div class=""></div> -->
-      <div id="nav" class="flex grow gap-3 justify-center pl-52">
+      <!-- links -->
+      <div id="nav" class="hidden md:flex grow gap-3 justify-center pl-52">
         <span v-for="(link, i) in filteredLinks" :key="i">
           <router-link :to="link.path" class="text-gold font-bold text-lg">
             {{ link.label }}
           </router-link>
         </span>
       </div>
+      <div class="flex ml-4 md:hidden grow gap-3 justify-center">
+        <button
+          v-if="filteredLinks.length > 1"
+          @click="toggleMenu"
+          class="self-start button-round-large button-on-dark-blue"
+        >
+          <font-awesome-icon icon="fa-solid fa-bars" />
+        </button>
+        <div
+          class="flex-col flex-grow justify-items-center"
+          :class="filteredLinks.length > 1 ? '' : ' ml-16'"
+        >
+          <div
+            v-for="(link, i) in filteredLinks"
+            :key="i"
+            class="flex justify-center"
+          >
+            <router-link
+              :to="link.path"
+              class="text-gold font-bold text-lg"
+              :class="hiddenMenuOption(link.path)"
+              @click.native="toggleMenu"
+            >
+              {{ link.label }}
+            </router-link>
+          </div>
+        </div>
+      </div>
+      <!-- login -->
       <user-sign class=""></user-sign>
     </div>
-    <div class="flex mt-3">
+    <div class="flex flex-col mt-3">
+      <action-panel
+        class="w-full md:w-52 align-self-start sticky top-14 right-0"
+      />
+      <!-- hidden
+        md:block -->
       <router-view
         class="
           w-auto
@@ -33,10 +67,10 @@
           md:px-52
           flex-1-1-0
           max-w-full
-          mt-14
+          mt-16
+          md:mt-14
         "
       />
-      <action-panel class="w-52 align-self-start fixed top-14 right-0" />
     </div>
   </div>
 </template>
@@ -64,6 +98,7 @@ export default Vue.extend({
         //   admin: true,
         // },
       ],
+      menuOpen: false,
     };
   },
   computed: {
@@ -77,6 +112,15 @@ export default Vue.extend({
         const a = true; //l.admin ? this.isAdmin : true;
         return c && a;
       });
+    },
+  },
+  methods: {
+    hiddenMenuOption(path: string): string {
+      const containsPath = this.$route.path.includes(path);
+      return containsPath || this.menuOpen ? "" : " hidden";
+    },
+    toggleMenu() {
+      this.menuOpen = !this.menuOpen;
     },
   },
 });

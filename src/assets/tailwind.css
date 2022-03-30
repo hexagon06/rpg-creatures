@@ -45,4 +45,10 @@
   hr {
     @apply mt-2 mb-3
   }
+  .action-menu {
+    @apply bg-gold border-b-6 border-purple text-dark-blue w-full
+  }
+  .action-menu-large {
+    @apply border-l-6 rounded-bl-huge   max-h-fit pl-4 pb-24 overflow-hidden
+  }
 }
