@@ -55,7 +55,16 @@
     </div>
     <div class="flex flex-col mt-3">
       <action-panel
-        class="w-full md:w-52 align-self-start sticky top-14 right-0"
+        class="
+          w-full
+          md:w-52
+          align-self-start
+          sticky
+          md:fixed
+          top-14
+          right-0
+          z-[99]
+        "
       />
       <!-- hidden
         md:block -->

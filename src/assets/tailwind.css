@@ -51,4 +51,16 @@
   .action-menu-large {
     @apply border-l-6 rounded-bl-huge   max-h-fit pl-4 pb-24 overflow-hidden
   }
+  .action-menu-filter {
+    @apply flex flex-col gap-3 justify-between mx-2 mb-5
+  }
+  .action-menu-filter-large {
+    @apply pr-2 -ml-2
+  }
+  .action-menu-filter-buttons {
+    @apply absolute -bottom-4 right-3 left-3 flex flex-row-reverse gap-3 justify-between
+  }
+  .action-menu-filter-buttons-large {
+    @apply left-24 right-2 justify-center
+  }
 }
