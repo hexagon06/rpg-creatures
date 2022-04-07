@@ -131,6 +131,44 @@ const routes: Array<RouteConfig> = [
       },
     ]
   },
+  {
+    path: '/idea',
+    name: 'Ideas',
+    meta: { requiresAuth: true },
+    component: () => import('../views/Ideas.vue'),
+    redirect: '/idea/list',
+    children: [
+      {
+        path: 'list',
+        name: 'Idea List',
+        meta: {
+          requiresAuth: true,
+          actionsComponent: 'ideas-filter'
+        },
+        component: () => import('../components/ideas/IdeaList.vue'),
+      },
+      {
+        path: ':id',
+        name: 'Idea',
+        meta: {
+          requiresAuth: true,
+          actionsComponent: 'idea-actions'
+        },
+        component: () => import('../components/ideas/Idea.vue'),
+        props: true,
+      },
+      {
+        path: ':id/edit',
+        name: 'Edit Idea',
+        meta: {
+          requiresAuth: true,
+          actionsComponent: 'idea-actions'
+        },
+        component: () => import('../components/ideas/IdeaEdit.vue'),
+        props: true
+      },
+    ]
+  },
   // {
   //   path: '/maintenance',
   //   name: 'Maintenance',
