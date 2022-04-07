@@ -1,7 +1,8 @@
 import { abilityStore, indexesStore } from '.'
 import { filter, uniq } from 'lodash'
-import { AbillityFilterOptions, CreatureFilter, CreatureFilterOptions, defaultCreatureFilterOptions, defaultResult, FilterResult } from '@/types/filter'
+import { AbillityFilterOptions, CreatureFilter, CreatureFilterOptions, defaultCreatureFilterOptions, defaultResult, FilterResult, IdeaFilterOptions } from '@/types/filter'
 import { defineStore } from 'pinia'
+import { useIdeaStore } from './ideas'
 
 const KEY_CREATURE_FILTERS = 'creature-filters'
 
@@ -37,6 +38,10 @@ export const useFilterStore = defineStore('filters', {
       abilityOptions: {
         tags: []
       } as AbillityFilterOptions,
+      ideaOptions: {
+        tags: [],
+        categories: [],
+      } as IdeaFilterOptions,
       initialized: false
     }
   },
@@ -59,6 +64,16 @@ export const useFilterStore = defineStore('filters', {
     addAbilityTag (tag: string) {
       this.$patch((state) => {
         state.abilityOptions.tags.push(tag)
+      })
+    },
+    addIdeaTag (tag: string) {
+      this.$patch((state) => {
+        state.ideaOptions.tags.push(tag)
+      })
+    },
+    addIdeaCategory (category: string) {
+      this.$patch((state) => {
+        state.ideaOptions.categories.push(category)
       })
     },
 
@@ -96,8 +111,9 @@ export const useFilterStore = defineStore('filters', {
 
       if (!indexesStore.state.initialized) throw new Error('IndexStore should have been initialized before fetching search')
 
-      var creatures = indexesStore.state.creatures
-      var abilities = abilityStore.state.abilities
+      const creatures = indexesStore.state.creatures
+      const abilities = abilityStore.state.abilities
+      const ideas = indexesStore.state.ideas
 
       this.$patch({
         creatureOptions: {
@@ -111,6 +127,10 @@ export const useFilterStore = defineStore('filters', {
         },
         abilityOptions: {
           tags: toUniqueStrings(abilities.flatMap(c => c.tags)),
+        },
+        ideaOptions: {
+          tags: toUniqueStrings(ideas.flatMap(i => i.tags)),
+          categories: toUniqueStrings(ideas.map(i => i.category)),
         },
         initialized: true
       })

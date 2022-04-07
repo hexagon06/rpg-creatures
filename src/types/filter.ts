@@ -39,6 +39,11 @@ export type CreatureFilterOptions = {
   source: string[]
 }
 
+export type IdeaFilterOptions = {
+  tags: string[],
+  categories: string[],
+}
+
 export function defaultCreatureFilterOptions (): CreatureFilterOptions {
   return {
     size: [],

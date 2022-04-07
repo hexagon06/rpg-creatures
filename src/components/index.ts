@@ -11,16 +11,18 @@ import { UserSign } from './users'
 import { default as ActionPanel } from './ActionPanel.vue'
 import { EncounterActions, EncountersFilter } from './encounters'
 import { ChapterSection, ChapterSectionEdit, ImageSection, ImageSectionEdit, LinkSection, LinkSectionEdit, ListSection, ListSectionEdit, PlayerCharactersSection, PlayerCharactersSectionEdit, SessionActions, SessionsFilter, TextSection, TextSectionEdit } from './sessions'
+import { IdeaActions, IdeasFilter } from './ideas'
 
 export function addAllComponents () {
-  addSharedComponents()
-  addCreatureComponents()
-  addShopComponents()
   addAbilityComponents()
-  addUserComponents()
-  addRootComponents()
+  addCreatureComponents()
   addEncounterComponents()
+  addIdeaComponents()
+  addRootComponents()
   addSessionComponents()
+  addSharedComponents()
+  addShopComponents()
+  addUserComponents()
 }
 
 function addAbilityComponents () {
@@ -48,6 +50,11 @@ function addCreatureComponents () {
 function addEncounterComponents () {
   Vue.component('encounters-filter', EncountersFilter)
   Vue.component('encounter-actions', EncounterActions)
+}
+
+function addIdeaComponents () {
+  Vue.component('ideas-filter', IdeasFilter)
+  Vue.component('idea-actions', IdeaActions)
 }
 
 function addSessionComponents () {
