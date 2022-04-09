@@ -1,13 +1,28 @@
 <template>
   <div class="flex gap-2 flex-col">
-    <div v-if="weighted" class="ml-3">{{ total }}</div>
+    <div v-if="weighted" class="ml-20">{{ total }}</div>
     <div class="flex gap-2 flex-col">
       <div
         v-for="(item, i) in orderedList"
         :key="i"
         class="flex gap-2 flex-grow"
       >
-        {{ i + 1 }}
+        <button
+          @click="moveItem(item.order, 'up')"
+          class="button-round button-on-rouge"
+          title="move up"
+          :disabled="item.order === 0"
+        >
+          <font-awesome-icon icon="fa-solid fa-angle-up" />
+        </button>
+        <button
+          @click="moveItem(item.order, 'down')"
+          class="button-round button-on-rouge"
+          title="move down"
+          :disabled="item.order === orderedList.length - 1"
+        >
+          <font-awesome-icon icon="fa-solid fa-angle-down" />
+        </button>
         <input
           v-if="weighted"
           v-model.number="item.weight"
@@ -15,7 +30,9 @@
           number
           @blur="updateModel"
         />
-        <span class="text-xs">{{ toPercentage(item.weight) }}%</span>
+        <span v-if="weighted" class="text-xs">
+          {{ toPercentage(item.weight) }}%
+        </span>
         <input v-model="item.label" class="flex-grow" @blur="updateModel" />
         <button
           @click="repeat(item)"
@@ -58,6 +75,11 @@ export default Vue.extend({
       required: true,
     },
   },
+  data() {
+    return {
+      orderingItemId: undefined as undefined | string,
+    };
+  },
   computed: {
     orderedList(): ItemType[] {
       return sortBy(this.value, (v) => v.order);
@@ -69,7 +91,7 @@ export default Vue.extend({
   methods: {
     create() {
       const lastItem = this.orderedList[this.orderedList.length - 1];
-      const lastOrder = lastItem ? lastItem.order : 0;
+      const lastOrder = lastItem ? lastItem.order : -1;
       console.log(lastOrder);
 
       this.$emit(
@@ -93,6 +115,24 @@ export default Vue.extend({
     },
     toPercentage(weight: number) {
       return Math.round((weight / this.total) * 100);
+    },
+    moveItem(order: number, direction: "up" | "down") {
+      if ((order > 0 || order < this.orderedList.length - 1) && this.value) {
+        if (direction === "up") {
+          const before = this.value.find((s) => s.order === order - 1);
+          const target = this.value.find((s) => s.order === order);
+          before!.order++;
+          target!.order--;
+        } else if (direction === "down") {
+          const before = this.value.find((s) => s.order === order + 1);
+          const target = this.value.find((s) => s.order === order);
+          before!.order--;
+          target!.order++;
+        } else throw new Error(`direction '${direction}' is invalid`);
+      } else {
+        console.warn(`cannot move ${direction}`);
+      }
+      this.updateModel();
     },
   },
 });

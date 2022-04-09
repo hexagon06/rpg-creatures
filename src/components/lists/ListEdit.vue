@@ -20,7 +20,7 @@
           <button
             v-if="!weighted"
             @click="addWeight"
-            class="button-round-large button-on-brown ml-3"
+            class="button-round-large button-on-brown ml-14"
             title="add weight"
           >
             <font-awesome-icon icon="fa-solid fa-weight-hanging" />
