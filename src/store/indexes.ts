@@ -1,5 +1,5 @@
 import { inititialize as initializeIndexes, set } from '@/api/indexes'
-import { CreatureIndex, EncounterIndex, IdeaIndex, Indexes, SessionPrep, SessionPrepIndex } from '@/types'
+import { CreatureIndex, EncounterIndex, IdeaIndex, Indexes, RollingListIndex, SessionPrep, SessionPrepIndex } from '@/types'
 import { deepCopy, deepExtend } from '@firebase/util'
 import { Getters, Module, createMapper, Actions, Mutations } from 'vuex-smart-module'
 import { userStore } from '.'
@@ -11,6 +11,7 @@ class IndexesState {
   creatures: CreatureIndex[] = []
   sessions: SessionPrepIndex[] = []
   ideas: IdeaIndex[] = []
+  lists: RollingListIndex[] = []
 }
 
 class IndexesGetters extends Getters<IndexesState> {
@@ -69,6 +70,19 @@ class IndexesMutations extends Mutations<IndexesState> {
     }
   }
 
+  addList (list: RollingListIndex) {
+    this.state.lists = this.state.lists.concat([list])
+  }
+  updateList (list: RollingListIndex) {
+    const lists = deepCopy(this.state.lists)
+    const instance = lists.find(e => e.id === list.id)
+
+    if (instance) {
+      deepExtend(instance, list)
+      this.state.lists = lists
+    }
+  }
+
   inititialized () {
     this.state.initialized = true
   }
@@ -77,6 +91,7 @@ class IndexesMutations extends Mutations<IndexesState> {
     this.state.creatures = indexes.creatures
     this.state.sessions = indexes.sessions ?? []
     this.state.ideas = indexes.ideas ?? []
+    this.state.lists = indexes.lists ?? []
   }
 }
 
@@ -127,6 +142,13 @@ class IndexesActions extends Actions<IndexesState, IndexesGetters, IndexesMutati
     this.dispatch('mutateIndex', () => this.mutations.updateIdea(idea))
   }
 
+  async addList (list: RollingListIndex) {
+    this.dispatch('mutateIndex', () => this.mutations.addList(list))
+  }
+  async updateList (list: RollingListIndex) {
+    this.dispatch('mutateIndex', () => this.mutations.updateList(list))
+  }
+
   mutateIndex (mutation: () => void) {
     if (!this.state.initialized) {
       throw new Error('initialize() should have been called')
@@ -140,16 +162,18 @@ function presistIndexes (data: {
   encounters: EncounterIndex[],
   creatures: CreatureIndex[],
   sessions: SessionPrepIndex[],
-  ideas: IdeaIndex[]
+  ideas: IdeaIndex[],
+  lists: RollingListIndex[],
 }) {
   if (userStore.state.currentUser) {
-    const { encounters, creatures, sessions, ideas } = data
+    const { encounters, creatures, sessions, ideas, lists } = data
     set({
       id: userStore.state.currentUser.uid,
       encounters,
       creatures,
       sessions,
       ideas,
+      lists,
     })
   } else {
     throw new Error(`expected user id to be set`)
