@@ -1,5 +1,5 @@
 <template>
-  <div class="text-purple mr-4 flex gap-2">
+  <div class="text-purple flex gap-2">
     <button
       v-if="reference === undefined || isReference"
       @click="editReference"

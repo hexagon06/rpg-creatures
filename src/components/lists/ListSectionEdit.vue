@@ -1,13 +1,13 @@
 <template>
   <div class="flex gap-2 flex-col">
     <div v-if="weighted" class="ml-20">{{ total }}</div>
-    <div class="flex gap-2 flex-col">
+    <div class="flex flex-col gap-2">
       <div
         v-for="(item, i) in orderedList"
         :key="i"
-        class="flex gap-2 flex-grow"
+        class="flex-grow grid grid-flow-row-dense list-grid-template gap-2"
       >
-        <span class="float-left flex gap-2">
+        <span class="flex gap-2">
           <button
             @click="moveItem(item.order, 'up')"
             class="button-round button-on-rouge"
@@ -24,6 +24,9 @@
           >
             <font-awesome-icon icon="fa-solid fa-angle-down" />
           </button>
+        </span>
+
+        <span>
           <input
             v-if="weighted"
             v-model.number="item.weight"
@@ -36,7 +39,7 @@
           </span>
         </span>
 
-        <span class="clear-both flex-grow flex gap-2">
+        <span class="col-start-2 col-span-3 lg:col-span-1 flex gap-2">
           <input
             v-model="item.label"
             class="w-0 flex-grow flex-initial"
@@ -71,7 +74,7 @@
           />
         </span>
 
-        <span class="float-right flex gap-2">
+        <span class="col-end-5 flex gap-2">
           <button
             @click="repeat(item)"
             class="button-round"
@@ -86,18 +89,14 @@
         </span>
       </div>
     </div>
-    <button @click="create()" class="button-round button-on-rouge">
+    <button @click="create()" class="button-round-large button-on-rouge">
       <font-awesome-icon icon="fa-solid fa-plus" />
     </button>
   </div>
 </template>
 
 <script lang="ts">
-import {
-  getRollingListItem,
-  ReferenceListItem,
-  RollingListItem,
-} from "@/types";
+import { getRollingListItem, RollingListItem } from "@/types";
 import { cloneDeep, isString, sortBy, sum } from "lodash";
 import Vue, { PropType } from "vue";
 
@@ -203,4 +202,9 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+.list-grid-template {
+  grid-template-columns: fit-content(2rem) fit-content(4rem) 1fr fit-content(
+      2rem
+    );
+}
 </style>

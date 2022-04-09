@@ -33,21 +33,13 @@
 </template>
 
 <script lang="ts">
-// tags: Tag[]
-// locations: Reference[]
-// environment: string[]
 import { indexesMapper, indexesStore } from "@/store";
 import { useListStore } from "@/store/rollingLists";
 import Vue from "vue";
 import { Multiselect } from "vue-multiselect";
-import { mapState, mapWritableState } from "pinia";
-import { useFilterStore } from "@/store/filter";
+import { mapWritableState } from "pinia";
 import ListSectionEdit from "./ListSectionEdit.vue";
-import {
-  getRollingListItem,
-  ReferenceListItem,
-  RollingListItem,
-} from "@/types";
+import { ReferenceListItem, RollingListItem } from "@/types";
 
 export default Vue.extend({
   components: { Multiselect, "list-section-edit": ListSectionEdit },
