@@ -12,12 +12,14 @@ import { default as ActionPanel } from './ActionPanel.vue'
 import { EncounterActions, EncountersFilter } from './encounters'
 import { ChapterSection, ChapterSectionEdit, ImageSection, ImageSectionEdit, LinkSection, LinkSectionEdit, ListSection, ListSectionEdit, PlayerCharactersSection, PlayerCharactersSectionEdit, SessionActions, SessionsFilter, TextSection, TextSectionEdit } from './sessions'
 import { IdeaActions, IdeasFilter } from './ideas'
+import { RollerListActions, RollerListFilter } from './lists'
 
 export function addAllComponents () {
   addAbilityComponents()
   addCreatureComponents()
   addEncounterComponents()
   addIdeaComponents()
+  addListComponents()
   addRootComponents()
   addSessionComponents()
   addSharedComponents()
@@ -55,6 +57,11 @@ function addEncounterComponents () {
 function addIdeaComponents () {
   Vue.component('ideas-filter', IdeasFilter)
   Vue.component('idea-actions', IdeaActions)
+}
+
+function addListComponents () {
+  Vue.component('lists-filter', RollerListFilter)
+  Vue.component('list-actions', RollerListActions)
 }
 
 function addSessionComponents () {

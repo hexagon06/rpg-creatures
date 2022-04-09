@@ -22,13 +22,16 @@ export type RollingListBase = {
   userId: string
 }
 
-export type RollingListIndex = Reference & RollingListBase
+export type RollingListIndex = Reference & RollingListBase & {
+  itemCount: number
+}
 
 export function getRollingListIndex (id: string, idea: RollingList): RollingListIndex {
   return {
     id,
     userId: idea.userId,
     name: idea.name,
+    itemCount: idea.items.length
   }
 }
 
