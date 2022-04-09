@@ -1,19 +1,22 @@
 import { IdItem, Reference, ReferenceInstance, ReferenceListItem } from '.'
 
 export type RollingListItem = {
+  id: string
+  label: string
   weight: number
   order: number
   repeatable: boolean
+  reference?: string | { routerName: string, id: string }
 }
 
-export function getRollingListItem (lastOrder: number): ReferenceListItem & RollingListItem {
+export function getRollingListItem (lastOrder: number): RollingListItem {
   const id = Date.now().toString()
   return {
+    id,
     label: '',
     weight: 1,
     order: lastOrder + 1,
     repeatable: true,
-    id
   }
 }
 

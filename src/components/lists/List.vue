@@ -9,7 +9,24 @@
     <div class="m-3 text-left">
       <ul>
         <li v-for="(item, i) in sortedItems" :key="i" class="flex gap-2">
-          <span class="flex-grow">{{ item.label }}</span>
+          <span class="flex-grow">
+            <router-link
+              v-if="item.reference && item.reference.id"
+              :to="{
+                name: item.reference.routerName,
+                params: { id: item.reference.id },
+              }"
+              class="encounter-link link"
+              >{{ item.label }}
+            </router-link>
+            <a
+              v-else-if="item.reference"
+              :href="item.reference"
+              target="_blank"
+              >{{ item.label }}</a
+            >
+            <span v-else>{{ item.label }}</span>
+          </span>
           <span v-if="item.weight !== 1" title="weight">{{ item.weight }}</span>
           <span class="w-6">
             <font-awesome-icon
@@ -73,5 +90,17 @@ $sidebar-width: 300px;
 }
 .bd-highlight {
   background-color: darken(#fff, 5);
+}
+a,
+a.encounter-link {
+  font-weight: bold;
+  color: #d1b74d;
+  &:hover {
+    color: lighten(#d1b74d, 10);
+  }
+
+  &.router-link-exact-active {
+    color: #42b983;
+  }
 }
 </style>
