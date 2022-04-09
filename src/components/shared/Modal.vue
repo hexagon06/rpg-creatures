@@ -19,15 +19,17 @@
           class="
             absolute
             bottom-0
+            right-16
+            left-16
             -my-7
             flex
             pt-3
             gap-2
-            w-full
             items-center
-            justify-center
+            justify-end
           "
         >
+          <slot name="buttons" />
           <button
             @click="cancel"
             type="button"

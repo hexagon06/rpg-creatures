@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { ArrayPills, Favorite, GridCard, InputWrapper, LabeledProp, ListCard, Modal, PillMultiselect, SourceReference, Thumbnail, ActionPanelFilterContent as ActionPanelFilterContent, ActionPanelActionContent } from './shared'
+import { ArrayPills, Favorite, GridCard, InputWrapper, LabeledProp, ListCard, Modal, PillMultiselect, SourceReference, Thumbnail, ActionPanelFilterContent as ActionPanelFilterContent, ActionPanelActionContent, ReferencePicker } from './shared'
 import {
   CreatureForm, Alignment, Abilities, AlignmentEditor, CreatureDetails,
   CreatureAbilityEditor, CreatureAbilityValueEditor,
@@ -12,12 +12,14 @@ import { default as ActionPanel } from './ActionPanel.vue'
 import { EncounterActions, EncountersFilter } from './encounters'
 import { ChapterSection, ChapterSectionEdit, ImageSection, ImageSectionEdit, LinkSection, LinkSectionEdit, ListSection, ListSectionEdit, PlayerCharactersSection, PlayerCharactersSectionEdit, SessionActions, SessionsFilter, TextSection, TextSectionEdit } from './sessions'
 import { IdeaActions, IdeasFilter } from './ideas'
+import { RollerListActions, RollerListFilter } from './lists'
 
 export function addAllComponents () {
   addAbilityComponents()
   addCreatureComponents()
   addEncounterComponents()
   addIdeaComponents()
+  addListComponents()
   addRootComponents()
   addSessionComponents()
   addSharedComponents()
@@ -57,6 +59,11 @@ function addIdeaComponents () {
   Vue.component('idea-actions', IdeaActions)
 }
 
+function addListComponents () {
+  Vue.component('lists-filter', RollerListFilter)
+  Vue.component('list-actions', RollerListActions)
+}
+
 function addSessionComponents () {
   Vue.component('sessions-filter', SessionsFilter)
   Vue.component('session-actions', SessionActions)
@@ -89,6 +96,7 @@ function addSharedComponents () {
   Vue.component('input-wrapper', InputWrapper)
   Vue.component('action-panel-filter', ActionPanelFilterContent)
   Vue.component('action-panel-action', ActionPanelActionContent)
+  Vue.component('reference-picker', ReferencePicker)
 }
 
 function addShopComponents () {

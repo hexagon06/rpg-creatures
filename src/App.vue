@@ -99,6 +99,7 @@ export default Vue.extend({
         { label: "Sessions", path: "/session", condition: true },
         { label: "Encounters", path: "/encounter", condition: true },
         { label: "Creatures", path: "/creature", condition: true },
+        { label: "Lists", path: "/list", condition: true },
         // { label: "Shops", path: "/shops", condition: true },
         // { label: "Abilities", path: "/abilities", condition: true },
         // {

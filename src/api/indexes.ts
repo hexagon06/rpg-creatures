@@ -36,6 +36,7 @@ export async function inititialize (userId: string): Promise<Indexes> {
     const firestore = new FirestoreAcces<UserIndexes>(firebaseClient.store, INDEXES_COLLECTION)
     const result = await firestore.getById(userId)
     const creatures = await fetchCreatureIndexes()
+
     if (result) return {
       ...result,
       creatures
