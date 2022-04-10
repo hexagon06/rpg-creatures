@@ -1,9 +1,8 @@
-import { abilityStore } from '.'
 import { filter, uniq } from 'lodash'
-import { AbillityFilterOptions, CreatureFilter, CreatureFilterOptions, defaultCreatureFilterOptions, defaultResult, FilterResult, IdeaFilterOptions } from '@/types/filter'
+import { AbillityFilterOptions, CreatureFilter, CreatureFilterOptions, FilterResult, IdeaFilterOptions } from '@/types/filter'
 import { defineStore } from 'pinia'
-import { useIdeaStore } from './ideas'
 import { useIndexesStore } from './indexes'
+import { useAbilityStore } from './abilities'
 
 const KEY_CREATURE_FILTERS = 'creature-filters'
 
@@ -114,7 +113,7 @@ export const useFilterStore = defineStore('filters', {
 
       const creatures = useIndexesStore().creatures
       const ideas = useIndexesStore().ideas
-      const abilities = abilityStore.state.abilities
+      const abilities = useAbilityStore().abilities
 
       this.$patch({
         creatureOptions: {

@@ -10,7 +10,6 @@ export * from './gameSession'
 export * from './ideas'
 export * from './indexes'
 export * from './rollingList'
-export * from './shops'
 export * from './tags'
 
 export type IdItem = { id?: string }

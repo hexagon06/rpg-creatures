@@ -5,7 +5,6 @@ import {
   CreatureAbilityEditor, CreatureAbilityValueEditor,
   CreaturesFilter, CreatureActions
 } from './creatures'
-import { Edit as ShopEdit, ShopDetails, ShopForm, ShopSidebar, ShopTable } from './shops'
 import { Create as AbilityCreate, AbilityDetails, AbilityForm, AbilitySidebar, AbilityTable, Edit as AbilityEdit, CreatureAbility } from './abilities'
 import { UserSign } from './users'
 import { default as ActionPanel } from './ActionPanel.vue'
@@ -23,7 +22,6 @@ export function addAllComponents () {
   addRootComponents()
   addSessionComponents()
   addSharedComponents()
-  addShopComponents()
   addUserComponents()
 }
 
@@ -97,14 +95,6 @@ function addSharedComponents () {
   Vue.component('action-panel-filter', ActionPanelFilterContent)
   Vue.component('action-panel-action', ActionPanelActionContent)
   Vue.component('reference-picker', ReferencePicker)
-}
-
-function addShopComponents () {
-  Vue.component('edit-shop', ShopEdit)
-  Vue.component('shop-details', ShopDetails)
-  Vue.component('shop-form', ShopForm)
-  Vue.component('shop-sidebar', ShopSidebar)
-  Vue.component('shop-table', ShopTable)
 }
 
 function addUserComponents () {

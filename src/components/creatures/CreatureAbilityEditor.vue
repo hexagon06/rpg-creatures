@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { abilityMapper } from "@/store";
+import { useAbilityStore } from "@/store/abilities";
 import {
   Ability,
   CreatureAbilityValues,
@@ -45,6 +45,7 @@ import {
   toMappedAbility,
 } from "@/types/abilities";
 import { differenceBy } from "lodash";
+import { mapState } from "pinia";
 import Vue, { PropType } from "vue";
 import Multiselect from "vue-multiselect";
 
@@ -64,7 +65,7 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...abilityMapper.mapState(["abilities"]),
+    ...mapState(useAbilityStore, ["abilities"]),
     abilityValues(): CreatureAbilityValues[] {
       return this.value.map(toAbilityValues);
     },

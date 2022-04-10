@@ -119,7 +119,6 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import { Creature, RPGAbilities } from "@/types/creatures";
-import { abilityMapper } from "@/store";
 import { toHitDiceFormula, toMod } from "@/shared";
 import LabeledProp from "../shared/LabeledProp.vue";
 import {
@@ -130,6 +129,8 @@ import {
 import { getLegendaryText } from "@/shared/abilityFormatting";
 import Thumbnail from "../shared/Thumbnail.vue";
 import { useUserStore } from "@/store/users";
+import { mapState } from "pinia";
+import { useAbilityStore } from "@/store/abilities";
 
 export default Vue.extend({
   components: { LabeledProp, Thumbnail },
@@ -144,7 +145,7 @@ export default Vue.extend({
     },
   },
   computed: {
-    ...abilityMapper.mapState(["abilities"]),
+    ...mapState(useAbilityStore, ["abilities"]),
     creatureAbilities(): RPGAbilities {
       return { ...this.value };
     },
