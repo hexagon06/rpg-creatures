@@ -7,6 +7,7 @@
     >
       <font-awesome-icon icon="fa-solid fa-dice-d20" />
     </button>
+
     <div class="flex flex-col-reverse">
       <div v-for="(item, i) in rollResults" :key="'result_' + i">
         <hr />
