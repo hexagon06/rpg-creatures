@@ -9,24 +9,7 @@
     <div class="m-3 text-left">
       <ul>
         <li v-for="(item, i) in sortedItems" :key="i" class="flex gap-2">
-          <span class="flex-grow">
-            <router-link
-              v-if="item.reference && item.reference.id"
-              :to="{
-                name: item.reference.routerName,
-                params: { id: item.reference.id },
-              }"
-              class="encounter-link link"
-              >{{ item.label }}
-            </router-link>
-            <a
-              v-else-if="item.reference"
-              :href="item.reference"
-              target="_blank"
-              >{{ item.label }}</a
-            >
-            <span v-else>{{ item.label }}</span>
-          </span>
+          <rolling-list-item :item="item" class="flex-grow" />
           <span v-if="item.weight !== 1" title="weight">{{ item.weight }}</span>
           <span class="w-6">
             <font-awesome-icon
@@ -37,6 +20,8 @@
         </li>
       </ul>
     </div>
+
+    <list-roller :list="sortedItems" />
   </div>
 </template>
 
@@ -47,10 +32,12 @@ import { Multiselect } from "vue-multiselect";
 import { mapState } from "pinia";
 import { useListStore } from "@/store/rollingLists";
 import { sortBy } from "lodash";
-import { ReferenceListItem, RollingListItem } from "@/types";
+import { RollingListItem as RLItem } from "@/types";
+import ListRoller from "./ListRoller.vue";
+import RollingListItem from "./RollingListItem.vue";
 
 export default Vue.extend({
-  components: { ArrayPills, Multiselect },
+  components: { ArrayPills, Multiselect, ListRoller, RollingListItem },
   props: {
     id: {
       type: String,
@@ -68,7 +55,7 @@ export default Vue.extend({
     loading(): boolean {
       return this.rollingList === undefined;
     },
-    sortedItems(): (ReferenceListItem & RollingListItem)[] {
+    sortedItems(): RLItem[] {
       if (this.rollingList === undefined) return [];
       return sortBy(this.rollingList.items, (i) => i.order);
     },
@@ -90,17 +77,5 @@ $sidebar-width: 300px;
 }
 .bd-highlight {
   background-color: darken(#fff, 5);
-}
-a,
-a.encounter-link {
-  font-weight: bold;
-  color: #d1b74d;
-  &:hover {
-    color: lighten(#d1b74d, 10);
-  }
-
-  &.router-link-exact-active {
-    color: #42b983;
-  }
 }
 </style>
