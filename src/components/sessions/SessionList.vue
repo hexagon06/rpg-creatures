@@ -17,11 +17,12 @@
 </template>
 
 <script lang="ts">
-import { indexesMapper } from "@/store";
+import { useIndexesStore } from "@/store/indexes";
+import { mapState } from "pinia";
 import Vue from "vue";
 export default Vue.extend({
   computed: {
-    ...indexesMapper.mapState(["sessions", "initialized"]),
+    ...mapState(useIndexesStore, ["sessions", "initialized"]),
   },
 });
 </script>

@@ -60,11 +60,8 @@
 </template>
 
 <script lang="ts">
-// newTags: Tag[]
-// system?: string
-
-import { indexesMapper } from "@/store";
 import { useFilterStore } from "@/store/filter";
+import { useIndexesStore } from "@/store/indexes";
 import { CreatureIndex } from "@/types";
 import { CreatureFilter } from "@/types/filter";
 import { difference, filter } from "lodash";
@@ -79,7 +76,7 @@ export default Vue.extend({
   },
   computed: {
     ...mapState(useFilterStore, ["creatureFilter"]),
-    ...indexesMapper.mapState(["creatures", "initialized"]),
+    ...mapState(useIndexesStore, ["creatures", "initialized"]),
     filteredCreatures(): CreatureIndex[] {
       return filter(this.creatures, (value) =>
         filterCreature(value, this.creatureFilter)

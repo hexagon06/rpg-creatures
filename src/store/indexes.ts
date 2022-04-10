@@ -1,162 +1,121 @@
 import { inititialize as initializeIndexes, set } from '@/api/indexes'
-import { CreatureIndex, EncounterIndex, IdeaIndex, Indexes, RollingListIndex, SessionPrep, SessionPrepIndex } from '@/types'
-import { deepCopy, deepExtend } from '@firebase/util'
-import { Getters, Module, createMapper, Actions, Mutations } from 'vuex-smart-module'
+import { CreatureIndex, EncounterIndex, IdeaIndex, Reference, RollingListIndex, SessionPrepIndex } from '@/types'
+import { defineStore } from 'pinia'
 import { userStore } from '.'
 
-class IndexesState {
-  initialized = false
-  userId?: string
-  encounters: EncounterIndex[] = []
-  creatures: CreatureIndex[] = []
-  sessions: SessionPrepIndex[] = []
-  ideas: IdeaIndex[] = []
-  lists: RollingListIndex[] = []
-}
-
-class IndexesGetters extends Getters<IndexesState> {
-}
-
-class IndexesMutations extends Mutations<IndexesState> {
-  addEncounter (encounter: EncounterIndex) {
-    this.state.encounters = this.state.encounters.concat([encounter])
-  }
-  updateEncounter (encounter: EncounterIndex) {
-    const encounters = deepCopy(this.state.encounters)
-    const instance = encounters.find(e => e.id == encounter.id)
-
-    if (instance) {
-      deepExtend(instance, encounter)
-      this.state.encounters = encounters
+let initHandler: Promise<void>
+type ListType = 'encounters' | 'creatures'
+export const useIndexesStore = defineStore('indexes', {
+  state: () => {
+    return {
+      initialized: false,
+      userId: undefined as undefined | string,
+      encounters: [] as EncounterIndex[],
+      creatures: [] as CreatureIndex[],
+      sessions: [] as SessionPrepIndex[],
+      ideas: [] as IdeaIndex[],
+      lists: [] as RollingListIndex[],
     }
-  }
+  },
+  actions: {
+    async initialize (userId: string) {
+      if (initHandler) return initHandler
+      else if (!this.initialized || userId != this.userId) {
+        if (userStore.state.currentUser && !userStore.state.currentUser.isAnonymous) {
+          const userId = userStore.state.currentUser.uid
+          initHandler = initializeIndexes(userId).then(indexes => {
+            this.$patch((state) => {
+              state.creatures = indexes.creatures
+              state.encounters = indexes.encounters
+              state.ideas = indexes.ideas ?? []
+              state.lists = indexes.lists ?? []
+              state.sessions = indexes.sessions ?? []
 
-  addCreature (creature: CreatureIndex) {
-    this.state.creatures = this.state.creatures.concat([creature])
-  }
-  updateCreature (creature: CreatureIndex) {
-    const creatures = deepCopy(this.state.creatures)
-    const instance = creatures.find(e => e.id === creature.id)
-
-    if (instance) {
-      deepExtend(instance, creature)
-      this.state.creatures = creatures
-    }
-  }
-
-  addSession (session: SessionPrepIndex) {
-    this.state.sessions = this.state.sessions.concat([session])
-  }
-  updateSession (session: SessionPrepIndex) {
-    const sessions = deepCopy(this.state.sessions)
-    const instance = sessions.find(e => e.id === session.id)
-
-    if (instance) {
-      deepExtend(instance, session)
-      this.state.sessions = sessions
-    }
-  }
-
-  addIdea (idea: IdeaIndex) {
-    this.state.ideas = this.state.ideas.concat([idea])
-  }
-  updateIdea (idea: IdeaIndex) {
-    const ideas = deepCopy(this.state.ideas)
-    const instance = ideas.find(e => e.id === idea.id)
-
-    if (instance) {
-      deepExtend(instance, idea)
-      this.state.ideas = ideas
-    }
-  }
-
-  addList (list: RollingListIndex) {
-    this.state.lists = this.state.lists.concat([list])
-  }
-  updateList (list: RollingListIndex) {
-    const lists = deepCopy(this.state.lists)
-    const instance = lists.find(e => e.id === list.id)
-
-    if (instance) {
-      deepExtend(instance, list)
-      this.state.lists = lists
-    }
-  }
-
-  inititialized () {
-    this.state.initialized = true
-  }
-  set (indexes: Indexes) {
-    this.state.encounters = indexes.encounters
-    this.state.creatures = indexes.creatures
-    this.state.sessions = indexes.sessions ?? []
-    this.state.ideas = indexes.ideas ?? []
-    this.state.lists = indexes.lists ?? []
-  }
-}
-
-class IndexesActions extends Actions<IndexesState, IndexesGetters, IndexesMutations, IndexesActions> {
-  private initHandler?: Promise<void>
-
-  async initialize (userId: string) {
-    if (this.initHandler) return this.initHandler
-    else if (!this.state.initialized || userId != this.state.userId) {
-      if (userStore.state.currentUser && !userStore.state.currentUser.isAnonymous) {
-        const userId = userStore.state.currentUser.uid
-        this.initHandler = initializeIndexes(userId).then(indexes => {
-          this.mutations.set(indexes)
-          this.mutations.inititialized()
-        })
-      } else {
-        this.initHandler = Promise.resolve()
-        this.mutations.inititialized()
+              state.initialized = true
+            })
+          })
+        } else {
+          initHandler = Promise.resolve()
+          this.initialized = true
+        }
       }
+    },
+    update<T extends Reference> (list: T[], item: T) {
+      const index = list.findIndex(i => i.id === item.id)
+      list[index] = item
+    },
+    mutateIndex<T extends Reference> (list: T[], item: T) {
+      if (!this.initialized) {
+        throw new Error('initialize() should have been called')
+      }
+      this.update(list, item)
+      presistIndexes(this.$state)
     }
   }
+})
 
-  async addEncounter (encounter: EncounterIndex) {
-    this.dispatch('mutateIndex', () => this.mutations.addEncounter(encounter))
-  }
-  async updateEncounter (encounter: EncounterIndex) {
-    this.dispatch('mutateIndex', () => this.mutations.updateEncounter(encounter))
-  }
+// class IndexesActions extends Actions<IndexesState, IndexesGetters, IndexesMutations, IndexesActions> {
+//   // private initHandler?: Promise<void>
 
-  async addCreature (creature: CreatureIndex) {
-    this.dispatch('mutateIndex', () => this.mutations.addCreature(creature))
-  }
-  async updateCreature (creature: CreatureIndex) {
-    this.dispatch('mutateIndex', () => this.mutations.updateCreature(creature))
-  }
+//   // async initialize (userId: string) {
+//   //   if (this.initHandler) return this.initHandler
+//   //   else if (!this.state.initialized || userId != this.state.userId) {
+//   //     if (userStore.state.currentUser && !userStore.state.currentUser.isAnonymous) {
+//   //       const userId = userStore.state.currentUser.uid
+//   //       this.initHandler = initializeIndexes(userId).then(indexes => {
+//   //         this.mutations.set(indexes)
+//   //         this.mutations.inititialized()
+//   //       })
+//   //     } else {
+//   //       this.initHandler = Promise.resolve()
+//   //       this.mutations.inititialized()
+//   //     }
+//   //   }
+//   // }
 
-  async addSession (session: SessionPrepIndex) {
-    this.dispatch('mutateIndex', () => this.mutations.addSession(session))
-  }
-  async updateSession (session: SessionPrepIndex) {
-    this.dispatch('mutateIndex', () => this.mutations.updateSession(session))
-  }
+//   // async addEncounter (encounter: EncounterIndex) {
+//   //   this.dispatch('mutateIndex', () => this.mutations.addEncounter(encounter))
+//   // }
+//   // async updateEncounter (encounter: EncounterIndex) {
+//   //   this.dispatch('mutateIndex', () => this.mutations.updateEncounter(encounter))
+//   // }
 
-  async addIdea (idea: IdeaIndex) {
-    this.dispatch('mutateIndex', () => this.mutations.addIdea(idea))
-  }
-  async updateIdea (idea: IdeaIndex) {
-    this.dispatch('mutateIndex', () => this.mutations.updateIdea(idea))
-  }
+//   // async addCreature (creature: CreatureIndex) {
+//   //   this.dispatch('mutateIndex', () => this.mutations.addCreature(creature))
+//   // }
+//   // async updateCreature (creature: CreatureIndex) {
+//   //   this.dispatch('mutateIndex', () => this.mutations.updateCreature(creature))
+//   // }
 
-  async addList (list: RollingListIndex) {
-    this.dispatch('mutateIndex', () => this.mutations.addList(list))
-  }
-  async updateList (list: RollingListIndex) {
-    this.dispatch('mutateIndex', () => this.mutations.updateList(list))
-  }
+//   // async addSession (session: SessionPrepIndex) {
+//   //   this.dispatch('mutateIndex', () => this.mutations.addSession(session))
+//   // }
+//   // async updateSession (session: SessionPrepIndex) {
+//   //   this.dispatch('mutateIndex', () => this.mutations.updateSession(session))
+//   // }
 
-  mutateIndex (mutation: () => void) {
-    if (!this.state.initialized) {
-      throw new Error('initialize() should have been called')
-    }
-    mutation()
-    presistIndexes(this.state)
-  }
-}
+//   // async addIdea (idea: IdeaIndex) {
+//   //   this.dispatch('mutateIndex', () => this.mutations.addIdea(idea))
+//   // }
+//   // async updateIdea (idea: IdeaIndex) {
+//   //   this.dispatch('mutateIndex', () => this.mutations.updateIdea(idea))
+//   // }
+
+//   // async addList (list: RollingListIndex) {
+//   //   this.dispatch('mutateIndex', () => this.mutations.addList(list))
+//   // }
+//   // async updateList (list: RollingListIndex) {
+//   //   this.dispatch('mutateIndex', () => this.mutations.updateList(list))
+//   // }
+
+//   // mutateIndex (mutation: () => void) {
+//   //   if (!this.state.initialized) {
+//   //     throw new Error('initialize() should have been called')
+//   //   }
+//   //   mutation()
+//   //   presistIndexes(this.state)
+//   // }
+// }
 
 function presistIndexes (data: {
   encounters: EncounterIndex[],
@@ -179,12 +138,3 @@ function presistIndexes (data: {
     throw new Error(`expected user id to be set`)
   }
 }
-
-export const indexesModule = new Module({
-  state: IndexesState,
-  getters: IndexesGetters,
-  mutations: IndexesMutations,
-  actions: IndexesActions
-})
-
-export const indexesMapper = createMapper(indexesModule)

@@ -1,8 +1,9 @@
 import { listApi } from '@/api/typed/listApi'
 import { RollingList, RollingListIndex, FilledRollingList, getRollingListIndex } from '@/types'
 import { deepEqual } from '@firebase/util'
-import { indexesStore, userStore } from '.'
+import { userStore } from '.'
 import { defineStore } from 'pinia'
+import { useIndexesStore } from './indexes'
 
 export const useListStore = defineStore('rollingLists', {
   state: () => {
@@ -34,7 +35,7 @@ export const useListStore = defineStore('rollingLists', {
       }
       const id = await listApi.create(rollingList)
       const rollingListIndex: RollingListIndex = getRollingListIndex(id, rollingList)
-      await indexesStore.actions.addList(rollingListIndex)
+      useIndexesStore().lists.push(rollingListIndex)
       this.rollingList = rollingList
       return id
     },
@@ -54,7 +55,7 @@ export const useListStore = defineStore('rollingLists', {
       try {
         await listApi.update(rollingList)
         const index = getRollingListIndex(rollingList.id!, rollingList)
-        await indexesStore.actions.updateList(index)
+        useIndexesStore().mutateIndex(useIndexesStore().lists, index)
       } catch (error) {
         console.error('RollingList update failed: ', error)
         throw error

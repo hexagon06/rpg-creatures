@@ -33,13 +33,13 @@
 </template>
 
 <script lang="ts">
-import { indexesMapper, indexesStore } from "@/store";
 import { useListStore } from "@/store/rollingLists";
 import Vue from "vue";
 import { Multiselect } from "vue-multiselect";
 import { mapWritableState } from "pinia";
 import ListSectionEdit from "./ListSectionEdit.vue";
 import { ReferenceListItem, RollingListItem } from "@/types";
+import { useIndexesStore } from "@/store/indexes";
 
 export default Vue.extend({
   components: { Multiselect, "list-section-edit": ListSectionEdit },
@@ -65,9 +65,6 @@ export default Vue.extend({
   },
   computed: {
     ...mapWritableState(useListStore, ["rollingListForm"]),
-    ...indexesMapper.mapState({
-      creatureOptions: (state) => state.creatures,
-    }),
     weighted(): boolean {
       if (!this.rollingListForm) return false;
       return (
@@ -87,7 +84,7 @@ export default Vue.extend({
     },
     loading(): boolean {
       return (
-        !indexesStore.state.initialized ||
+        !useIndexesStore().initialized ||
         useListStore().rollingListForm === undefined
       );
     },

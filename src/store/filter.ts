@@ -1,8 +1,9 @@
-import { abilityStore, indexesStore } from '.'
+import { abilityStore } from '.'
 import { filter, uniq } from 'lodash'
 import { AbillityFilterOptions, CreatureFilter, CreatureFilterOptions, defaultCreatureFilterOptions, defaultResult, FilterResult, IdeaFilterOptions } from '@/types/filter'
 import { defineStore } from 'pinia'
 import { useIdeaStore } from './ideas'
+import { useIndexesStore } from './indexes'
 
 const KEY_CREATURE_FILTERS = 'creature-filters'
 
@@ -109,11 +110,11 @@ export const useFilterStore = defineStore('filters', {
         }
       }
 
-      if (!indexesStore.state.initialized) throw new Error('IndexStore should have been initialized before fetching search')
+      if (!useIndexesStore().initialized) throw new Error('IndexStore should have been initialized before fetching search')
 
-      const creatures = indexesStore.state.creatures
+      const creatures = useIndexesStore().creatures
+      const ideas = useIndexesStore().ideas
       const abilities = abilityStore.state.abilities
-      const ideas = indexesStore.state.ideas
 
       this.$patch({
         creatureOptions: {

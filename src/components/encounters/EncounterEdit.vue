@@ -98,7 +98,7 @@
               id="input-size"
               multiple
               v-model="encounterForm.creatures"
-              :options="creatureOptions"
+              :options="creatures"
               :clear-on-select="false"
               :close-on-select="false"
               :show-labels="true"
@@ -115,11 +115,11 @@
 </template>
 
 <script lang="ts">
-import { indexesMapper, indexesStore } from "@/store";
 import { useEncounterStore } from "@/store/encounters";
 import Vue from "vue";
 import { Multiselect } from "vue-multiselect";
-import { mapWritableState } from "pinia";
+import { mapState, mapWritableState } from "pinia";
+import { useIndexesStore } from "@/store/indexes";
 
 export default Vue.extend({
   components: { Multiselect },
@@ -144,12 +144,10 @@ export default Vue.extend({
   },
   computed: {
     ...mapWritableState(useEncounterStore, ["encounterForm"]),
-    ...indexesMapper.mapState({
-      creatureOptions: (state) => state.creatures,
-    }),
+    ...mapState(useIndexesStore, ["creatures"]),
     loading(): boolean {
       return (
-        !indexesStore.state.initialized ||
+        !useIndexesStore().initialized ||
         useEncounterStore().encounterForm === undefined
       );
     },
