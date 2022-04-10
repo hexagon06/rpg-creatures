@@ -13,6 +13,10 @@
         <hr />
         <h3><rolling-list-item :item="item.item" /></h3>
         <p>{{ item.rollText }}</p>
+
+        <button @click="removeRoll(i)" class="button-round button-on-rouge">
+          <font-awesome-icon icon="fa-solid fa-minus" />
+        </button>
       </div>
     </div>
   </div>
@@ -73,6 +77,9 @@ export default Vue.extend({
       const mm = this.minMaxList.find((m) => roll >= m.min && roll <= m.max);
       if (!mm) throw new Error("how can this be?");
       return mm.item;
+    },
+    removeRoll(index: number) {
+      this.rollResults = this.rollResults.filter((_, i) => i !== index);
     },
   },
 });

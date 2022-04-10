@@ -31,4 +31,16 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+a,
+a.encounter-link {
+  font-weight: bold;
+  color: #d1b74d;
+  &:hover {
+    color: lighten(#d1b74d, 10);
+  }
+
+  &.router-link-exact-active {
+    color: #42b983;
+  }
+}
 </style>
