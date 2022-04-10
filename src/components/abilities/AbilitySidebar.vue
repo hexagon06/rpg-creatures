@@ -24,8 +24,9 @@
 </template>
 
 <script lang="ts">
+import { useAbilityStore } from "@/store/abilities";
+import { mapState } from "pinia";
 import Vue from "vue";
-import { abilityMapper } from "@/store/abilities";
 
 export default Vue.extend({
   props: {
@@ -35,7 +36,7 @@ export default Vue.extend({
     },
   },
   computed: {
-    ...abilityMapper.mapState(["selectedAbility"]),
+    ...mapState(useAbilityStore, ["selectedAbility"]),
     abilityIsSelected(): boolean {
       return this.selectedAbility !== undefined;
     },

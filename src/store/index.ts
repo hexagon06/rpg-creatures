@@ -1,10 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { createStore, Module } from 'vuex-smart-module'
-import { abilityModule } from './abilities'
 import { shopModule } from './shops'
-
-export { abilityMapper } from './abilities'
 export { shopMapper } from './shops'
 class RootState {
   started = true
@@ -13,7 +10,6 @@ class RootState {
 export const rootModule = new Module({
   state: RootState,
   modules: {
-    abilityModule,
     shopModule,
   }
 })
@@ -30,4 +26,3 @@ export const store = createStore(
 )
 
 export const shopStore = rootModule.context(store).modules.shopModule
-export const abilityStore = rootModule.context(store).modules.abilityModule

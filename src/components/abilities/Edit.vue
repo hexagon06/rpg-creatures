@@ -23,8 +23,8 @@
 <script lang="ts">
 import { cloneDeep } from "lodash";
 import Vue, { PropType } from "vue";
-import { abilityStore } from "@/store";
 import { Ability } from "@/types/abilities";
+import { useAbilityStore } from "@/store/abilities";
 
 export default Vue.extend({
   props: {
@@ -58,7 +58,7 @@ export default Vue.extend({
         return;
       }
       // Todo: set hpFormula
-      await abilityStore.actions.updateAbility(this.abilityCopy);
+      await useAbilityStore().updateAbility(this.abilityCopy);
       // Hide the modal manually
       this.$nextTick(() => {
         // this.$bvModal.hide("edit-modal");

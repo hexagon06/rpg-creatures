@@ -23,10 +23,10 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { abilityStore } from "@/store";
 import { Ability } from "@/types/abilities";
 import { Guid } from "@/shared";
 import { useFilterStore } from "@/store/filter";
+import { useAbilityStore } from "@/store/abilities";
 
 function createAbility(): Ability {
   return {
@@ -67,7 +67,7 @@ export default Vue.extend({
         return;
       }
       // Todo: set hpFormula
-      await abilityStore.actions.createAbility(this.ability);
+      await useAbilityStore().createAbility(this.ability);
       await useFilterStore().fetchSearch();
       this.saved = {};
       // Hide the modal manually

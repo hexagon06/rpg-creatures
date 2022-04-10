@@ -21,8 +21,8 @@
 <script lang="ts">
 import Vue from "vue";
 import { Ability } from "@/types/abilities";
-import { abilityStore } from "@/store";
-import { abilityMapper } from "@/store/abilities";
+import { mapState } from "pinia";
+import { useAbilityStore } from "@/store/abilities";
 
 export default Vue.extend({
   data() {
@@ -32,19 +32,23 @@ export default Vue.extend({
     };
   },
   async created() {
-    if (!abilityStore.state.initialized) {
-      await abilityStore.actions.initialize();
+    if (!this.initialized) {
+      await useAbilityStore().initialize();
     }
     this.loading = false;
   },
   computed: {
-    ...abilityMapper.mapState(["abilities", "selectedAbility"]),
+    ...mapState(useAbilityStore, [
+      "abilities",
+      "selectedAbility",
+      "initialized",
+    ]),
   },
   methods: {
     async selectAbility(data: Ability[]) {
       if (data.length === 0) {
         this.sidebarAbilityOpen = false;
-        await abilityStore.actions.setSelectedAbility(undefined);
+        await useAbilityStore().setSelectedAbility(undefined);
       } else if (data.length !== 1) {
         throw new Error(
           `unsupported amount of abilities selected (${data.length})`
@@ -53,7 +57,7 @@ export default Vue.extend({
         this.selectedAbility?.id !== data[0].id ||
         !this.sidebarAbilityOpen
       ) {
-        await abilityStore.actions.setSelectedAbility(data[0].id);
+        await useAbilityStore().setSelectedAbility(data[0].id);
         this.sidebarAbilityOpen = true;
       }
     },
