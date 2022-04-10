@@ -21,11 +21,12 @@
 </template>
 
 <script lang="ts">
-import { indexesMapper } from "@/store";
+import { useIndexesStore } from "@/store/indexes";
+import { mapState } from "pinia";
 import Vue from "vue";
 export default Vue.extend({
   computed: {
-    ...indexesMapper.mapState(["encounters", "initialized"]),
+    ...mapState(useIndexesStore, ["encounters", "initialized"]),
   },
 });
 </script>

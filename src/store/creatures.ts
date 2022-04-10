@@ -3,7 +3,7 @@ import { Creature, getCreatureIndex } from '@/types'
 import { deepEqual } from '@firebase/util'
 import { cloneDeep } from 'lodash'
 import { defineStore } from 'pinia'
-import { indexesStore } from '.'
+import { useIndexesStore } from './indexes'
 
 export const useCreatureStore = defineStore('creatures', {
   state: () => {
@@ -39,7 +39,7 @@ export const useCreatureStore = defineStore('creatures', {
       }
       const id = await creatureApi.create(creature)
       const creatureIndex = getCreatureIndex({ ...creature, id })
-      await indexesStore.actions.addCreature(creatureIndex)
+      await useIndexesStore().creatures.push(creatureIndex)
       this.creature = creature
       return id
     },
@@ -57,7 +57,7 @@ export const useCreatureStore = defineStore('creatures', {
       try {
         await creatureApi.update(creature)
         const index = getCreatureIndex(creature)
-        await indexesStore.actions.updateCreature(index)
+        useIndexesStore().mutateIndex(useIndexesStore().creatures, index)
       } catch (error) {
         console.error('Creature update failed: ', error)
         throw error

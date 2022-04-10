@@ -50,10 +50,6 @@
 </template>
 
 <script lang="ts">
-// tags: Tag[]
-// locations: Reference[]
-// environment: string[]
-import { indexesStore } from "@/store";
 import { creatureLabel, ReferenceListItem } from "@/types";
 import { intersectionWith } from "lodash";
 import Vue from "vue";
@@ -61,6 +57,7 @@ import ArrayPills from "../shared/ArrayPills.vue";
 import { Multiselect } from "vue-multiselect";
 import { mapState } from "pinia";
 import { useEncounterStore } from "@/store/encounters";
+import { useIndexesStore } from "@/store/indexes";
 
 export default Vue.extend({
   components: { ArrayPills, Multiselect },
@@ -85,9 +82,9 @@ export default Vue.extend({
       return [];
     },
     creatures(): ReferenceListItem[] {
-      return this.encounter && indexesStore.state.initialized
+      return this.encounter && useIndexesStore().initialized
         ? intersectionWith(
-            indexesStore.state.creatures,
+            useIndexesStore().creatures,
             this.encounter?.creatures,
             (i, c) => c.id === i.id
           ).map((c) => {

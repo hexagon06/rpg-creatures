@@ -8,8 +8,9 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { indexesMapper } from "@/store";
 import { userMapper } from "@/store/users";
+import { mapState } from "pinia";
+import { useIndexesStore } from "@/store/indexes";
 
 export default Vue.extend({
   data() {
@@ -18,7 +19,7 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...indexesMapper.mapState(["creatures", "initialized"]),
+    ...mapState(useIndexesStore, ["creatures", "initialized"]),
     ...userMapper.mapState(["currentUser"]),
     loading(): boolean {
       return this.initialized === false;

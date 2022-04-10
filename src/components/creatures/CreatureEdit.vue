@@ -9,9 +9,9 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { indexesStore } from "@/store";
 import { useCreatureStore } from "@/store/creatures";
 import { mapWritableState } from "pinia";
+import { useIndexesStore } from "@/store/indexes";
 
 export default Vue.extend({
   props: {
@@ -31,7 +31,7 @@ export default Vue.extend({
     ...mapWritableState(useCreatureStore, ["creatureForm"]),
     loading(): boolean {
       return (
-        !indexesStore.state.initialized ||
+        !useIndexesStore().initialized ||
         useCreatureStore().creatureForm === undefined
       );
     },

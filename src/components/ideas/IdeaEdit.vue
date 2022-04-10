@@ -65,12 +65,12 @@
 </template>
 
 <script lang="ts">
-import { indexesMapper, indexesStore } from "@/store";
 import { useIdeaStore } from "@/store/ideas";
 import Vue from "vue";
 import { Multiselect } from "vue-multiselect";
 import { mapState, mapWritableState } from "pinia";
 import { useFilterStore } from "@/store/filter";
+import { useIndexesStore } from "@/store/indexes";
 
 export default Vue.extend({
   components: { Multiselect },
@@ -95,9 +95,6 @@ export default Vue.extend({
   },
   computed: {
     ...mapWritableState(useIdeaStore, ["ideaForm"]),
-    ...indexesMapper.mapState({
-      creatureOptions: (state) => state.creatures,
-    }),
     ...mapState(useFilterStore, ["ideaOptions"]),
     tagsOptions(): string[] {
       return this.ideaOptions.tags;
@@ -107,7 +104,7 @@ export default Vue.extend({
     },
     loading(): boolean {
       return (
-        !indexesStore.state.initialized || useIdeaStore().ideaForm === undefined
+        !useIndexesStore().initialized || useIdeaStore().ideaForm === undefined
       );
     },
   },

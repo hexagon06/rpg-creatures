@@ -71,7 +71,8 @@
 import Vue, { PropType } from "vue";
 import { isString } from "lodash";
 import { Multiselect } from "vue-multiselect";
-import { indexesMapper, indexesStore } from "@/store";
+import { mapState } from "pinia";
+import { useIndexesStore } from "@/store/indexes";
 
 export default Vue.extend({
   components: { Multiselect },
@@ -92,6 +93,12 @@ export default Vue.extend({
     };
   },
   computed: {
+    ...mapState(useIndexesStore, [
+      "encounters",
+      "creatures",
+      "sessions",
+      "lists",
+    ]),
     isReference(): boolean {
       return this.reference !== undefined && !isString(this.reference);
     },
@@ -136,7 +143,6 @@ export default Vue.extend({
         this.form.entity.id.length > 0
       );
     },
-    ...indexesMapper.mapState(["encounters", "creatures", "sessions", "lists"]),
     idOptions(): { id: string; label: string }[] {
       const router = this.form.routerName;
       switch (router) {

@@ -92,7 +92,6 @@
 </template>
 
 <script lang="ts">
-import { indexesMapper, indexesStore } from "@/store";
 import { useSessionStore } from "@/store/gameSession";
 import Vue from "vue";
 import { Multiselect } from "vue-multiselect";
@@ -100,6 +99,7 @@ import { mapWritableState } from "pinia";
 import { PrepSection, PrepType } from "@/types";
 import { sortBy } from "lodash";
 import { prepSectionFactory } from "./factory";
+import { useIndexesStore } from "@/store/indexes";
 
 type SectionButtons = {
   title: string;
@@ -146,9 +146,6 @@ export default Vue.extend({
   },
   computed: {
     ...mapWritableState(useSessionStore, ["sessionForm"]),
-    ...indexesMapper.mapState({
-      creatureOptions: (state) => state.creatures,
-    }),
     sortedSections(): PrepSection[] {
       if (this.sessionForm) {
         return sortBy(this.sessionForm.sections, (s) => s.sortOrder);
@@ -157,7 +154,7 @@ export default Vue.extend({
     },
     loading(): boolean {
       return (
-        !indexesStore.state.initialized ||
+        !useIndexesStore().initialized ||
         useSessionStore().sessionForm === undefined
       );
     },

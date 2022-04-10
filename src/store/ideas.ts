@@ -1,8 +1,9 @@
 import { ideaApi } from '@/api/typed/ideaApi'
 import { Idea, IdeaIndex, FilledIdea, getIdeaIndex } from '@/types'
 import { deepEqual } from '@firebase/util'
-import { indexesStore, userStore } from '.'
+import { userStore } from '.'
 import { defineStore } from 'pinia'
+import { useIndexesStore } from './indexes'
 
 export const useIdeaStore = defineStore('ideas', {
   state: () => {
@@ -36,7 +37,7 @@ export const useIdeaStore = defineStore('ideas', {
       }
       const id = await ideaApi.create(idea)
       const ideaIndex: IdeaIndex = getIdeaIndex(id, idea)
-      await indexesStore.actions.addIdea(ideaIndex)
+      useIndexesStore().ideas.push(ideaIndex)
       this.idea = idea
       return id
     },
@@ -56,7 +57,7 @@ export const useIdeaStore = defineStore('ideas', {
       try {
         await ideaApi.update(idea)
         const index = getIdeaIndex(idea.id!, idea)
-        await indexesStore.actions.updateIdea(index)
+        useIndexesStore().mutateIndex(useIndexesStore().ideas, index)
       } catch (error) {
         console.error('Idea update failed: ', error)
         throw error

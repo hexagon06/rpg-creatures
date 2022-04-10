@@ -1,9 +1,10 @@
 import { sessionApi } from '@/api'
 import { getSessionPrepIndex, SessionPrep, SessionPrepIndex } from '@/types'
 import { deepEqual } from '@firebase/util'
-import { indexesStore, userStore } from '.'
+import { userStore } from '.'
 import { defineStore } from 'pinia'
 import { cloneDeep } from 'lodash'
+import { useIndexesStore } from './indexes'
 
 export const useSessionStore = defineStore('sessions', {
   state: () => {
@@ -37,7 +38,7 @@ export const useSessionStore = defineStore('sessions', {
       const id = await sessionApi.create(session)
       session.id = id
       const sessionIndex: SessionPrepIndex = getSessionPrepIndex(session)
-      await indexesStore.actions.addSession(sessionIndex)
+      useIndexesStore().sessions.push(sessionIndex)
       this.session = session
       return id
     },
@@ -57,7 +58,7 @@ export const useSessionStore = defineStore('sessions', {
       try {
         await sessionApi.update(session)
         const index = getSessionPrepIndex(session)
-        await indexesStore.actions.updateSession(index)
+        useIndexesStore().mutateIndex(useIndexesStore().sessions, index)
       } catch (error) {
         console.error('Session update failed: ', error)
         throw error

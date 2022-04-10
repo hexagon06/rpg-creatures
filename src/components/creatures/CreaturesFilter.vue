@@ -77,9 +77,9 @@
 </template>
 
 <script lang="ts">
-import { indexesStore } from "@/store";
 import { useCreatureStore } from "@/store/creatures";
 import { useFilterStore } from "@/store/filter";
+import { useIndexesStore } from "@/store/indexes";
 import { mapState } from "pinia";
 import Vue from "vue";
 import InputWrapper from "../shared/InputWrapper.vue";
@@ -135,7 +135,7 @@ export default Vue.extend({
       return this.creatureOptions.source;
     },
     creatureCount(): number {
-      return indexesStore.state.creatures.length;
+      return useIndexesStore().creatures.length;
     },
     filteredCount(): number {
       return this.creatureFilterResult.count;

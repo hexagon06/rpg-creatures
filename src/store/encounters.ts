@@ -1,9 +1,9 @@
 import { encounterApi } from '@/api'
 import { Encounter, EncounterIndex, FilledEncounter, getEncounterIndex } from '@/types'
 import { deepEqual } from '@firebase/util'
-import { indexesStore } from '.'
 import { defineStore } from 'pinia'
 import { cloneDeep } from 'lodash'
+import { useIndexesStore } from './indexes'
 
 export const useEncounterStore = defineStore('encounters', {
   state: () => {
@@ -38,7 +38,7 @@ export const useEncounterStore = defineStore('encounters', {
       }
       const id = await encounterApi.create(encounter)
       const encounterIndex: EncounterIndex = getEncounterIndex(id, encounter)
-      await indexesStore.actions.addEncounter(encounterIndex)
+      useIndexesStore().encounters.push(encounterIndex)
       this.encounter = encounter
       return id
     },
@@ -59,7 +59,7 @@ export const useEncounterStore = defineStore('encounters', {
       try {
         await encounterApi.update(encounter)
         const index = getEncounterIndex(encounter.id!, encounter)
-        await indexesStore.actions.updateEncounter(index)
+        useIndexesStore().mutateIndex(useIndexesStore().encounters, index)
       } catch (error) {
         console.error('Encounter update failed: ', error)
         throw error
@@ -86,22 +86,3 @@ export const useEncounterStore = defineStore('encounters', {
     }
   }
 })
-
-// export const encounterMapper = createMapper(encounterModule)
-// export function fillEncounter (encounter: Encounter): FilledEncounter {
-//   return {
-//     ...encounter,
-//     creatures: encounter.creatures.map(ref => {
-//       const cIndex = indexesStore.state.creatures.find(c => c.id === ref.id)
-//       if (cIndex) {
-//         return {
-//           ...cIndex,
-//           count: ref.count
-//         }
-//       } else {
-//         throw new Error(`Expected a reference to a creature but no creature with the id ${ref.id} exists`)
-//       }
-//     })
-//   }
-// }
-
