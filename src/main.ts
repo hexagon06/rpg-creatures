@@ -19,7 +19,6 @@ Vue.use(VMdPreview)
 // standard vue stuff
 import App from './App.vue'
 import router from './router'
-import { store } from './store'
 import { addFontAwesome } from './font-awesome'
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
@@ -86,7 +85,6 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
-  store,
   pinia,
   render: h => h(App)
 }).$mount('#app')
