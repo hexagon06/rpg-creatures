@@ -4101,6 +4101,13 @@ detective@^5.2.0:
     defined "^1.0.0"
     minimist "^1.1.1"
 
+dice-typescript@^1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/dice-typescript/-/dice-typescript-1.6.1.tgz#68e5b2ff341726919bcebd391378ad372bce247c"
+  integrity sha512-blpLSJGPiNgByuB4jbv1bKX+e4ptniiapdP879Jkmh7TooK39XnlYbtGtCgxermxJbL168FrYGXZcjEnvFA6UQ==
+  dependencies:
+    random-js "^1.0.8"
+
 didyoumean@^1.2.2:
   version "1.2.2"
   resolved "https://registry.npmmirror.com/didyoumean/-/didyoumean-1.2.2.tgz#989346ffe9e839b4555ecf5666edea0d3e8ad037"
@@ -7338,6 +7345,11 @@ quick-lru@^5.1.1:
   version "5.1.1"
   resolved "https://registry.npmmirror.com/quick-lru/-/quick-lru-5.1.1.tgz#366493e6b3e42a3a6885e2e99d18f80fb7a8c932"
   integrity sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==
+
+random-js@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/random-js/-/random-js-1.0.8.tgz#968fd689a6f25d6c0aac766283de2f688c9c190a"
+  integrity sha1-lo/WiabyXWwKrHZig94vaIycGQo=
 
 randombytes@^2.1.0:
   version "2.1.0"

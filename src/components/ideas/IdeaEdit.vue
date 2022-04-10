@@ -65,9 +65,6 @@
 </template>
 
 <script lang="ts">
-// tags: Tag[]
-// locations: Reference[]
-// environment: string[]
 import { indexesMapper, indexesStore } from "@/store";
 import { useIdeaStore } from "@/store/ideas";
 import Vue from "vue";
@@ -85,7 +82,6 @@ export default Vue.extend({
   },
   data() {
     return {
-      // form: undefined as Idea | undefined,
       saving: false,
       validated: false,
     };
@@ -96,22 +92,6 @@ export default Vue.extend({
       await store.fetch(this.id);
     }
     await store.startEdit();
-    // this.form = this.ideaForm ? { ...this.ideaForm } : undefined;
-  },
-  watch: {
-    // ideaForm: function (n) {
-    //   console.log("ideaForm changed");
-    //   this.form = { ...n };
-    // },
-    // form: {
-    //   handler: function (n) {
-    //     const store = useIdeaStore();
-    //     if (!isEqual(store.ideaForm, this.form)) {
-    //       store.ideaForm = n;
-    //     }
-    //   },
-    //   deep: true,
-    // },
   },
   computed: {
     ...mapWritableState(useIdeaStore, ["ideaForm"]),
@@ -137,13 +117,11 @@ export default Vue.extend({
       this.ideaForm!.tags.push(newTag);
     },
     async createCategory(newCategory: string | undefined) {
-      console.log("new", newCategory);
       if (newCategory) {
         await useFilterStore().addIdeaCategory(newCategory);
       }
 
       this.ideaForm!.category = newCategory;
-      console.log("form", this.ideaForm?.category);
     },
   },
 });

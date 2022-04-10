@@ -8,17 +8,17 @@
       }"
       class="encounter-link link"
     >
-      <span v-for="(l, i) in label" :key="`lbl_${i}`" :class="labelClass(l)">
+      <span v-for="(l, i) in labels" :key="`lbl_${i}`" :class="labelClass(l)">
         {{ l.text }}
       </span>
     </router-link>
     <a v-else-if="item.reference" :href="item.reference" target="_blank">
-      <span v-for="(l, i) in label" :key="`lbl_${i}`" :class="labelClass(l)">
+      <span v-for="(l, i) in labels" :key="`lbl_${i}`" :class="labelClass(l)">
         {{ l.text }}
       </span>
     </a>
     <span v-else>
-      <span v-for="(l, i) in label" :key="`lbl_${i}`" :class="labelClass(l)">
+      <span v-for="(l, i) in labels" :key="`lbl_${i}`" :class="labelClass(l)">
         {{ l.text }}
       </span>
     </span>
@@ -35,10 +35,15 @@ export default Vue.extend({
       type: Object as PropType<RollingListItem>,
       required: true,
     },
+    label: {
+      type: String,
+      default: undefined,
+    },
   },
   computed: {
-    label(): { text: string; type: "text" | "dice" }[] {
-      const split = this.item.label.split(diceRegex);
+    labels(): { text: string; type: "text" | "dice" }[] {
+      const lbl = this.label ?? this.item.label;
+      const split = lbl.split(diceRegex);
       return split.map((s) => {
         return {
           text: s,

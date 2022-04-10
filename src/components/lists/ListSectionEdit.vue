@@ -152,13 +152,9 @@ export default Vue.extend({
     create() {
       const lastItem = this.orderedList[this.orderedList.length - 1];
       const lastOrder = lastItem ? lastItem.order : -1;
-      console.log(lastOrder);
 
       const item = getRollingListItem(lastOrder);
       item.reference = undefined;
-      console.log("create", item);
-
-      console.log(item.reference, isString(item.reference));
 
       this.$emit("update:value", cloneDeep(this.value).concat([item]));
     },

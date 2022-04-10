@@ -115,9 +115,6 @@
 </template>
 
 <script lang="ts">
-// tags: Tag[]
-// locations: Reference[]
-// environment: string[]
 import { indexesMapper, indexesStore } from "@/store";
 import { useEncounterStore } from "@/store/encounters";
 import Vue from "vue";
@@ -134,7 +131,6 @@ export default Vue.extend({
   },
   data() {
     return {
-      // form: undefined as Encounter | undefined,
       saving: false,
       validated: false,
     };
@@ -145,22 +141,6 @@ export default Vue.extend({
       await store.fetch(this.id);
     }
     await store.startEdit();
-    // this.form = this.encounterForm ? { ...this.encounterForm } : undefined;
-  },
-  watch: {
-    // encounterForm: function (n) {
-    //   console.log("encounterForm changed");
-    //   this.form = { ...n };
-    // },
-    // form: {
-    //   handler: function (n) {
-    //     const store = useEncounterStore();
-    //     if (!isEqual(store.encounterForm, this.form)) {
-    //       store.encounterForm = n;
-    //     }
-    //   },
-    //   deep: true,
-    // },
   },
   computed: {
     ...mapWritableState(useEncounterStore, ["encounterForm"]),
