@@ -84,10 +84,10 @@
   </div>
 </template>
 <script lang="ts">
+import { mapState } from "pinia";
 import Vue from "vue";
 import ActionPanel from "./components/ActionPanel.vue";
-import { userStore } from "./store";
-import { userMapper } from "./store/users";
+import { useUserStore } from "./store/users";
 
 export default Vue.extend({
   components: { ActionPanel },
@@ -113,13 +113,10 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...userMapper.mapState(["isAdmin"]),
-    signedIn(): boolean {
-      return userStore.getters.isIsSignedIn();
-    },
+    ...mapState(useUserStore, ["isAdmin", "isIsSignedIn"]),
     filteredLinks(): { label: string; path: string }[] {
       return this.links.filter((l) => {
-        const c = l.condition ? this.signedIn : true;
+        const c = l.condition ? this.isIsSignedIn : true;
         const a = true; //l.admin ? this.isAdmin : true;
         return c && a;
       });

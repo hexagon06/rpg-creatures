@@ -1,9 +1,9 @@
 import { listApi } from '@/api/typed/listApi'
 import { RollingList, RollingListIndex, FilledRollingList, getRollingListIndex } from '@/types'
 import { deepEqual } from '@firebase/util'
-import { userStore } from '.'
 import { defineStore } from 'pinia'
 import { useIndexesStore } from './indexes'
+import { useUserStore } from './users'
 
 export const useListStore = defineStore('rollingLists', {
   state: () => {
@@ -26,8 +26,9 @@ export const useListStore = defineStore('rollingLists', {
   },
   actions: {
     async createList (): Promise<string> {
-      if (!userStore.state.currentUser) throw new Error('no currentUser')
-      const userId = userStore.state.currentUser.uid
+      const currentUser = useUserStore().currentUser
+      if (!currentUser) throw new Error('no currentUser')
+      const userId = currentUser.uid
       const rollingList: RollingList = {
         items: [],
         name: '',

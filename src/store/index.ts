@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 import { createStore, Module } from 'vuex-smart-module'
 import { abilityModule } from './abilities'
 import { shopModule } from './shops'
-import { userModule } from './users'
 
 export { abilityMapper } from './abilities'
 export { shopMapper } from './shops'
@@ -16,7 +15,6 @@ export const rootModule = new Module({
   modules: {
     abilityModule,
     shopModule,
-    userModule,
   }
 })
 
@@ -33,4 +31,3 @@ export const store = createStore(
 
 export const shopStore = rootModule.context(store).modules.shopModule
 export const abilityStore = rootModule.context(store).modules.abilityModule
-export const userStore = rootModule.context(store).modules.userModule

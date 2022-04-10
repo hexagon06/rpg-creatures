@@ -1,9 +1,9 @@
 import { ideaApi } from '@/api/typed/ideaApi'
 import { Idea, IdeaIndex, FilledIdea, getIdeaIndex } from '@/types'
 import { deepEqual } from '@firebase/util'
-import { userStore } from '.'
 import { defineStore } from 'pinia'
 import { useIndexesStore } from './indexes'
+import { useUserStore } from './users'
 
 export const useIdeaStore = defineStore('ideas', {
   state: () => {
@@ -26,8 +26,9 @@ export const useIdeaStore = defineStore('ideas', {
   },
   actions: {
     async createIdea (): Promise<string> {
-      if (!userStore.state.currentUser) throw new Error('no currentUser')
-      const userId = userStore.state.currentUser.uid
+      const currentUser = useUserStore().currentUser
+      if (!currentUser) throw new Error('no currentUser')
+      const userId = currentUser.uid
       const idea: Idea = {
         synopsis: '',
         tags: [],

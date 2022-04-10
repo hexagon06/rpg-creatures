@@ -32,21 +32,6 @@
 </template>
 
 <script lang="ts">
-import { firebaseClient } from "@/api/firebaseClient";
-import { FirestoreAcces } from "@/api/firestoreAccess";
-import { userStore } from "@/store";
-import { Creature } from "@/types";
-import {
-  addDoc,
-  collection,
-  deleteField,
-  doc,
-  getDocs,
-  query,
-  where,
-  writeBatch,
-} from "@firebase/firestore";
-import { uniqBy } from "lodash";
 import Vue from "vue";
 export default Vue.extend({
   methods: {

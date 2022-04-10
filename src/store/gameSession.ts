@@ -1,10 +1,10 @@
 import { sessionApi } from '@/api'
 import { getSessionPrepIndex, SessionPrep, SessionPrepIndex } from '@/types'
 import { deepEqual } from '@firebase/util'
-import { userStore } from '.'
 import { defineStore } from 'pinia'
 import { cloneDeep } from 'lodash'
 import { useIndexesStore } from './indexes'
+import { useUserStore } from './users'
 
 export const useSessionStore = defineStore('sessions', {
   state: () => {
@@ -27,7 +27,7 @@ export const useSessionStore = defineStore('sessions', {
   },
   actions: {
     async createSession (): Promise<string> {
-      const user = userStore.state.currentUser
+      const user = useUserStore().currentUser
       if (!user) throw new Error('there should be a currentUser')
       const session: SessionPrep = {
         sections: [],
