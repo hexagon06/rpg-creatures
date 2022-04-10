@@ -51,7 +51,6 @@ export default Vue.extend({
   },
   data() {
     return {
-      // form: undefined as List | undefined,
       saving: false,
       validated: false,
       isWeighted: false,
@@ -63,22 +62,6 @@ export default Vue.extend({
       await store.fetch(this.id);
     }
     await store.startEdit();
-    // this.form = this.rollingListForm ? { ...this.rollingListForm } : undefined;
-  },
-  watch: {
-    // rollingListForm: function (n) {
-    //   console.log("rollingListForm changed");
-    //   this.form = { ...n };
-    // },
-    // form: {
-    //   handler: function (n) {
-    //     const store = useListStore();
-    //     if (!isEqual(store.rollingListForm, this.form)) {
-    //       store.rollingListForm = n;
-    //     }
-    //   },
-    //   deep: true,
-    // },
   },
   computed: {
     ...mapWritableState(useListStore, ["rollingListForm"]),
@@ -102,13 +85,6 @@ export default Vue.extend({
         }
       },
     },
-    // ...mapState(useFilterStore, ["rollingListOptions"]),
-    // tagsOptions(): string[] {
-    //   return this.rollingListOptions.tags;
-    // },
-    // categoryOptions(): string[] {
-    //   return this.rollingListOptions.categories;
-    // },
     loading(): boolean {
       return (
         !indexesStore.state.initialized ||
@@ -121,21 +97,6 @@ export default Vue.extend({
       this.isWeighted = true;
     },
   },
-  // methods: {
-  //   async tagTag(newTag: string) {
-  //     await useFilterStore().addListTag(newTag);
-  //     this.rollingListForm!.tags.push(newTag);
-  //   },
-  //   async createCategory(newCategory: string | undefined) {
-  //     console.log("new", newCategory);
-  //     if (newCategory) {
-  //       await useFilterStore().addListCategory(newCategory);
-  //     }
-
-  //     this.rollingListForm!.category = newCategory;
-  //     console.log("form", this.rollingListForm?.category);
-  //   },
-  // },
 });
 </script>
 

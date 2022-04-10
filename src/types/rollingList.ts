@@ -1,5 +1,10 @@
 import { IdItem, Reference, ReferenceInstance, ReferenceListItem } from '.'
 
+
+export const diceRegex = new RegExp(/(~[\S]+?$|\s)/)
+export const justDiceRegex = new RegExp(/~([\S]+?)(?:$|\s)/)
+
+
 export type RollingListItem = {
   id: string
   label: string

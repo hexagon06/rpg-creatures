@@ -38,11 +38,6 @@ export default Vue.extend({
     },
     async favoriteChange(favorite: boolean) {
       console.warn("favoriteChange not implemented");
-      // if (this.creature && this.creature.id) {
-      //   const creatureId = this.creature.id;
-      //   console.log("favoriteChange", favorite);
-      //   // await creatureStore.actions.updateFavorite({ creatureId, favorite });
-      // }
     },
   },
 });

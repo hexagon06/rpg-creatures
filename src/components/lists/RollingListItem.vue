@@ -8,23 +8,53 @@
       }"
       class="encounter-link link"
     >
-      {{ item.label }}
+      <span v-for="(l, i) in labels" :key="`lbl_${i}`" :class="labelClass(l)">
+        {{ l.text }}
+      </span>
     </router-link>
     <a v-else-if="item.reference" :href="item.reference" target="_blank">
-      {{ item.label }}
+      <span v-for="(l, i) in labels" :key="`lbl_${i}`" :class="labelClass(l)">
+        {{ l.text }}
+      </span>
     </a>
-    <span v-else>{{ item.label }}</span>
+    <span v-else>
+      <span v-for="(l, i) in labels" :key="`lbl_${i}`" :class="labelClass(l)">
+        {{ l.text }}
+      </span>
+    </span>
   </span>
 </template>
 
 <script lang="ts">
-import { RollingListItem } from "@/types";
+import { diceRegex, justDiceRegex, RollingListItem } from "@/types";
 import Vue, { PropType } from "vue";
+
 export default Vue.extend({
   props: {
     item: {
       type: Object as PropType<RollingListItem>,
       required: true,
+    },
+    label: {
+      type: String,
+      default: undefined,
+    },
+  },
+  computed: {
+    labels(): { text: string; type: "text" | "dice" }[] {
+      const lbl = this.label ?? this.item.label;
+      const split = lbl.split(diceRegex);
+      return split.map((s) => {
+        return {
+          text: s,
+          type: justDiceRegex.test(s) ? "dice" : "text",
+        };
+      });
+    },
+  },
+  methods: {
+    labelClass(l: { text: string; type: "text" | "dice" }): string {
+      return l.type === "dice" ? "italic text-purple" : "";
     },
   },
 });
