@@ -119,7 +119,7 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import { Creature, RPGAbilities } from "@/types/creatures";
-import { abilityMapper, userStore } from "@/store";
+import { abilityMapper } from "@/store";
 import { toHitDiceFormula, toMod } from "@/shared";
 import LabeledProp from "../shared/LabeledProp.vue";
 import {
@@ -129,6 +129,7 @@ import {
 } from "@/types/abilities";
 import { getLegendaryText } from "@/shared/abilityFormatting";
 import Thumbnail from "../shared/Thumbnail.vue";
+import { useUserStore } from "@/store/users";
 
 export default Vue.extend({
   components: { LabeledProp, Thumbnail },
@@ -152,9 +153,10 @@ export default Vue.extend({
         return this.value.userData?.favorite ?? false;
       },
       async set(value: boolean) {
-        if (!this.value.userData && userStore.state.currentUser) {
+        const currentUser = useUserStore().currentUser;
+        if (!this.value.userData && currentUser) {
           this.value.userData = {
-            userId: userStore.state.currentUser?.uid,
+            userId: currentUser.uid,
             favorite: value,
           };
         }

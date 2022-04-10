@@ -1,5 +1,5 @@
 import { auth } from '@/api'
-import { userStore } from '@/store'
+import { useUserStore } from '@/store/users'
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
@@ -31,7 +31,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   if (to.meta) {
     if (to.meta.requiresAuth && !auth.auth) next({ name: 'Home' })
-    if (to.meta.requiresAdmin && !userStore.state.isAdmin) next({ name: 'Home' })
+    if (to.meta.requiresAdmin && !useUserStore().isAdmin) next({ name: 'Home' })
   }
   next()
 })

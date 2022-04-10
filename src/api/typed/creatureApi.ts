@@ -1,4 +1,4 @@
-import { userStore } from '@/store'
+import { useUserStore } from '@/store/users'
 import { UserCreatureData } from '@/types'
 import { Creature } from '@/types/creatures'
 import { collection, deleteField, getDocs, query, where } from 'firebase/firestore'
@@ -17,7 +17,7 @@ class CreatureApi extends Api<Creature> {
     const creature = await super.get(id)
 
     const colRef = collection(firebaseClient.store, `${CREATURE_COLLECTION}/${id}/userData`)
-    const q = query(colRef, where('userId', '==', userStore.state.currentUser?.uid))
+    const q = query(colRef, where('userId', '==', useUserStore().currentUser?.uid))
     const userData = await getDocs(q)
 
     if (creature && userData.docs.length > 0) {

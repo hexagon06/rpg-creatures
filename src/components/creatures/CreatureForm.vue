@@ -411,7 +411,7 @@ import { Creature } from "@/types/creatures";
 import { toHitDiceFormula, toMod } from "@/shared";
 import { useFilterStore } from "@/store/filter";
 import { mapState } from "pinia";
-import { userStore } from "@/store";
+import { useUserStore } from "@/store/users";
 
 export default Vue.extend({
   components: {
@@ -446,6 +446,7 @@ export default Vue.extend({
       );
     },
     ...mapState(useFilterStore, ["creatureOptions"]),
+    ...mapState(useUserStore, ["currentUser"]),
     tagsOptions(): string[] {
       return this.creatureOptions.tags;
     },
@@ -490,9 +491,9 @@ export default Vue.extend({
             ...this.creature.userData,
             favorite: value,
           };
-        } else if (userStore.state.currentUser) {
+        } else if (this.currentUser) {
           this.creature.userData = {
-            userId: userStore.state.currentUser.uid,
+            userId: this.currentUser.uid,
             favorite: value,
           };
         } else throw new Error("currentUser should be set");
@@ -508,9 +509,9 @@ export default Vue.extend({
             ...this.creature.userData,
             comments: value,
           };
-        } else if (userStore.state.currentUser) {
+        } else if (this.currentUser) {
           this.creature.userData = {
-            userId: userStore.state.currentUser.uid,
+            userId: this.currentUser.uid,
             comments: value,
             favorite: false,
           };

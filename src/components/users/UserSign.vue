@@ -1,6 +1,6 @@
 <template>
   <div class="text-purple mr-4">
-    <div v-if="isSignedIn" class="flex gap-2 items-center">
+    <div v-if="isIsSignedIn" class="flex gap-2 items-center">
       <span v-if="currentUser.displayName" class="mr-3 hidden md:block">{{
         currentUser.displayName
       }}</span>
@@ -49,10 +49,10 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { userMapper } from "@/store/users";
-import { userStore } from "@/store";
 import { UserInfo } from "@firebase/auth";
 import { auth } from "@/api";
+import { mapState } from "pinia";
+import { useUserStore } from "@/store/users";
 
 export default Vue.extend({
   data() {
@@ -66,10 +66,7 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...userMapper.mapState(["currentUser"]),
-    isSignedIn(): boolean {
-      return userStore.getters.isIsSignedIn();
-    },
+    ...mapState(useUserStore, ["currentUser", "isIsSignedIn"]),
     isValid(): boolean {
       return this.form.email.length > 0 && this.form.password.length > 0;
     },
