@@ -16,7 +16,17 @@
     >
       <img
         src="../public/favicon_io/favicon-32x32.png"
-        class="rounded-full bg-gold w-9 h-9 align-middle items-center ml-2"
+        class="
+          rounded-full
+          bg-gold
+          w-9
+          h-9
+          align-middle
+          items-center
+          ml-2
+          hidden
+          md:block
+        "
       />
       <!-- links -->
       <div id="nav" class="hidden md:flex grow gap-3 justify-center">
@@ -30,9 +40,13 @@
         <button
           v-if="filteredLinks.length > 1"
           @click="toggleMenu"
-          class="self-start button-round-large button-on-dark-blue"
+          class="
+            self-start
+            button-round-large button-on-dark-blue
+            hover:bg-rouge
+          "
         >
-          <font-awesome-icon icon="fa-solid fa-bars" />
+          <img src="../public/favicon_io/favicon-32x32.png" />
         </button>
         <div
           class="flex-col flex-grow justify-items-center"
@@ -127,7 +141,7 @@ export default Vue.extend({
   },
   methods: {
     hiddenMenuOption(path: string): string {
-      const containsPath = this.$route.path.includes(path);
+      const containsPath = this.$route.path.startsWith(path);
       return containsPath || this.menuOpen ? "" : " hidden";
     },
     toggleMenu() {
