@@ -14,8 +14,12 @@
         z-[100]
       "
     >
+      <img
+        src="../public/favicon_io/favicon-32x32.png"
+        class="rounded-full bg-gold w-9 h-9 align-middle items-center ml-2"
+      />
       <!-- links -->
-      <div id="nav" class="hidden md:flex grow gap-3 justify-center pl-52">
+      <div id="nav" class="hidden md:flex grow gap-3 justify-center">
         <span v-for="(link, i) in filteredLinks" :key="i">
           <router-link :to="link.path" class="text-gold font-bold text-lg">
             {{ link.label }}
