@@ -40,8 +40,13 @@
     @apply  mb-3 font-bold mt-4
   }
   h1 { @apply text-3xl }
-  h2 { @apply text-2xl mb-3 }
-  h3 { @apply text-xl mb-3 }
+  h2 { @apply text-2xl }
+  h3 { @apply text-xl }
+  h4, h5 {
+    @apply mb-2 font-bold mt-2
+  }
+  h4 { @apply text-lg italic }
+  h5 { @apply text-lg }
   hr {
     @apply mt-2 mb-3
   }
@@ -72,7 +77,7 @@
   .action-menu-action-large {
     @apply static w-full flex gap-3 justify-between pr-2 -ml-2
   }
-  .link {
+  a, .link {
     @apply text-gold hover:text-gold-dark
   }
   hr {
