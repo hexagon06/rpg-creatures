@@ -9,7 +9,7 @@ import { Create as AbilityCreate, AbilityDetails, AbilityForm, AbilitySidebar, A
 import { UserSign } from './users'
 import { default as ActionPanel } from './ActionPanel.vue'
 import { EncounterActions, EncountersFilter } from './encounters'
-import { ChapterSection, ChapterSectionEdit, ImageSection, ImageSectionEdit, LinkSection, LinkSectionEdit, ListSection, ListSectionEdit, PlayerCharactersSection, PlayerCharactersSectionEdit, SessionActions, SessionsFilter, TextSection, TextSectionEdit } from './sessions'
+import { ChapterSection, ChapterSectionEdit, ImageSection, ImageSectionEdit, LinkSection, LinkSectionEdit, ListSection, ListSectionEdit, PlayerCharactersSection, PlayerCharactersSectionEdit, RunChecklistSection, SessionActions, SessionRunActions, SessionsFilter, TextSection, TextSectionEdit } from './sessions'
 import { IdeaActions, IdeasFilter } from './ideas'
 import { RollerListActions, RollerListFilter } from './lists'
 
@@ -65,6 +65,7 @@ function addListComponents () {
 function addSessionComponents () {
   Vue.component('sessions-filter', SessionsFilter)
   Vue.component('session-actions', SessionActions)
+  Vue.component('session-run-actions', SessionRunActions)
 
   Vue.component('section-edit-chapter', ChapterSectionEdit)
   Vue.component('section-edit-image', ImageSectionEdit)
@@ -79,6 +80,8 @@ function addSessionComponents () {
   Vue.component('section-list', ListSection)
   Vue.component('section-player-characters', PlayerCharactersSection)
   Vue.component('section-text', TextSection)
+
+  Vue.component('section-run-list', RunChecklistSection)
 }
 
 function addSharedComponents () {

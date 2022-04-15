@@ -5,7 +5,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 /* import specific icons */
 import {
   faArrowUpRightFromSquare, faStar as faStarSolid, faKey, faUser, faPlus, faCopy,
-  faXmark, faCheck, faArrowLeft, faSave, faCross, faPen, faCircleDot, faMinus, faImage, faUserPlus, faUserSecret, faList, faAlignLeft, faHeading, faLink, faTrash, faAngleUp, faAngleDown, faBars, faFilter, faWeightHanging, faRepeat, faLinkSlash, faVirus, faVirusSlash, faDiceD20
+  faXmark, faCheck, faArrowLeft, faSave, faCross, faPen, faCircleDot, faMinus, faImage, faUserPlus, faUserSecret, faList, faAlignLeft, faHeading, faLink, faTrash, faAngleUp, faAngleDown, faBars, faFilter, faWeightHanging, faRepeat, faLinkSlash, faVirus, faVirusSlash, faDiceD20, faPlay
 } from '@fortawesome/free-solid-svg-icons'
 import { faStar, faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 /* import font awesome icon component */
@@ -50,7 +50,8 @@ export function addFontAwesome () {
     faLinkSlash,
     faVirus,
     faVirusSlash,
-    faDiceD20
+    faDiceD20,
+    faPlay,
   )
   /* add font awesome icon component */
   Vue.component('font-awesome-icon', FontAwesomeIcon)

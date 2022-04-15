@@ -18,14 +18,16 @@ export type SessionPrep = IdItem & SessionPrepBase & {
   userId: string
 
   sections: PrepSection[]
-
-  state?: SessionState
-  notes?: SessionNote[]
 }
 
-// During play the session the prep can be executed
-export type SessionState = {
-
+export type SessionRun = IdItem & SessionPrepBase & {
+  userId: string
+  sessionId: string
+  sections: PrepSection[]
+  listStates: ListRun[]
+  notes: string
+  startDate: number
+  endDate?: number
 }
 
 // During play the gm can make notes to view later
@@ -39,6 +41,15 @@ export type PrepSectionBase = {
   sortOrder: number
   label: string
 }
+
+export type RunSection = IdItem & (
+  PlayerCharacterPrep |
+  ListPrep |
+  ListRun |
+  TextPrep |
+  ChapterPrep |
+  ImagePrep |
+  LinkPrep)
 
 export type PrepSection = IdItem & (
   PlayerCharacterPrep |
@@ -74,6 +85,13 @@ export type ListPrep = PrepSectionBase & {
   prepType: 'list'
   listType: 'bullet' | 'check' | 'numeric'
   items: ListItem[]
+}
+
+export type ListRun = PrepSectionBase & {
+  prepType: 'list-run'
+  listType: 'check'
+  items: ListItem[]
+  checked: string[] // ids
 }
 
 export type TextPrep = PrepSectionBase & {
