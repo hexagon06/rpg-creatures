@@ -30,7 +30,7 @@
   .button-on-rouge:disabled {
     @apply bg-rouge-dark text-gold-dark
   }
-  select, option, input {
+  select, option, input, textarea {
     @apply text-black
   }
   input {
