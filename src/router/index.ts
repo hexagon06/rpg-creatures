@@ -7,6 +7,8 @@ import { getStandardRoute } from './standardRoute'
 
 Vue.use(VueRouter)
 
+const sessionRoute = getStandardRoute({ path: 'session', cased: 'Session' })
+
 const routes: Array<RouteConfig> = [
   {
     path: '/',
@@ -18,7 +20,19 @@ const routes: Array<RouteConfig> = [
     component: Home
   },
   getStandardRoute({ path: 'creature', cased: 'Creature' }),
-  getStandardRoute({ path: 'session', cased: 'Session' }),
+  {
+    ...sessionRoute,
+    children: sessionRoute.children.concat([{
+      path: ':id/run/:runId',
+      name: `Session Run`,
+      meta: {
+        requiresAuth: true,
+        actionsComponent: `session-run-actions`
+      },
+      component: () => import(`../components/sessions/SessionRun.vue`),
+      props: true,
+    }])
+  },
   getStandardRoute({ path: 'encounter', cased: 'Encounter' }),
   getStandardRoute({ path: 'idea', cased: 'Idea' }),
   getStandardRoute({ path: 'list', cased: 'List' }),

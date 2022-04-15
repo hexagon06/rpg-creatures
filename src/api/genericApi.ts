@@ -41,4 +41,19 @@ export class Api<T extends IdItem> {
     }
   }
 
+
+  async getAll (): Promise<T[]> {
+    try {
+      const firestore = new FirestoreAcces<T>(firebaseClient.store, this.collection)
+
+      return await firestore.get()
+    } catch (e) {
+      console.error(e)
+      throw new Error(`failed to getAll in ${this.collection}`)
+    }
+  }
+
+  public childOf<C extends IdItem> (id: string, childPath: string) {
+    return new Api<C>(`${this.collection}/${id}/${childPath}`)
+  }
 }
