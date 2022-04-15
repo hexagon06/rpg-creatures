@@ -30,14 +30,14 @@
   .button-on-rouge:disabled {
     @apply bg-rouge-dark text-gold-dark
   }
-  select, option, input {
+  select, option, input, textarea, .v-md-editor__preview-wrapper {
     @apply text-black
   }
   input {
     @apply rounded-md px-2
   }
   h1, h2, h3 {
-    @apply  mb-3 font-bold
+    @apply  mb-3 font-bold mt-4
   }
   h1 { @apply text-3xl }
   h2 { @apply text-2xl mb-3 }

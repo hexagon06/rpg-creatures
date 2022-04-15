@@ -9,7 +9,6 @@
         id="input-1"
         v-model="value.label"
         placeholder="Subject"
-        aria-describedby="password-help-block"
         required
       />
     </input-wrapper>
@@ -18,12 +17,7 @@
       validation="missing text"
       :is-valid="value.text && value.text.length > 0"
     >
-      <textarea
-        id="input-comments"
-        v-model="value.text"
-        placeholder="Something interesting..."
-        rows="3"
-      />
+      <v-md-editor v-model="value.text" height="400px"></v-md-editor>
     </input-wrapper>
   </div>
 </template>
