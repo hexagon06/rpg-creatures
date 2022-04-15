@@ -1,9 +1,7 @@
 <template>
   <div>
     <h3>{{ value.label }}</h3>
-    <p>
-      {{ value.text }}
-    </p>
+    <v-md-preview :text="value.text" :default-show-toc="true"></v-md-preview>
   </div>
 </template>
 
