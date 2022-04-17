@@ -1,6 +1,7 @@
 import { listApi } from '@/api/typed/listApi'
 import { RollingList, RollingListIndex, FilledRollingList, getRollingListIndex } from '@/types'
 import { deepEqual } from '@firebase/util'
+import { cloneDeep } from 'lodash'
 import { defineStore } from 'pinia'
 import { useIndexesStore } from './indexes'
 import { useUserStore } from './users'
@@ -71,7 +72,7 @@ export const useListStore = defineStore('rollingLists', {
     },
     async startEdit () {
       if (this.rollingList) {
-        this.rollingListForm = { ...this.rollingList }
+        this.rollingListForm = cloneDeep(this.rollingList)
       } else {
         throw new Error('No rollingList selected')
       }

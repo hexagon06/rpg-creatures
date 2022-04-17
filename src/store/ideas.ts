@@ -1,6 +1,7 @@
 import { ideaApi } from '@/api/typed/ideaApi'
 import { Idea, IdeaIndex, FilledIdea, getIdeaIndex } from '@/types'
 import { deepEqual } from '@firebase/util'
+import { cloneDeep } from 'lodash'
 import { defineStore } from 'pinia'
 import { useIndexesStore } from './indexes'
 import { useUserStore } from './users'
@@ -73,7 +74,7 @@ export const useIdeaStore = defineStore('ideas', {
     },
     async startEdit () {
       if (this.idea) {
-        this.ideaForm = { ...this.idea }
+        this.ideaForm = cloneDeep(this.idea)
       } else {
         throw new Error('No idea selected')
       }
