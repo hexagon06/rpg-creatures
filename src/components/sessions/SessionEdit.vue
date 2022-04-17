@@ -6,6 +6,7 @@
       :validated="validated"
       ref="form"
       class="flex flex-col gap-3"
+      @submit.stop.prevent="() => {}"
     >
       <input-wrapper
         label="Session Title"

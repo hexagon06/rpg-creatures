@@ -20,7 +20,7 @@
         <font-awesome-icon icon="fa-solid fa-key" />
       </button>
       <transition>
-        <form v-if="isSigningIn" @submit="signIn">
+        <form v-if="isSigningIn" @submit.stop.prevent="signIn">
           <modal :is-valid="isValid" @reject="cancel" class="text-white">
             <div class="w-52 flex flex-col gap-1 text-dark-blue">
               <input

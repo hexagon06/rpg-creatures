@@ -1,7 +1,12 @@
 <template>
   <div v-if="loading">Loading...</div>
   <div v-else>
-    <form novalidate :validated="validated" ref="form">
+    <form
+      novalidate
+      :validated="validated"
+      ref="form"
+      @submit.stop.prevent="() => {}"
+    >
       <div class="m-3 text-left">
         <div class="flex flex-col gap-3">
           <input-wrapper
