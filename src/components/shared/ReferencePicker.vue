@@ -16,7 +16,7 @@
       {{ entityIndex.label }}
     </p>
     <transition>
-      <form v-if="isEditingReference" @submit="setReference">
+      <form v-if="isEditingReference" @submit.stop.prevent="setReference">
         <modal :is-valid="isValid" @reject="cancel" class="text-white">
           <div class="w-52 flex flex-col gap-1 text-dark-blue">
             <input-wrapper label="">

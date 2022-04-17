@@ -1,7 +1,7 @@
 <template>
   <div v-if="loading">Loading...</div>
   <div v-else>
-    <form ref="form">
+    <form ref="form" @submit.stop.prevent="() => {}">
       <creature-form v-model="creatureForm" />
     </form>
   </div>
