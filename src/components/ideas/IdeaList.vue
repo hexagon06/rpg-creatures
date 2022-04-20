@@ -2,7 +2,7 @@
   <div class="flex justify-center">
     <div class="entity-grid">
       <grid-card
-        v-for="idea in ideas"
+        v-for="idea in sortedIdeas"
         :key="idea.id"
         :to="{ name: 'Idea', params: { id: idea.id } }"
       >
@@ -22,11 +22,16 @@
 
 <script lang="ts">
 import { useIndexesStore } from "@/store/indexes";
+import { IdeaIndex } from "@/types";
+import { sortBy } from "lodash";
 import { mapState } from "pinia";
 import Vue from "vue";
 export default Vue.extend({
   computed: {
     ...mapState(useIndexesStore, ["ideas", "initialized"]),
+    sortedIdeas(): IdeaIndex[] {
+      return sortBy(this.ideas, (i) => -i.lastEdited);
+    },
   },
 });
 </script>

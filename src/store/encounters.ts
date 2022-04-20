@@ -4,6 +4,7 @@ import { deepEqual } from '@firebase/util'
 import { defineStore } from 'pinia'
 import { cloneDeep } from 'lodash'
 import { useIndexesStore } from './indexes'
+import { setEditedDate, setInitialDates } from '@/shared/dates'
 
 export const useEncounterStore = defineStore('encounters', {
   state: () => {
@@ -26,7 +27,7 @@ export const useEncounterStore = defineStore('encounters', {
   },
   actions: {
     async createEncounter (): Promise<string> {
-      const encounter: Encounter = {
+      const encounter: Encounter = setInitialDates({
         name: 'new encounter',
         synopsis: '',
         flavorText: '',
@@ -34,8 +35,10 @@ export const useEncounterStore = defineStore('encounters', {
         tags: [],
         locations: [],
         creatures: [],
-        environment: []
-      }
+        environment: [],
+        created: 0,
+        lastEdited: 0,
+      })
       const id = await encounterApi.create(encounter)
       const encounterIndex: EncounterIndex = getEncounterIndex(id, encounter)
       useIndexesStore().encounters.push(encounterIndex)
@@ -55,10 +58,10 @@ export const useEncounterStore = defineStore('encounters', {
       else throw new Error('encounter not found')
     },
     async save (encounter: Encounter) {
-
       try {
-        await encounterApi.update(encounter)
-        const index = getEncounterIndex(encounter.id!, encounter)
+        const dated = setEditedDate(encounter)
+        await encounterApi.update(dated)
+        const index = getEncounterIndex(dated.id!, dated)
         useIndexesStore().mutateIndex(useIndexesStore().encounters, index)
       } catch (error) {
         console.error('Encounter update failed: ', error)

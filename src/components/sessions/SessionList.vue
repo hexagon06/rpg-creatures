@@ -3,7 +3,7 @@
   <div v-else class="flex justify-center">
     <div class="entity-grid">
       <grid-card
-        v-for="session in sessions"
+        v-for="session in sortedSessions"
         :key="session.id"
         :to="{ name: 'Session', params: { id: session.id } }"
       >
@@ -18,11 +18,16 @@
 
 <script lang="ts">
 import { useIndexesStore } from "@/store/indexes";
+import { SessionPrepIndex } from "@/types";
+import { sortBy } from "lodash";
 import { mapState } from "pinia";
 import Vue from "vue";
 export default Vue.extend({
   computed: {
     ...mapState(useIndexesStore, ["sessions", "initialized"]),
+    sortedSessions(): SessionPrepIndex[] {
+      return sortBy(this.sessions, (s) => -s.lastEdited);
+    },
   },
 });
 </script>

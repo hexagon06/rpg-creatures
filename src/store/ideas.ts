@@ -1,4 +1,5 @@
 import { ideaApi } from '@/api/typed/ideaApi'
+import { setEditedDate, setInitialDates } from '@/shared/dates'
 import { Idea, IdeaIndex, FilledIdea, getIdeaIndex } from '@/types'
 import { deepEqual } from '@firebase/util'
 import { cloneDeep } from 'lodash'
@@ -30,13 +31,15 @@ export const useIdeaStore = defineStore('ideas', {
       const currentUser = useUserStore().currentUser
       if (!currentUser) throw new Error('no currentUser')
       const userId = currentUser.uid
-      const idea: Idea = {
+      const idea: Idea = setInitialDates({
         synopsis: '',
         tags: [],
         text: '',
         title: '',
         userId,
-      }
+        created: 0,
+        lastEdited: 0,
+      })
       const id = await ideaApi.create(idea)
       const ideaIndex: IdeaIndex = getIdeaIndex(id, idea)
       useIndexesStore().ideas.push(ideaIndex)
@@ -57,8 +60,9 @@ export const useIdeaStore = defineStore('ideas', {
     },
     async save (idea: Idea) {
       try {
-        await ideaApi.update(idea)
-        const index = getIdeaIndex(idea.id!, idea)
+        const dated = setEditedDate(idea)
+        await ideaApi.update(dated)
+        const index = getIdeaIndex(dated.id!, dated)
         useIndexesStore().mutateIndex(useIndexesStore().ideas, index)
       } catch (error) {
         console.error('Idea update failed: ', error)
