@@ -2,7 +2,7 @@
   <div class="flex justify-center">
     <div class="entity-grid">
       <grid-card
-        v-for="list in lists"
+        v-for="list in filteredCreatures"
         :key="list.id"
         :to="{ name: 'List', params: { id: list.id } }"
       >
@@ -16,12 +16,20 @@
 </template>
 
 <script lang="ts">
+import { filterList } from "@/shared";
+import { useFilterStore } from "@/store/filter";
 import { useIndexesStore } from "@/store/indexes";
+import { RollingListIndex } from "@/types";
+import { filter } from "lodash";
 import { mapState } from "pinia";
 import Vue from "vue";
 export default Vue.extend({
   computed: {
     ...mapState(useIndexesStore, ["lists", "initialized"]),
+    ...mapState(useFilterStore, ["listFilter"]),
+    filteredCreatures(): RollingListIndex[] {
+      return filter(this.lists, (value) => filterList(value, this.listFilter));
+    },
   },
 });
 </script>
