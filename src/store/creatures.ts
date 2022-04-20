@@ -4,6 +4,8 @@ import { deepEqual } from '@firebase/util'
 import { cloneDeep } from 'lodash'
 import { defineStore } from 'pinia'
 import { useIndexesStore } from './indexes'
+import { setEditedDate, setInitialDates } from '@/shared/dates'
+import { createDefaultCreature } from '@/shared'
 
 export const useCreatureStore = defineStore('creatures', {
   state: () => {
@@ -25,18 +27,8 @@ export const useCreatureStore = defineStore('creatures', {
   },
   actions: {
     async createCreature (): Promise<string> {
-      const creature: Creature = {
-        abilityKeys: [],
-        abilityScores: {},
-        alignment: [],
-        environment: [],
-        favorite: false,
-        name: 'new creature',
-        nameIsNoun: false,
-        newTags: [],
-        organisation: [],
-        tags: []
-      }
+      const creature: Creature = createDefaultCreature('new creature')
+
       const id = await creatureApi.create(creature)
       const creatureIndex = getCreatureIndex({ ...creature, id })
       await useIndexesStore().creatures.push(creatureIndex)
@@ -55,8 +47,9 @@ export const useCreatureStore = defineStore('creatures', {
     },
     async save (creature: Creature) {
       try {
-        await creatureApi.update(creature)
-        const index = getCreatureIndex(creature)
+        const dated = setEditedDate(creature)
+        await creatureApi.update(dated)
+        const index = getCreatureIndex(dated)
         useIndexesStore().mutateIndex(useIndexesStore().creatures, index)
       } catch (error) {
         console.error('Creature update failed: ', error)

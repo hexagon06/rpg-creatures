@@ -1,4 +1,5 @@
 import { listApi } from '@/api'
+import { setEditedDate, setInitialDates } from '@/shared/dates'
 import { RollingList, RollingListIndex, FilledRollingList, getRollingListIndex } from '@/types'
 import { deepEqual } from '@firebase/util'
 import { cloneDeep } from 'lodash'
@@ -30,11 +31,13 @@ export const useListStore = defineStore('rollingLists', {
       const currentUser = useUserStore().currentUser
       if (!currentUser) throw new Error('no currentUser')
       const userId = currentUser.uid
-      const rollingList: RollingList = {
+      const rollingList: RollingList = setInitialDates({
         items: [],
         name: '',
         userId,
-      }
+        created: 0,
+        lastEdited: 0,
+      })
       const id = await listApi.create(rollingList)
       const rollingListIndex: RollingListIndex = getRollingListIndex(id, rollingList)
       useIndexesStore().lists.push(rollingListIndex)
@@ -55,8 +58,9 @@ export const useListStore = defineStore('rollingLists', {
     },
     async save (rollingList: RollingList) {
       try {
-        await listApi.update(rollingList)
-        const index = getRollingListIndex(rollingList.id!, rollingList)
+        const dated = setEditedDate(rollingList)
+        await listApi.update(dated)
+        const index = getRollingListIndex(dated.id!, dated)
         useIndexesStore().mutateIndex(useIndexesStore().lists, index)
       } catch (error) {
         console.error('RollingList update failed: ', error)

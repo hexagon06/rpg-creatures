@@ -6369,6 +6369,18 @@ moment-mini@^2.24.0:
   resolved "https://registry.npmjs.org/moment-mini/-/moment-mini-2.24.0.tgz"
   integrity sha512-9ARkWHBs+6YJIvrIp0Ik5tyTTtP9PoV0Ssu2Ocq5y9v8+NOOpWiRshAp8c4rZVWTOe+157on/5G+zj5pwIQFEQ==
 
+moment-timezone@^0.5.34:
+  version "0.5.34"
+  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.34.tgz#a75938f7476b88f155d3504a9343f7519d9a405c"
+  integrity sha512-3zAEHh2hKUs3EXLESx/wsgw6IQdusOT8Bxm3D9UrHPQR7zlMmzwybC8zHEM1tQ4LJwP7fcxrWr8tuBg05fFCbg==
+  dependencies:
+    moment ">= 2.9.0"
+
+"moment@>= 2.9.0":
+  version "2.29.3"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.3.tgz#edd47411c322413999f7a5940d526de183c031f3"
+  integrity sha512-c6YRvhEo//6T2Jz/vVtYzqBzwvPT95JBQ+smCytzf7c50oMZRsR/a4w88aD34I+/QVSfnoAnSBFPJHItlOMJVw==
+
 mrmime@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/mrmime/-/mrmime-1.0.0.tgz"
@@ -7610,10 +7622,10 @@ robust-predicates@^3.0.0:
   resolved "https://registry.npmjs.org/robust-predicates/-/robust-predicates-3.0.1.tgz"
   integrity sha512-ndEIpszUHiG4HtDsQLeIuMvRsDnn8c8rYStabochtUeCvfuvNptb5TUbVD68LRAILPX7p9nqQGh4xJgn3EHS/g==
 
-rpg-vue-base@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/rpg-vue-base/-/rpg-vue-base-0.2.0.tgz#a46c19ae62f1b82cae5175604e28b0645fb167c6"
-  integrity sha512-yQsMOypyufflfk+VpoQf8txvTHAw4myXITIDxcBM9kC+9WEj3W1lwuC1MfWtS+IRL7tUWauVaoMQJJKP57S8RA==
+rpg-vue-base@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/rpg-vue-base/-/rpg-vue-base-0.3.0.tgz#b5ec8c2629b563778a24a0e8ee9803839d07bcc1"
+  integrity sha512-YSt63mHESI/lEEnCvkHq537YZHPNJcjy9LcXCA4OJ9jNVUq5oFvSE3kLO9zhPPwYp0VhTjwaIYlyjqF5EyHCKg==
   dependencies:
     "@types/lodash" "^4.14.181"
     lodash "^4.17.21"

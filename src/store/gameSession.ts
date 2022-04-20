@@ -7,6 +7,7 @@ import { useIndexesStore } from './indexes'
 import { useUserStore } from './users'
 import { SESSION_RUN_COLLECTION } from '@/api/typed/sessionApi'
 import { SessionRunActions } from '@/components/sessions'
+import { setEditedDate, setInitialDates } from '@/shared/dates'
 
 export const useSessionStore = defineStore('sessions', {
   state: () => {
@@ -33,12 +34,14 @@ export const useSessionStore = defineStore('sessions', {
     async createSession (): Promise<string> {
       const user = useUserStore().currentUser
       if (!user) throw new Error('there should be a currentUser')
-      const session: SessionPrep = {
+      const session: SessionPrep = setInitialDates({
         sections: [],
         synopsis: '',
         title: 'New Session',
-        userId: user.uid
-      }
+        userId: user.uid,
+        created: 0,
+        lastEdited: 0,
+      })
       const id = await sessionApi.create(session)
       session.id = id
       const sessionIndex: SessionPrepIndex = getSessionPrepIndex(session)
@@ -64,8 +67,9 @@ export const useSessionStore = defineStore('sessions', {
     },
     async save (session: SessionPrep) {
       try {
-        await sessionApi.update(session)
-        const index = getSessionPrepIndex(session)
+        const dated = setEditedDate(session)
+        await sessionApi.update(dated)
+        const index = getSessionPrepIndex(dated)
         useIndexesStore().mutateIndex(useIndexesStore().sessions, index)
       } catch (error) {
         console.error('Session update failed: ', error)

@@ -1,5 +1,7 @@
+import { setInitialDates } from '@/shared/dates'
 import { CreatureIndex, Indexes, UserIndexes } from '@/types'
 import { cloneDeep } from 'lodash'
+import { DatedItem } from 'rpg-vue-base'
 import { firebaseClient } from './firebaseClient'
 import { FirestoreAcces } from './firestoreAccess'
 
@@ -31,23 +33,39 @@ export async function setCreatureIndexes (indexes: CreatureIndex[]): Promise<voi
   }
 }
 
+function fixDateItem<T extends DatedItem> (item: T): T {
+  if (item.created) return item
+  return setInitialDates(item)
+}
+
+function fixDates (indexes: Indexes): Indexes {
+  return {
+    id: indexes.id,
+    creatures: indexes.creatures.map(c => fixDateItem(c)),
+    encounters: indexes.encounters.map(c => fixDateItem(c)),
+    ideas: indexes.ideas?.map(c => fixDateItem(c)),
+    lists: indexes.lists?.map(c => fixDateItem(c)),
+    sessions: indexes.sessions?.map(c => fixDateItem(c)),
+  }
+}
+
 export async function inititialize (userId: string): Promise<Indexes> {
   try {
     const firestore = new FirestoreAcces<UserIndexes>(firebaseClient.store, INDEXES_COLLECTION)
     const result = await firestore.getById(userId)
     const creatures = await fetchCreatureIndexes()
 
-    if (result) return {
+    if (result) return fixDates({
       ...result,
       creatures
-    }
+    })
     else {
       const indexes = defaultIndexes(userId)
       await firestore.addAt(indexes, userId)
-      return {
+      return fixDates({
         ...indexes,
         creatures,
-      }
+      })
     }
   } catch (e) {
     console.error(e)
