@@ -1,4 +1,4 @@
-import { Creature } from '@/types/creatures'
+import { Creature } from '@/types'
 
 export function createDefaultCreature (name: string): Creature {
   return {

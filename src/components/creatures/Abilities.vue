@@ -22,7 +22,7 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { RPGAbilities } from "@/types/creatures";
+import { RPGAbilities } from "@/types";
 import { toMod } from "@/shared";
 
 export default Vue.extend({

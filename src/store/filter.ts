@@ -1,8 +1,15 @@
 import { filter, uniq } from 'lodash'
-import { AbillityFilterOptions, CreatureFilter, CreatureFilterOptions, FilterResult, IdeaFilterOptions } from '@/types/filter'
+import {
+  AbillityFilterOptions,
+  CreatureFilter,
+  CreatureFilterOptions,
+  FilterResult,
+  IdeaFilterOptions
+} from '@/types'
 import { defineStore } from 'pinia'
 import { useIndexesStore } from './indexes'
 import { useAbilityStore } from './abilities'
+import { ListFilter } from 'rpg-vue-base'
 
 const KEY_CREATURE_FILTERS = 'creature-filters'
 
@@ -42,6 +49,9 @@ export const useFilterStore = defineStore('filters', {
         tags: [],
         categories: [],
       } as IdeaFilterOptions,
+      listFilter: {
+        search: '',
+      } as ListFilter,
       initialized: false
     }
   },

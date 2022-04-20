@@ -1,5 +1,13 @@
 <template>
   <action-panel-filter>
+    <input
+      id="search-text"
+      type="search"
+      placeholder="Search"
+      v-model="listFilter.search"
+      debounce="300"
+      class="flex-grow"
+    />
     <template v-slot:buttons>
       <button
         @click="create"
@@ -13,9 +21,14 @@
 </template>
 
 <script lang="ts">
+import { useFilterStore } from "@/store/filter";
 import { useListStore } from "@/store/rollingLists";
+import { mapWritableState } from "pinia";
 import Vue from "vue";
 export default Vue.extend({
+  computed: {
+    ...mapWritableState(useFilterStore, ["listFilter"]),
+  },
   methods: {
     async create() {
       const id = await useListStore().createList();

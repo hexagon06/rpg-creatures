@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Ability } from "@/types/abilities";
+import { Ability } from "@/types";
 import { Guid } from "@/shared";
 import { useFilterStore } from "@/store/filter";
 import { useAbilityStore } from "@/store/abilities";

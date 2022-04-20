@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { Ability } from "@/types/abilities";
+import { Ability } from "@/types";
 import { mapState } from "pinia";
 import { useFilterStore } from "@/store/filter";
 

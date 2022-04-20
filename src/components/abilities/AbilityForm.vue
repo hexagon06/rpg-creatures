@@ -98,10 +98,10 @@
 </template>
 
 <script lang="ts">
-import { Ability, CreatureAbilityValues } from "@/types/abilities";
+import { Ability, CreatureAbilityValues } from "@/types";
 import { createDefaultCreature } from "@/shared";
 import Vue, { PropType } from "vue";
-import { Creature } from "@/types/creatures";
+import { Creature } from "@/types";
 import {
   AbilityFormat,
   formatAbilityForCreature,

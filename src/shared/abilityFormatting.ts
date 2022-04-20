@@ -1,5 +1,5 @@
-import { CreatureAbilityValues } from '@/types/abilities'
-import { Creature } from '@/types/creatures'
+import { CreatureAbilityValues } from '@/types'
+import { Creature } from '@/types'
 import { isNumber, uniq } from 'lodash'
 import { toMod } from '.'
 import { modString, toDiceFormula } from './hitDice'

@@ -1,6 +1,5 @@
 import { CreatureIndex, EncounterIndex, SessionPrepIndex } from '.'
-import { IdeaIndex } from './ideas'
-import { RollingListIndex } from './rollingList'
+import { IdeaIndex, RollingListIndex } from '@/types'
 
 export type UserIndexes = {
   id: string, // user id
