@@ -62,8 +62,7 @@
 <script lang="ts">
 import { useFilterStore } from "@/store/filter";
 import { useIndexesStore } from "@/store/indexes";
-import { CreatureIndex } from "@/types";
-import { CreatureFilter } from "@/types/filter";
+import { CreatureIndex, CreatureFilter } from "@/types";
 import { difference, filter } from "lodash";
 import { mapState } from "pinia";
 import Vue from "vue";

@@ -1,4 +1,4 @@
-import { listApi } from '@/api/typed/listApi'
+import { listApi } from '@/api'
 import { RollingList, RollingListIndex, FilledRollingList, getRollingListIndex } from '@/types'
 import { deepEqual } from '@firebase/util'
 import { cloneDeep } from 'lodash'

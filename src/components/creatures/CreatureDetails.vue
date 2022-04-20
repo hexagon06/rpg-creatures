@@ -118,14 +118,10 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { Creature, RPGAbilities } from "@/types/creatures";
+import { Creature, RPGAbilities } from "@/types";
 import { toHitDiceFormula, toMod } from "@/shared";
 import LabeledProp from "../shared/LabeledProp.vue";
-import {
-  MappedAbility,
-  toAbilityValues,
-  toMappedAbility,
-} from "@/types/abilities";
+import { MappedAbility, toAbilityValues, toMappedAbility } from "@/types";
 import { getLegendaryText } from "@/shared/abilityFormatting";
 import Thumbnail from "../shared/Thumbnail.vue";
 import { useUserStore } from "@/store/users";

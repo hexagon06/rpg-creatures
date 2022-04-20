@@ -23,7 +23,7 @@
 <script lang="ts">
 import { cloneDeep } from "lodash";
 import Vue, { PropType } from "vue";
-import { Ability } from "@/types/abilities";
+import { Ability } from "@/types";
 import { useAbilityStore } from "@/store/abilities";
 
 export default Vue.extend({

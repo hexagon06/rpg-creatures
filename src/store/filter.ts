@@ -1,5 +1,11 @@
 import { filter, uniq } from 'lodash'
-import { AbillityFilterOptions, CreatureFilter, CreatureFilterOptions, FilterResult, IdeaFilterOptions } from '@/types/filter'
+import {
+  AbillityFilterOptions,
+  CreatureFilter,
+  CreatureFilterOptions,
+  FilterResult,
+  IdeaFilterOptions
+} from '@/types'
 import { defineStore } from 'pinia'
 import { useIndexesStore } from './indexes'
 import { useAbilityStore } from './abilities'

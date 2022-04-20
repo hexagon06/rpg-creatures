@@ -407,7 +407,7 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import { Multiselect } from "vue-multiselect";
-import { Creature } from "@/types/creatures";
+import { Creature } from "@/types";
 import { toHitDiceFormula, toMod } from "@/shared";
 import { useFilterStore } from "@/store/filter";
 import { mapState } from "pinia";

@@ -1,7 +1,6 @@
 import { createAbility, getAbilities, updateAbility } from '@/api/ability'
-import { Ability } from '@/types/abilities'
+import { Ability } from '@/types'
 import { defineStore } from 'pinia'
-import Vue from 'vue'
 
 export const useAbilityStore = defineStore('abilities', {
   state: () => {

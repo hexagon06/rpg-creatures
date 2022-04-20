@@ -25,9 +25,9 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { Ability, CreatureAbilityValues } from "@/types/abilities";
+import { Ability, CreatureAbilityValues } from "@/types";
 import { createDefaultCreature } from "@/shared";
-import { Creature } from "@/types/creatures";
+import { Creature } from "@/types";
 
 export default Vue.extend({
   props: {

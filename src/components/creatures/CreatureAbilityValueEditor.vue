@@ -52,7 +52,7 @@
 
 <script lang="ts">
 import { AbilityFormat, parseFormatText } from "@/shared/abilityFormatting";
-import { Ability, CreatureAbilityValues } from "@/types/abilities";
+import { Ability, CreatureAbilityValues } from "@/types";
 import Vue, { PropType } from "vue";
 export default Vue.extend({
   props: {

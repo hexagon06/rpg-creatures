@@ -18,8 +18,8 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { Ability, CreatureAbilityValues } from "@/types/abilities";
-import { Creature } from "@/types/creatures";
+import { Ability, CreatureAbilityValues } from "@/types";
+import { Creature } from "@/types";
 import {
   formatAbilityForCreature,
   formatForRender,

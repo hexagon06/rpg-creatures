@@ -43,7 +43,7 @@ import {
   MappedAbility,
   toAbilityValues,
   toMappedAbility,
-} from "@/types/abilities";
+} from "@/types";
 import { differenceBy } from "lodash";
 import { mapState } from "pinia";
 import Vue, { PropType } from "vue";

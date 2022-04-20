@@ -1,4 +1,4 @@
-import { Ability } from '@/types/abilities'
+import { Ability } from '@/types'
 import { firebaseClient } from './firebaseClient'
 import { FirestoreAcces } from './firestoreAccess'
 

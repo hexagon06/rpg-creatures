@@ -1,6 +1,6 @@
 import { useUserStore } from '@/store/users'
 import { UserCreatureData } from '@/types'
-import { Creature } from '@/types/creatures'
+import { Creature } from '@/types'
 import { collection, deleteField, getDocs, query, where } from 'firebase/firestore'
 import { firebaseClient } from '../firebaseClient'
 import { FirestoreAcces } from '../firestoreAccess'

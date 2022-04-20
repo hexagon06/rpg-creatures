@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Ability } from "@/types/abilities";
+import { Ability } from "rpg-vue-base";
 import { mapState } from "pinia";
 import { useAbilityStore } from "@/store/abilities";
 
