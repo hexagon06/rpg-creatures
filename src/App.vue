@@ -11,7 +11,7 @@
         top-0
         left-0
         right-0
-        z-[100]
+        z-[1040]
       "
     >
       <img

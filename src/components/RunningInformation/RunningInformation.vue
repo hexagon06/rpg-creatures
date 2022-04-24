@@ -13,7 +13,9 @@
     "
     :class="isOpen ? ' skew-y-0 h-full w-full pr-52' : ' -bottom-32 h-52 w-52'"
   >
-    <div class="bg-brown outline outline-rouge drop-shadow-lg outline-4 h-full">
+    <div
+      class="bg-brown outline outline-rouge drop-shadow-3xl outline-4 h-full"
+    >
       <div
         class="-skew-y-35 max-h-full"
         :class="isOpen ? ' -skew-y-0 top-0' : ' pr-36'"

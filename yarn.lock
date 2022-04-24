@@ -7712,10 +7712,10 @@ robust-predicates@^3.0.0:
   resolved "https://registry.npmjs.org/robust-predicates/-/robust-predicates-3.0.1.tgz"
   integrity sha512-ndEIpszUHiG4HtDsQLeIuMvRsDnn8c8rYStabochtUeCvfuvNptb5TUbVD68LRAILPX7p9nqQGh4xJgn3EHS/g==
 
-rpg-vue-base@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/rpg-vue-base/-/rpg-vue-base-0.3.0.tgz#b5ec8c2629b563778a24a0e8ee9803839d07bcc1"
-  integrity sha512-YSt63mHESI/lEEnCvkHq537YZHPNJcjy9LcXCA4OJ9jNVUq5oFvSE3kLO9zhPPwYp0VhTjwaIYlyjqF5EyHCKg==
+rpg-vue-base@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/rpg-vue-base/-/rpg-vue-base-0.4.0.tgz#332b0dda6fb7261c6f712c43a177ec37e010f1e8"
+  integrity sha512-MQmG7alTFcKPOZZDq7BNMJ10YqW5wvJmQXSstNidxjyZNOZe0BQNW+Ve/b0QrNeBAVJSvXu1U5UzBlHck3o89w==
   dependencies:
     "@types/lodash" "^4.14.181"
     lodash "^4.17.21"

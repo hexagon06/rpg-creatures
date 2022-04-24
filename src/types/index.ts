@@ -13,6 +13,5 @@ export {
   diceRegex, justDiceRegex,
   getCreatureIndex, getEncounterIndex, getIdeaIndex, getRollingListIndex, getRollingListItem, getSessionPrepIndex,
   AbillityFilterOptions, CreatureFilter, CreatureFilterOptions, Filter, FilterResult, IdeaFilterOptions, defaultCreatureFilterOptions, defaultResult,
+  RunningInformation, RunningInformationPart, createDummyInfo,
 } from 'rpg-vue-base'
-
-export * from './runningInformation'
