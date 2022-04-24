@@ -12,6 +12,7 @@ import { EncounterActions, EncountersFilter } from './encounters'
 import { ChapterSection, ChapterSectionEdit, ImageSection, ImageSectionEdit, LinkSection, LinkSectionEdit, ListSection, ListSectionEdit, PlayerCharactersSection, PlayerCharactersSectionEdit, RunChecklistSection, SessionActions, SessionRunActions, SessionsFilter, TextSection, TextSectionEdit } from './sessions'
 import { IdeaActions, IdeasFilter } from './ideas'
 import { RollerListActions, RollerListFilter } from './lists'
+import { RunningInformation } from './RunningInformation'
 
 export function addAllComponents () {
   addAbilityComponents()
@@ -20,6 +21,7 @@ export function addAllComponents () {
   addIdeaComponents()
   addListComponents()
   addRootComponents()
+  addRunningInformationComponents()
   addSessionComponents()
   addSharedComponents()
   addUserComponents()
@@ -60,6 +62,10 @@ function addIdeaComponents () {
 function addListComponents () {
   Vue.component('lists-filter', RollerListFilter)
   Vue.component('list-actions', RollerListActions)
+}
+
+function addRunningInformationComponents () {
+  Vue.component('running-information', RunningInformation)
 }
 
 function addSessionComponents () {
