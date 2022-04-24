@@ -1,7 +1,25 @@
 import { inititialize as initializeIndexes, set } from '@/api/indexes'
-import { CreatureIndex, EncounterIndex, IdeaIndex, Reference, RollingListIndex, SessionPrepIndex } from '@/types'
+import { CreatureIndex, creatureTypes, EncounterIndex, IdeaIndex, Reference, RollingListIndex, SessionPrepIndex } from '@/types'
 import { defineStore } from 'pinia'
 import { useUserStore } from './users'
+
+function f (copy: CreatureIndex): CreatureIndex {
+  if (copy.type !== undefined && creatureTypes.find(t => t === copy.type) === undefined) {
+    const found = creatureTypes.find(t => copy.type?.toLowerCase().search(t.toLowerCase()) !== -1)
+    if (found) {
+      console.log('got here')
+
+      copy.type = found
+    } else {
+      copy.type = undefined
+    }
+  }
+  return copy
+}
+
+function fixCreatures (creatures: CreatureIndex[]): CreatureIndex[] {
+  return creatures.map(c => f({ ...c }))
+}
 
 let initHandler: Promise<void>
 export const useIndexesStore = defineStore('indexes', {
@@ -24,8 +42,10 @@ export const useIndexesStore = defineStore('indexes', {
         if (currentUser && !currentUser.isAnonymous) {
           const userId = currentUser.uid
           initHandler = initializeIndexes(userId).then(indexes => {
+            const creatures = fixCreatures(indexes.creatures)
+
             this.$patch((state) => {
-              state.creatures = indexes.creatures
+              state.creatures = creatures
               state.encounters = indexes.encounters
               state.ideas = indexes.ideas ?? []
               state.lists = indexes.lists ?? []

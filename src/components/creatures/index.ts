@@ -8,3 +8,4 @@ export { default as CreatureAbilityValueEditor } from './CreatureAbilityValueEdi
 
 export { default as CreaturesFilter } from './CreaturesFilter.vue'
 export { default as CreatureActions } from './CreatureActions.vue'
+export { default as CreatureTypeIcon } from './CreatureTypeIcon.vue'

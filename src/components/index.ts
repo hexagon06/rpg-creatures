@@ -3,7 +3,7 @@ import { ArrayPills, Favorite, GridCard, InputWrapper, LabeledProp, ListCard, Mo
 import {
   CreatureForm, Alignment, Abilities, AlignmentEditor, CreatureDetails,
   CreatureAbilityEditor, CreatureAbilityValueEditor,
-  CreaturesFilter, CreatureActions
+  CreaturesFilter, CreatureActions, CreatureTypeIcon
 } from './creatures'
 import { Create as AbilityCreate, AbilityDetails, AbilityForm, AbilitySidebar, AbilityTable, Edit as AbilityEdit, CreatureAbility } from './abilities'
 import { UserSign } from './users'
@@ -47,6 +47,7 @@ function addCreatureComponents () {
   Vue.component('creature-ability-value', CreatureAbilityValueEditor)
   Vue.component('creatures-filter', CreaturesFilter)
   Vue.component('creature-actions', CreatureActions)
+  Vue.component('creature-type-icon', CreatureTypeIcon)
 }
 
 function addEncounterComponents () {

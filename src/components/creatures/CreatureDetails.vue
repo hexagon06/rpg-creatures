@@ -10,7 +10,8 @@
       <favorite v-model="favorite" class="md:flex-grow" />
     </h1>
     <i>
-      {{ value.size }} {{ value.type }},
+      {{ value.size }} {{ value.type
+      }}<span v-if="value.subType"> ({{ value.subType }})</span>,
       <span v-for="(a, i) in value.alignment" :key="i"> {{ a }}</span>
     </i>
     <hr class="creature-rule" />
