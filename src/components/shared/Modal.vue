@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="fixed z-10 inset-0 flex items-center justify-center">
+    <div class="fixed z-[1200] inset-0 flex items-center justify-center">
       <div
         class="
           relative
@@ -75,7 +75,7 @@
         h-full
         w-full
         modal-backdrop
-        backdrop-blur-sm
+        backdrop-blur-md
       "
       id="my-modal"
     ></div>
