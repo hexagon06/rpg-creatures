@@ -1,10 +1,10 @@
 import { creatureApi } from '@/api'
-import { Creature, getCreatureIndex } from '@/types'
+import { Creature, creatureTypes, getCreatureIndex } from '@/types'
 import { deepEqual } from '@firebase/util'
 import { cloneDeep } from 'lodash'
 import { defineStore } from 'pinia'
 import { useIndexesStore } from './indexes'
-import { setEditedDate, setInitialDates } from '@/shared/dates'
+import { setEditedDate } from '@/shared/dates'
 import { createDefaultCreature } from '@/shared'
 
 function setCreatureType (creature: Creature, types: string[]): Creature {
@@ -37,22 +37,7 @@ export const useCreatureStore = defineStore('creatures', {
       }
     },
     typeOptions (): string[] {
-      return [
-        'Aberration',
-        'Beast',
-        'Celestial',
-        'Construct',
-        'Dragon',
-        'Elemental',
-        'Fey',
-        'Fiend',
-        'Giant',
-        'Humanoid',
-        'Monstrosity',
-        'Ooze',
-        'Plant',
-        'Undead',
-      ]
+      return creatureTypes
     }
   },
   actions: {

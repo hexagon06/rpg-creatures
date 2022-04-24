@@ -41,9 +41,14 @@
             class="absolute right-0 -mt-2 -mr-2"
           />
           <div class="w-2/3 md:w-1/2 h-full pl-1">
-            <h2 class="mb-3 truncate" :title="creature.name">
+            <h2 class="mb-3 truncate">
               {{ creature.name }}
             </h2>
+            <creature-type-icon
+              v-if="creature.type"
+              :type="creature.type"
+              :title="creature.type"
+            />
             <i v-if="shortDescriptor(creature)">
               {{ shortDescriptor(creature) }}
             </i>
