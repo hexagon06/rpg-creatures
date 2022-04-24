@@ -137,38 +137,24 @@
 </template>
 
 <script lang="ts">
-import { sortBy } from "lodash";
+import { cloneDeep, sortBy } from "lodash";
+import { createDummyInfo, RunningInformationPart } from "@/types";
+import { useRunningInfoStore } from "@/store/runningInfo";
 import Vue from "vue";
-
-function createDummy(order: number): RunningInformationPart {
-  return {
-    title: `Item ${order + 1}`,
-    content: `Content for item ${order + 1}`,
-    sortOrder: order,
-  };
-}
-
-type RunningInformationPart = {
-  title: string;
-  content: string;
-  sortOrder: number;
-};
+import { mapActions, mapStores, mapWritableState } from "pinia";
 
 export default Vue.extend({
   data() {
     return {
       isOpen: false,
-      items: [
-        createDummy(0),
-        createDummy(3),
-        createDummy(1),
-        createDummy(4),
-        createDummy(2),
-      ],
       editing: [] as number[],
     };
   },
   computed: {
+    ...mapWritableState(useRunningInfoStore, ["initialized", "info"]),
+    items(): RunningInformationPart[] {
+      return this.info?.parts ?? [];
+    },
     sortedItems(): (RunningInformationPart & { isEditing: boolean })[] {
       return sortBy(this.items, (i) => i.sortOrder).map((i) => {
         return {
@@ -178,25 +164,43 @@ export default Vue.extend({
       });
     },
   },
+  async created() {
+    if (!this.initialized) {
+      await useRunningInfoStore().initialize();
+    }
+  },
   methods: {
+    ...mapActions(useRunningInfoStore, ["save"]),
     toggleOpen() {
       this.isOpen = !this.isOpen;
     },
     addInformation() {
-      this.items.push(createDummy(this.items.length));
+      if (this.info) {
+        this.info = {
+          ...this.info,
+          parts: this.items.concat([createDummyInfo(this.items.length)]),
+        };
+        this.save();
+      }
     },
     editInformation(order: number) {
-      console.log("edit");
-
       this.editing.push(order);
     },
     saveInformation(data: RunningInformationPart) {
       const order = data.sortOrder;
       this.editing = this.editing.filter((e) => e !== order);
       const originalIndex = this.items.findIndex((i) => i.sortOrder === order);
-      this.items[originalIndex] = {
+      const items = cloneDeep(this.items);
+      items[originalIndex] = {
         ...data,
       };
+      if (this.info) {
+        this.info = {
+          ...this.info,
+          parts: items,
+        };
+        this.save();
+      }
     },
   },
 });
