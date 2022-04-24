@@ -109,7 +109,15 @@
                     v-model="item.content"
                     height="400px"
                   ></v-md-editor>
-                  <div class="flex justify-end">
+                  <div class="flex gap-3 justify-end">
+                    <button
+                      v-if="!item.isEditing"
+                      class="button-round button-on-brown m2"
+                      title="open screen"
+                      @click="deleteInformation(item.sortOrder)"
+                    >
+                      <font-awesome-icon icon="fa-solid fa-trash" />
+                    </button>
                     <button
                       v-if="item.isEditing"
                       class="button-round button-on-brown m2"
@@ -142,7 +150,7 @@ import { cloneDeep, sortBy } from "lodash";
 import { createDummyInfo, RunningInformationPart } from "@/types";
 import { useRunningInfoStore } from "@/store/runningInfo";
 import Vue from "vue";
-import { mapActions, mapStores, mapWritableState } from "pinia";
+import { mapActions, mapWritableState } from "pinia";
 
 function contains(target: string, substring: string): boolean {
   return target.toLowerCase().search(substring.toLowerCase()) !== -1;
@@ -210,6 +218,15 @@ export default Vue.extend({
         this.info = {
           ...this.info,
           parts: items,
+        };
+        this.save();
+      }
+    },
+    deleteInformation(order: number) {
+      if (this.info) {
+        this.info = {
+          ...this.info,
+          parts: this.items.filter((i) => i.sortOrder !== order),
         };
         this.save();
       }
