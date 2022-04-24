@@ -8,6 +8,10 @@
       }"
       class="encounter-link link"
     >
+      <entity-type-icon
+        v-if="item.reference.routerName"
+        :type="item.reference.routerName"
+      />
       <span v-for="(l, i) in labels" :key="`lbl_${i}`" :class="labelClass(l)">
         {{ l.text }}
       </span>

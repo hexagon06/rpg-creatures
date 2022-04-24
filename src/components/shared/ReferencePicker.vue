@@ -13,6 +13,10 @@
       :title="`${reference.routerName}/${entityIndex.label}`"
       class="max-w-[6rem] overflow-clip overflow-ellipsis whitespace-nowrap"
     >
+      <entity-type-icon
+        v-if="reference.routerName"
+        :type="reference.routerName"
+      />
       {{ entityIndex.label }}
     </p>
     <transition>
@@ -73,6 +77,7 @@ import { isString } from "lodash";
 import { Multiselect } from "vue-multiselect";
 import { mapState } from "pinia";
 import { useIndexesStore } from "@/store/indexes";
+import { entityTypeOptions } from "@/types";
 
 export default Vue.extend({
   components: { Multiselect },
@@ -89,7 +94,7 @@ export default Vue.extend({
         entity: undefined as { id: string; label: string } | undefined,
       },
       isEditingReference: false,
-      routerOptions: ["Creature", "Encounter", "List", "Session"],
+      routerOptions: entityTypeOptions,
     };
   },
   computed: {

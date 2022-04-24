@@ -16,6 +16,23 @@ export {
   RunningInformation, RunningInformationPart, createDummyInfo,
 } from 'rpg-vue-base'
 
+export type EntityType = "Creature" | "Encounter" | "List" | "Session" | "Item"
+
+export const entityTypeOptions = ["Creature", "Encounter", "List", "Session"]
+
+export type EntityTypeIcon = 'checklist' | 'chest' | 'flat-paw-print' | 'slalom' | 'wooden-door'
+
+export function entityTypeToIcon (type: EntityType): EntityTypeIcon {
+  switch (type) {
+    case 'Creature': return 'flat-paw-print'
+    case 'Encounter': return 'wooden-door'
+    case 'List': return 'checklist'
+    case 'Session': return 'slalom'
+    case 'Item': return 'chest'
+    default: throw new Error(`type ${type} has no matched icon`)
+  }
+}
+
 export type CreatureType =
   'Aberration' |
   'Beast' |
