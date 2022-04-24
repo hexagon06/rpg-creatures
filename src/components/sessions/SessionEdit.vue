@@ -1,6 +1,7 @@
 <template>
   <div v-if="loading">Loading...</div>
   <div v-else>
+    <running-information />
     <form
       novalidate
       :validated="validated"

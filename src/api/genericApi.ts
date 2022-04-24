@@ -1,4 +1,5 @@
 import { IdItem } from '@/types'
+import { QueryConstraint } from 'firebase/firestore'
 import { firebaseClient } from './firebaseClient'
 import { FirestoreAcces } from './firestoreAccess'
 
@@ -17,6 +18,16 @@ export class Api<T extends IdItem> {
     } catch (e) {
       console.error(e)
       throw new Error(`failed to get ${id} in ${this.collection}`)
+    }
+  }
+
+  async query (constraint: QueryConstraint): Promise<T[]> {
+    try {
+      const firestore = new FirestoreAcces<T>(firebaseClient.store, this.collection)
+      return await firestore.query(constraint)
+    } catch (e) {
+      console.error(e)
+      throw new Error(`failed to query on ${this.collection}`)
     }
   }
 

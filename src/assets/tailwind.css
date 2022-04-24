@@ -86,4 +86,14 @@
   .creature-rule {
     @apply md:mr-48 
   }
+
+  .accordion-button {
+    @apply bg-dark-blue text-gold
+  }
+  .accordion-button::after {
+    @apply content-none
+  }
+  .accordion-button:not(.collapsed) {
+    @apply bg-dark-blue text-gold-dark shadow-none
+  }
 }

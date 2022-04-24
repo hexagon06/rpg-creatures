@@ -26,6 +26,12 @@ module.exports = {
         'border-radius': 'border-radius',
         'width':'width',
         'padding':'padding',
+      },
+      skew: {
+        '30': '30deg',
+        '35': '35deg',
+        '40': '40deg',
+        '45': '45deg',
       }
     },
     borderWidth: {
@@ -60,5 +66,6 @@ module.exports = {
   plugins: [
     require('@tailwindcss/line-clamp'),
     require('@tailwindcss/forms'),
+    require('tw-elements/dist/plugin'),
   ],
 }

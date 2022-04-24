@@ -1,5 +1,5 @@
 import { IdItem } from '@/types'
-import { addDoc, collection, deleteDoc, doc, Firestore, getDoc, Query, query, setDoc, updateDoc, writeBatch } from 'firebase/firestore'
+import { addDoc, collection, deleteDoc, doc, Firestore, getDoc, getDocs, Query, query, QueryConstraint, setDoc, updateDoc, where, writeBatch } from 'firebase/firestore'
 import { cloneDeep } from 'lodash'
 import { getCollection } from './firestoreUtils'
 
@@ -40,6 +40,21 @@ export class FirestoreAcces<T extends IdItem> {
     } catch (error) {
       console.error(`Error fetching document from "${this.collection}": `, error)
       return undefined
+    }
+  }
+
+  async query (constraint: QueryConstraint): Promise<T[]> {
+    try {
+      const ref = collection(this.db, this.collection)
+      const docs = await getDocs(query(ref, constraint))
+      return docs.docs.map(d => {
+        return {
+          ...(d.data() as T), id: d.id
+        }
+      })
+    } catch (error) {
+      console.error(`Error querying on "${this.collection}": `, error)
+      return []
     }
   }
 

@@ -1,6 +1,7 @@
 <template>
   <div v-if="loading">Loading...</div>
   <div v-else>
+    <running-information />
     <!-- info card -->
     <div class="m-3 text-left sticky-top">
       <h1>{{ session.title }}</h1>

@@ -14,3 +14,5 @@ export {
   getCreatureIndex, getEncounterIndex, getIdeaIndex, getRollingListIndex, getRollingListItem, getSessionPrepIndex,
   AbillityFilterOptions, CreatureFilter, CreatureFilterOptions, Filter, FilterResult, IdeaFilterOptions, defaultCreatureFilterOptions, defaultResult,
 } from 'rpg-vue-base'
+
+export * from './runningInformation'

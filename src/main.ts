@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import 'tw-elements'
 // Markdown Editor
 import VMdEditor from '@kangc/v-md-editor'
 import VMdPreview from '@kangc/v-md-editor/lib/preview'
