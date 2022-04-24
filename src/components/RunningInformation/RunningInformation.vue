@@ -30,6 +30,7 @@
           >
             <font-awesome-icon icon="fa-solid fa-plus" />
           </button>
+          <input v-if="isOpen" v-model="filter" />
           <button
             class="button-round-large button-on-brown m2"
             title="open screen"
@@ -143,11 +144,16 @@ import { useRunningInfoStore } from "@/store/runningInfo";
 import Vue from "vue";
 import { mapActions, mapStores, mapWritableState } from "pinia";
 
+function contains(target: string, substring: string): boolean {
+  return target.toLowerCase().search(substring.toLowerCase()) !== -1;
+}
+
 export default Vue.extend({
   data() {
     return {
       isOpen: false,
       editing: [] as number[],
+      filter: "",
     };
   },
   computed: {
@@ -155,8 +161,14 @@ export default Vue.extend({
     items(): RunningInformationPart[] {
       return this.info?.parts ?? [];
     },
+    filteredItems(): RunningInformationPart[] {
+      return this.items.filter(
+        (i) =>
+          contains(i.title, this.filter) || contains(i.content, this.filter)
+      );
+    },
     sortedItems(): (RunningInformationPart & { isEditing: boolean })[] {
-      return sortBy(this.items, (i) => i.sortOrder).map((i) => {
+      return sortBy(this.filteredItems, (i) => i.sortOrder).map((i) => {
         return {
           ...i,
           isEditing: this.editing.findIndex((e) => e === i.sortOrder) !== -1,
