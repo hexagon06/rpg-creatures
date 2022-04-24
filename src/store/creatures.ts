@@ -7,6 +7,18 @@ import { useIndexesStore } from './indexes'
 import { setEditedDate, setInitialDates } from '@/shared/dates'
 import { createDefaultCreature } from '@/shared'
 
+function setCreatureType (creature: Creature, types: string[]): Creature {
+  const copy = { ...creature }
+  if (types.find(t => t === copy.type) === undefined) {
+    const found = types.find(t => copy.type?.toLowerCase().search(t.toLowerCase()) !== -1)
+    if (found) {
+      copy.subType = copy.type?.trim().length === found.trim().length ? copy.subType : copy.type
+      copy.type = found
+    }
+  }
+  return copy
+}
+
 export const useCreatureStore = defineStore('creatures', {
   state: () => {
     return {
@@ -23,6 +35,24 @@ export const useCreatureStore = defineStore('creatures', {
       } else { // one of them is undefined
         return true
       }
+    },
+    typeOptions (): string[] {
+      return [
+        'Aberration',
+        'Beast',
+        'Celestial',
+        'Construct',
+        'Dragon',
+        'Elemental',
+        'Fey',
+        'Fiend',
+        'Giant',
+        'Humanoid',
+        'Monstrosity',
+        'Ooze',
+        'Plant',
+        'Undead',
+      ]
     }
   },
   actions: {
@@ -65,7 +95,8 @@ export const useCreatureStore = defineStore('creatures', {
     },
     async startEdit () {
       if (this.creature) {
-        this.creatureForm = cloneDeep(this.creature)
+        const form = cloneDeep(this.creature)
+        this.creatureForm = setCreatureType(form, this.typeOptions)
       } else {
         throw new Error('no encounter selected')
       }

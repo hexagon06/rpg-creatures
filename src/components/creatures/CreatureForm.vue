@@ -135,20 +135,34 @@
       </div>
     </div>
     <!-- creature type & size -->
+    <input-wrapper label="Size" class="flex-grow">
+      <multiselect
+        id="input-size"
+        v-model="creature.size"
+        :options="options.size"
+        :clear-on-select="false"
+        :show-labels="false"
+        :preselect-first="false"
+        @input="sizeChange"
+      ></multiselect>
+    </input-wrapper>
     <div class="flex gap-2">
-      <input-wrapper label="Size" class="flex-grow">
+      <input-wrapper label="Type" class="flex-grow">
         <multiselect
           id="input-size"
-          v-model="creature.size"
-          :options="options.size"
+          v-model="creature.type"
+          :options="typeOptions"
           :clear-on-select="false"
           :show-labels="false"
           :preselect-first="false"
-          @input="sizeChange"
         ></multiselect>
       </input-wrapper>
-      <input-wrapper label="Type" class="flex-grow">
-        <input id="input-type" v-model="creature.type" placeholder="humanoid" />
+      <input-wrapper label="sub type" class="flex-grow">
+        <input
+          id="input-type"
+          v-model="creature.subType"
+          placeholder="(descriptor)"
+        />
       </input-wrapper>
     </div>
     <!-- alignment -->
@@ -412,6 +426,7 @@ import { toHitDiceFormula, toMod } from "@/shared";
 import { useFilterStore } from "@/store/filter";
 import { mapState } from "pinia";
 import { useUserStore } from "@/store/users";
+import { useCreatureStore } from "@/store/creatures";
 
 export default Vue.extend({
   components: {
@@ -447,6 +462,7 @@ export default Vue.extend({
     },
     ...mapState(useFilterStore, ["creatureOptions"]),
     ...mapState(useUserStore, ["currentUser"]),
+    ...mapState(useCreatureStore, ["typeOptions"]),
     tagsOptions(): string[] {
       return this.creatureOptions.tags;
     },
