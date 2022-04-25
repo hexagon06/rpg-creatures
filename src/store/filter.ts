@@ -9,7 +9,8 @@ import {
 import { defineStore } from 'pinia'
 import { useIndexesStore } from './indexes'
 import { useAbilityStore } from './abilities'
-import { ListFilter } from 'rpg-vue-base'
+import { CreatureIndex, ListFilter } from 'rpg-vue-base'
+import { filterCreature } from '@/shared'
 
 const KEY_CREATURE_FILTERS = 'creature-filters'
 
@@ -39,9 +40,6 @@ export const useFilterStore = defineStore('filters', {
         cr: [],
         source: [],
       } as CreatureFilterOptions,
-      creatureFilterResult: {
-        count: 0,
-      } as FilterResult,
       abilityOptions: {
         tags: []
       } as AbillityFilterOptions,
@@ -53,6 +51,13 @@ export const useFilterStore = defineStore('filters', {
         search: '',
       } as ListFilter,
       initialized: false
+    }
+  },
+  getters: {
+    filteredCreatures (): CreatureIndex[] {
+      return filter(useIndexesStore().creatures, (value) =>
+        filterCreature(value, this.creatureFilter)
+      )
     }
   },
   actions: {
