@@ -80,13 +80,13 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...mapState(useFilterStore, ["creatureFilter"]),
+    ...mapState(useFilterStore, ["creatureFilter", "filteredCreatures"]),
     ...mapState(useIndexesStore, ["creatures", "initialized"]),
-    filteredCreatures(): CreatureIndex[] {
-      return filter(this.creatures, (value) =>
-        filterCreature(value, this.creatureFilter)
-      );
-    },
+    // filteredCreatures(): CreatureIndex[] {
+    //   return filter(this.creatures, (value) =>
+    //     filterCreature(value, this.creatureFilter)
+    //   );
+    // },
     limitedCreatures(): CreatureIndex[] {
       return this.filteredCreatures.slice(
         0,

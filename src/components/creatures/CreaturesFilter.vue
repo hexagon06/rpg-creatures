@@ -72,7 +72,35 @@
       >
         <font-awesome-icon icon="fa-solid fa-filter" />
       </button>
+      <button
+        @click="createList()"
+        class="button-round-large button-on-gold"
+        title="create list"
+      >
+        <font-awesome-icon icon="fa-solid fa-list" />
+      </button>
     </template>
+    <transition>
+      <form v-if="isCreatingList" @submit.stop.prevent="createList(true)">
+        <modal
+          :is-valid="listName.length > 0"
+          @reject="createList(false)"
+          class="text-white"
+        >
+          <div class="w-52 flex flex-col gap-1 text-dark-blue">
+            <p>Creating a list for {{ filteredCreatures.length }} creatures!</p>
+            <input
+              id="input-1"
+              v-model="listName"
+              type="text"
+              placeholder="List name"
+              required
+              class="rounded-t-lg"
+            />
+          </div>
+        </modal>
+      </form>
+    </transition>
   </action-panel-filter>
 </template>
 
@@ -80,6 +108,8 @@
 import { useCreatureStore } from "@/store/creatures";
 import { useFilterStore } from "@/store/filter";
 import { useIndexesStore } from "@/store/indexes";
+import { useListStore } from "@/store/rollingLists";
+import { getRollingListItem, RollingListItem } from "@/types";
 import { mapState } from "pinia";
 import Vue from "vue";
 import InputWrapper from "../shared/InputWrapper.vue";
@@ -97,6 +127,8 @@ export default Vue.extend({
       favoriteOptions: [IS_FAVORITE],
       showRecap: true,
       showFilters: false,
+      isCreatingList: false,
+      listName: "",
     };
   },
   async created() {
@@ -108,7 +140,7 @@ export default Vue.extend({
       "creatureOptions",
       "creatureFilter",
       "creatureFilter",
-      "creatureFilterResult",
+      "filteredCreatures",
     ]),
     tagsOptions(): string[] {
       return this.creatureOptions.tags;
@@ -134,12 +166,6 @@ export default Vue.extend({
     sourceOptions(): string[] {
       return this.creatureOptions.source;
     },
-    creatureCount(): number {
-      return useIndexesStore().creatures.length;
-    },
-    filteredCount(): number {
-      return this.creatureFilterResult.count;
-    },
     recap(): string {
       const allOptions = [
         this.search,
@@ -150,7 +176,6 @@ export default Vue.extend({
         stringFilter(this.typeFilter, "is"),
         stringFilter(this.systemFilter, "for"),
         stringFilter(this.crFilter, "CR is"),
-        // this.favoriteFilter.length > 0 ? "is favorite" : "",
       ];
       return allOptions.join(" ");
     },
@@ -244,16 +269,6 @@ export default Vue.extend({
         });
       },
     },
-    // favoriteFilter: {
-    //   get(): string[] {
-    //     return filterStore.state.creatureFilter.favorite ? [IS_FAVORITE] : [];
-    //   },
-    //   async set(value: string[]) {
-    //     await filterStore.actions.setFavorites(
-    //       value.findIndex((v) => v === IS_FAVORITE) !== -1
-    //     );
-    //   },
-    // },
   },
   methods: {
     async create() {
@@ -265,6 +280,36 @@ export default Vue.extend({
     },
     toggleFilters() {
       this.showFilters = !this.showFilters;
+    },
+    async createList(accept?: boolean) {
+      console.log("create", accept);
+
+      if (accept === undefined) {
+        this.listName = "";
+        this.isCreatingList = true;
+      } else if (accept) {
+        const listId = await useListStore().createList();
+        const list = useListStore().rollingList;
+        if (list) {
+          list.name = this.listName;
+          list.items = this.filteredCreatures.map((c, i) => {
+            const li = getRollingListItem(i);
+            li.id += i; // because we may create them in  1 ms
+            li.label = `CR${c.cr ?? "?"} ${c.name}`;
+            li.order = i;
+            li.repeatable = false;
+            li.reference = {
+              routerName: "Creature",
+              id: c.id,
+            };
+            return li;
+          });
+          await useListStore().save(list);
+          this.$router.push(`/list/${listId}/edit`);
+        }
+      } else {
+        this.isCreatingList = false;
+      }
     },
   },
 });

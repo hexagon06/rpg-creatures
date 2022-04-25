@@ -41,6 +41,7 @@ export const useListStore = defineStore('rollingLists', {
       const id = await listApi.create(rollingList)
       const rollingListIndex: RollingListIndex = getRollingListIndex(id, rollingList)
       useIndexesStore().lists.push(rollingListIndex)
+      rollingList.id = id
       this.rollingList = rollingList
       return id
     },
