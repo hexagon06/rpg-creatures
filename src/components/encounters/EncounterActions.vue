@@ -93,7 +93,7 @@ export default Vue.extend({
       if (this.encounter) {
         const source = { ...this.encounter };
         const id = await useEncounterStore().createEncounter();
-        useEncounterStore().encounter = {
+        useEncounterStore().encounterForm = {
           ...source,
           id,
         };
