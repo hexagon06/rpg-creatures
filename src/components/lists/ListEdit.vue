@@ -62,11 +62,7 @@ export default Vue.extend({
     };
   },
   async mounted() {
-    const store = useListStore();
-    if (!store.rollingList || store.rollingList.id !== this.id) {
-      await store.fetch(this.id);
-    }
-    await store.startEdit();
+    await this.loadList();
   },
   computed: {
     ...mapWritableState(useListStore, ["rollingListForm"]),
@@ -94,9 +90,19 @@ export default Vue.extend({
       );
     },
   },
+  watch: {
+    id: "loadList",
+  },
   methods: {
     addWeight() {
       this.isWeighted = true;
+    },
+    async loadList() {
+      const store = useListStore();
+      if (!store.rollingList || store.rollingList.id !== this.id) {
+        await store.fetch(this.id);
+      }
+      await store.startEdit();
     },
   },
 });

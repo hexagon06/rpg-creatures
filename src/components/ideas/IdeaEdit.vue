@@ -92,11 +92,7 @@ export default Vue.extend({
     };
   },
   async mounted() {
-    const store = useIdeaStore();
-    if (!store.idea || store.idea.id !== this.id) {
-      await store.fetch(this.id);
-    }
-    await store.startEdit();
+    await this.loadIdea();
   },
   computed: {
     ...mapWritableState(useIdeaStore, ["ideaForm"]),
@@ -113,6 +109,9 @@ export default Vue.extend({
       );
     },
   },
+  watch: {
+    id: "loadIdea",
+  },
   methods: {
     async tagTag(newTag: string) {
       await useFilterStore().addIdeaTag(newTag);
@@ -124,6 +123,13 @@ export default Vue.extend({
       }
 
       this.ideaForm!.category = newCategory;
+    },
+    async loadIdea() {
+      const store = useIdeaStore();
+      if (!store.idea || store.idea.id !== this.id) {
+        await store.fetch(this.id);
+      }
+      await store.startEdit();
     },
   },
 });

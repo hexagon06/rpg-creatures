@@ -93,7 +93,7 @@ export default Vue.extend({
       if (this.creature) {
         const source = { ...this.creature };
         const id = await useCreatureStore().createCreature();
-        useCreatureStore().creature = {
+        useCreatureStore().creatureForm = {
           ...source,
           id,
         };

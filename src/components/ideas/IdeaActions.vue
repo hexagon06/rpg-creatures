@@ -93,7 +93,7 @@ export default Vue.extend({
       if (this.idea) {
         const source = { ...this.idea };
         const id = await useIdeaStore().createIdea();
-        useIdeaStore().idea = {
+        useIdeaStore().ideaForm = {
           ...source,
           id,
         };

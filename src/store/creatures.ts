@@ -44,6 +44,12 @@ export const useCreatureStore = defineStore('creatures', {
     async createCreature (): Promise<string> {
       const creature: Creature = createDefaultCreature('new creature')
 
+      if (this.creatureForm) {
+        creature.source = this.creatureForm.source
+        creature.page = this.creatureForm.page
+        creature.system = this.creatureForm.system
+        creature.type = this.creatureForm.type
+      }
       const id = await creatureApi.create(creature)
       const creatureIndex = getCreatureIndex({ ...creature, id })
       await useIndexesStore().creatures.push(creatureIndex)

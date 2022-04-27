@@ -116,7 +116,7 @@ export default Vue.extend({
       if (this.session) {
         const source = { ...this.session };
         const id = await useSessionStore().createSession();
-        useSessionStore().session = {
+        useSessionStore().sessionForm = {
           ...source,
           id,
         };

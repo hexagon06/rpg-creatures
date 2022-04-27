@@ -93,7 +93,9 @@ export default Vue.extend({
       if (this.rollingList) {
         const source = { ...this.rollingList };
         const id = await useListStore().createList();
-        useListStore().rollingList = {
+        console.log(source, id);
+
+        useListStore().rollingListForm = {
           ...source,
           id,
         };
