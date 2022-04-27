@@ -21,11 +21,7 @@ export default Vue.extend({
     },
   },
   async mounted() {
-    const creatureStore = useCreatureStore();
-    if (!creatureStore.creature || creatureStore.creature.id !== this.id) {
-      await creatureStore.fetch(this.id);
-    }
-    await creatureStore.startEdit();
+    await this.loadCreature();
   },
   computed: {
     ...mapWritableState(useCreatureStore, ["creatureForm"]),
@@ -34,6 +30,18 @@ export default Vue.extend({
         !useIndexesStore().initialized ||
         useCreatureStore().creatureForm === undefined
       );
+    },
+  },
+  watch: {
+    id: "loadCreature",
+  },
+  methods: {
+    async loadCreature() {
+      const creatureStore = useCreatureStore();
+      if (!creatureStore.creature || creatureStore.creature.id !== this.id) {
+        await creatureStore.fetch(this.id);
+      }
+      await creatureStore.startEdit();
     },
   },
 });

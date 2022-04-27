@@ -140,11 +140,7 @@ export default Vue.extend({
     };
   },
   async mounted() {
-    const store = useSessionStore();
-    if (!store.session || store.session.id !== this.id) {
-      await store.fetch(this.id);
-    }
-    await store.startEdit();
+    await this.loadSession();
   },
   computed: {
     ...mapWritableState(useSessionStore, ["sessionForm"]),
@@ -161,7 +157,17 @@ export default Vue.extend({
       );
     },
   },
+  watch: {
+    id: "loadSession",
+  },
   methods: {
+    async loadSession() {
+      const store = useSessionStore();
+      if (!store.session || store.session.id !== this.id) {
+        await store.fetch(this.id);
+      }
+      await store.startEdit();
+    },
     addSection(type: PrepType) {
       const section = prepSectionFactory.create(type);
       section.sortOrder = this.sortedSections.length;

@@ -141,11 +141,7 @@ export default Vue.extend({
     };
   },
   async mounted() {
-    const store = useEncounterStore();
-    if (!store.encounter || store.encounter.id !== this.id) {
-      await store.fetch(this.id);
-    }
-    await store.startEdit();
+    await this.loadEncounter();
   },
   computed: {
     ...mapWritableState(useEncounterStore, ["encounterForm"]),
@@ -155,6 +151,18 @@ export default Vue.extend({
         !useIndexesStore().initialized ||
         useEncounterStore().encounterForm === undefined
       );
+    },
+  },
+  watch: {
+    id: "loadEncounter",
+  },
+  methods: {
+    async loadEncounter() {
+      const store = useEncounterStore();
+      if (!store.encounter || store.encounter.id !== this.id) {
+        await store.fetch(this.id);
+      }
+      await store.startEdit();
     },
   },
 });
