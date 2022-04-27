@@ -154,7 +154,7 @@ export const useFilterStore = defineStore('filters', {
 })
 
 function toUniques<T> (values: (T | undefined | null)[]): T[] {
-  return filter(uniq(values), (s) => s !== undefined) as T[]
+  return filter(uniq(values), (s) => s !== undefined && s !== null) as T[]
 }
 
 function toUniqueStrings (values: (string | undefined | null)[]): string[] {
