@@ -1,5 +1,7 @@
 <template>
   <div class="text-left flex flex-col gap-3">
+    <!-- scraping -->
+    <source-selector />
     <!-- naming -->
     <div class="flex flex-full gap-2">
       <input-wrapper
@@ -22,7 +24,6 @@
             id="input-is-noun"
             v-model="creature.nameIsNoun"
             type="checkbox"
-            required
           />
         </div>
       </input-wrapper>
@@ -427,10 +428,12 @@ import { useFilterStore } from "@/store/filter";
 import { mapState } from "pinia";
 import { useUserStore } from "@/store/users";
 import { useCreatureStore } from "@/store/creatures";
+import SourceSelector from "./SourceSelector.vue";
 
 export default Vue.extend({
   components: {
     Multiselect,
+    SourceSelector,
   },
   props: {
     value: Object as PropType<Creature>,
@@ -442,6 +445,7 @@ export default Vue.extend({
       },
       creature: this.value,
       showSpeedsClicked: false,
+      scrapeUrl: "",
     };
   },
   async created() {

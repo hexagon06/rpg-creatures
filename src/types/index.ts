@@ -66,6 +66,10 @@ export const creatureTypes = [
   'Undead',
 ] as CreatureType[]
 
+export function toCreatureType (type: string): CreatureType | undefined {
+  return creatureTypes.find(t => t.toLowerCase() === type.toLowerCase())
+}
+
 export type CreatureIconType =
   'angel-wings' |
   'behold' |
@@ -101,4 +105,11 @@ export function creatureTypeToIcon (type: CreatureType): CreatureIconType {
     case 'Undead': return 'raise-zombie'
     default: throw new Error(`type ${type} has no matched icon`)
   }
+}
+
+export type CreatureSize = "Tiny" | "Small" | "Medium" | "Large" | "Huge" | "Gargantuan"
+export const creatureSizes = ["Tiny", "Small", "Medium", "Large", "Huge", "Gargantuan"] as CreatureSize[]
+
+export function toCreatureSize (size: string): CreatureSize | undefined {
+  return creatureSizes.find(s => s.toLowerCase() === size.toLowerCase())
 }
