@@ -4,8 +4,6 @@ import { Analytics, getAnalytics } from "firebase/analytics"
 import { connectFirestoreEmulator, Firestore, getFirestore, initializeFirestore } from 'firebase/firestore'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-// TODO: Setup local emulator:
-// https://firebase.google.com/docs/firestore/quickstart#optional_prototype_and_test_with
 // TODO: setup Auth
 // https://firebase.google.com/docs/auth/web/start
 // https://firebase.google.com/docs/firestore/security/overview
