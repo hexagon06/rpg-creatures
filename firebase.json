@@ -21,6 +21,7 @@
     }
   },
   "hosting": {
+    "site": "rpg-creatures",
     "public": "dist",
     "ignore": [
       "firebase.json",
