@@ -12,7 +12,6 @@ export const useWorldStore = defineStore('worlds', {
       world: undefined as undefined | World,
       worldForm: undefined as undefined | World,
       filledWorld: undefined as undefined | FilledWorld,
-      lastWorldId: undefined as undefined | string,
     }
   },
   getters: {
@@ -24,6 +23,9 @@ export const useWorldStore = defineStore('worlds', {
       } else { // one of them is undefined
         return true
       }
+    },
+    lastWorldId (): undefined | string {
+      return useUserStore().userData?.lastWorldId
     }
   },
   actions: {
@@ -44,7 +46,11 @@ export const useWorldStore = defineStore('worlds', {
       useIndexesStore().worlds.push(worldIndex)
       await useIndexesStore().save()
       this.world = world
-      this.lastWorldId = id
+      const userStore = useUserStore()
+      if (userStore.userData) {
+        userStore.userData.lastWorldId = id
+        userStore.saveData()
+      }
       return id
     },
     async fetch (id: string) {

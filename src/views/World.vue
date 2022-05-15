@@ -8,7 +8,9 @@
 </template>
 
 <script lang="ts">
+import { useUserStore } from "@/store/users";
 import { useWorldStore } from "@/store/worlds";
+import { mapState } from "pinia";
 import Vue from "vue";
 export default Vue.extend({
   props: {
@@ -26,6 +28,25 @@ export default Vue.extend({
         this.$router.push({ name: "World", params: { id: lastWorldId } });
       }
     }
+  },
+  computed: {
+    ...mapState(useWorldStore, ["lastWorldId"]),
+  },
+  watch: {
+    id: async function (newId) {
+      if (newId && this.lastWorldId !== newId) {
+        const userStore = useUserStore();
+        if (userStore.userData) {
+          userStore.userData.lastWorldId = newId;
+          await userStore.saveData();
+        }
+      }
+    },
+    lastWorldId: function (newId) {
+      if (newId && this.id === undefined) {
+        this.$router.push({ name: "World", params: { id: newId } });
+      }
+    },
   },
 });
 </script>

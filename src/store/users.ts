@@ -33,8 +33,8 @@ export const useUserStore = defineStore('users', {
       if (!indexes.initialized) throw new Error('indexes not initialized')
       if (!this.currentUser) throw new Error('user is not signed in')
       const user = this.currentUser
-      await indexes.initialize(user.uid)
       let index = indexes.users.find(userIndex => userIndex.userId === user.uid)
+
       if (index === undefined) {
         const userData: UserData = setInitialDates({
           name: user.displayName ?? '',
@@ -46,6 +46,15 @@ export const useUserStore = defineStore('users', {
         const userDataIndex: UserDataIndex = getUserDataIndex(userDataId, userData)
         indexes.users.push(userDataIndex)
         await indexes.save()
+        index = userDataIndex
+      }
+
+      const userData = await userDataApi.get(index.id)
+      this.userData = userData
+    },
+    async saveData () {
+      if (this.userData) {
+        await userDataApi.update(this.userData)
       }
     }
   }
