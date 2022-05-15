@@ -41,6 +41,7 @@ export const useListStore = defineStore('rollingLists', {
       const id = await listApi.create(rollingList)
       const rollingListIndex: RollingListIndex = getRollingListIndex(id, rollingList)
       useIndexesStore().lists.push(rollingListIndex)
+      await useIndexesStore().save()
       rollingList.id = id
       this.rollingList = rollingList
       return id
@@ -62,7 +63,7 @@ export const useListStore = defineStore('rollingLists', {
         const dated = setEditedDate(rollingList)
         await listApi.update(dated)
         const index = getRollingListIndex(dated.id!, dated)
-        useIndexesStore().mutateIndex(useIndexesStore().lists, index)
+        await useIndexesStore().mutateIndex(useIndexesStore().lists, index)
       } catch (error) {
         console.error('RollingList update failed: ', error)
         throw error

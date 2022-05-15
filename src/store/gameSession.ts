@@ -46,6 +46,7 @@ export const useSessionStore = defineStore('sessions', {
       session.id = id
       const sessionIndex: SessionPrepIndex = getSessionPrepIndex(session)
       useIndexesStore().sessions.push(sessionIndex)
+      await useIndexesStore().save()
       this.session = session
       return id
     },
@@ -70,7 +71,7 @@ export const useSessionStore = defineStore('sessions', {
         const dated = setEditedDate(session)
         await sessionApi.update(dated)
         const index = getSessionPrepIndex(dated)
-        useIndexesStore().mutateIndex(useIndexesStore().sessions, index)
+        await useIndexesStore().mutateIndex(useIndexesStore().sessions, index)
       } catch (error) {
         console.error('Session update failed: ', error)
         throw error

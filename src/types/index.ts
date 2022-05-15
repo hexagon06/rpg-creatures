@@ -104,3 +104,4 @@ export function creatureTypeToIcon (type: CreatureType): CreatureIconType {
 }
 
 export * from './worlds'
+export * from './userData'

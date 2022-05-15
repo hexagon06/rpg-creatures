@@ -53,6 +53,7 @@ export const useCreatureStore = defineStore('creatures', {
       const id = await creatureApi.create(creature)
       const creatureIndex = getCreatureIndex({ ...creature, id })
       await useIndexesStore().creatures.push(creatureIndex)
+      await useIndexesStore().save()
       this.creature = creature
       return id
     },
@@ -71,7 +72,7 @@ export const useCreatureStore = defineStore('creatures', {
         const dated = setEditedDate(creature)
         await creatureApi.update(dated)
         const index = getCreatureIndex(dated)
-        useIndexesStore().mutateIndex(useIndexesStore().creatures, index)
+        await useIndexesStore().mutateIndex(useIndexesStore().creatures, index)
       } catch (error) {
         console.error('Creature update failed: ', error)
         throw error

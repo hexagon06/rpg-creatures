@@ -2,12 +2,16 @@ import { auth } from '@/api'
 import { onAuthStateChanged, signOut, User } from 'firebase/auth'
 import { useIndexesStore } from './indexes'
 import { defineStore } from 'pinia'
+import { getUserDataIndex, UserData, UserDataIndex } from '@/types'
+import { userDataApi } from '@/api/typed/userDataApi'
+import { setInitialDates } from '@/shared/dates'
 
 export const useUserStore = defineStore('users', {
   state: () => {
     return {
       currentUser: undefined as undefined | User,
       isAdmin: false,
+      userData: undefined as undefined | UserData,
     }
   },
   getters: {
@@ -23,6 +27,26 @@ export const useUserStore = defineStore('users', {
     async signIn (user: User) {
       this.currentUser = user
       await useIndexesStore().initialize(user.uid)
+    },
+    async initializeUserData () {
+      const indexes = useIndexesStore()
+      if (!indexes.initialized) throw new Error('indexes not initialized')
+      if (!this.currentUser) throw new Error('user is not signed in')
+      const user = this.currentUser
+      await indexes.initialize(user.uid)
+      let index = indexes.users.find(userIndex => userIndex.userId === user.uid)
+      if (index === undefined) {
+        const userData: UserData = setInitialDates({
+          name: user.displayName ?? '',
+          userId: user.uid,
+          created: 0,
+          lastEdited: 0,
+        })
+        const userDataId = await userDataApi.create(userData)
+        const userDataIndex: UserDataIndex = getUserDataIndex(userDataId, userData)
+        indexes.users.push(userDataIndex)
+        await indexes.save()
+      }
     }
   }
 })

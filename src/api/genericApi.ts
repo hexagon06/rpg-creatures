@@ -31,24 +31,24 @@ export class Api<T extends IdItem> {
     }
   }
 
-  async create (creature: T): Promise<string> {
+  async create (entity: T): Promise<string> {
     try {
       const firestore = new FirestoreAcces<T>(firebaseClient.store, this.collection)
 
-      return await firestore.add(creature)
+      return await firestore.add(entity)
     } catch (e) {
       console.error(e)
       throw new Error(`failed to create in ${this.collection}`)
     }
   }
 
-  async update (creature: T): Promise<void> {
+  async update (entity: T): Promise<void> {
     try {
       const firestore = new FirestoreAcces<T>(firebaseClient.store, this.collection)
-      await firestore.update(creature)
+      await firestore.update(entity)
     } catch (e) {
       console.error(e)
-      throw new Error(`failed to update ${creature.id} in ${this.collection}`)
+      throw new Error(`failed to update ${entity.id} in ${this.collection}`)
     }
   }
 

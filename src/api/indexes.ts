@@ -1,5 +1,5 @@
 import { setInitialDates } from '@/shared/dates'
-import { CreatureIndex, Indexes, UserIndexes } from '@/types'
+import { CreatureIndex, Indexes, UserDataIndex, UserIndexes } from '@/types'
 import { cloneDeep } from 'lodash'
 import { DatedItem } from 'rpg-vue-base'
 import { firebaseClient } from './firebaseClient'
@@ -33,6 +33,33 @@ export async function setCreatureIndexes (indexes: CreatureIndex[]): Promise<voi
   }
 }
 
+const USERDATA_INDEXES_COLLECTION = 'users'
+type UserDataIndexDoc = {
+  id: string,
+  users: UserDataIndex[],
+}
+
+async function fetchUserDataIndexes (): Promise<UserDataIndex[]> {
+  const firestore = new FirestoreAcces<UserDataIndexDoc>(firebaseClient.store, INDEXES_COLLECTION)
+  const result = await firestore.getById(USERDATA_INDEXES_COLLECTION)
+  return result?.users ?? []
+}
+
+export async function setUserDataIndexes (indexes: UserDataIndex[]): Promise<void> {
+  const firestore = new FirestoreAcces<UserDataIndexDoc>(firebaseClient.store, INDEXES_COLLECTION)
+  const data = {
+    id: USERDATA_INDEXES_COLLECTION,
+    users: indexes
+  } as UserDataIndexDoc
+
+  if (await firestore.getById(USERDATA_INDEXES_COLLECTION)) {
+    await firestore.update(data)
+  } else {
+    await firestore.addAt(data, USERDATA_INDEXES_COLLECTION)
+  }
+}
+
+
 function fixDateItem<T extends DatedItem> (item: T): T {
   if (item.created) return item
   return setInitialDates(item)
@@ -46,6 +73,7 @@ function fixDates (indexes: Indexes): Indexes {
     ideas: indexes.ideas?.map(c => fixDateItem(c)),
     lists: indexes.lists?.map(c => fixDateItem(c)),
     sessions: indexes.sessions?.map(c => fixDateItem(c)),
+    users: indexes.users.map(c => fixDateItem(c)),
   }
 }
 
@@ -54,10 +82,12 @@ export async function inititialize (userId: string): Promise<Indexes> {
     const firestore = new FirestoreAcces<UserIndexes>(firebaseClient.store, INDEXES_COLLECTION)
     const result = await firestore.getById(userId)
     const creatures = await fetchCreatureIndexes()
+    const users = await fetchUserDataIndexes()
 
     if (result) return fixDates({
       ...result,
-      creatures
+      creatures,
+      users
     })
     else {
       const indexes = defaultIndexes(userId)
@@ -65,13 +95,15 @@ export async function inititialize (userId: string): Promise<Indexes> {
       return fixDates({
         ...indexes,
         creatures,
+        users,
       })
     }
   } catch (e) {
     console.error(e)
     return {
       ...defaultIndexes(userId),
-      creatures: []
+      creatures: [],
+      users: [],
     }
   }
 }
@@ -87,6 +119,7 @@ export async function set (indexes: Indexes): Promise<void> {
   try {
     const firestore = new FirestoreAcces<UserIndexes>(firebaseClient.store, INDEXES_COLLECTION)
     await setCreatureIndexes(indexes.creatures)
+    await setUserDataIndexes(indexes.users)
     const indexesData = cloneDeep(indexes) as any
     delete indexesData.creatures
     await firestore.update(indexes)

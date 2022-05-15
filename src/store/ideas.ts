@@ -43,6 +43,7 @@ export const useIdeaStore = defineStore('ideas', {
       const id = await ideaApi.create(idea)
       const ideaIndex: IdeaIndex = getIdeaIndex(id, idea)
       useIndexesStore().ideas.push(ideaIndex)
+      await useIndexesStore().save()
       this.idea = idea
       return id
     },
@@ -63,7 +64,7 @@ export const useIdeaStore = defineStore('ideas', {
         const dated = setEditedDate(idea)
         await ideaApi.update(dated)
         const index = getIdeaIndex(dated.id!, dated)
-        useIndexesStore().mutateIndex(useIndexesStore().ideas, index)
+        await useIndexesStore().mutateIndex(useIndexesStore().ideas, index)
       } catch (error) {
         console.error('Idea update failed: ', error)
         throw error

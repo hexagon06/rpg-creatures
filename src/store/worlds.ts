@@ -42,6 +42,7 @@ export const useWorldStore = defineStore('worlds', {
       const id = await worldApi.create(world)
       const worldIndex: WorldIndex = getWorldIndex(id, world)
       useIndexesStore().worlds.push(worldIndex)
+      await useIndexesStore().save()
       this.world = world
       this.lastWorldId = id
       return id
@@ -62,7 +63,7 @@ export const useWorldStore = defineStore('worlds', {
       try {
         await worldApi.update(world)
         const index = getWorldIndex(world.id!, world)
-        useIndexesStore().mutateIndex(useIndexesStore().worlds, index)
+        await useIndexesStore().mutateIndex(useIndexesStore().worlds, index)
       } catch (error) {
         console.error('World update failed: ', error)
         throw error

@@ -1,5 +1,5 @@
 import { inititialize as initializeIndexes, set } from '@/api/indexes'
-import { CreatureIndex, creatureTypes, EncounterIndex, IdeaIndex, Reference, RollingListIndex, SessionPrepIndex, WorldIndex } from '@/types'
+import { CreatureIndex, creatureTypes, EncounterIndex, IdeaIndex, Reference, RollingListIndex, SessionPrepIndex, UserDataIndex, WorldIndex } from '@/types'
 import { defineStore } from 'pinia'
 import { useUserStore } from './users'
 
@@ -33,6 +33,7 @@ export const useIndexesStore = defineStore('indexes', {
       ideas: [] as IdeaIndex[],
       lists: [] as RollingListIndex[],
       worlds: [] as WorldIndex[],
+      users: [] as UserDataIndex[],
     }
   },
   actions: {
@@ -42,7 +43,7 @@ export const useIndexesStore = defineStore('indexes', {
         const currentUser = useUserStore().currentUser
         if (currentUser && !currentUser.isAnonymous) {
           const userId = currentUser.uid
-          initHandler = initializeIndexes(userId).then(indexes => {
+          initHandler = initializeIndexes(userId).then(async (indexes) => {
             const creatures = fixCreatures(indexes.creatures)
 
             this.$patch((state) => {
@@ -51,9 +52,11 @@ export const useIndexesStore = defineStore('indexes', {
               state.ideas = indexes.ideas ?? []
               state.lists = indexes.lists ?? []
               state.sessions = indexes.sessions ?? []
+              state.users = indexes.users ?? []
 
               state.initialized = true
             })
+            await useUserStore().initializeUserData()
           })
         } else {
           initHandler = Promise.resolve()
@@ -65,28 +68,34 @@ export const useIndexesStore = defineStore('indexes', {
       const index = list.findIndex(i => i.id === item.id)
       list[index] = item
     },
-    mutateIndex<T extends Reference> (list: T[], item: T) {
+    async mutateIndex<T extends Reference> (list: T[], item: T) {
       if (!this.initialized) {
         throw new Error('initialize() should have been called')
       }
       this.update(list, item)
-      presistIndexes(this.$state)
+      await this.save()
+    },
+    async save () {
+      return await presistIndexes(this.$state)
     }
   }
 })
 
-function presistIndexes (data: {
+async function presistIndexes (data: {
   encounters: EncounterIndex[],
   creatures: CreatureIndex[],
   sessions: SessionPrepIndex[],
   ideas: IdeaIndex[],
   lists: RollingListIndex[],
   worlds: WorldIndex[],
+  users: UserDataIndex[],
 }) {
+  console.log('persist indexes')
+
   const currentUser = useUserStore().currentUser
   if (currentUser) {
-    const { encounters, creatures, sessions, ideas, lists, worlds } = data
-    set({
+    const { encounters, creatures, sessions, ideas, lists, worlds, users } = data
+    await set({
       id: currentUser.uid,
       encounters,
       creatures,
@@ -94,6 +103,7 @@ function presistIndexes (data: {
       ideas,
       lists,
       worlds,
+      users,
     })
   } else {
     throw new Error(`expected user id to be set`)

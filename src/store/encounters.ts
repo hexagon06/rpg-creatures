@@ -42,6 +42,7 @@ export const useEncounterStore = defineStore('encounters', {
       const id = await encounterApi.create(encounter)
       const encounterIndex: EncounterIndex = getEncounterIndex(id, encounter)
       useIndexesStore().encounters.push(encounterIndex)
+      await useIndexesStore().save()
       this.encounter = encounter
       return id
     },
@@ -62,7 +63,7 @@ export const useEncounterStore = defineStore('encounters', {
         const dated = setEditedDate(encounter)
         await encounterApi.update(dated)
         const index = getEncounterIndex(dated.id!, dated)
-        useIndexesStore().mutateIndex(useIndexesStore().encounters, index)
+        await useIndexesStore().mutateIndex(useIndexesStore().encounters, index)
       } catch (error) {
         console.error('Encounter update failed: ', error)
         throw error
