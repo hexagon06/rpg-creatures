@@ -42,7 +42,7 @@ const routes: Array<RouteConfig> = [
     path: '/world/:id?',
     props: true,
     name: `World`,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, actionsComponent: 'world-actions' },
     component: () => import(`../views/World.vue`),
     children: [
       // {

@@ -43,6 +43,7 @@ export const useWorldStore = defineStore('worlds', {
       const worldIndex: WorldIndex = getWorldIndex(id, world)
       useIndexesStore().worlds.push(worldIndex)
       this.world = world
+      this.lastWorldId = id
       return id
     },
     async fetch (id: string) {

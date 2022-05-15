@@ -13,6 +13,7 @@ import { ChapterSection, ChapterSectionEdit, ImageSection, ImageSectionEdit, Lin
 import { IdeaActions, IdeasFilter } from './ideas'
 import { RollerListActions, RollerListFilter } from './lists'
 import { RunningInformation } from './RunningInformation'
+import { World, WorldActions } from './worlds'
 
 export function addAllComponents () {
   addAbilityComponents()
@@ -25,6 +26,7 @@ export function addAllComponents () {
   addSessionComponents()
   addSharedComponents()
   addUserComponents()
+  addWorldComponents()
 }
 
 function addAbilityComponents () {
@@ -114,4 +116,9 @@ function addUserComponents () {
 
 function addRootComponents () {
   Vue.component('action-panel', ActionPanel)
+}
+
+function addWorldComponents () {
+  Vue.component('world-actions', WorldActions)
+  Vue.component('world', World)
 }

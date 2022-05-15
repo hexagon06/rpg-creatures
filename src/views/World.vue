@@ -20,24 +20,12 @@ export default Vue.extend({
   async created() {
     if (this.id === undefined) {
       const { lastWorldId } = useWorldStore();
+      console.log("created", this.id, lastWorldId);
+
       if (lastWorldId) {
         this.$router.push({ name: "World", params: { id: lastWorldId } });
       }
     }
-    if (this.id) {
-      this.fetchWorld(this.id);
-    }
-  },
-  watch: {
-    id: "fetchWorld",
-  },
-  methods: {
-    async fetchWorld(id: string) {
-      console.log("fetchWorld", id);
-
-      // const store = useWorldStore();
-      // await store.fetch(id);
-    },
   },
 });
 </script>
