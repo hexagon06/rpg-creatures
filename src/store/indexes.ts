@@ -1,5 +1,5 @@
 import { inititialize as initializeIndexes, set } from '@/api/indexes'
-import { CreatureIndex, creatureTypes, EncounterIndex, IdeaIndex, Reference, RollingListIndex, SessionPrepIndex } from '@/types'
+import { CreatureIndex, creatureTypes, EncounterIndex, IdeaIndex, Reference, RollingListIndex, SessionPrepIndex, WorldIndex } from '@/types'
 import { defineStore } from 'pinia'
 import { useUserStore } from './users'
 
@@ -32,6 +32,7 @@ export const useIndexesStore = defineStore('indexes', {
       sessions: [] as SessionPrepIndex[],
       ideas: [] as IdeaIndex[],
       lists: [] as RollingListIndex[],
+      worlds: [] as WorldIndex[],
     }
   },
   actions: {
@@ -80,10 +81,11 @@ function presistIndexes (data: {
   sessions: SessionPrepIndex[],
   ideas: IdeaIndex[],
   lists: RollingListIndex[],
+  worlds: WorldIndex[],
 }) {
   const currentUser = useUserStore().currentUser
   if (currentUser) {
-    const { encounters, creatures, sessions, ideas, lists } = data
+    const { encounters, creatures, sessions, ideas, lists, worlds } = data
     set({
       id: currentUser.uid,
       encounters,
@@ -91,6 +93,7 @@ function presistIndexes (data: {
       sessions,
       ideas,
       lists,
+      worlds,
     })
   } else {
     throw new Error(`expected user id to be set`)

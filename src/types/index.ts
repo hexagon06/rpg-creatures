@@ -102,3 +102,5 @@ export function creatureTypeToIcon (type: CreatureType): CreatureIconType {
     default: throw new Error(`type ${type} has no matched icon`)
   }
 }
+
+export * from './worlds'

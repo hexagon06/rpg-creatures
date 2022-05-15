@@ -1,5 +1,6 @@
 import { CreatureIndex, EncounterIndex, SessionPrepIndex } from '.'
 import { IdeaIndex, RollingListIndex } from '@/types'
+import { WorldIndex } from './worlds'
 
 export type UserIndexes = {
   id: string, // user id
@@ -7,6 +8,7 @@ export type UserIndexes = {
   sessions?: SessionPrepIndex[]
   ideas?: IdeaIndex[]
   lists?: RollingListIndex[]
+  worlds?: WorldIndex[]
 }
 
 export type Indexes = UserIndexes & {

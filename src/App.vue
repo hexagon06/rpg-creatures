@@ -118,6 +118,7 @@ export default Vue.extend({
         { label: "Encounters", path: "/encounter", condition: true },
         { label: "Creatures", path: "/creature", condition: true },
         { label: "Lists", path: "/list", condition: true },
+        { label: "World", path: "/world", condition: true },
         // { label: "Abilities", path: "/abilities", condition: true },
         // {
         //   label: "Maintenance",
