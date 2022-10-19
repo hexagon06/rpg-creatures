@@ -4,6 +4,7 @@ import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
 import { getStandardRoute } from './standardRoute'
+import Maintenance from '../views/Maintenance.vue'
 
 Vue.use(VueRouter)
 
@@ -18,6 +19,10 @@ const routes: Array<RouteConfig> = [
     path: '/home',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/maintenance',
+    component: Maintenance
   },
   getStandardRoute({ path: 'creature', cased: 'Creature' }),
   {

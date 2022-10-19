@@ -1,6 +1,18 @@
 <template>
   <div>
+    <h1>Maintenance</h1>
     <div>
+      <button @click="convertCreatures">
+        [Convert creatures]
+      </button>:
+      <span>
+        {{creatureConverter.done.value}}
+      </span>
+      /
+      <span>
+        {{creatureConverter.total.value}}
+      </span>
+      Done
       <div>
         <!-- <div>
           <button @click="updateCreatureIndexes" disabled>
@@ -12,11 +24,11 @@
             Fix Creature user Data
           </button>
         </div> -->
-        <div>
+        <!-- <div>
           <button @click="removeUserData" disabled>
             Remove user Data object from creatures
           </button>
-        </div>
+        </div> -->
       </div>
       <!-- <div>
         <div><button disabled>Convert to new Tags</button></div>
@@ -32,9 +44,18 @@
 </template>
 
 <script lang="ts">
+import { getCreatureConverter } from "@/api/conversion/creatureConversion";
 import Vue from "vue";
 export default Vue.extend({
+  data() {
+    return {
+      creatureConverter: getCreatureConverter()
+    }
+  },
   methods: {
+    async convertCreatures() {
+      await this.creatureConverter.start()
+    },
     async updateCreatureIndexes() {
       // const creatures = (await getCreatures()) as Creature[];
       // console.log(creatures);
@@ -117,4 +138,5 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+
 </style>

@@ -3,14 +3,30 @@ import { QueryConstraint } from 'firebase/firestore'
 import { firebaseClient } from './firebaseClient'
 import { FirestoreAcces } from './firestoreAccess'
 
+export interface IdItemApi<T extends IdItem> extends ApiGet<T>, ApiCreate<T> {
+  query(constraint: QueryConstraint): Promise<T[]>
+  update(creature: T): Promise<void>
+  getAll(): Promise<T[]>
+}
 
-export class Api<T extends IdItem> {
+export interface ApiGet<T extends IdItem> {
+  get(id: string): Promise<T | undefined>
+}
+
+export interface ApiCreate<T extends IdItem> {
+  create(creature: T): Promise<string>
+}
+
+export interface ApiList<T extends IdItem> {
+  list(): Promise<T[]>
+}
+
+export class Api<T extends IdItem> implements IdItemApi<T>, ApiList<T> {
 
   constructor(private collection: string) {
-
   }
 
-  async get (id: string): Promise<T | undefined> {
+  async get(id: string): Promise<T | undefined> {
     try {
       const firestore = new FirestoreAcces<T>(firebaseClient.store, this.collection)
 
@@ -21,7 +37,7 @@ export class Api<T extends IdItem> {
     }
   }
 
-  async query (constraint: QueryConstraint): Promise<T[]> {
+  async query(constraint: QueryConstraint): Promise<T[]> {
     try {
       const firestore = new FirestoreAcces<T>(firebaseClient.store, this.collection)
       return await firestore.query(constraint)
@@ -31,7 +47,7 @@ export class Api<T extends IdItem> {
     }
   }
 
-  async create (creature: T): Promise<string> {
+  async create(creature: T): Promise<string> {
     try {
       const firestore = new FirestoreAcces<T>(firebaseClient.store, this.collection)
 
@@ -42,7 +58,7 @@ export class Api<T extends IdItem> {
     }
   }
 
-  async update (creature: T): Promise<void> {
+  async update(creature: T): Promise<void> {
     try {
       const firestore = new FirestoreAcces<T>(firebaseClient.store, this.collection)
       await firestore.update(creature)
@@ -52,8 +68,7 @@ export class Api<T extends IdItem> {
     }
   }
 
-
-  async getAll (): Promise<T[]> {
+  async getAll(): Promise<T[]> {
     try {
       const firestore = new FirestoreAcces<T>(firebaseClient.store, this.collection)
 
@@ -64,7 +79,11 @@ export class Api<T extends IdItem> {
     }
   }
 
-  public childOf<C extends IdItem> (id: string, childPath: string) {
+  async list(): Promise<T[]> {
+    return this.getAll();
+  }
+
+  public childOf<C extends IdItem>(id: string, childPath: string) {
     return new Api<C>(`${this.collection}/${id}/${childPath}`)
   }
 }
