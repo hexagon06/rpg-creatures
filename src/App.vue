@@ -113,6 +113,7 @@ export default Vue.extend({
           condition: true,
           admin: true,
         },
+        { label: "New Creatures", path: "/critter", condition: true },
       ],
       menuOpen: false,
     };

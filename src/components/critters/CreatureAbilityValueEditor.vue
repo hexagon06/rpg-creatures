@@ -2,40 +2,49 @@
   <div class="d-flex">
     <div v-if="format.variables.length > 0">
       <label>Variables</label>
-      <div id="input-name-group"
-           class="flex-fill">
-        <input v-for="kvp in variables"
-               :key="kvp.k"
-               :id="`input-var-${kvp.k}-name`"
-               v-model.number="kvp.v"
-               :placeholder="kvp.k"
-               @input="changeValue"
-               required />
+      <div id="input-name-group" class="flex-fill">
+        <input
+          v-for="kvp in variables"
+          :key="kvp.k"
+          :id="`input-var-${kvp.k}-name`"
+          v-model="kvp.v"
+          :placeholder="kvp.k"
+          @input="changeValue"
+          required
+        />
       </div>
     </div>
     <div v-if="format.formulae.length > 0">
       <label>Formulae</label>
-      <div id="`input-var-${kvvp.k}`"
-           v-for="kvvp in formulae"
-           :key="kvvp.k"
-           :label="kvvp.k"
-           :label-for="`input-var-${kvvp.k}-amount`"
-           class="flex-fill">
-        <input :id="`input-var-${kvvp.k}-amount`"
-               v-model.number="kvvp.a"
-               placeholder="amount"
-               @input="changeValue"
-               required />
-        <input :id="`input-var-${kvvp.k}-dice`"
-               v-model.number="kvvp.n"
-               placeholder="dice"
-               @input="changeValue"
-               required />
-        <input :id="`input-var-${kvvp.k}-mod`"
-               v-model.number="kvvp.m"
-               placeholder="mod"
-               @input="changeValue"
-               required />
+      <div
+        id="`input-var-${kvvp.k}`"
+        v-for="kvvp in formulae"
+        :key="kvvp.k"
+        :label="kvvp.k"
+        :label-for="`input-var-${kvvp.k}-amount`"
+        class="flex-fill"
+      >
+        <input
+          :id="`input-var-${kvvp.k}-amount`"
+          v-model="kvvp.a"
+          placeholder="amount"
+          @input="changeValue"
+          required
+        />
+        <input
+          :id="`input-var-${kvvp.k}-dice`"
+          v-model="kvvp.n"
+          placeholder="dice"
+          @input="changeValue"
+          required
+        />
+        <input
+          :id="`input-var-${kvvp.k}-mod`"
+          v-model="kvvp.m"
+          placeholder="mod"
+          @input="changeValue"
+          required
+        />
       </div>
     </div>
   </div>
@@ -94,5 +103,4 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-
 </style>

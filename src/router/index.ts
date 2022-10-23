@@ -41,6 +41,7 @@ const routes: Array<RouteConfig> = [
   getStandardRoute({ path: 'encounter', cased: 'Encounter' }),
   getStandardRoute({ path: 'idea', cased: 'Idea' }),
   getStandardRoute({ path: 'list', cased: 'List' }),
+  getStandardRoute({ path: 'critter', cased: 'Critter' }),
 ]
 
 const router = new VueRouter({

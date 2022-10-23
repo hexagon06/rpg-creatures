@@ -46,13 +46,22 @@ export type Dnd5eCreature = IdItem & {
   alignment: string[];
   speed: {
     burrow?: number;
-    climbSpeed?: number;
+    climb?: number;
     flying?: number;
     swim?: number;
     walking?: number;
     note?: string;
   };
 }
+
+export type CreatureSpeed = {
+  burrow?: number;
+  climb?: number;
+  flying?: number;
+  swim?: number;
+  walking?: number;
+  note?: string;
+};
 
 /** Information of a Pathfinder 1st edition creature */
 export type PathfinderCreature = IdItem & {
@@ -70,14 +79,7 @@ export type PathfinderCreature = IdItem & {
   };
   abilityKeys?: string[]; // should link to an ability in the store
   alignment: string[];
-  speed: {
-    burrow?: number;
-    climb?: number;
-    flying?: number;
-    swim?: number;
-    walking?: number;
-    note?: string;
-  };
+  speed: CreatureSpeed;
 }
 
 /** Reference to where this material can be found */
@@ -86,7 +88,7 @@ export type SourceReference = IdItem & {
   type: 'source-reference'
   name: string,
   link?: string;
-  page?: string;
+  page?: number;
 }
 
 /** System agnostic information about the creature */

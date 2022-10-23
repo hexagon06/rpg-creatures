@@ -33,7 +33,7 @@ export function convertCreature(source: OldCreature): Creature {
       type: 'source-reference',
       name: source.source ?? 'unknown',
       link: source.link,
-      page: source.page,
+      page: source.page ? Number.parseInt(source.page) : undefined,
     }
   }
 
@@ -44,6 +44,7 @@ export function convertCreature(source: OldCreature): Creature {
       comments: source.userData.comments,
     }
   }
+  console.log('abilities', getAbilityScores(source));
 
   const stats = {
     id: 'stats',
@@ -76,12 +77,12 @@ function getHp(source: OldCreature) {
 
 function getAbilityScores(source: OldCreature): RPGAbilities {
   return {
-    strength: source.strength ?? source.abilityScores ? source.abilityScores.strength : undefined,
-    dexterity: source.dexterity ?? source.abilityScores ? source.abilityScores.dexterity : undefined,
-    constitution: source.constitution ?? source.abilityScores ? source.abilityScores.constitution : undefined,
-    wisdom: source.wisdom ?? source.abilityScores ? source.abilityScores.wisdom : undefined,
-    intelligence: source.intelligence ?? source.abilityScores ? source.abilityScores.intelligence : undefined,
-    charisma: source.charisma ?? source.abilityScores ? source.abilityScores.charisma : undefined,
+    strength: source.strength ?? (source.abilityScores ? source.abilityScores.strength : undefined),
+    dexterity: source.dexterity ?? (source.abilityScores ? source.abilityScores.dexterity : undefined),
+    constitution: source.constitution ?? (source.abilityScores ? source.abilityScores.constitution : undefined),
+    wisdom: source.wisdom ?? (source.abilityScores ? source.abilityScores.wisdom : undefined),
+    intelligence: source.intelligence ?? (source.abilityScores ? source.abilityScores.intelligence : undefined),
+    charisma: source.charisma ?? (source.abilityScores ? source.abilityScores.charisma : undefined),
   }
 }
 

@@ -1,5 +1,6 @@
 import { CreatureAbilityValues } from '@/types'
 import { Creature } from '@/types'
+import { Creature as NewCreature } from '@/types/creatures'
 import { isNumber, uniq } from 'lodash'
 import { toMod } from '.'
 import { modString, toDiceFormula } from './hitDice'
@@ -19,7 +20,7 @@ export type AbilityFormat = {
   returns: number[]
 }
 
-export function parseFormatText (text: string): AbilityFormat {
+export function parseFormatText(text: string): AbilityFormat {
   const properties = [...text.matchAll(propertiesRegex)]
   const variables = [...text.matchAll(variablesRegex)]
   const spells = [...text.matchAll(spellsRegex)]
@@ -35,7 +36,7 @@ export function parseFormatText (text: string): AbilityFormat {
   }
 }
 
-function toProficiency (cr: number): number {
+function toProficiency(cr: number): number {
   return Math.max(1, Math.ceil(cr / 4)) + 1
 }
 
@@ -82,11 +83,11 @@ const creaturePropertiesInstance: CreatureProperties = {
 }
 
 type propertyKey = keyof CreatureProperties
-function isPropertyKey (tbd: string): tbd is propertyKey {
+function isPropertyKey(tbd: string): tbd is propertyKey {
   return Object.keys(creaturePropertiesInstance).indexOf(tbd) != -1
 }
 
-export function setProperties (text: string, format: AbilityFormat, creature: CreatureProperties) {
+export function setProperties(text: string, format: AbilityFormat, creature: CreatureProperties) {
   const invalid = [] as string[]
   let newText = text
   format.properties.forEach(property => {
@@ -109,7 +110,7 @@ export function setProperties (text: string, format: AbilityFormat, creature: Cr
   }
 }
 
-export function toProperties (creature: Creature): CreatureProperties {
+export function toProperties(creature: Creature): CreatureProperties {
   const {
     name, nameIsNoun,
     pronoun1, pronoun2,
@@ -136,7 +137,36 @@ export function toProperties (creature: Creature): CreatureProperties {
   }
 }
 
-export function setVariables (text: string, format: AbilityFormat, values: CreatureAbilityValues) {
+export function toNewProperties(creature: NewCreature): CreatureProperties {
+  const { name, cr } = creature
+  const speed = creature.stats?.speed.walking
+  const {
+    nameIsNoun,
+    pronoun1, pronoun2 } = creature.info ?? {}
+  const { strength, dexterity,
+    constitution, intelligence,
+    wisdom, charisma } = creature.stats?.abilityScores ?? {}
+
+  const proficiency = cr === undefined ? 0 : toProficiency(cr)
+
+  return {
+    Name: nameIsNoun ? name : `The ${name}`,
+    name: nameIsNoun ? name : `the ${name}`,
+    pron1: pronoun1 ?? 'it',
+    pron2: pronoun2 ?? 'its',
+    strength, dexterity, constitution, intelligence, wisdom, charisma,
+    speed,
+    proficiency,
+    prof_str: (toMod(strength) ?? 0) + proficiency,
+    prof_dex: (toMod(dexterity) ?? 0) + proficiency,
+    prof_con: (toMod(constitution) ?? 0) + proficiency,
+    prof_wis: (toMod(wisdom) ?? 0) + proficiency,
+    prof_int: (toMod(intelligence) ?? 0) + proficiency,
+    prof_cha: (toMod(charisma) ?? 0) + proficiency,
+  }
+}
+
+export function setVariables(text: string, format: AbilityFormat, values: CreatureAbilityValues) {
   const missingVariables = [] as string[]
   const missingFormulae = [] as string[]
   let newText = text
@@ -164,7 +194,7 @@ export function setVariables (text: string, format: AbilityFormat, values: Creat
   }
 }
 
-export function formatAbilityForCreature (text: string, creature: Creature, values: CreatureAbilityValues) {
+export function formatAbilityForCreature(text: string, creature: Creature, values: CreatureAbilityValues) {
   const format = parseFormatText(text)
   const properties = toProperties(creature)
   const creatureText = setProperties(text, format, properties)
@@ -175,7 +205,7 @@ export function formatAbilityForCreature (text: string, creature: Creature, valu
     invalidProperties: creatureText.invalid,
   }
 }
-export function formatForRender (text: string) {
+export function formatForRender(text: string) {
   const format = parseFormatText(text)
 
   const paragraphs = text.split(returnRegex)
@@ -189,7 +219,7 @@ export type TextPart = {
   italic: boolean
 }
 
-function formatTextParts (text: string): TextPart[] {
+function formatTextParts(text: string): TextPart[] {
   const split = text.split(spellsRegex)
   return split.map(s => {
     if (spellsRegex.test(s)) {
@@ -221,9 +251,16 @@ function formatTextParts (text: string): TextPart[] {
 
 const LEGENDARY_FORMAT = '#Name can take 3 legendary actions, choosing from the options below. Only one legendary action option can be used at a time and only at the end of another creature\'s turn. #Name regains spent legendary actions at the start of #pron2 turn.'
 
-export function getLegendaryText (creature: Creature): string {
+export function getLegendaryText(creature: Creature): string {
   const format = parseFormatText(LEGENDARY_FORMAT)
   const properties = toProperties(creature)
+  const creatureText = setProperties(LEGENDARY_FORMAT, format, properties)
+  return creatureText.text
+}
+
+export function getNewLegendaryText(creature: NewCreature): string {
+  const format = parseFormatText(LEGENDARY_FORMAT)
+  const properties = toNewProperties(creature)
   const creatureText = setProperties(LEGENDARY_FORMAT, format, properties)
   return creatureText.text
 }

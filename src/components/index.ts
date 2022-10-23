@@ -5,6 +5,9 @@ import {
   CreatureAbilityEditor, CreatureAbilityValueEditor,
   CreaturesFilter, CreatureActions, CreatureTypeIcon
 } from './creatures'
+import {
+  CrittersFilter, CritterActions, CritterDetails
+} from './critters'
 import { Create as AbilityCreate, AbilityDetails, AbilityForm, AbilitySidebar, AbilityTable, Edit as AbilityEdit, CreatureAbility } from './abilities'
 import { UserSign } from './users'
 import { default as ActionPanel } from './ActionPanel.vue'
@@ -14,7 +17,7 @@ import { IdeaActions, IdeasFilter } from './ideas'
 import { RollerListActions, RollerListFilter } from './lists'
 import { RunningInformation } from './RunningInformation'
 
-export function addAllComponents () {
+export function addAllComponents() {
   addAbilityComponents()
   addCreatureComponents()
   addEncounterComponents()
@@ -25,9 +28,10 @@ export function addAllComponents () {
   addSessionComponents()
   addSharedComponents()
   addUserComponents()
+  addCritterComponents()
 }
 
-function addAbilityComponents () {
+function addAbilityComponents() {
   Vue.component('create-ability', AbilityCreate)
   Vue.component('edit-ability', AbilityEdit)
   Vue.component('ability-details', AbilityDetails)
@@ -37,7 +41,7 @@ function addAbilityComponents () {
   Vue.component('creature-ability', CreatureAbility)
 }
 
-function addCreatureComponents () {
+function addCreatureComponents() {
   Vue.component('abilities', Abilities)
   Vue.component('alignment', Alignment)
   Vue.component('alignment-editor', AlignmentEditor)
@@ -50,26 +54,32 @@ function addCreatureComponents () {
   Vue.component('creature-type-icon', CreatureTypeIcon)
 }
 
-function addEncounterComponents () {
+function addCritterComponents() {
+  Vue.component('critter-details', CritterDetails)
+  Vue.component('critters-filter', CrittersFilter)
+  Vue.component('critter-actions', CritterActions)
+}
+
+function addEncounterComponents() {
   Vue.component('encounters-filter', EncountersFilter)
   Vue.component('encounter-actions', EncounterActions)
 }
 
-function addIdeaComponents () {
+function addIdeaComponents() {
   Vue.component('ideas-filter', IdeasFilter)
   Vue.component('idea-actions', IdeaActions)
 }
 
-function addListComponents () {
+function addListComponents() {
   Vue.component('lists-filter', RollerListFilter)
   Vue.component('list-actions', RollerListActions)
 }
 
-function addRunningInformationComponents () {
+function addRunningInformationComponents() {
   Vue.component('running-information', RunningInformation)
 }
 
-function addSessionComponents () {
+function addSessionComponents() {
   Vue.component('sessions-filter', SessionsFilter)
   Vue.component('session-actions', SessionActions)
   Vue.component('session-run-actions', SessionRunActions)
@@ -91,7 +101,7 @@ function addSessionComponents () {
   Vue.component('section-run-list', RunChecklistSection)
 }
 
-function addSharedComponents () {
+function addSharedComponents() {
   Vue.component('array-pills', ArrayPills)
   Vue.component('favorite', Favorite)
   Vue.component('labeled-prop', LabeledProp)
@@ -108,10 +118,10 @@ function addSharedComponents () {
   Vue.component('entity-type-icon', EntityTypeIcon)
 }
 
-function addUserComponents () {
+function addUserComponents() {
   Vue.component('user-sign', UserSign)
 }
 
-function addRootComponents () {
+function addRootComponents() {
   Vue.component('action-panel', ActionPanel)
 }

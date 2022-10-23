@@ -13,7 +13,7 @@ class CreatureApi extends Api<Creature> {
     super(CREATURE_COLLECTION)
   }
 
-  async get (id: string) {
+  async get(id: string) {
     const creature = await super.get(id)
 
     const colRef = collection(firebaseClient.store, `${CREATURE_COLLECTION}/${id}/userData`)
@@ -32,7 +32,7 @@ class CreatureApi extends Api<Creature> {
     return creature
   }
 
-  async create (creature: Creature) {
+  async create(creature: Creature) {
     const id = await super.create(creature)
     if (creature.userData) {
       const userDataStore = new FirestoreAcces<UserCreatureData>(firebaseClient.store, `${CREATURE_COLLECTION}/${id}/userData`)
@@ -41,7 +41,7 @@ class CreatureApi extends Api<Creature> {
     return id
   }
 
-  async update (creature: Creature) {
+  async update(creature: Creature) {
     const entity = { ...creature, userData: deleteField() } as any
     const { id } = creature
 

@@ -2,29 +2,33 @@
   <div class="d-flex flex-column">
     <h2>Abilities</h2>
     <div class="flex-row">
-      <multiselect id="input-size"
-                   v-model="selection"
-                   :options="abilityOptions"
-                   :clear-on-select="true"
-                   :preselect-first="false"
-                   placeholder="add ability"
-                   label="name"
-                   @input="addAbility"></multiselect>
+      <multiselect
+        id="input-size"
+        v-model="selection"
+        :options="abilityOptions"
+        :clear-on-select="true"
+        :preselect-first="false"
+        placeholder="add ability"
+        label="name"
+        @input="addAbility"
+      ></multiselect>
     </div>
 
-    <div v-for="am in abilityMapped"
-         :key="am.ability.key"
-         class="d-flex">
+    <div v-for="am in abilityMapped" :key="am.ability.key" class="d-flex">
       <p>{{ am.ability.name }}</p>
 
-      <creature-ability-value v-model="am.values"
-                              :ability="am.ability"
-                              class="mx-3"
-                              @input="valuesChanged" />
+      <creature-ability-value
+        v-model="am.values"
+        :ability="am.ability"
+        class="mx-3"
+        @input="valuesChanged"
+      />
 
-      <button variant="danger"
-              class="ml-auto align-self-center"
-              @click="remove(am.ability)">
+      <button
+        variant="danger"
+        class="ml-auto align-self-center"
+        @click="remove(am.ability)"
+      >
         -
       </button>
     </div>
@@ -112,5 +116,4 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-
 </style>

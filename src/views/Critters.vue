@@ -9,31 +9,22 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { useUserStore } from "@/store/users";
-import { mapState } from "pinia";
-import { ListCreature } from "@/types/creatures";
-import { creatureApi } from "@/api/new-typed/creatureApi";
+// import { useUserStore } from "@/store/users";
+// import { mapState } from "pinia";
 // import { useIndexesStore } from "@/store/indexes";
 
 export default Vue.extend({
-  async created() {
-    const creatures = await creatureApi.list()
-    this.creatures = creatures
-    this.initialized = true;
-  },
   data() {
     return {
       sidebarCreatureOpen: false,
-      creatures: [] as ListCreature[],
-      initialized: false
     };
   },
   computed: {
     // ...mapState(useIndexesStore, ["creatures", "initialized"]),
-    ...mapState(useUserStore, ["currentUser"]),
-    loading(): boolean {
-      return this.initialized === false;
-    },
+    // ...mapState(useUserStore, ["currentUser"]),
+    // loading(): boolean {
+    //   return this.initialized === false;
+    // },
   },
 });
 </script>

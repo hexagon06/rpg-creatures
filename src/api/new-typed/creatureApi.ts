@@ -61,6 +61,32 @@ class CreatureApi implements ApiGet<Creature>, ApiGet<Creature>, ApiList<ListCre
     return id
   }
 
+  async update(creature: Creature) {
+    const {
+      creatureData,
+      childData,
+      userData,
+    } = toStoreData(creature)
+    const id = creature.id
+    // first update the creature
+    await this.dataApi.update(creatureData)
+    // then its sub collection for userdata
+    if (userData) {
+      const userDataStore = new FirestoreAcces<CreatureData>(firebaseClient.store, `${CREATURE_COLLECTION}/${id}/userData`)
+      if (userData.id) await userDataStore.update(userData)
+      else await userDataStore.add(userData)
+    }
+
+    // then its subcollection of other data
+    const creatureDataStore = new FirestoreAcces<CreatureData>(firebaseClient.store, `${CREATURE_COLLECTION}/${id}/data`)
+    for (let i = 0; i < childData.length; i++) {
+      const data = childData[i]
+      if (data.id) await creatureDataStore.update(data)
+      else await creatureDataStore.add(data)
+    }
+    return id
+  }
+
   async list(): Promise<ListCreature[]> {
     return await this.listData.list()
   }

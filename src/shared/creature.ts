@@ -1,7 +1,7 @@
 import { Creature } from '@/types'
 import { setInitialDates } from './dates'
 
-export function createDefaultCreature (name: string): Creature {
+export function createDefaultCreature(name: string): Creature {
 
   return setInitialDates({
     name,
