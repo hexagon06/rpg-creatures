@@ -1,11 +1,10 @@
 <template>
-  <svg
-    v-if="isValid"
-    viewBox="0 0 512 512"
-    class="svg-inline--fa"
-    :title="type"
-  >
-    <path :d="iconData" fill="currentColor"></path>
+  <svg v-if="isValid"
+       viewBox="0 0 512 512"
+       class="svg-inline--fa"
+       :title="type">
+    <path :d="iconData"
+          fill="currentColor"></path>
   </svg>
 </template>
 
@@ -22,7 +21,7 @@ export default Vue.extend({
     };
   },
   computed: {
-    icon(): CreatureIconType {
+    icon(): CreatureIconType | undefined {
       return creatureTypeToIcon(this.type);
     },
     iconData(): string {
@@ -67,4 +66,5 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+
 </style>
