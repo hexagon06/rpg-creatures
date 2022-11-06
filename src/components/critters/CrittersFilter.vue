@@ -17,32 +17,14 @@
                           v-model="typeFilter"
                           :options="typeOptions"
                           placeholder="Type(s)"></pill-multiselect>
-        <!-- <pill-multiselect
-          id="environment-filter"
-          v-model="environmentFilter"
-          :options="environmentOptions"
-          placeholder="Environment(s)"
-        ></pill-multiselect> -->
         <pill-multiselect id="tags-filter"
                           v-model="tagsFilter"
                           :options="tagsOptions"
                           placeholder="Tag(s)"></pill-multiselect>
-        <!-- <pill-multiselect
-          id="system-filter"
-          v-model="systemFilter"
-          :options="systemOptions"
-          placeholder="System(s)"
-        ></pill-multiselect> -->
         <pill-multiselect id="cr-filter"
                           v-model="crFilter"
                           :options="crOptions"
                           placeholder="CR(s)"></pill-multiselect>
-        <!-- <pill-multiselect
-          id="source-filter"
-          v-model="sourceFilter"
-          :options="sourceOptions"
-          placeholder="Source(s)"
-        ></pill-multiselect> -->
       </div>
     </div>
     <template v-slot:buttons>
@@ -86,12 +68,9 @@
 <script lang="ts">
 import { creatureApi } from "@/api/new-typed/creatureApi";
 import { createDefaultCritter } from "@/shared/critters";
-import { useCreatureStore } from "@/store/creatures";
-import { useCritterStore } from "@/store/critters";
 import { useFilterStore } from "@/store/filter";
-import { useIndexesStore } from "@/store/indexes";
 import { useListStore } from "@/store/rollingLists";
-import { getRollingListItem, RollingListItem } from "@/types";
+import { getRollingListItem } from "@/types";
 import { mapState } from "pinia";
 import Vue from "vue";
 import InputWrapper from "../shared/InputWrapper.vue";
@@ -265,8 +244,6 @@ export default Vue.extend({
       this.showFilters = !this.showFilters;
     },
     async createList(accept?: boolean) {
-      console.log("create", accept);
-
       if (accept === undefined) {
         this.listName = "";
         this.isCreatingList = true;
