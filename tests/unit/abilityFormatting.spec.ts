@@ -1,16 +1,5 @@
 import { parseFormatText } from '../../src/shared/abilityFormatting'
-
-test('displays message', () => {
-  // mount() returns a wrapped Vue component we can interact with
-  // const wrapper = mount(MessageComponent, {
-  //   propsData: {
-  //     msg: 'Hello world'
-  //   }
-  // })
-
-  // Assert the rendered text of the component
-  expect('wrapper.text()').toContain('Hello world')
-})
+import { expect } from 'chai'
 
 describe('src/shared/abilityFormatting.ts', () => {
   describe('parseFormatText', () => {
@@ -18,30 +7,30 @@ describe('src/shared/abilityFormatting.ts', () => {
 
     it('should match properties starting with #', () => {
       const result = parseFormatText(text)
-      expect(result.properties).toHaveLength(2)
-      expect(result.properties).toContain('Name')
-      expect(result.properties).toContain('name')
+      expect(result.properties).to.have.length(2)
+      expect(result.properties).to.contain('Name')
+      expect(result.properties).to.contain('name')
     })
 
     it('should match variables starting with $', () => {
       const result = parseFormatText(text)
-      expect(result.variables).toHaveLength(2)
-      expect(result.variables).toContain('var1')
-      expect(result.variables).toContain('var2')
+      expect(result.variables).to.have.length(2)
+      expect(result.variables).to.contain('var1')
+      expect(result.variables).to.contain('var2')
     })
 
     it('should match formulae starting with ^', () => {
       const result = parseFormatText(text)
-      expect(result.formulae).toHaveLength(2)
-      expect(result.formulae).toContain('damage')
-      expect(result.formulae).toContain('acid')
+      expect(result.formulae).to.have.length(2)
+      expect(result.formulae).to.contain('damage')
+      expect(result.formulae).to.contain('acid')
     })
 
     it('should match spells surrounded by ~', () => {
       const result = parseFormatText(text)
-      expect(result.spells).toHaveLength(2)
-      expect(result.spells).toContain('a spell')
-      expect(result.spells).toContain('another spell')
+      expect(result.spells).to.have.length(2)
+      expect(result.spells).to.contain('a spell')
+      expect(result.spells).to.contain('another spell')
     })
   })
 })

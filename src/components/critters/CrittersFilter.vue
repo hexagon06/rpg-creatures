@@ -84,7 +84,10 @@
 </template>
 
 <script lang="ts">
+import { creatureApi } from "@/api/new-typed/creatureApi";
+import { createDefaultCritter } from "@/shared/critters";
 import { useCreatureStore } from "@/store/creatures";
+import { useCritterStore } from "@/store/critters";
 import { useFilterStore } from "@/store/filter";
 import { useIndexesStore } from "@/store/indexes";
 import { useListStore } from "@/store/rollingLists";
@@ -251,8 +254,9 @@ export default Vue.extend({
   },
   methods: {
     async create() {
-      const id = await useCreatureStore().createCreature();
-      this.$router.push(`/creature/${id}/edit`);
+      const defaultCritter = createDefaultCritter('New Critter')
+      const id = await creatureApi.create(defaultCritter);
+      this.$router.push(`/critter/${id}/edit`);
     },
     filtersAreVisible(isVisible: boolean) {
       this.showRecap = !isVisible;
@@ -278,7 +282,7 @@ export default Vue.extend({
             li.order = i;
             li.repeatable = false;
             li.reference = {
-              routerName: "Creature",
+              routerName: "Critter",
               id: c.id,
             };
             return li;

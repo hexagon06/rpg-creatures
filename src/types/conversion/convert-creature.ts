@@ -47,7 +47,6 @@ export function convertCreature(source: OldCreature): Creature {
   console.log('abilities', getAbilityScores(source));
 
   const stats = {
-    id: 'stats',
     type: 'stats',
     abilityScores: getAbilityScores(source),
     armor: {
