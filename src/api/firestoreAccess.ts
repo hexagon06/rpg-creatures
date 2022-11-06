@@ -12,11 +12,11 @@ export class FirestoreAcces<T extends IdItem> {
     private readonly collection: string) {
   }
 
-  ref () {
+  ref() {
     return collection(this.db, this.collection)
   }
 
-  async get (): Promise<T[]> {
+  async get(): Promise<T[]> {
     try {
       const result = await getCollection(this.db, this.collection)
       return result.docs.map<T>((value) => {
@@ -28,7 +28,7 @@ export class FirestoreAcces<T extends IdItem> {
     }
   }
 
-  async getById (id: string): Promise<T | undefined> {
+  async getById(id: string): Promise<T | undefined> {
     try {
       const docRef = doc(this.db, this.collection, id)
       const result = await getDoc(docRef)
@@ -43,7 +43,7 @@ export class FirestoreAcces<T extends IdItem> {
     }
   }
 
-  async query (constraint: QueryConstraint): Promise<T[]> {
+  async query(constraint: QueryConstraint): Promise<T[]> {
     try {
       const ref = collection(this.db, this.collection)
       const docs = await getDocs(query(ref, constraint))
@@ -58,7 +58,7 @@ export class FirestoreAcces<T extends IdItem> {
     }
   }
 
-  async add (item: T): Promise<string> {
+  async add(item: T): Promise<string> {
     // https://firebase.google.com/docs/firestore/manage-data/add-data#add_a_document
     try {
       delete item.id
@@ -70,7 +70,7 @@ export class FirestoreAcces<T extends IdItem> {
     }
   }
 
-  async addAt (item: T, path: string): Promise<void> {
+  async addAt(item: T, path: string): Promise<void> {
     try {
       delete item.id
       await setDoc(doc(this.db, this.collection, path), item)
@@ -80,7 +80,7 @@ export class FirestoreAcces<T extends IdItem> {
     }
   }
 
-  async update (item: T): Promise<void> {
+  async update(item: T): Promise<void> {
     // https://firebase.google.com/docs/firestore/manage-data/add-data#update-data
     const { id } = item
     if (id === undefined) throw new Error('item.id is undefined, use add(item) instead')
@@ -94,11 +94,10 @@ export class FirestoreAcces<T extends IdItem> {
     }
   }
 
-  async delete (item: T): Promise<void> {
-    const { id } = item
-    if (id === undefined) throw new Error('item.id is undefined, is this item stored?')
+  async delete(itemId: string): Promise<void> {
+    if (itemId === undefined) throw new Error('item.id is undefined, is this item stored?')
     try {
-      await deleteDoc(doc(this.db, this.collection, id))
+      await deleteDoc(doc(this.db, this.collection, itemId))
     } catch (error) {
       console.error(`Error deleting document in "${this.collection}": `, error)
       throw error

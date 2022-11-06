@@ -6,7 +6,7 @@ import { FirestoreAcces } from '../firestoreAccess'
 import { Api, ApiGet, ApiList, IdItemApi } from '../genericApi'
 import { CreatureData, CreatureDocument, fromStoreData, toStoreData } from './store-types/creature-store'
 
-const CREATURE_COLLECTION = 'rpg-creatures'
+export const CREATURE_COLLECTION = 'rpg-creatures'
 
 class CreatureApi implements ApiGet<Creature>, ApiGet<Creature>, ApiList<ListCreature>  {
   dataApi: IdItemApi<CreatureDocument>
@@ -85,6 +85,10 @@ class CreatureApi implements ApiGet<Creature>, ApiGet<Creature>, ApiList<ListCre
       else await creatureDataStore.add(data)
     }
     return id
+  }
+
+  async delete(creatureId: string) {
+    await this.dataApi.delete(creatureId)
   }
 
   async list(): Promise<ListCreature[]> {

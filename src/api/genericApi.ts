@@ -3,7 +3,7 @@ import { QueryConstraint } from 'firebase/firestore'
 import { firebaseClient } from './firebaseClient'
 import { FirestoreAcces } from './firestoreAccess'
 
-export interface IdItemApi<T extends IdItem> extends ApiGet<T>, ApiCreate<T> {
+export interface IdItemApi<T extends IdItem> extends ApiGet<T>, ApiCreate<T>, ApiDelete {
   query(constraint: QueryConstraint): Promise<T[]>
   update(creature: T): Promise<void>
   getAll(): Promise<T[]>
@@ -21,7 +21,11 @@ export interface ApiList<T extends IdItem> {
   list(): Promise<T[]>
 }
 
-export class Api<T extends IdItem> implements IdItemApi<T>, ApiList<T> {
+export interface ApiDelete {
+  delete(item: string): Promise<void>
+}
+
+export class Api<T extends IdItem> implements IdItemApi<T>, ApiList<T>, ApiDelete {
 
   constructor(private collection: string) {
   }
@@ -65,6 +69,16 @@ export class Api<T extends IdItem> implements IdItemApi<T>, ApiList<T> {
     } catch (e) {
       console.error(e)
       throw new Error(`failed to update ${creature.id} in ${this.collection}`)
+    }
+  }
+
+  async delete(creatureId: string): Promise<void> {
+    try {
+      const firestore = new FirestoreAcces<T>(firebaseClient.store, this.collection)
+      await firestore.delete(creatureId)
+    } catch (e) {
+      console.error(e)
+      throw new Error(`failed to delete ${creatureId} in ${this.collection}`)
     }
   }
 
