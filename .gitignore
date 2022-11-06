@@ -24,3 +24,7 @@ pnpm-debug.log*
 
 # emulator data
 /saved-data
+
+# test and coverage results
+/.nyc_output
+/coverage
