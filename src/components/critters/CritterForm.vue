@@ -239,7 +239,7 @@ export default Vue.extend({
     },
     async tagOrganisation(newOrganisation: string) {
       await useFilterStore().addOrganisation(newOrganisation);
-      if (!this.creature.info) this.creature.info = { id: 'standard-info', type: 'standard-info', nameIsNoun: false }
+      if (!this.creature.info) this.creature.info = { type: 'standard-info', nameIsNoun: false }
       if (!this.creature.info.organisation) this.creature.info.organisation = []
       this.creature.info.organisation.push(newOrganisation);
     },

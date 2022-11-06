@@ -30,7 +30,6 @@ export declare type RPGAbilities = {
 
 /** Information of a D&D 5th edition creature */
 export type Dnd5eCreature = IdItem & {
-  id: 'stats'
   type: 'stats'
   system: 'dnd5e',
   abilityScores: RPGAbilities;
@@ -65,7 +64,6 @@ export type CreatureSpeed = {
 
 /** Information of a Pathfinder 1st edition creature */
 export type PathfinderCreature = IdItem & {
-  id: 'stats'
   type: 'stats'
   system: 'pathfinder',
   abilityScores: RPGAbilities;
@@ -84,7 +82,6 @@ export type PathfinderCreature = IdItem & {
 
 /** Reference to where this material can be found */
 export type SourceReference = IdItem & {
-  id: 'source-reference'
   type: 'source-reference'
   name: string,
   link?: string;
@@ -93,7 +90,6 @@ export type SourceReference = IdItem & {
 
 /** System agnostic information about the creature */
 export type StandardCreatureInfo = IdItem & {
-  id: 'standard-info';
   type: 'standard-info';
   nameIsNoun: boolean;
   pronoun1?: string;

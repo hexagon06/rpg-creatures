@@ -47,7 +47,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      info: this.value ?? { id: "standard-info", nameIsNoun: false, type: 'standard-info' },
+      info: this.value ?? { nameIsNoun: false, type: 'standard-info' },
       organisation: this.value?.organisation ?? []
     }
   },
