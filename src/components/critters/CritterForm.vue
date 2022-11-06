@@ -6,6 +6,7 @@
                      validation="Invalid name"
                      :is-valid="creature.name && creature.name.length > 0"
                      class="flex-grow">
+
         <input id="input-1"
                v-model="creature.name"
                placeholder="Enter name"
@@ -14,22 +15,15 @@
       </input-wrapper>
 
     </div>
+    <h3>General Information</h3>
     <creature-info v-model="creature.info" />
     <!-- source -->
+    <h3>Source Reference</h3>
     <source-reference v-model="creature.sourceReference" />
-
-    <input-wrapper label="Game System">
-      <!-- todo suggestions based on current systems -->
-      <!-- todo set this when a book is set with a system -->
-      <input id="input-system"
-             v-model="creature.system"
-             placeholder="Pathfinder" />
-      <template v-slot:help> What system this creature is made for </template>
-    </input-wrapper>
     <!-- image -->
     <div>
       <div class="flex flex-wrap w-full">
-        <input-wrapper label="Source"
+        <input-wrapper label="Image source"
                        validation="Image url is too big"
                        :is-valid="
                          creature.image &&
@@ -49,6 +43,7 @@
                    class="w-24 h-24" />
       </div>
     </div>
+    <h3>Common stats</h3>
     <!-- creature type & size -->
     <input-wrapper label="Size"
                    class="flex-grow">
@@ -78,64 +73,24 @@
       </input-wrapper>
     </div>
     <!-- stats -->
-    <dhd-5e-stats v-model="creature.stats" />
-    <!-- alignment -->
-    <!-- <input-wrapper label="Alignment">
-      <alignment-editor id="input-alignment"
-                        v-model="creature.alignment" />
-    </input-wrapper> -->
-    <!-- difficulty -->
-    <!-- <div class="flex flex-full gap-2">
-      <input-wrapper label="Armor class"
-                     class="w-20">
-        <input id="input-ac"
-               v-model.number="creature.ac"
-               placeholder="13"
-               number
-               @keypress="isNumber"
-               class="w-16" />
-      </input-wrapper>
-      <input-wrapper label="Challenge Rating">
-        <input id="input-cr"
-               v-model.number="creature.cr"
-               placeholder="2"
-               number
-               class="w-16" />
-      </input-wrapper>
-    </div>
-    <div class="flex gap-2">
-      <input-wrapper label="Hit dice">
-        <div class="flex gap-2">
-          <input id="input-hit-dice-amount"
-                 v-model.number="creature.amountHitDice"
-                 placeholder="3"
-                 number
-                 @keypress="isNumber"
-                 :disabled="creature.hp + 0 > 0"
-                 class="w-10 text-center" />
-          <input id="input-hit-dice"
-                 v-model.number="creature.hitDice"
-                 placeholder="8"
-                 number
-                 @keypress="isNumber"
-                 :disabled="creature.hp + 0 > 0"
-                 class="w-16 text-center" />
-        </div>
-        <template v-slot:help> # and size of dice. </template>
-      </input-wrapper>
-      <span class="mt-7"> {{ hpFormula }}</span>
-      <input-wrapper label="Hitpoints">
-        <input id="input-hp"
-               v-model.number="creature.hp"
-               placeholder="13"
-               number
-               @keypress="isNumber"
-               :disabled="creature.hitDice + creature.amountHitDice > 0"
-               class="w-16" />
-      </input-wrapper>
-    </div> -->
+    <h3>Stats per game system</h3>
+    <input-wrapper label="Game System">
+      <!-- todo suggestions based on current systems -->
+      <!-- todo set this when a book is set with a system -->
+      <multiselect id="input-size"
+                   v-model="creature.system"
+                   :options="options.system"
+                   :clear-on-select="false"
+                   :show-labels="false"
+                   :preselect-first="false"
+                   :disabled="disableSystemSelection"
+                   @input="systemChange"></multiselect>
+      <template v-slot:help> What system this creature is made for </template>
+    </input-wrapper>
+    <dhd-5e-stats v-if="creature.stats"
+                  v-model="creature.stats" />
 
-
+    <h3>Meta Data</h3>
     <input-wrapper label="Environments">
       <pill-multiselect id="input-environment"
                         v-model="environment"
@@ -144,6 +99,7 @@
                         @tag="tagEnvironment"
                         placeholder="Select size(s)"></pill-multiselect>
     </input-wrapper>
+
     <input-wrapper label="Tags">
       <pill-multiselect id="input-tags"
                         v-model="creature.tags"
@@ -169,7 +125,7 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import { Multiselect } from "vue-multiselect";
-import { Creature } from "@/types/creatures";
+import { Creature, Dnd5eCreature, PathfinderCreature } from "@/types/creatures";
 import { useFilterStore } from "@/store/filter";
 import { mapState } from "pinia";
 import { useUserStore } from "@/store/users";
@@ -178,6 +134,7 @@ import { useCritterStore } from "@/store/critters";
 import CreatureInfo from './form/CreatureInfo.vue'
 import SourceReference from "./form/SourceReference.vue";
 import Dnd5eStats from './form/Dnd5eStats.vue'
+import { areDefaultStats, createDefault5eCreature, createDefaultPathfinderCreature } from "./stats-functions";
 
 export default Vue.extend({
   components: {
@@ -193,6 +150,7 @@ export default Vue.extend({
     return {
       options: {
         size: ["Tiny", "Small", "Medium", "Large", "Huge", "Gargantuan"],
+        system: ["Pathfinder", 'D&D 5e']
       },
       creature: this.value,
       showSpeedsClicked: false,
@@ -238,6 +196,12 @@ export default Vue.extend({
         } else throw new Error("currentUser should be set");
       },
     },
+    disableSystemSelection(): boolean {
+      if (this.creature.stats) {
+        return !areDefaultStats(this.creature.stats)
+      }
+      return false;
+    }
   },
   watch: {
     creature: {
@@ -250,6 +214,17 @@ export default Vue.extend({
     environment() { this.$emit("input", { ...this.creature, environment: this.environment }); }
   },
   methods: {
+    systemChange(system: string) {
+      if (system === 'Pathfinder') {
+        const stats = createDefaultPathfinderCreature()
+        this.creature.stats = stats
+      } else if (system === 'D&D 5e') {
+        const stats = createDefault5eCreature()
+        this.creature.stats = stats
+      } else {
+        this.creature.stats = undefined
+      }
+    },
     toggleSpeeds() {
       this.showSpeedsClicked = true;
     },

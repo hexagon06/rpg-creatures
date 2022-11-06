@@ -18,15 +18,6 @@
       <template v-slot:help> # and size of dice. </template>
     </input-wrapper>
     <span class="mt-7"> {{ hpFormula }}</span>
-    <!-- <input-wrapper label="Hitpoints">
-      <input id="input-hp"
-             v-model.number="creature.hp"
-             placeholder="13"
-             number
-             @keypress="isNumber"
-             :disabled="hp.hitDice + hp.amountHitDice > 0"
-             class="w-16" />
-    </input-wrapper> -->
   </div>
 </template>
 
@@ -40,7 +31,7 @@ export default Vue.extend({
       type: Object as PropType<{
         hitDice: number;
         amountHitDice: number;
-      }>, required: true
+      }>, default: undefined
     },
     conMod: {
       type: Number, default: undefined
@@ -48,7 +39,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      hp: this.value
+      hp: this.value ?? { hitDice: 1, amountHitDice: 1 }
     }
   },
   watch: {

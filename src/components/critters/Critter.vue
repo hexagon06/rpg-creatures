@@ -10,8 +10,9 @@
 <script lang="ts">
 // import { useCreatureStore } from "@/store/creatures";
 import { creatureApi } from "@/api/new-typed/creatureApi";
+import { useCritterStore } from "@/store/critters";
 import { Creature } from "@/types/creatures";
-import { mapState } from "pinia";
+import { mapState, mapWritableState } from "pinia";
 import Vue from "vue";
 export default Vue.extend({
   data() {
@@ -32,7 +33,7 @@ export default Vue.extend({
     id: "fetchCreature",
   },
   computed: {
-    // ...mapState(useCreatureStore, ["creature"]),
+    ...mapWritableState(useCritterStore, ['editState']),
     loading(): boolean {
       return this.creature === undefined;
     },
@@ -40,6 +41,7 @@ export default Vue.extend({
   methods: {
     async fetchCreature(id: string) {
       this.creature = await creatureApi.get(id);
+      this.editState = 'idle'
     },
     async favoriteChange(favorite: boolean) {
       console.warn("favoriteChange not implemented");
