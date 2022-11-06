@@ -24,14 +24,12 @@ export class IndexApi<T extends IdItem> implements ApiIndex<T> {
     this.unsub = onSnapshot(q, (snapshot) => {
       snapshot.docChanges().forEach((change) => {
         if (change.type === "added") {
-          console.log("New T: ", change.doc.data());
           added(change.doc.id, change.doc.data() as T)
         }
         if (change.type === "modified") {
           changed(change.doc.id, change.doc.data() as T)
         }
         if (change.type === "removed") {
-          console.log("Removed T: ", change.doc.data());
           removed(change.doc.id, change.doc.data() as T)
         }
       });
