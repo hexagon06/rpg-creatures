@@ -22,7 +22,7 @@ export const entityTypeOptions = ["Creature", "Encounter", "List", "Session"]
 
 export type EntityTypeIcon = 'checklist' | 'chest' | 'flat-paw-print' | 'slalom' | 'wooden-door'
 
-export function entityTypeToIcon (type: EntityType): EntityTypeIcon {
+export function entityTypeToIcon(type: EntityType): EntityTypeIcon {
   switch (type) {
     case 'Creature': return 'flat-paw-print'
     case 'Encounter': return 'wooden-door'
@@ -83,22 +83,21 @@ export type CreatureIconType =
   'spiked-dragon-head' |
   'triple-yin'
 
-export function creatureTypeToIcon (type: CreatureType): CreatureIconType {
-  switch (type) {
-    case 'Aberration': return 'behold'
-    case 'Beast': return 'rat'
-    case 'Celestial': return 'angel-wings'
-    case 'Construct': return 'robot-golem'
-    case 'Dragon': return 'spiked-dragon-head'
-    case 'Elemental': return 'triple-yin'
-    case 'Fey': return 'fairy'
-    case 'Fiend': return 'sharped-teeth-skull'
-    case 'Giant': return 'giant'
-    case 'Humanoid': return 'person'
-    case 'Monstrosity': return 'mimic-chest'
-    case 'Ooze': return 'gooey-daemon'
-    case 'Plant': return 'carnivorous-plant'
-    case 'Undead': return 'raise-zombie'
-    default: throw new Error(`type ${type} has no matched icon`)
+export function creatureTypeToIcon(type: CreatureType): CreatureIconType | undefined {
+  switch (type.toLowerCase()) {
+    case 'aberration': return 'behold'
+    case 'beast': return 'rat'
+    case 'celestial': return 'angel-wings'
+    case 'construct': return 'robot-golem'
+    case 'dragon': return 'spiked-dragon-head'
+    case 'elemental': return 'triple-yin'
+    case 'fey': return 'fairy'
+    case 'fiend': return 'sharped-teeth-skull'
+    case 'giant': return 'giant'
+    case 'humanoid': return 'person'
+    case 'monstrosity': return 'mimic-chest'
+    case 'ooze': return 'gooey-daemon'
+    case 'plant': return 'carnivorous-plant'
+    case 'undead': return 'raise-zombie'
   }
 }
