@@ -76,23 +76,16 @@ export default Vue.extend({
   },
   computed: {
     ...mapState(useFilterStore, ["creatureFilter"]),
-    // ...mapState(useIndexesStore, ["creatures", "initialized"]),
-    // filteredCreatures(): CreatureIndex[] {
-    //   return filter(this.creatures, (value) =>
-    //     filterCreature(value, this.creatureFilter)
-    //   );
-    // },
     filteredCreatures(): ListCreature[] {
       return filter(this.creatures, (value) =>
         filterNewCreature(value, this.creatureFilter)
       )
     },
     limitedCreatures(): ListCreature[] {
-      return this.creatures;
-      // return this.filteredCreatures.slice(
-      //   0,
-      //   this.loadSize * this.currentLoaded
-      // );
+      return this.filteredCreatures.slice(
+        0,
+        this.loadSize * this.currentLoaded
+      );
     },
     maxLoaded(): number {
       return this.filteredCreatures.length / this.loadSize;
