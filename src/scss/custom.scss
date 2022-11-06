@@ -1,5 +1,3 @@
-
-
 // variable overrides
 $header-height: 2rem;
 $footer-height: 2rem;
@@ -15,7 +13,8 @@ $gold: #D1B74D;
 
 // style overrides
 
-html,body {
+html,
+body {
   max-height: 100%;
 }
 
@@ -26,4 +25,50 @@ body {
 
 .flex-1-1-0 {
   flex: 1 1 0 !important;
+}
+
+:not(li)>ul,
+:not(li)>ol {
+  margin: 1rem 0 1rem 0;
+}
+
+li {
+  margin-left: 1rem;
+}
+
+ul {
+  li {
+    list-style: circle;
+  }
+}
+
+ol {
+  li {
+    list-style: decimal;
+  }
+}
+
+*+p {
+  margin: .5rem 0 .5rem 0;
+}
+
+blockquote {
+  background: #32271b;
+  border-left: 10px solid #443422;
+  margin: 1.5em 10px;
+  padding: 0.5em 1rem;
+  quotes: "\201C""\201D""\2018""\2019";
+}
+
+blockquote:before {
+  color: #443422;
+  content: open-quote;
+  font-size: 2em;
+  line-height: 0.1em;
+  margin-right: 1rem;
+  vertical-align: -0.4em;
+}
+
+blockquote p {
+  display: inline;
 }
