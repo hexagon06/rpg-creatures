@@ -56,6 +56,7 @@
 <script lang="ts">
 import { creatureApi } from "@/api/new-typed/creatureApi";
 import { filterNewCreature } from "@/shared";
+import { useCritterStore } from "@/store/critters";
 import { useFilterStore } from "@/store/filter";
 import { ListCreature } from "@/types/creatures";
 import { filter } from "lodash";
@@ -66,20 +67,18 @@ export default Vue.extend({
     return {
       loadSize: 6,
       currentLoaded: 3,
-      creatures: [] as ListCreature[],
       initialized: false,
     };
   },
   async created() {
-    this.creatures = await creatureApi.list()
+    useCritterStore().initialize()
     this.initialized = true
   },
   computed: {
     ...mapState(useFilterStore, ["creatureFilter"]),
+    ...mapState(useCritterStore, { creatures: 'indexes' },),
     filteredCreatures(): ListCreature[] {
-      return filter(this.creatures, (value) =>
-        filterNewCreature(value, this.creatureFilter)
-      )
+      return this.creatures.filter(value => filterNewCreature(value, this.creatureFilter))
     },
     limitedCreatures(): ListCreature[] {
       return this.filteredCreatures.slice(

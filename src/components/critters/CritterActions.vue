@@ -13,17 +13,16 @@
             title="save changes">
       <font-awesome-icon icon="fa-solid fa-save" />
     </button>
-    <button v-if="!isEditing"
-            @click="setActive"
-            disabled
-            class="button-round-large button-on-gold"
-            title="set as active">
-      <font-awesome-icon icon="fa-solid fa-circle-dot" />
-    </button>
     <button v-if="isEditing"
             @click="reset"
             :disabled="!isDirty"
             class="button-round-large button-on-gold"
+            title="reset changes">
+      <font-awesome-icon icon="fa-solid fa-xmark" />
+    </button>
+    <button v-if="!isEditing"
+            @click="deleteCritter"
+            class="button-round-large button-on-gold bg-rouge"
             title="reset changes">
       <font-awesome-icon icon="fa-solid fa-xmark" />
     </button>
@@ -98,6 +97,12 @@ export default Vue.extend({
       const id = await creatureApi.create(createDefaultCritter('New Creature'))
       // const id = await useCreatureStore().createCreature();
       this.$router.push(`/critter/${id}/edit`);
+    },
+    async deleteCritter() {
+      if (confirm('Are you sure you want to delete this creature?')) {
+        await creatureApi.delete(this.$route.params.id)
+        this.$router.push(`/critter/list`);
+      }
     },
     setActive() {
       console.warn("setActive not implemented");
