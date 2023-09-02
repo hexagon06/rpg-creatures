@@ -30,6 +30,7 @@
     "lodash": "^4.17.21",
     "moment-timezone": "^0.5.34",
     "pinia": "^2.1.4",
+    "primevue": "^3.33.0",
     "rpg-vue-base": "^0.4.0",
     "tw-elements": "^1.0.0-alpha12",
     "vue": "^3.3.4",
