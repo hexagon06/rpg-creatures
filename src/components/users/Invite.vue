@@ -1,21 +1,21 @@
 <template>
   <div class="d-flex">
-    <form ref="form" @submit="sendInvite" class="d-flex flex-grow-1">
-      <div
-        id="input-group-1"
-        label-for="input-1"
-        description="Email of the person you want to invite."
-        class="flex-grow-1"
-      >
-        <input
-          id="input-1"
-          v-model="email"
-          type="email"
-          placeholder="Enter email"
-          required
-        />
+    <form ref="form"
+          @submit="sendInvite"
+          class="d-flex flex-grow-1">
+      <div id="input-group-1"
+           label-for="input-1"
+           description="Email of the person you want to invite."
+           class="flex-grow-1">
+        <input id="input-1"
+               v-model="email"
+               type="email"
+               placeholder="Enter email"
+               required />
       </div>
-      <button variant="primary" type="submit" class="align-self-start ml-3">
+      <button variant="primary"
+              type="submit"
+              class="align-self-start ml-3">
         invite
       </button>
     </form>
@@ -24,8 +24,9 @@
 
 <script lang="ts">
 // import { createByEmail } from "@/api/auth";
-import Vue from "vue";
-export default Vue.extend({
+
+import { defineComponent } from 'vue'
+export default defineComponent({
   data() {
     return {
       email: "",
@@ -39,5 +40,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

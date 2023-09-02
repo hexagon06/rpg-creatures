@@ -1,19 +1,21 @@
 <template>
   <div v-if="loading">Loading...</div>
   <div v-else>
-    <form ref="form" @submit.stop.prevent="() => {}">
+    <form ref="form"
+          @submit.stop.prevent="() => { }">
       <creature-form v-model="creatureForm" />
     </form>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+
 import { useCreatureStore } from "@/store/creatures";
 import { mapWritableState } from "pinia";
 import { useIndexesStore } from "@/store/indexes";
 
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   props: {
     id: {
       type: String,
@@ -47,5 +49,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

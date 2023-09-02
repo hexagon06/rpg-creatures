@@ -79,15 +79,16 @@ import { toMod } from '@/shared/hitDice';
 import { RPGAbilities } from '@/types/creatures';
 import Vue from 'vue';
 import { PropType } from 'vue-demi';
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   props: {
-    value: {
+    modelValue: {
       type: Object as PropType<RPGAbilities>, required: true
     }
   },
   data() {
     return {
-      abilityScores: this.value
+      abilityScores: this.modelValue
     }
   },
   watch: {
@@ -130,6 +131,4 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

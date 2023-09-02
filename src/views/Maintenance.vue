@@ -6,11 +6,11 @@
         [Convert creatures]
       </button>:
       <span>
-        {{creatureConverter.done.value}}
+        {{ creatureConverter.done.value }}
       </span>
       /
       <span>
-        {{creatureConverter.total.value}}
+        {{ creatureConverter.total.value }}
       </span>
       Done
       <div>
@@ -45,8 +45,9 @@
 
 <script lang="ts">
 import { getCreatureConverter } from "@/api/conversion/creatureConversion";
-import Vue from "vue";
-export default Vue.extend({
+
+import { defineComponent } from 'vue'
+export default defineComponent({
   data() {
     return {
       creatureConverter: getCreatureConverter()
@@ -137,6 +138,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

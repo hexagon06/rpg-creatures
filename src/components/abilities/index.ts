@@ -1,7 +1,0 @@
-export { default as Create } from './Create.vue'
-export { default as Edit } from './Edit.vue'
-export { default as AbilityDetails } from './AbilityDetails.vue'
-export { default as AbilityForm } from './AbilityForm.vue'
-export { default as AbilitySidebar } from './AbilitySidebar.vue'
-export { default as AbilityTable } from './AbilityTable.vue'
-export { default as CreatureAbility } from './CreatureAbility.vue'

@@ -11,7 +11,8 @@
 <script lang="ts">
 import { CreatureIconType, CreatureType, creatureTypeToIcon } from "@/types";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   props: {
     type: String as PropType<CreatureType>,
   },
@@ -65,6 +66,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

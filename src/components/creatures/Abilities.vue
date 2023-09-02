@@ -7,25 +7,25 @@
     <div>WIS</div>
     <div>CHA</div>
 
-    <div cols="2">{{ toStr(abilities.strength) }}</div>
-    <div cols="2">{{ toStr(abilities.dexterity) }}</div>
+    <div cols="2">{{ toStr(abilities?.strength) }}</div>
+    <div cols="2">{{ toStr(abilities?.dexterity) }}</div>
     <div cols="2">
-      {{ toStr(abilities.constitution) }}
+      {{ toStr(abilities?.constitution) }}
     </div>
     <div cols="2">
-      {{ toStr(abilities.intelligence) }}
+      {{ toStr(abilities?.intelligence) }}
     </div>
-    <div cols="2">{{ toStr(abilities.wisdom) }}</div>
-    <div cols="2">{{ toStr(abilities.charisma) }}</div>
+    <div cols="2">{{ toStr(abilities?.wisdom) }}</div>
+    <div cols="2">{{ toStr(abilities?.charisma) }}</div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from "vue";
+import Vue, { PropType, defineComponent } from "vue";
 import { RPGAbilities } from "@/types";
 import { toMod } from "@/shared";
 
-export default Vue.extend({
+export default defineComponent({
   props: {
     abilities: {
       type: Object as PropType<RPGAbilities>,
@@ -51,5 +51,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

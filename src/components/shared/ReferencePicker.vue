@@ -1,57 +1,49 @@
 <template>
   <div class="text-purple flex gap-2">
-    <button
-      v-if="reference === undefined || isReference"
-      @click="editReference"
-      class="button-round button-on-dark-blue"
-    >
-      <font-awesome-icon v-if="isReference" icon="fa-solid fa-virus-slash" />
-      <font-awesome-icon v-if="!isReference" icon="fa-solid fa-virus" />
+    <button v-if="reference === undefined || isReference"
+            @click="editReference"
+            class="button-round button-on-dark-blue">
+      <font-awesome-icon v-if="isReference"
+                         icon="fa-solid fa-virus-slash" />
+      <font-awesome-icon v-if="!isReference"
+                         icon="fa-solid fa-virus" />
     </button>
-    <p
-      v-if="isReference"
-      :title="`${reference.routerName}/${entityIndex.label}`"
-      class="max-w-[6rem] overflow-clip overflow-ellipsis whitespace-nowrap"
-    >
-      <entity-type-icon
-        v-if="reference.routerName"
-        :type="reference.routerName"
-      />
+    <p v-if="!!reference && !!entityIndex && isReference"
+       :title="`${reference.routerName}/${entityIndex.label}`"
+       class="max-w-[6rem] overflow-clip overflow-ellipsis whitespace-nowrap">
+      <entity-type-icon v-if="reference.routerName"
+                        :type="reference.routerName" />
       {{ entityIndex.label }}
     </p>
     <transition>
-      <form v-if="isEditingReference" @submit.stop.prevent="setReference">
-        <modal :is-valid="isValid" @reject="cancel" class="text-white">
+      <form v-if="isEditingReference"
+            @submit.stop.prevent="setReference">
+        <modal :is-valid="isValid"
+               @reject="cancel"
+               class="text-white">
           <div class="w-52 flex flex-col gap-1 text-dark-blue">
             <input-wrapper label="">
-              <multiselect
-                id="input-router-name"
-                v-model="form.routerName"
-                :options="routerOptions"
-                :show-labels="false"
-                :allow-empty="false"
-                :preselect-first="true"
-                placeholder="Select type"
-                @select="selectRouter()"
-              ></multiselect>
+              <multi-select id="input-router-name"
+                            v-model="form.routerName"
+                            :options="routerOptions"
+                            :show-labels="false"
+                            :allow-empty="false"
+                            :preselect-first="true"
+                            placeholder="Select type"
+                            @select="selectRouter()" />
             </input-wrapper>
             <input-wrapper label="">
-              <multiselect
-                id="input-reference-id"
-                v-model="form.entity"
-                :options="idOptions"
-                label="label"
-                :allow-empty="false"
-                track-by="id"
-                placeholder="Select entity"
-              ></multiselect>
+              <multi-select id="input-reference-id"
+                            v-model="form.entity"
+                            :options="idOptions"
+                            label="label"
+                            :allow-empty="false"
+                            track-by="id"
+                            placeholder="Select entity" />
             </input-wrapper>
           </div>
           <template #buttons>
-            <button
-              @click="remove"
-              type="button"
-              class="
+            <button class="
                 rounded-full
                 bg-rouge
                 border-gold border-2
@@ -61,7 +53,8 @@
                 items-center
                 justify-center
               "
-            >
+                    @click="remove"
+                    type="button">
               <font-awesome-icon icon="fa-solid fa-trash" />
             </button>
           </template>
@@ -74,13 +67,15 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import { isString } from "lodash";
-import { Multiselect } from "vue-multiselect";
+// import { Multiselect } from "vue-multiselect";
+import MultiSelect from 'primevue/multiselect';
 import { mapState } from "pinia";
 import { useIndexesStore } from "@/store/indexes";
 import { entityTypeOptions } from "@/types";
 
-export default Vue.extend({
-  components: { Multiselect },
+import { defineComponent } from 'vue'
+export default defineComponent({
+  components: { MultiSelect },
   props: {
     reference: {
       type: Object as PropType<{ routerName: string; id: string } | undefined>,

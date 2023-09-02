@@ -1,30 +1,28 @@
 <template>
   <div class="d-flex flex-column">
-    <ability-sidebar
-      id="sidebar-ability"
-      v-model="sidebarAbilityOpen"
-    ></ability-sidebar>
+    <ability-sidebar id="sidebar-ability"
+                     v-model="sidebarAbilityOpen"></ability-sidebar>
     <div class="d-flex">
       <create-ability class="ml-auto"> </create-ability>
     </div>
-    <div class="flex-1-1-0" style="overflow: auto">
-      <ability-table
-        :abilities="abilities"
-        @select="selectAbility"
-        aria-controls="sidebar-ability"
-        :aria-expanded="sidebarAbilityOpen"
-      />
+    <div class="flex-1-1-0"
+         style="overflow: auto">
+      <ability-table :abilities="abilities"
+                     @select="selectAbility"
+                     aria-controls="sidebar-ability"
+                     :aria-expanded="sidebarAbilityOpen" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+
 import { Ability } from "rpg-vue-base";
 import { mapState } from "pinia";
 import { useAbilityStore } from "@/store/abilities";
 
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   data() {
     return {
       loading: true,

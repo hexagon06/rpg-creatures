@@ -1,66 +1,53 @@
 <template>
   <div v-if="loading">Loading...</div>
   <div v-else>
-    <form
-      novalidate
-      :validated="validated"
-      ref="form"
-      @submit.stop.prevent="() => {}"
-    >
+    <form novalidate
+          :validated="validated"
+          ref="form"
+          @submit.stop.prevent="() => { }">
       <div class="m-3 text-left">
         <div class="flex flex-col gap-3">
-          <input-wrapper
-            label="Idea Title"
-            validation="Invalid title"
-            :is-valid="ideaForm.title && ideaForm.title.length > 0"
-          >
-            <input
-              id="input-1"
-              v-model="ideaForm.title"
-              placeholder="Enter title"
-              required
-            />
+          <input-wrapper label="Idea Title"
+                         validation="Invalid title"
+                         :is-valid="ideaForm.title && ideaForm.title.length > 0">
+            <input id="input-1"
+                   v-model="ideaForm.title"
+                   placeholder="Enter title"
+                   required>
             <template v-slot:help> Give the idea a title </template>
           </input-wrapper>
-          <input-wrapper
-            label="Synopsis"
-            validation="Synopsis is required"
-            :is-valid="ideaForm.synopsis && ideaForm.synopsis.length > 0"
-          >
-            <input
-              id="input-synopsis"
-              v-model="ideaForm.synopsis"
-              placeholder="A short story"
-              aria-describedby="synopsis-help-block"
-              required
-            />
+          <input-wrapper label="Synopsis"
+                         validation="Synopsis is required"
+                         :is-valid="ideaForm.synopsis && ideaForm.synopsis.length > 0">
+            <input id="input-synopsis"
+                   v-model="ideaForm.synopsis"
+                   placeholder="A short story"
+                   aria-describedby="synopsis-help-block"
+                   required>
             <template v-slot:help>
               One or two short sentences describing the idea
             </template>
           </input-wrapper>
           <input-wrapper label="Text">
-            <v-md-editor v-model="ideaForm.text" height="400px"></v-md-editor>
+            <v-md-editor v-model="ideaForm.text"
+                         height="400px" />
           </input-wrapper>
           <input-wrapper label="Tags">
-            <pill-multiselect
-              id="input-tags"
-              v-model="ideaForm.tags"
-              :options="tagsOptions"
-              :taggable="true"
-              @tag="tagTag"
-              placeholder="Select size(s)"
-            ></pill-multiselect>
+            <pill-multiselect id="input-tags"
+                              v-model="ideaForm.tags"
+                              :options="tagsOptions"
+                              :taggable="true"
+                              @tag="tagTag"
+                              placeholder="Select size(s)" />
           </input-wrapper>
           <input-wrapper label="Category">
-            <multiselect
-              id="input-type"
-              v-model="ideaForm.category"
-              :options="categoryOptions"
-              :show-labels="false"
-              placeholder="Select category"
-              :taggable="true"
-              @tag="createCategory($event)"
-            ></multiselect>
+            <multi-select id="input-type"
+                          v-model="ideaForm.category"
+                          :options="categoryOptions"
+                          :show-labels="false"
+                          placeholder="Select category"
+                          :taggable="true"
+                          @tag="createCategory($event)" />
             {{ ideaForm.category }}
           </input-wrapper>
         </div>
@@ -71,14 +58,16 @@
 
 <script lang="ts">
 import { useIdeaStore } from "@/store/ideas";
-import Vue from "vue";
-import { Multiselect } from "vue-multiselect";
+
+// import { Multiselect } from "vue-multiselect";
 import { mapState, mapWritableState } from "pinia";
 import { useFilterStore } from "@/store/filter";
 import { useIndexesStore } from "@/store/indexes";
+import MultiSelect from 'primevue/multiselect';
 
-export default Vue.extend({
-  components: { Multiselect },
+import { defineComponent } from 'vue'
+export default defineComponent({
+  components: { MultiSelect },
   props: {
     id: {
       type: String,

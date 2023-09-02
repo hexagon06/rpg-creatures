@@ -1,15 +1,17 @@
 <template>
-  <a :href="value.link" class="link">
-    {{ value.label }}
+  <a :href="modelValue.link"
+     class="link">
+    {{ modelValue.label }}
   </a>
 </template>
 
 <script lang="ts">
 import { LinkPrep } from "@/types";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   props: {
-    value: {
+    modelValue: {
       type: Object as PropType<LinkPrep>,
       required: true,
     },
@@ -17,5 +19,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

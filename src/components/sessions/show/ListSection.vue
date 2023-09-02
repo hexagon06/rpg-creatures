@@ -1,11 +1,15 @@
 <template>
   <div>
-    <h3>{{ value.label }}</h3>
-    <ol v-if="value.listType === 'numeric'" class="list-decimal">
-      <li v-for="(item, i) in value.items" :key="i">{{ item.item }}</li>
+    <h3>{{ modelValue.label }}</h3>
+    <ol v-if="modelValue.listType === 'numeric'"
+        class="list-decimal">
+      <li v-for="(item, i) in modelValue.items"
+          :key="i">{{ item.item }}</li>
     </ol>
-    <ul v-else class="list-disc">
-      <li v-for="(item, i) in value.items" :key="i">{{ item.item }}</li>
+    <ul v-else
+        class="list-disc">
+      <li v-for="(item, i) in modelValue.items"
+          :key="i">{{ item.item }}</li>
     </ul>
   </div>
 </template>
@@ -13,9 +17,10 @@
 <script lang="ts">
 import { ListPrep } from "@/types";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   props: {
-    value: {
+    modelValue: {
       type: Object as PropType<ListPrep>,
       required: true,
     },
@@ -23,5 +28,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -1,11 +1,9 @@
 <template>
   <action-panel-filter>
     <template v-slot:buttons>
-      <button
-        @click="create"
-        class="button-round-large button-on-gold"
-        title="create"
-      >
+      <button @click="create"
+              class="button-round-large button-on-gold"
+              title="create">
         <font-awesome-icon icon="fa-solid fa-plus" />
       </button>
     </template>
@@ -14,8 +12,9 @@
 
 <script lang="ts">
 import { useSessionStore } from "@/store/gameSession";
-import Vue from "vue";
-export default Vue.extend({
+
+import { defineComponent } from 'vue'
+export default defineComponent({
   methods: {
     async create() {
       const id = await useSessionStore().createSession();
@@ -25,5 +24,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { ArrayPills, Favorite, GridCard, InputWrapper, LabeledProp, ListCard, Modal, PillMultiselect, SourceReference, Thumbnail, ActionPanelFilterContent as ActionPanelFilterContent, ActionPanelActionContent, ReferencePicker, EntityTypeIcon } from './shared'
 import {
   CreatureForm, Alignment, Abilities, AlignmentEditor, CreatureDetails,
@@ -8,120 +7,109 @@ import {
 import {
   CrittersFilter, CritterActions, CritterDetails
 } from './critters'
-import { Create as AbilityCreate, AbilityDetails, AbilityForm, AbilitySidebar, AbilityTable, Edit as AbilityEdit, CreatureAbility } from './abilities'
 import { UserSign } from './users'
-import { default as ActionPanel } from './ActionPanel.vue'
+import ActionPanel from './ActionPanel.vue'
 import { EncounterActions, EncountersFilter } from './encounters'
 import { ChapterSection, ChapterSectionEdit, ImageSection, ImageSectionEdit, LinkSection, LinkSectionEdit, ListSection, ListSectionEdit, PlayerCharactersSection, PlayerCharactersSectionEdit, RunChecklistSection, SessionActions, SessionRunActions, SessionsFilter, TextSection, TextSectionEdit } from './sessions'
 import { IdeaActions, IdeasFilter } from './ideas'
 import { RollerListActions, RollerListFilter } from './lists'
 import { RunningInformation } from './RunningInformation'
+import { App } from 'vue'
 
-export function addAllComponents() {
-  addAbilityComponents()
-  addCreatureComponents()
-  addEncounterComponents()
-  addIdeaComponents()
-  addListComponents()
-  addRootComponents()
-  addRunningInformationComponents()
-  addSessionComponents()
-  addSharedComponents()
-  addUserComponents()
-  addCritterComponents()
+export function addAllComponents(app: App) {
+  addCreatureComponents(app)
+  addEncounterComponents(app)
+  addIdeaComponents(app)
+  addListComponents(app)
+  addRootComponents(app)
+  addRunningInformationComponents(app)
+  addSessionComponents(app)
+  addSharedComponents(app)
+  addUserComponents(app)
+  addCritterComponents(app)
 }
 
-function addAbilityComponents() {
-  Vue.component('create-ability', AbilityCreate)
-  Vue.component('edit-ability', AbilityEdit)
-  Vue.component('ability-details', AbilityDetails)
-  Vue.component('ability-form', AbilityForm)
-  Vue.component('ability-sidebar', AbilitySidebar)
-  Vue.component('ability-table', AbilityTable)
-  Vue.component('creature-ability', CreatureAbility)
+
+function addCreatureComponents(app: App) {
+  app.component('alignment', Alignment)
+  app.component('alignment-editor', AlignmentEditor)
+  app.component('creature-details', CreatureDetails)
+  app.component('creature-form', CreatureForm)
+  app.component('creature-ability-editor', CreatureAbilityEditor)
+  app.component('creature-ability-value', CreatureAbilityValueEditor)
+  app.component('creatures-filter', CreaturesFilter)
+  app.component('creature-actions', CreatureActions)
+  app.component('creature-type-icon', CreatureTypeIcon)
 }
 
-function addCreatureComponents() {
-  Vue.component('abilities', Abilities)
-  Vue.component('alignment', Alignment)
-  Vue.component('alignment-editor', AlignmentEditor)
-  Vue.component('creature-details', CreatureDetails)
-  Vue.component('creature-form', CreatureForm)
-  Vue.component('creature-ability-editor', CreatureAbilityEditor)
-  Vue.component('creature-ability-value', CreatureAbilityValueEditor)
-  Vue.component('creatures-filter', CreaturesFilter)
-  Vue.component('creature-actions', CreatureActions)
-  Vue.component('creature-type-icon', CreatureTypeIcon)
+function addCritterComponents(app: App) {
+  app.component('critter-details', CritterDetails)
+  app.component('critters-filter', CrittersFilter)
+  app.component('critter-actions', CritterActions)
 }
 
-function addCritterComponents() {
-  Vue.component('critter-details', CritterDetails)
-  Vue.component('critters-filter', CrittersFilter)
-  Vue.component('critter-actions', CritterActions)
+function addEncounterComponents(app: App) {
+  app.component('encounters-filter', EncountersFilter)
+  app.component('encounter-actions', EncounterActions)
 }
 
-function addEncounterComponents() {
-  Vue.component('encounters-filter', EncountersFilter)
-  Vue.component('encounter-actions', EncounterActions)
+function addIdeaComponents(app: App) {
+  app.component('ideas-filter', IdeasFilter)
+  app.component('idea-actions', IdeaActions)
 }
 
-function addIdeaComponents() {
-  Vue.component('ideas-filter', IdeasFilter)
-  Vue.component('idea-actions', IdeaActions)
+function addListComponents(app: App) {
+  app.component('lists-filter', RollerListFilter)
+  app.component('list-actions', RollerListActions)
 }
 
-function addListComponents() {
-  Vue.component('lists-filter', RollerListFilter)
-  Vue.component('list-actions', RollerListActions)
+function addRunningInformationComponents(app: App) {
+  app.component('running-information', RunningInformation)
 }
 
-function addRunningInformationComponents() {
-  Vue.component('running-information', RunningInformation)
+function addSessionComponents(app: App) {
+  app.component('sessions-filter', SessionsFilter)
+  app.component('session-actions', SessionActions)
+  app.component('session-run-actions', SessionRunActions)
+
+  app.component('section-edit-chapter', ChapterSectionEdit)
+  app.component('section-edit-image', ImageSectionEdit)
+  app.component('section-edit-link', LinkSectionEdit)
+  app.component('section-edit-list', ListSectionEdit)
+  app.component('section-edit-player-characters', PlayerCharactersSectionEdit)
+  app.component('section-edit-text', TextSectionEdit)
+
+  app.component('section-chapter', ChapterSection)
+  app.component('section-image', ImageSection)
+  app.component('section-link', LinkSection)
+  app.component('section-list', ListSection)
+  app.component('section-player-characters', PlayerCharactersSection)
+  app.component('section-text', TextSection)
+
+  app.component('section-run-list', RunChecklistSection)
 }
 
-function addSessionComponents() {
-  Vue.component('sessions-filter', SessionsFilter)
-  Vue.component('session-actions', SessionActions)
-  Vue.component('session-run-actions', SessionRunActions)
-
-  Vue.component('section-edit-chapter', ChapterSectionEdit)
-  Vue.component('section-edit-image', ImageSectionEdit)
-  Vue.component('section-edit-link', LinkSectionEdit)
-  Vue.component('section-edit-list', ListSectionEdit)
-  Vue.component('section-edit-player-characters', PlayerCharactersSectionEdit)
-  Vue.component('section-edit-text', TextSectionEdit)
-
-  Vue.component('section-chapter', ChapterSection)
-  Vue.component('section-image', ImageSection)
-  Vue.component('section-link', LinkSection)
-  Vue.component('section-list', ListSection)
-  Vue.component('section-player-characters', PlayerCharactersSection)
-  Vue.component('section-text', TextSection)
-
-  Vue.component('section-run-list', RunChecklistSection)
+function addSharedComponents(app: App) {
+  app.component('array-pills', ArrayPills)
+  app.component('favorite', Favorite)
+  app.component('labeled-prop', LabeledProp)
+  app.component('pill-multiselect', PillMultiselect)
+  app.component('source-reference', SourceReference)
+  app.component('thumbnail', Thumbnail)
+  app.component('list-card', ListCard)
+  app.component('modal', Modal)
+  app.component('grid-card', GridCard)
+  app.component('input-wrapper', InputWrapper)
+  app.component('action-panel-filter', ActionPanelFilterContent)
+  app.component('action-panel-action', ActionPanelActionContent)
+  app.component('reference-picker', ReferencePicker)
+  app.component('entity-type-icon', EntityTypeIcon)
 }
 
-function addSharedComponents() {
-  Vue.component('array-pills', ArrayPills)
-  Vue.component('favorite', Favorite)
-  Vue.component('labeled-prop', LabeledProp)
-  Vue.component('pill-multiselect', PillMultiselect)
-  Vue.component('source-reference', SourceReference)
-  Vue.component('thumbnail', Thumbnail)
-  Vue.component('list-card', ListCard)
-  Vue.component('modal', Modal)
-  Vue.component('grid-card', GridCard)
-  Vue.component('input-wrapper', InputWrapper)
-  Vue.component('action-panel-filter', ActionPanelFilterContent)
-  Vue.component('action-panel-action', ActionPanelActionContent)
-  Vue.component('reference-picker', ReferencePicker)
-  Vue.component('entity-type-icon', EntityTypeIcon)
+function addUserComponents(app: App) {
+  app.component('user-sign', UserSign)
 }
 
-function addUserComponents() {
-  Vue.component('user-sign', UserSign)
-}
-
-function addRootComponents() {
-  Vue.component('action-panel', ActionPanel)
+function addRootComponents(app: App) {
+  app.component('action-panel', ActionPanel)
 }

@@ -13,8 +13,9 @@ import { creatureApi } from "@/api/new-typed/creatureApi";
 import { useCritterStore } from "@/store/critters";
 import { Creature } from "@/types/creatures";
 import { mapState, mapWritableState } from "pinia";
-import Vue from "vue";
-export default Vue.extend({
+
+import { defineComponent } from 'vue'
+export default defineComponent({
   data() {
     return {
       creature: undefined as Creature | undefined
@@ -50,6 +51,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

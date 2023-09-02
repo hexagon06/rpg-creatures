@@ -1,6 +1,7 @@
 <template>
   <div class="flex h-36 w-full md:w-72">
-    <router-link :to="to" class="entity-grid-card">
+    <router-link :to="to"
+                 class="entity-grid-card">
       <div class="w-full h-full">
         <slot />
       </div>
@@ -10,7 +11,8 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   props: {
     /** The target route of the link. It can be either a string or a location descriptor object. */
     to: {
@@ -21,5 +23,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -8,23 +8,22 @@
       <p class="font-italic font-weight-bolder text-secondary">
         {{ session.synopsis }}
       </p>
-      <component
-        v-for="(section, i) in sortedSections"
-        :key="'section' + i + '_' + section.id"
-        :value="section"
-        :is="componentByType(section.prepType)"
-        class=""
-      ></component>
+      <component v-for="(section, i) in sortedSections"
+                 :key="'section' + i + '_' + section.id"
+                 :value="section"
+                 :is="componentByType(section.prepType)"
+                 class=""></component>
       <h3>Notes</h3>
-      <v-md-editor v-model="sessionRun.notes" height="800px"></v-md-editor>
+      <v-md-editor v-model="sessionRun.notes"
+                   height="800px"></v-md-editor>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+
 import ArrayPills from "../shared/ArrayPills.vue";
-import { Multiselect } from "vue-multiselect";
+// import { Multiselect } from "vue-multiselect";
 import { mapState } from "pinia";
 import { useSessionStore } from "@/store/gameSession";
 import { PrepSection, PrepType, RunSection } from "@/types";
@@ -40,8 +39,9 @@ const debouncedSave = debounce(
   { maxWait: 5000 }
 );
 
-export default Vue.extend({
-  components: { ArrayPills, Multiselect },
+import { defineComponent } from 'vue'
+export default defineComponent({
+  components: { ArrayPills, },
   props: {
     id: {
       type: String,
@@ -132,5 +132,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -25,7 +25,8 @@ import Vue, { PropType } from "vue";
 import { RPGAbilities } from "@/types";
 import { toMod } from "@/shared";
 
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   props: {
     abilities: {
       type: Object as PropType<RPGAbilities>,
@@ -51,5 +52,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

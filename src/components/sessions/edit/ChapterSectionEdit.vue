@@ -1,18 +1,14 @@
 <template>
   <div>
-    <input-wrapper
-      label="Chapter Title"
-      validation="Invalid title"
-      :is-valid="value.label && value.label.length > 0"
-      class="w-full"
-    >
-      <input
-        id="input-1"
-        v-model="value.label"
-        placeholder="Chapter title"
-        aria-describedby="password-help-block"
-        required
-      />
+    <input-wrapper label="Chapter Title"
+                   validation="Invalid title"
+                   :is-valid="modelValue.label && modelValue.label.length > 0"
+                   class="w-full">
+      <input id="input-1"
+             v-model="modelValue.label"
+             placeholder="Chapter title"
+             aria-describedby="password-help-block"
+             required />
       <template v-slot:help> What is the following data about?</template>
     </input-wrapper>
     <hr />
@@ -22,9 +18,10 @@
 <script lang="ts">
 import { ChapterPrep } from "@/types";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   props: {
-    value: {
+    modelValue: {
       type: Object as PropType<ChapterPrep>,
       required: true,
     },
@@ -32,5 +29,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

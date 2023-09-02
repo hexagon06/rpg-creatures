@@ -1,6 +1,5 @@
 <template>
-  <div
-    class="
+  <div class="
       hidden
       md:block
       fixed
@@ -11,45 +10,31 @@
       skew-y-35
       z-[1110]
     "
-    :class="isOpen ? ' skew-y-0 h-full w-full pr-52' : ' -bottom-32 h-52 w-52'"
-  >
-    <div
-      class="bg-brown outline outline-rouge drop-shadow-3xl outline-4 h-full"
-    >
-      <div
-        class="-skew-y-35 max-h-full"
-        :class="isOpen ? ' -skew-y-0 top-0' : ' pr-36'"
-      >
-        <div
-          class="absolute top-2 z-[112] flex justify-between"
-          :class="isOpen ? ' left-2 right-2' : ' left-2'"
-        >
-          <button
-            v-if="isOpen"
-            class="button-round-large button-on-brown m2"
-            title="open screen"
-            @click="addInformation"
-          >
+       :class="isOpen ? ' skew-y-0 h-full w-full pr-52' : ' -bottom-32 h-52 w-52'">
+    <div class="bg-brown outline outline-rouge drop-shadow-3xl outline-4 h-full">
+      <div class="-skew-y-35 max-h-full"
+           :class="isOpen ? ' -skew-y-0 top-0' : ' pr-36'">
+        <div class="absolute top-2 z-[112] flex justify-between"
+             :class="isOpen ? ' left-2 right-2' : ' left-2'">
+          <button v-if="isOpen"
+                  class="button-round-large button-on-brown m2"
+                  title="open screen"
+                  @click="addInformation">
             <font-awesome-icon icon="fa-solid fa-plus" />
           </button>
-          <input v-if="isOpen" v-model="filter" />
-          <button
-            class="button-round-large button-on-brown m2"
-            title="open screen"
-            @click="toggleOpen"
-          >
-            <font-awesome-icon
-              :icon="
-                isOpen
-                  ? 'fa-solid fa-down-left-and-up-right-to-center'
-                  : 'fa-solid fa-up-right-and-down-left-from-center'
-              "
-            />
+          <input v-if="isOpen"
+                 v-model="filter" />
+          <button class="button-round-large button-on-brown m2"
+                  title="open screen"
+                  @click="toggleOpen">
+            <font-awesome-icon :icon="isOpen
+              ? 'fa-solid fa-down-left-and-up-right-to-center'
+              : 'fa-solid fa-up-right-and-down-left-from-center'
+              " />
           </button>
         </div>
-        <div
-          v-if="isOpen"
-          class="
+        <div v-if="isOpen"
+             class="
             overflow-y-auto
             max-h-screen
             h-full
@@ -57,19 +42,19 @@
             flex flex-nowrap flex-col
             relative
             scroll-smooth
-          "
-        >
-          <div class="accordion" id="accordionExample">
-            <div
-              v-for="(item, i) in sortedItems"
-              :key="`item_${i}`"
-              class="accordion-item"
-            >
-              <h2 class="accordion-header mb-0" :id="`heading_${i}`">
-                <input v-if="item.isEditing" v-model="item.title" required />
-                <button
-                  v-else
-                  class="
+          ">
+          <div class="accordion"
+               id="accordionExample">
+            <div v-for="(item, i) in sortedItems"
+                 :key="`item_${i}`"
+                 class="accordion-item">
+              <h2 class="accordion-header mb-0"
+                  :id="`heading_${i}`">
+                <input v-if="item.isEditing"
+                       v-model="item.title"
+                       required />
+                <button v-else
+                        class="
                     accordion-button
                     collapsed
                     relative
@@ -86,54 +71,41 @@
                     focus:outline-none
                     bg-dark-blue
                   "
-                  type="button"
-                  data-bs-toggle="collapse"
-                  :data-bs-target="`#collapse_${i}`"
-                  aria-expanded="false"
-                  :aria-controls="`collapse_${i}`"
-                >
+                        type="button"
+                        data-bs-toggle="collapse"
+                        :data-bs-target="`#collapse_${i}`"
+                        aria-expanded="false"
+                        :aria-controls="`collapse_${i}`">
                   <span>{{ item.title }}</span>
                 </button>
               </h2>
-              <div
-                :id="`collapse_${i}`"
-                class="accordion-collapse collapse"
-                :aria-labelledby="`heading_${i}`"
-              >
+              <div :id="`collapse_${i}`"
+                   class="accordion-collapse collapse"
+                   :aria-labelledby="`heading_${i}`">
                 <div class="accordion-body py-4 px-5">
-                  <v-md-preview
-                    v-if="!item.isEditing"
-                    :text="item.content"
-                    :default-show-toc="false"
-                  ></v-md-preview>
-                  <v-md-editor
-                    v-if="item.isEditing"
-                    v-model="item.content"
-                    height="400px"
-                  ></v-md-editor>
+                  <v-md-preview v-if="!item.isEditing"
+                                :text="item.content"
+                                :default-show-toc="false"></v-md-preview>
+                  <v-md-editor v-if="item.isEditing"
+                               v-model="item.content"
+                               height="400px"></v-md-editor>
                   <div class="flex gap-3 justify-end">
-                    <button
-                      v-if="!item.isEditing"
-                      class="button-round button-on-brown m2"
-                      title="open screen"
-                      @click="deleteInformation(item.sortOrder)"
-                    >
+                    <button v-if="!item.isEditing"
+                            class="button-round button-on-brown m2"
+                            title="open screen"
+                            @click="deleteInformation(item.sortOrder)">
                       <font-awesome-icon icon="fa-solid fa-trash" />
                     </button>
-                    <button
-                      v-if="item.isEditing"
-                      class="button-round button-on-brown m2"
-                      title="open screen"
-                      @click="saveInformation(item)"
-                    >
+                    <button v-if="item.isEditing"
+                            class="button-round button-on-brown m2"
+                            title="open screen"
+                            @click="saveInformation(item)">
                       <font-awesome-icon icon="fa-solid fa-save" />
                     </button>
-                    <button
-                      v-else
-                      class="button-round button-on-brown m2"
-                      title="open screen"
-                      @click="editInformation(item.sortOrder)"
-                    >
+                    <button v-else
+                            class="button-round button-on-brown m2"
+                            title="open screen"
+                            @click="editInformation(item.sortOrder)">
                       <font-awesome-icon icon="fa-solid fa-pen" />
                     </button>
                   </div>
@@ -151,14 +123,15 @@
 import { cloneDeep, sortBy } from "lodash";
 import { createDummyInfo, RunningInformationPart } from "@/types";
 import { useRunningInfoStore } from "@/store/runningInfo";
-import Vue from "vue";
+
 import { mapActions, mapWritableState } from "pinia";
 
 function contains(target: string, substring: string): boolean {
   return target.toLowerCase().search(substring.toLowerCase()) !== -1;
 }
 
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   data() {
     return {
       isOpen: false,
@@ -237,5 +210,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

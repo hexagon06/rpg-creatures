@@ -1,22 +1,18 @@
 <template>
-  <div v-if="initialized" class="flex justify-center">
+  <div v-if="initialized"
+       class="flex justify-center">
     <div class="entity-grid">
-      <grid-card
-        v-for="creature in limitedCreatures"
-        :key="creature.id"
-        :to="{ name: 'Creature', params: { id: creature.id } }"
-      >
+      <grid-card v-for="creature in limitedCreatures"
+                 :key="creature.id"
+                 :to="{ name: 'Creature', params: { id: creature.id } }">
         <div class="flex w-full h-full relative">
           <div class="w-1/3 md:w-1/2 h-full">
-            <thumbnail
-              v-if="creature.image"
-              :url="creature.image"
-              class="w-full h-full"
-            ></thumbnail>
+            <thumbnail v-if="creature.image"
+                       :url="creature.image"
+                       class="w-full h-full"></thumbnail>
           </div>
-          <p
-            v-if="creature.cr !== undefined"
-            class="
+          <p v-if="creature.cr !== undefined"
+             class="
               rounded-full
               border-3
               w-8
@@ -31,32 +27,25 @@
               -mt-4
               justify-center
               text-center
-            "
-          >
+            ">
             {{ creature.cr }}
           </p>
-          <favorite
-            v-if="creature.favorite"
-            v-model="creature.favorite"
-            class="absolute right-0 -mt-2 -mr-2"
-          />
+          <favorite v-if="creature.favorite"
+                    v-model="creature.favorite"
+                    class="absolute right-0 -mt-2 -mr-2" />
           <div class="w-2/3 md:w-1/2 h-full pl-1">
             <h2 class="mb-3 truncate">
               {{ creature.name }}
             </h2>
-            <creature-type-icon
-              v-if="creature.type"
-              :type="creature.type"
-              :title="creature.type"
-            />
+            <creature-type-icon v-if="creature.type"
+                                :type="creature.type"
+                                :title="creature.type" />
             <i v-if="shortDescriptor(creature)">
               {{ shortDescriptor(creature) }}
             </i>
-            <array-pills
-              :data="creature.tags"
-              class="line-clamp-1"
-              :title="creature.tags.join(', ')"
-            />
+            <array-pills :data="creature.tags"
+                         class="line-clamp-1"
+                         :title="creature.tags.join(', ')" />
           </div>
         </div>
       </grid-card>
@@ -71,8 +60,9 @@ import { useIndexesStore } from "@/store/indexes";
 import { CreatureIndex, CreatureFilter } from "@/types";
 import { difference, filter } from "lodash";
 import { mapState } from "pinia";
-import Vue from "vue";
-export default Vue.extend({
+
+import { defineComponent } from 'vue'
+export default defineComponent({
   data() {
     return {
       loadSize: 6,
@@ -129,5 +119,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -6,13 +6,13 @@
 
 <script lang="ts">
 // import { finishSignup } from "@/api/auth";
-import Vue from "vue";
-export default Vue.extend({
+
+import { defineComponent } from 'vue'
+export default defineComponent({
   async created() {
     // await finishSignup();
   },
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

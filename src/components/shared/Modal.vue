@@ -1,8 +1,7 @@
 <template>
   <div>
     <div class="fixed z-[1200] inset-0 flex items-center justify-center">
-      <div
-        class="
+      <div class="
           relative
           bg-brown
           w-auto
@@ -12,11 +11,11 @@
           border-8 border-gold
           min-w-[25%]
           flex flex-col
-        "
-      >
-        <div class=""><slot /></div>
-        <div
-          class="
+        ">
+        <div class="">
+          <slot />
+        </div>
+        <div class="
             absolute
             bottom-0
             right-16
@@ -27,13 +26,11 @@
             gap-2
             items-center
             justify-end
-          "
-        >
+          ">
           <slot name="buttons" />
-          <button
-            @click="cancel"
-            type="button"
-            class="
+          <button @click="cancel"
+                  type="button"
+                  class="
               rounded-full
               bg-rouge
               border-gold border-2
@@ -42,15 +39,13 @@
               flex
               items-center
               justify-center
-            "
-          >
+            ">
             <font-awesome-icon icon="fa-solid fa-xmark" />
           </button>
-          <button
-            @click="ok"
-            type="submit"
-            :disabled="!this.isValid"
-            class="
+          <button @click="ok"
+                  type="submit"
+                  :disabled="!this.isValid"
+                  class="
               rounded-full
               bg-rouge
               border-gold border-4
@@ -59,15 +54,13 @@
               flex
               items-center
               justify-center
-            "
-          >
+            ">
             <font-awesome-icon icon="fa-solid fa-check" />
           </button>
         </div>
       </div>
     </div>
-    <div
-      class="
+    <div class="
         fixed
         inset-0
         bg-gray-600 bg-opacity-50
@@ -77,14 +70,14 @@
         modal-backdrop
         backdrop-blur-md
       "
-      id="my-modal"
-    ></div>
+         id="my-modal"></div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-export default Vue.extend({
+
+import { defineComponent } from 'vue'
+export default defineComponent({
   props: {
     isValid: {
       type: Boolean,
@@ -104,25 +97,29 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 button {
-  background: $rouge;
+  // background: $rouge;
   padding: 4px;
+
   &:disabled {
-    background: scale-color($rouge, $lightness: 80%, $saturation: 10%);
+
+    // background: scale-color($rouge, $lightness: 80%, $saturation: 10%);
     &:hover {
       cursor: pointer;
-      background: scale-color($rouge, $lightness: 80%, $saturation: 10%);
+      // background: scale-color($rouge, $lightness: 80%, $saturation: 10%);
     }
   }
+
   &:hover {
-    background: scale-color($rouge, $lightness: -10%, $saturation: 10%);
+    // background: scale-color($rouge, $lightness: -10%, $saturation: 10%);
   }
 }
+
 .modal-backdrop {
-  background: scale-color(
-    $dark-blue,
-    $lightness: 80%,
-    $saturation: 10%,
-    $alpha: -80%
-  );
+  // background: scale-color(
+  //   // $dark-blue,
+  //   // $lightness: 80%,
+  //   // $saturation: 10%,
+  //   // $alpha: -80%
+  // );
 }
 </style>

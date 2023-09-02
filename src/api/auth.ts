@@ -1,6 +1,8 @@
 import { getAuth, connectAuthEmulator, signInWithEmailAndPassword, UserCredential, signOut as signAuthOut, GoogleAuthProvider, EmailAuthProvider } from "firebase/auth"
 import * as firebaseui from "firebaseui"
 
+import {firebaseClient} from './firebaseClient'
+(firebaseClient)
 export const auth = getAuth()
 if (process.env.NODE_ENV === 'development') {
   connectAuthEmulator(auth, "http://localhost:9099")

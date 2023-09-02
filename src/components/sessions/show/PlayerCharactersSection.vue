@@ -1,11 +1,9 @@
 <template>
   <div class="flex flex-col gap-1">
-    <h3>{{ value.label }}</h3>
-    <div
-      v-for="(character, i) in value.characters"
-      :key="i"
-      class="flex gap-2 flex-grow bg-brown-dark"
-    >
+    <h3>{{ modelValue.label }}</h3>
+    <div v-for="(character, i) in modelValue.characters"
+         :key="i"
+         class="flex gap-2 flex-grow bg-brown-dark">
       <div class="flex-grow flex gap-x-2 flex-wrap">
         <b class="w-full md:w-1/4">{{ character.player }}</b>
         <p class="flex-grow">{{ character.playerHappiness }}</p>
@@ -19,9 +17,10 @@
 <script lang="ts">
 import { PlayerCharacterPrep } from "@/types";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   props: {
-    value: {
+    modelValue: {
       type: Object as PropType<PlayerCharacterPrep>,
       required: true,
     },
@@ -29,5 +28,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
