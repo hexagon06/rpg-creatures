@@ -2,14 +2,14 @@
   <div v-if="loading">Loading...</div>
   <div v-else>
     <form ref="form"
-          @submit.stop.prevent="() => {}">
+          @submit.stop.prevent="() => { }">
       <critter-form v-model="creatureForm" />
     </form>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+
 import { EditState, useCritterStore } from "@/store/critters";
 import { mapWritableState } from "pinia";
 import { useIndexesStore } from "@/store/indexes";
@@ -18,7 +18,8 @@ import { creatureApi } from "@/api/new-typed/creatureApi";
 import { Creature } from "@/types/creatures";
 import { deepEqual } from '@firebase/util'
 
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   components: {
     CritterForm
   },
@@ -92,6 +93,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

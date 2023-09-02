@@ -9,7 +9,7 @@
         <input id="input-1"
                v-model="creature.name"
                placeholder="Enter name"
-               required />
+               required>
         <template v-slot:help> Is this a named character? </template>
       </input-wrapper>
       <input-wrapper label="Is Noun"
@@ -18,7 +18,7 @@
           <input id="input-is-noun"
                  v-model="creature.nameIsNoun"
                  type="checkbox"
-                 required />
+                 required>
         </div>
       </input-wrapper>
     </div>
@@ -28,20 +28,20 @@
         <input id="input-pronoun1"
                v-model="creature.pronoun1"
                placeholder="it"
-               class="w-16" />
+               class="w-16">
       </input-wrapper>
       <input-wrapper label="Possessive">
         <input id="input-pronoun2"
                v-model="creature.pronoun2"
                placeholder="its"
-               class="w-16" />
+               class="w-16">
       </input-wrapper>
     </div>
     <!-- source -->
     <input-wrapper label="Link">
       <input id="input-link"
              v-model="creature.link"
-             placeholder="http://google.doc.share/..." />
+             placeholder="http://google.doc.share/...">
       <template v-slot:help>
         Link to a source where this creature can be found
       </template>
@@ -60,7 +60,7 @@
                  number
                  @keypress="isNumber"
                  :disabled="creature.source === '' || creature.source === undefined"
-                 class="w-9 text-center" />
+                 class="w-9 text-center">
           <button :disabled="creature.page === undefined"
                   @click="() => (creature.page++).toString()"
                   class="button-round button-on-gold">
@@ -71,7 +71,7 @@
       <input-wrapper label="Source">
         <input id="input-source"
                v-model="creature.source"
-               placeholder="Monster Manual" />
+               placeholder="Monster Manual">
         <template v-slot:help>
           Name of a source where this creature can be found.
         </template>
@@ -82,7 +82,7 @@
       <!-- todo set this when a book is set with a system -->
       <input id="input-system"
              v-model="creature.system"
-             placeholder="Pathfinder" />
+             placeholder="Pathfinder">
       <template v-slot:help> What system this creature is made for </template>
     </input-wrapper>
     <!-- image -->
@@ -90,16 +90,15 @@
       <div class="flex flex-wrap w-full">
         <input-wrapper label="Source"
                        validation="Image url is too big"
-                       :is-valid="
-                         creature.image &&
+                       :is-valid="creature.image &&
                          creature.image.length > 0 &&
                          creature.image.length < 512
-                       "
+                         "
                        class="w-full md:w-2/3">
           <input id="input-1"
                  v-model="creature.image"
                  placeholder="http://..."
-                 required />
+                 required>
         </input-wrapper>
       </div>
       <div>
@@ -111,29 +110,29 @@
     <!-- creature type & size -->
     <input-wrapper label="Size"
                    class="flex-grow">
-      <multiselect id="input-size"
-                   v-model="creature.size"
-                   :options="options.size"
-                   :clear-on-select="false"
-                   :show-labels="false"
-                   :preselect-first="false"
-                   @input="sizeChange"></multiselect>
+      <multi-select id="input-size"
+                    v-model="creature.size"
+                    :options="options.size"
+                    :clear-on-select="false"
+                    :show-labels="false"
+                    :preselect-first="false"
+                    @input="sizeChange" />
     </input-wrapper>
     <div class="flex gap-2">
       <input-wrapper label="Type"
                      class="flex-grow">
-        <multiselect id="input-size"
-                     v-model="creature.type"
-                     :options="typeOptions"
-                     :clear-on-select="false"
-                     :show-labels="false"
-                     :preselect-first="false"></multiselect>
+        <multi-select id="input-size"
+                      v-model="creature.type"
+                      :options="typeOptions"
+                      :clear-on-select="false"
+                      :show-labels="false"
+                      :preselect-first="false" />
       </input-wrapper>
       <input-wrapper label="sub type"
                      class="flex-grow">
         <input id="input-type"
                v-model="creature.subType"
-               placeholder="(descriptor)" />
+               placeholder="(descriptor)">
       </input-wrapper>
     </div>
     <!-- alignment -->
@@ -150,14 +149,14 @@
                placeholder="13"
                number
                @keypress="isNumber"
-               class="w-16" />
+               class="w-16">
       </input-wrapper>
       <input-wrapper label="Challenge Rating">
         <input id="input-cr"
                v-model.number="creature.cr"
                placeholder="2"
                number
-               class="w-16" />
+               class="w-16">
       </input-wrapper>
     </div>
     <div class="flex gap-2">
@@ -169,14 +168,14 @@
                  number
                  @keypress="isNumber"
                  :disabled="creature.hp + 0 > 0"
-                 class="w-10 text-center" />
+                 class="w-10 text-center">
           <input id="input-hit-dice"
                  v-model.number="creature.hitDice"
                  placeholder="8"
                  number
                  @keypress="isNumber"
                  :disabled="creature.hp + 0 > 0"
-                 class="w-16 text-center" />
+                 class="w-16 text-center">
         </div>
         <template v-slot:help> # and size of dice. </template>
       </input-wrapper>
@@ -188,7 +187,7 @@
                number
                @keypress="isNumber"
                :disabled="creature.hitDice + creature.amountHitDice > 0"
-               class="w-16" />
+               class="w-16">
       </input-wrapper>
     </div>
     <!-- ability scores -->
@@ -200,7 +199,7 @@
                  placeholder="10"
                  number
                  @keypress="isNumber"
-                 class="w-9" />
+                 class="w-9">
           <template v-slot:help>
             {{ modString(strMod) }}
           </template>
@@ -211,7 +210,7 @@
                  placeholder="10"
                  number
                  @keypress="isNumber"
-                 class="w-9" />
+                 class="w-9">
           <template v-slot:help>
             {{ modString(dexMod) }}
           </template>
@@ -222,7 +221,7 @@
                  placeholder="10"
                  number
                  @keypress="isNumber"
-                 class="w-9" />
+                 class="w-9">
           <template v-slot:help>
             {{ modString(conMod) }}
           </template>
@@ -233,7 +232,7 @@
                  placeholder="10"
                  number
                  @keypress="isNumber"
-                 class="w-9" />
+                 class="w-9">
           <template v-slot:help>
             {{ modString(intMod) }}
           </template>
@@ -244,7 +243,7 @@
                  placeholder="10"
                  number
                  @keypress="isNumber"
-                 class="w-9" />
+                 class="w-9">
           <template v-slot:help>
             {{ modString(wisMod) }}
           </template>
@@ -255,7 +254,7 @@
                  placeholder="10"
                  number
                  @keypress="isNumber"
-                 class="w-9" />
+                 class="w-9">
           <template v-slot:help>
             {{ modString(chaMod) }}
           </template>
@@ -269,7 +268,7 @@
                placeholder="30"
                number
                @keypress="isNumber"
-               class="w-20" />
+               class="w-20">
       </input-wrapper>
 
       <button v-if="!showSpeeds && !showSpeedsClicked"
@@ -285,25 +284,25 @@
         <input id="input-flying"
                v-model.number="creature.flyingSpeed"
                number
-               @keypress="isNumber" />
+               @keypress="isNumber">
       </input-wrapper>
       <input-wrapper label="Swim">
         <input id="input-swim"
                v-model.number="creature.swimSpeed"
                number
-               @keypress="isNumber" />
+               @keypress="isNumber">
       </input-wrapper>
       <input-wrapper label="Climbing">
         <input id="input-climb"
                v-model.number="creature.climbSpeed"
                number
-               @keypress="isNumber" />
+               @keypress="isNumber">
       </input-wrapper>
       <input-wrapper label="Burrow">
         <input id="input-burrow"
                v-model.number="creature.burrowSpeed"
                number
-               @keypress="isNumber" />
+               @keypress="isNumber">
       </input-wrapper>
     </div>
     <input-wrapper label="Organisation">
@@ -312,7 +311,7 @@
                         :options="organisationOptions"
                         :taggable="true"
                         @tag="tagOrganisation"
-                        placeholder="Select size(s)"></pill-multiselect>
+                        placeholder="Select size(s)" />
     </input-wrapper>
     <input-wrapper label="Environments">
       <pill-multiselect id="input-environment"
@@ -320,7 +319,7 @@
                         :options="environmentOptions"
                         :taggable="true"
                         @tag="tagEnvironment"
-                        placeholder="Select size(s)"></pill-multiselect>
+                        placeholder="Select size(s)" />
     </input-wrapper>
     <input-wrapper label="Tags">
       <pill-multiselect id="input-tags"
@@ -328,7 +327,7 @@
                         :options="tagsOptions"
                         :taggable="true"
                         @tag="tagTag"
-                        placeholder="Select size(s)"></pill-multiselect>
+                        placeholder="Select size(s)" />
     </input-wrapper>
 
     <creature-ability-editor v-model="creature.abilityKeys" />
@@ -336,7 +335,7 @@
     <input-wrapper label="Favorite">
       <input id="input-is-noun"
              v-model="favorite"
-             type="checkbox" />
+             type="checkbox">
     </input-wrapper>
 
     <input-wrapper label="Comments">
@@ -354,27 +353,29 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { Multiselect } from "vue-multiselect";
+// import { Multiselect } from "vue-multiselect";
 import { Creature } from "@/types";
 import { toHitDiceFormula, toMod } from "@/shared";
 import { useFilterStore } from "@/store/filter";
 import { mapState } from "pinia";
 import { useUserStore } from "@/store/users";
 import { useCreatureStore } from "@/store/creatures";
+import MultiSelect from 'primevue/multiselect';
 
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   components: {
-    Multiselect,
+    MultiSelect,
   },
   props: {
-    value: Object as PropType<Creature>,
+    modelValue: Object as PropType<Creature>,
   },
   data() {
     return {
       options: {
         size: ["Tiny", "Small", "Medium", "Large", "Huge", "Gargantuan"],
       },
-      creature: this.value,
+      creature: this.modelValue,
       showSpeedsClicked: false,
     };
   },

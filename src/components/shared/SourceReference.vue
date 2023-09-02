@@ -1,21 +1,24 @@
 <template>
-  <a v-if="link && source" :href="link" target="_blank">
+  <a v-if="link && source"
+     :href="link"
+     target="_blank">
     {{ source }} <span v-if="page !== undefined">({{ page }})</span>
   </a>
   <p v-else-if="source">
     {{ source }} <span v-if="page !== undefined">({{ page }})</span>
   </p>
-  <a v-else-if="link" :href="link" target="_blank">
-    <font-awesome-icon
-      icon="fa-solid fa-arrow-up-right-from-square"
-    ></font-awesome-icon>
+  <a v-else-if="link"
+     :href="link"
+     target="_blank">
+    <font-awesome-icon icon="fa-solid fa-arrow-up-right-from-square"></font-awesome-icon>
   </a>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
 
-export default Vue.extend({
+
+import { defineComponent } from 'vue'
+export default defineComponent({
   props: {
     link: {
       type: String,
@@ -26,12 +29,11 @@ export default Vue.extend({
       default: undefined,
     },
     page: {
-      type: Number,
+      type: String,
       default: undefined,
     },
   },
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

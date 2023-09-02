@@ -53,8 +53,9 @@ import { creatureApi } from "@/api/new-typed/creatureApi";
 import { createDefaultCritter } from "@/shared/critters";
 import { useCritterStore } from "@/store/critters";
 import { mapState, mapWritableState } from "pinia";
-import Vue from "vue";
-export default Vue.extend({
+
+import { defineComponent } from 'vue'
+export default defineComponent({
   computed: {
     ...mapWritableState(useCritterStore, ['dataState', 'editState']),
     // ...mapState(useCreatureStore, ["creature", "creatureForm", "isDirty"]),
@@ -111,6 +112,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

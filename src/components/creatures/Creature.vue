@@ -1,19 +1,22 @@
 <template>
   <div v-if="loading">Loading...</div>
-  <creature-details
-    v-else
-    v-model="creature"
-    :imgSize="278"
-    @favorite="favoriteChange"
-    class="sticky-top"
-  />
+  <creature-details v-else
+                    v-model="creature"
+                    :imgSize="278"
+                    @favorite="favoriteChange"
+                    class="sticky-top" />
 </template>
 
 <script lang="ts">
 import { useCreatureStore } from "@/store/creatures";
 import { mapState } from "pinia";
-import Vue from "vue";
-export default Vue.extend({
+import CreatureDetails from "./CreatureDetails.vue";
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  components: {
+    CreatureDetails
+  },
   props: {
     id: {
       type: String,
@@ -43,5 +46,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

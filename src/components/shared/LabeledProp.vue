@@ -1,5 +1,8 @@
 <template>
-  <div v-if="hasValue" align-h="start" align-content="start" class="flex gap-3">
+  <div v-if="hasValue"
+       align-h="start"
+       align-content="start"
+       class="flex gap-3">
     <div cols="4">
       <label class="font-bold">{{ label }}</label>
     </div>
@@ -10,9 +13,10 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
 
-export default Vue.extend({
+
+import { defineComponent } from 'vue'
+export default defineComponent({
   props: {
     label: {
       type: String,
@@ -42,5 +46,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

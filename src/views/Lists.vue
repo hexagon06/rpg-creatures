@@ -1,14 +1,19 @@
 <template>
   <div class="flex-grow-1 mb-20">
-    <transition name="fade" mode="out-in">
-      <router-view class="mx-4"></router-view>
-    </transition>
+    <router-view class="mx-4"
+                 v-slot="{ Component }">
+      <transition name="fade"
+                  mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-export default Vue.extend({});
+
+import { defineComponent } from 'vue'
+export default defineComponent({});
 </script>
 
 <style lang="scss" scoped>

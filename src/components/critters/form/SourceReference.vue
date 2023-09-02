@@ -46,13 +46,14 @@
 import { SourceReference } from '@/types/creatures';
 import Vue, { PropType } from 'vue';
 
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   props: {
-    value: { type: Object as PropType<SourceReference>, default: undefined }
+    modelValue: { type: Object as PropType<SourceReference>, default: undefined }
   },
   data() {
     return {
-      sourceReference: this.value ?? { id: 'source-reference', type: 'source-reference', name: '' }
+      sourceReference: this.modelValue ?? { id: 'source-reference', type: 'source-reference', name: '' }
     }
   },
   methods: {
@@ -81,6 +82,4 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

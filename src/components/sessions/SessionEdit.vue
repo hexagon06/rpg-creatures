@@ -2,90 +2,68 @@
   <div v-if="loading">Loading...</div>
   <div v-else>
     <running-information />
-    <form
-      novalidate
-      :validated="validated"
-      ref="form"
-      class="flex flex-col gap-3"
-      @submit.stop.prevent="() => {}"
-    >
-      <input-wrapper
-        label="Session Title"
-        validation="Invalid title"
-        :is-valid="sessionForm.title && sessionForm.title.length > 0"
-      >
-        <input
-          id="input-1"
-          v-model="sessionForm.title"
-          placeholder="Enter title"
-          aria-describedby="password-help-block"
-          required
-        />
+    <form novalidate
+          :validated="validated"
+          ref="form"
+          class="flex flex-col gap-3"
+          @submit.stop.prevent="() => { }">
+      <input-wrapper label="Session Title"
+                     validation="Invalid title"
+                     :is-valid="sessionForm.title && sessionForm.title.length > 0">
+        <input id="input-1"
+               v-model="sessionForm.title"
+               placeholder="Enter title"
+               aria-describedby="password-help-block"
+               required />
         <template v-slot:help>
           Use a descriptive title to label the Session.
         </template>
       </input-wrapper>
-      <input-wrapper
-        label="Synopsis"
-        validation="Synopsis is required"
-        :is-valid="sessionForm.synopsis && sessionForm.synopsis.length > 0"
-      >
-        <input
-          id="input-synopsis"
-          v-model="sessionForm.synopsis"
-          placeholder="A short story"
-          aria-describedby="synopsis-help-block"
-          required
-        />
+      <input-wrapper label="Synopsis"
+                     validation="Synopsis is required"
+                     :is-valid="sessionForm.synopsis && sessionForm.synopsis.length > 0">
+        <input id="input-synopsis"
+               v-model="sessionForm.synopsis"
+               placeholder="A short story"
+               aria-describedby="synopsis-help-block"
+               required />
         <template v-slot:help>
           One or two short sentences describing the session
         </template>
       </input-wrapper>
       <hr />
-      <div
-        v-for="(section, i) in sortedSections"
-        :key="'section' + i + '_' + section.id"
-        class="flex gap-3"
-      >
+      <div v-for="(section, i) in sortedSections"
+           :key="'section' + i + '_' + section.id"
+           class="flex gap-3">
         <div class="flex flex-col gap-1">
-          <button
-            @click="moveSection(section.sortOrder, 'up')"
-            class="button-round button-on-rouge"
-            title="move up"
-            :disabled="section.sortOrder === 0"
-          >
+          <button @click="moveSection(section.sortOrder, 'up')"
+                  class="button-round button-on-rouge"
+                  title="move up"
+                  :disabled="section.sortOrder === 0">
             <font-awesome-icon icon="fa-solid fa-angle-up" />
           </button>
-          <button
-            @click="moveSection(section.sortOrder, 'down')"
-            class="button-round button-on-rouge"
-            title="move down"
-            :disabled="section.sortOrder === sortedSections.length - 1"
-          >
+          <button @click="moveSection(section.sortOrder, 'down')"
+                  class="button-round button-on-rouge"
+                  title="move down"
+                  :disabled="section.sortOrder === sortedSections.length - 1">
             <font-awesome-icon icon="fa-solid fa-angle-down" />
           </button>
         </div>
-        <component
-          :value="section"
-          :is="componentByType(section.prepType)"
-          class="flex-grow"
-        ></component>
-        <button
-          @click="removeSection(section.sortOrder)"
-          class="button-round button-on-rouge"
-          :title="'remove ' + section.prepType"
-        >
+        <component :value="section"
+                   :is="componentByType(section.prepType)"
+                   class="flex-grow"></component>
+        <button @click="removeSection(section.sortOrder)"
+                class="button-round button-on-rouge"
+                :title="'remove ' + section.prepType">
           <font-awesome-icon icon="fa-solid fa-trash" />
         </button>
       </div>
       <div class="flex gap-2 justify-end">
-        <button
-          v-for="button in sectionButtons"
-          :key="'add_section_' + button.type"
-          @click="addSection(button.type)"
-          class="button-round-large button-on-brown"
-          :title="button.title"
-        >
+        <button v-for="button in sectionButtons"
+                :key="'add_section_' + button.type"
+                @click="addSection(button.type)"
+                class="button-round-large button-on-brown"
+                :title="button.title">
           <font-awesome-icon :icon="button.icon" />
         </button>
       </div>
@@ -95,8 +73,8 @@
 
 <script lang="ts">
 import { useSessionStore } from "@/store/gameSession";
-import Vue from "vue";
-import { Multiselect } from "vue-multiselect";
+
+// import { Multiselect } from "vue-multiselect";
 import { mapWritableState } from "pinia";
 import { PrepSection, PrepType } from "@/types";
 import { sortBy } from "lodash";
@@ -109,8 +87,9 @@ type SectionButtons = {
   icon: string;
 };
 
-export default Vue.extend({
-  components: { Multiselect },
+import { defineComponent } from 'vue'
+export default defineComponent({
+  // components: { Multiselect },
   props: {
     id: {
       type: String,

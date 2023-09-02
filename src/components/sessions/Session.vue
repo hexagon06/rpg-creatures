@@ -8,28 +8,27 @@
       <p class="font-italic font-weight-bolder text-secondary">
         {{ session.synopsis }}
       </p>
-      <component
-        v-for="(section, i) in sortedSections"
-        :key="'section' + i + '_' + section.id"
-        :value="section"
-        :is="componentByType(section.prepType)"
-        class=""
-      ></component>
+      <component v-for="(section, i) in sortedSections"
+                 :key="'section' + i + '_' + section.id"
+                 :value="section"
+                 :is="componentByType(section.prepType)"
+                 class=""></component>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+
 import ArrayPills from "../shared/ArrayPills.vue";
-import { Multiselect } from "vue-multiselect";
+// import { Multiselect } from "vue-multiselect";
 import { mapState } from "pinia";
 import { useSessionStore } from "@/store/gameSession";
 import { PrepSection, PrepType } from "@/types";
 import { sortBy } from "lodash";
 
-export default Vue.extend({
-  components: { ArrayPills, Multiselect },
+import { defineComponent } from 'vue'
+export default defineComponent({
+  components: { ArrayPills, },
   props: {
     id: {
       type: String,
@@ -83,10 +82,12 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 $sidebar-width: 300px;
+
 .entity-selector {
   width: $sidebar-width;
   min-width: $sidebar-width;
 }
+
 .bd-highlight {
   background-color: darken(#fff, 5);
 }

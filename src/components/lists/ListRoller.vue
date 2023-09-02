@@ -1,20 +1,21 @@
 <template>
   <div>
-    <button
-      @click="roll"
-      class="button-round-large button-on-brown"
-      title="roll the dice"
-    >
+    <button @click="roll"
+            class="button-round-large button-on-brown"
+            title="roll the dice">
       <font-awesome-icon icon="fa-solid fa-dice-d20" />
     </button>
 
     <div class="flex flex-col-reverse">
-      <div v-for="(item, i) in rollResults" :key="'result_' + i">
+      <div v-for="(item, i) in rollResults"
+           :key="'result_' + i">
         <hr />
-        <h3><rolling-list-item :item="item.item" :label="item.label" /></h3>
+        <h3><rolling-list-item :item="item.item"
+                             :label="item.label" /></h3>
         <p>{{ item.rollText }}</p>
 
-        <button @click="removeRoll(i)" class="button-round button-on-rouge">
+        <button @click="removeRoll(i)"
+                class="button-round button-on-rouge">
           <font-awesome-icon icon="fa-solid fa-minus" />
         </button>
       </div>
@@ -29,7 +30,8 @@ import Vue, { PropType } from "vue";
 import RollingListItem from "./RollingListItem.vue";
 import { Dice } from "dice-typescript";
 
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   components: { RollingListItem },
   props: {
     list: {
@@ -76,9 +78,8 @@ export default Vue.extend({
     roll() {
       const random = Math.floor(Math.random() * this.listTotal);
       const item = this.getResult(random);
-      const rollText = `Rolled ${random + 1} out of ${
-        this.listTotal
-      } for the list.`;
+      const rollText = `Rolled ${random + 1} out of ${this.listTotal
+        } for the list.`;
 
       const diced = rollDice(item.label);
 
@@ -125,5 +126,4 @@ function rollDice(label: string) {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

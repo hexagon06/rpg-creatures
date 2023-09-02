@@ -1,20 +1,19 @@
 <template>
   <action-panel-action>
-    <button
-      @click="back"
-      class="button-round-large button-on-gold"
-      title="back"
-    >
+    <button @click="back"
+            class="button-round-large button-on-gold"
+            title="back">
       <font-awesome-icon icon="fa-solid fa-arrow-left" />
     </button>
   </action-panel-action>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+
 import { mapState } from "pinia";
 import { useSessionStore } from "@/store/gameSession";
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   computed: {
     ...mapState(useSessionStore, ["sessionForm", "session", "isDirty"]),
     isEditing(): boolean {
@@ -70,5 +69,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -30,16 +30,17 @@ import CreatureArmor from './CreatureArmor.vue';
 import HitPoints from './HitPoints.vue';
 import { toMod } from '@/shared/hitDice';
 
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   props: {
-    value: {
+    modelValue: {
       type: Object as PropType<Dnd5eCreature>,
       required: true
     }
   },
   data() {
     return {
-      stats: this.value ?? {}
+      stats: this.modelValue ?? {}
     };
   },
   watch: {
@@ -62,6 +63,4 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

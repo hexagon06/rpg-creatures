@@ -12,7 +12,8 @@
     <div class="m-3 text-left">
       <label v-if="idea.category !== undefined">{{ idea.category }}</label>
       <div>
-        <v-md-preview :text="idea.text" :default-show-toc="true"></v-md-preview>
+        <v-md-preview :text="idea.text"
+                      :default-show-toc="true"></v-md-preview>
       </div>
       <div v-if="idea.tags && idea.tags.length > 0">
         <array-pills :data="idea.tags"></array-pills>
@@ -22,14 +23,15 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+
 import ArrayPills from "../shared/ArrayPills.vue";
-import { Multiselect } from "vue-multiselect";
+// import { Multiselect } from "vue-multiselect";
 import { mapState } from "pinia";
 import { useIdeaStore } from "@/store/ideas";
 
-export default Vue.extend({
-  components: { ArrayPills, Multiselect },
+import { defineComponent } from 'vue'
+export default defineComponent({
+  components: { ArrayPills, },
   props: {
     id: {
       type: String,
@@ -59,10 +61,12 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 $sidebar-width: 300px;
+
 .entity-selector {
   width: $sidebar-width;
   min-width: $sidebar-width;
 }
+
 .bd-highlight {
   background-color: darken(#fff, 5);
 }

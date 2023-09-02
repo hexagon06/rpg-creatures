@@ -10,7 +10,7 @@
         <input id="input-1"
                v-model="creature.name"
                placeholder="Enter name"
-               required />
+               required>
         <template v-slot:help> Is this a named character? </template>
       </input-wrapper>
 
@@ -25,16 +25,15 @@
       <div class="flex flex-wrap w-full">
         <input-wrapper label="Image source"
                        validation="Image url is too big"
-                       :is-valid="
-                         creature.image &&
+                       :is-valid="creature.image &&
                          creature.image.length > 0 &&
                          creature.image.length < 512
-                       "
+                         "
                        class="w-full md:w-2/3">
           <input id="input-1"
                  v-model="creature.image"
                  placeholder="http://..."
-                 required />
+                 required>
         </input-wrapper>
       </div>
       <div>
@@ -47,29 +46,29 @@
     <!-- creature type & size -->
     <input-wrapper label="Size"
                    class="flex-grow">
-      <multiselect id="input-size"
-                   v-model="creature.size"
-                   :options="options.size"
-                   :clear-on-select="false"
-                   :show-labels="false"
-                   :preselect-first="false"
-                   @input="sizeChange"></multiselect>
+      <multi-select id="input-size"
+                    v-model="creature.size"
+                    :options="options.size"
+                    :clear-on-select="false"
+                    :show-labels="false"
+                    :preselect-first="false"
+                    @input="sizeChange" />
     </input-wrapper>
     <div class="flex gap-2">
       <input-wrapper label="Type"
                      class="flex-grow">
-        <multiselect id="input-size"
-                     v-model="creature.type"
-                     :options="typeOptions"
-                     :clear-on-select="false"
-                     :show-labels="false"
-                     :preselect-first="false"></multiselect>
+        <multi-select id="input-size"
+                      v-model="creature.type"
+                      :options="typeOptions"
+                      :clear-on-select="false"
+                      :show-labels="false"
+                      :preselect-first="false" />
       </input-wrapper>
       <input-wrapper label="sub type"
                      class="flex-grow">
         <input id="input-type"
                v-model="creature.subType"
-               placeholder="(descriptor)" />
+               placeholder="(descriptor)">
       </input-wrapper>
     </div>
     <!-- stats -->
@@ -77,14 +76,14 @@
     <input-wrapper label="Game System">
       <!-- todo suggestions based on current systems -->
       <!-- todo set this when a book is set with a system -->
-      <multiselect id="input-size"
-                   v-model="creature.system"
-                   :options="options.system"
-                   :clear-on-select="false"
-                   :show-labels="false"
-                   :preselect-first="false"
-                   :disabled="disableSystemSelection"
-                   @input="systemChange"></multiselect>
+      <multi-select id="input-size"
+                    v-model="creature.system"
+                    :options="options.system"
+                    :clear-on-select="false"
+                    :show-labels="false"
+                    :preselect-first="false"
+                    :disabled="disableSystemSelection"
+                    @input="systemChange" />
       <template v-slot:help> What system this creature is made for </template>
     </input-wrapper>
     <dhd-5e-stats v-if="creature.stats"
@@ -97,7 +96,7 @@
                         :options="environmentOptions"
                         :taggable="true"
                         @tag="tagEnvironment"
-                        placeholder="Select size(s)"></pill-multiselect>
+                        placeholder="Select size(s)" />
     </input-wrapper>
 
     <input-wrapper label="Tags">
@@ -106,7 +105,7 @@
                         :options="tagsOptions"
                         :taggable="true"
                         @tag="tagTag"
-                        placeholder="Select size(s)"></pill-multiselect>
+                        placeholder="Select size(s)" />
     </input-wrapper>
 
     <input-wrapper label="Comments">
@@ -124,7 +123,7 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { Multiselect } from "vue-multiselect";
+// import { Multiselect } from "vue-multiselect";
 import { Creature, Dnd5eCreature, PathfinderCreature } from "@/types/creatures";
 import { useFilterStore } from "@/store/filter";
 import { mapState } from "pinia";
@@ -136,15 +135,17 @@ import SourceReference from "./form/SourceReference.vue";
 import Dnd5eStats from './form/Dnd5eStats.vue'
 import { areDefaultStats, createDefault5eCreature, createDefaultPathfinderCreature } from "./stats-functions";
 
-export default Vue.extend({
+import MultiSelect from 'primevue/multiselect';
+import { defineComponent } from 'vue'
+export default defineComponent({
   components: {
-    Multiselect,
+    MultiSelect,
     CreatureInfo,
     SourceReference,
     'dhd-5e-stats': Dnd5eStats
   },
   props: {
-    value: Object as PropType<Creature>,
+    modelValue: Object as PropType<Creature>,
   },
   data() {
     return {
@@ -152,9 +153,9 @@ export default Vue.extend({
         size: ["Tiny", "Small", "Medium", "Large", "Huge", "Gargantuan"],
         system: ["Pathfinder", 'D&D 5e']
       },
-      creature: this.value,
+      creature: this.modelValue,
       showSpeedsClicked: false,
-      environment: this.value.environment ?? []
+      environment: this.modelValue.environment ?? []
     };
   },
   async created() {

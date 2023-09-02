@@ -1,23 +1,18 @@
 <template>
   <div>
-    <input-wrapper
-      label="Text caption"
-      validation="Invalid title"
-      :is-valid="value.label && value.label.length > 0"
-    >
-      <input
-        id="input-1"
-        v-model="value.label"
-        placeholder="Subject"
-        required
-      />
+    <input-wrapper label="Text caption"
+                   validation="Invalid title"
+                   :is-valid="modelValue.label && modelValue.label.length > 0">
+      <input id="input-1"
+             v-model="modelValue.label"
+             placeholder="Subject"
+             required />
     </input-wrapper>
-    <input-wrapper
-      label=""
-      validation="missing text"
-      :is-valid="value.text && value.text.length > 0"
-    >
-      <v-md-editor v-model="value.text" height="400px"></v-md-editor>
+    <input-wrapper label=""
+                   validation="missing text"
+                   :is-valid="modelValue.text && modelValue.text.length > 0">
+      <v-md-editor v-model="modelValue.text"
+                   height="400px"></v-md-editor>
     </input-wrapper>
   </div>
 </template>
@@ -25,9 +20,10 @@
 <script lang="ts">
 import { TextPrep } from "@/types";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   props: {
-    value: {
+    modelValue: {
       type: Object as PropType<TextPrep>,
       required: true,
     },
@@ -35,5 +31,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

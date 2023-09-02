@@ -45,9 +45,10 @@
 import { AbilityFormat, parseFormatText } from "@/shared/abilityFormatting";
 import { Ability, CreatureAbilityValues } from "@/types";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   props: {
-    value: {
+    modelValue: {
       type: Object as PropType<CreatureAbilityValues>,
       required: true,
     },
@@ -62,7 +63,7 @@ export default Vue.extend({
     },
     variables(): { k: string; v: string }[] {
       return this.format.variables.map((v) => {
-        const value = this.value.variables.find((kvp) => kvp.k === v);
+        const value = this.modelValue.variables.find((kvp) => kvp.k === v);
         return {
           k: v,
           v: value?.v ?? "",
@@ -71,7 +72,7 @@ export default Vue.extend({
     },
     formulae(): { k: string; a: number; n: number }[] {
       return this.format.formulae.map((v) => {
-        const value = this.value.formulae.find((kvvp) => kvvp.k === v);
+        const value = this.modelValue.formulae.find((kvvp) => kvvp.k === v);
         return {
           k: v,
           a: value?.a ?? 0,
@@ -84,7 +85,7 @@ export default Vue.extend({
   methods: {
     changeValue() {
       this.$emit("input", {
-        ...this.value,
+        ...this.modelValue,
         variables: this.variables,
         formulae: this.formulae,
       });
@@ -93,6 +94,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

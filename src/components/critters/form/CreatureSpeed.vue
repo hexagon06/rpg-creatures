@@ -51,15 +51,16 @@
 import { isNumber } from '@/components/utilities/is-number';
 import { CreatureSpeed } from '@/types/creatures';
 import Vue, { PropType } from 'vue';
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   props: {
-    value: {
+    modelValue: {
       type: Object as PropType<CreatureSpeed>, required: true
     }
   },
   data() {
     return {
-      speed: this.value,
+      speed: this.modelValue,
       showSpeedsClicked: false,
     }
   },
@@ -91,6 +92,4 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

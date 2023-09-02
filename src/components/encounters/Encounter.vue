@@ -14,10 +14,8 @@
         {{ encounter.flavorText }}
       </p>
       <div>
-        <v-md-preview
-          :text="encounter.description"
-          :default-show-toc="true"
-        ></v-md-preview>
+        <v-md-preview :text="encounter.description"
+                      :default-show-toc="true"></v-md-preview>
       </div>
       <div v-if="encounter.reward">
         <h2>Rewards:</h2>
@@ -30,21 +28,15 @@
 
     <!-- reference lists -->
     <div class="px-3 mb-5">
-      <list-card
-        v-if="locations && locations.length"
-        title="Locations"
-        :list="locations"
-      ></list-card>
-      <list-card
-        v-if="creatures && creatures.length"
-        title="Creatures"
-        :list="creatures"
-      ></list-card>
-      <list-card
-        v-if="environments && environments.length"
-        title="Environments"
-        :list="environments"
-      ></list-card>
+      <list-card v-if="locations && locations.length"
+                 title="Locations"
+                 :list="locations"></list-card>
+      <list-card v-if="creatures && creatures.length"
+                 title="Creatures"
+                 :list="creatures"></list-card>
+      <list-card v-if="environments && environments.length"
+                 title="Environments"
+                 :list="environments"></list-card>
     </div>
   </div>
 </template>
@@ -52,15 +44,19 @@
 <script lang="ts">
 import { creatureLabel, ReferenceListItem } from "@/types";
 import { intersectionWith } from "lodash";
-import Vue from "vue";
+
 import ArrayPills from "../shared/ArrayPills.vue";
-import { Multiselect } from "vue-multiselect";
+// import { Multiselect } from "vue-multiselect";
 import { mapState } from "pinia";
 import { useEncounterStore } from "@/store/encounters";
 import { useIndexesStore } from "@/store/indexes";
 
-export default Vue.extend({
-  components: { ArrayPills, Multiselect },
+import { defineComponent } from 'vue'
+export default defineComponent({
+  components: {
+    ArrayPills,
+    // Multiselect
+  },
   props: {
     id: {
       type: String,
@@ -84,16 +80,16 @@ export default Vue.extend({
     creatures(): ReferenceListItem[] {
       return this.encounter && useIndexesStore().initialized
         ? intersectionWith(
-            useIndexesStore().creatures,
-            this.encounter?.creatures,
-            (i, c) => c.id === i.id
-          ).map((c) => {
-            return {
-              id: c.id,
-              label: creatureLabel(c),
-              routerName: "Creature",
-            };
-          })
+          useIndexesStore().creatures,
+          this.encounter?.creatures,
+          (i, c) => c.id === i.id
+        ).map((c) => {
+          return {
+            id: c.id,
+            label: creatureLabel(c),
+            routerName: "Creature",
+          };
+        })
         : [] ?? [];
     },
     environments(): ReferenceListItem[] {
@@ -123,10 +119,12 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 $sidebar-width: 300px;
+
 .entity-selector {
   width: $sidebar-width;
   min-width: $sidebar-width;
 }
+
 .bd-highlight {
   background-color: darken(#fff, 5);
 }

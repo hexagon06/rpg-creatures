@@ -1,17 +1,16 @@
 <template>
-  <img
-    :src="url"
-    rounded
-    class="object-contain"
-    :class="loading ? 'hiding' : ''"
-    @load="loadDone('load')"
-  />
+  <img :src="url"
+       rounded
+       class="object-contain"
+       :class="loading ? 'hiding' : ''"
+       @load="loadDone('load')" />
 </template>
 
 <script lang="ts">
-import Vue from "vue";
 
-export default Vue.extend({
+
+import { defineComponent } from 'vue'
+export default defineComponent({
   props: {
     url: {
       type: String,

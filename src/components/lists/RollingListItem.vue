@@ -1,28 +1,32 @@
 <template>
   <span>
-    <router-link
-      v-if="item.reference && item.reference.id"
-      :to="{
-        name: item.reference.routerName,
-        params: { id: item.reference.id },
-      }"
-      class="encounter-link link"
-    >
-      <entity-type-icon
-        v-if="item.reference.routerName"
-        :type="item.reference.routerName"
-      />
-      <span v-for="(l, i) in labels" :key="`lbl_${i}`" :class="labelClass(l)">
+    <router-link v-if="item.reference && item.reference.id"
+                 :to="{
+                   name: item.reference.routerName,
+                   params: { id: item.reference.id },
+                 }"
+                 class="encounter-link link">
+      <entity-type-icon v-if="item.reference.routerName"
+                        :type="item.reference.routerName" />
+      <span v-for="(l, i) in labels"
+            :key="`lbl_${i}`"
+            :class="labelClass(l)">
         {{ l.text }}
       </span>
     </router-link>
-    <a v-else-if="item.reference" :href="item.reference" target="_blank">
-      <span v-for="(l, i) in labels" :key="`lbl_${i}`" :class="labelClass(l)">
+    <a v-else-if="item.reference"
+       :href="item.reference"
+       target="_blank">
+      <span v-for="(l, i) in labels"
+            :key="`lbl_${i}`"
+            :class="labelClass(l)">
         {{ l.text }}
       </span>
     </a>
     <span v-else>
-      <span v-for="(l, i) in labels" :key="`lbl_${i}`" :class="labelClass(l)">
+      <span v-for="(l, i) in labels"
+            :key="`lbl_${i}`"
+            :class="labelClass(l)">
         {{ l.text }}
       </span>
     </span>
@@ -33,7 +37,8 @@
 import { diceRegex, justDiceRegex, RollingListItem } from "@/types";
 import Vue, { PropType } from "vue";
 
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   props: {
     item: {
       type: Object as PropType<RollingListItem>,
@@ -69,6 +74,7 @@ a,
 a.encounter-link {
   font-weight: bold;
   color: #d1b74d;
+
   &:hover {
     color: lighten(#d1b74d, 10);
   }

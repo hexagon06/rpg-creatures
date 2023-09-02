@@ -1,19 +1,17 @@
 <template>
   <div>
-    <span
-      v-for="item in values"
-      :key="item"
-      class="badge badge-pill mr-1"
-      :class="`badge-${variantFor(item)}`"
-      >{{ item }}
+    <span v-for="item in values"
+          :key="item"
+          class="badge badge-pill mr-1"
+          :class="`badge-${variantFor(item)}`">{{ item }}
     </span>
   </div>
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from "vue";
+import Vue, { PropType, defineComponent } from "vue";
 
-export default Vue.extend({
+export default defineComponent({
   props: {
     values: {
       type: Array as PropType<string[]>,
@@ -39,5 +37,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

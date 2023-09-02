@@ -15,9 +15,10 @@
 <script lang="ts">
 import { isNumber } from '@/components/utilities/is-number';
 import Vue, { PropType } from 'vue';
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   props: {
-    value: {
+    modelValue: {
       type: Object as PropType<{
         ac?: number;
         type?: string
@@ -26,7 +27,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      armor: this.value
+      armor: this.modelValue
     }
   },
   watch: {
@@ -43,6 +44,4 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

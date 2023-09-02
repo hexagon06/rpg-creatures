@@ -1,42 +1,38 @@
 import { auth } from '@/api'
 import { useUserStore } from '@/store/users'
 import Vue from 'vue'
-import VueRouter, { RouteConfig } from 'vue-router'
-import Home from '../views/Home.vue'
+import VueRouter, { RouteRecordRaw, createRouter, createWebHashHistory } from 'vue-router'
 import { getStandardRoute } from './standardRoute'
-import Maintenance from '../views/Maintenance.vue'
-
-Vue.use(VueRouter)
 
 const sessionRoute = getStandardRoute({ path: 'session', cased: 'Session' })
 
-const routes: Array<RouteConfig> = [
+const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: { name: 'Home' }
+    redirect: { name: 'Home' },
   },
   {
     path: '/home',
     name: 'Home',
-    component: Home
+    component: () => import('../views/Home.vue'),
   },
   {
     path: '/maintenance',
-    component: Maintenance
+    component: () => import('../views/Maintenance.vue'),
   },
   getStandardRoute({ path: 'creature', cased: 'Creature' }),
   {
     ...sessionRoute,
     children: sessionRoute.children.concat([{
       path: ':id/run/:runId',
-      name: `Session Run`,
+      name: 'Session Run',
       meta: {
         requiresAuth: true,
-        actionsComponent: `session-run-actions`
+        actionsComponent: 'session-run-actions',
       },
-      component: () => import(`../components/sessions/SessionRun.vue`),
+      component: () => import('../components/sessions/SessionRun.vue'),
       props: true,
-    }])
+    }]),
   },
   getStandardRoute({ path: 'encounter', cased: 'Encounter' }),
   getStandardRoute({ path: 'idea', cased: 'Idea' }),
@@ -44,9 +40,10 @@ const routes: Array<RouteConfig> = [
   getStandardRoute({ path: 'critter', cased: 'Critter' }),
 ]
 
-const router = new VueRouter({
-  routes
-})
+export const router = createRouter({
+  history: createWebHashHistory(),
+  routes,
+});
 
 router.beforeEach((to, from, next) => {
   if (to.meta) {

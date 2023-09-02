@@ -4,10 +4,7 @@
   </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
+<script setup lang="ts">
 
-export default Vue.extend({
-  name: "Home",
-});
+const name = 'Home'
 </script>

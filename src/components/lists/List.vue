@@ -8,14 +8,16 @@
     <!-- description card -->
     <div class="m-3 text-left">
       <ul>
-        <li v-for="(item, i) in sortedItems" :key="i" class="flex gap-2">
-          <rolling-list-item :item="item" class="flex-grow" />
-          <span v-if="item.weight !== 1" title="weight">{{ item.weight }}</span>
+        <li v-for="(item, i) in sortedItems"
+            :key="i"
+            class="flex gap-2">
+          <rolling-list-item :item="item"
+                             class="flex-grow" />
+          <span v-if="item.weight !== 1"
+                title="weight">{{ item.weight }}</span>
           <span class="w-6">
-            <font-awesome-icon
-              v-if="item.repeatable"
-              icon="fa-solid fa-repeat"
-            />
+            <font-awesome-icon v-if="item.repeatable"
+                               icon="fa-solid fa-repeat" />
           </span>
         </li>
       </ul>
@@ -26,9 +28,9 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+
 import ArrayPills from "../shared/ArrayPills.vue";
-import { Multiselect } from "vue-multiselect";
+// import { Multiselect } from "vue-multiselect";
 import { mapState } from "pinia";
 import { useListStore } from "@/store/rollingLists";
 import { sortBy } from "lodash";
@@ -36,8 +38,9 @@ import { RollingListItem as RLItem } from "@/types";
 import ListRoller from "./ListRoller.vue";
 import RollingListItem from "./RollingListItem.vue";
 
-export default Vue.extend({
-  components: { ArrayPills, Multiselect, ListRoller, RollingListItem },
+import { defineComponent } from 'vue'
+export default defineComponent({
+  components: { ArrayPills, ListRoller, RollingListItem },
   props: {
     id: {
       type: String,
@@ -71,10 +74,12 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 $sidebar-width: 300px;
+
 .entity-selector {
   width: $sidebar-width;
   min-width: $sidebar-width;
 }
+
 .bd-highlight {
   background-color: darken(#fff, 5);
 }

@@ -41,14 +41,15 @@ import { useFilterStore } from '@/store/filter';
 import { StandardCreatureInfo } from '@/types/creatures';
 import { mapState } from 'pinia';
 import Vue, { PropType } from 'vue';
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   props: {
-    value: { type: Object as PropType<StandardCreatureInfo>, default: undefined }
+    modelValue: { type: Object as PropType<StandardCreatureInfo>, default: undefined }
   },
   data() {
     return {
-      info: this.value ?? { nameIsNoun: false, type: 'standard-info' },
-      organisation: this.value?.organisation ?? []
+      info: this.modelValue ?? { nameIsNoun: false, type: 'standard-info' },
+      organisation: this.modelValue?.organisation ?? []
     }
   },
   watch: {
@@ -74,6 +75,4 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

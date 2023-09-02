@@ -1,18 +1,18 @@
 <template>
-  <svg
-    v-if="isValid"
-    viewBox="0 0 512 512"
-    class="svg-inline--fa"
-    :title="type"
-  >
-    <path :d="iconData" fill="currentColor"></path>
+  <svg v-if="isValid"
+       viewBox="0 0 512 512"
+       class="svg-inline--fa"
+       :title="type">
+    <path :d="iconData"
+          fill="currentColor"></path>
   </svg>
 </template>
 
 <script lang="ts">
 import { EntityType, EntityTypeIcon, entityTypeToIcon } from "@/types";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   props: {
     type: String as PropType<EntityType>,
   },
@@ -46,5 +46,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

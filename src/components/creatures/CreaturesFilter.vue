@@ -1,102 +1,75 @@
 <template>
   <action-panel-filter>
     <div class="flex flex-col gap-3 justify-between">
-      <input
-        id="search-text"
-        type="search"
-        placeholder="Search"
-        v-model="search"
-        debounce="300"
-        class="flex-grow"
-      />
-      <div
-        class="flex flex-col gap-2"
-        :class="showFilters ? '' : ' hidden md:block'"
-      >
-        <pill-multiselect
-          id="size-filter"
-          v-model="sizeFilter"
-          :options="sizeOptions"
-          placeholder="Size(s)"
-        />
-        <pill-multiselect
-          id="type-filter"
-          v-model="typeFilter"
-          :options="typeOptions"
-          placeholder="Type(s)"
-        ></pill-multiselect>
-        <pill-multiselect
-          id="environment-filter"
-          v-model="environmentFilter"
-          :options="environmentOptions"
-          placeholder="Environment(s)"
-        ></pill-multiselect>
-        <pill-multiselect
-          id="tags-filter"
-          v-model="tagsFilter"
-          :options="tagsOptions"
-          placeholder="Tag(s)"
-        ></pill-multiselect>
-        <pill-multiselect
-          id="system-filter"
-          v-model="systemFilter"
-          :options="systemOptions"
-          placeholder="System(s)"
-        ></pill-multiselect>
-        <pill-multiselect
-          id="cr-filter"
-          v-model="crFilter"
-          :options="crOptions"
-          placeholder="CR(s)"
-        ></pill-multiselect>
-        <pill-multiselect
-          id="cr-filter"
-          v-model="sourceFilter"
-          :options="sourceOptions"
-          placeholder="Source(s)"
-        ></pill-multiselect>
+      <input id="search-text"
+             v-model="search"
+             type="search"
+             placeholder="Search"
+             debounce="300"
+             class="flex-grow" />
+      <div class="flex flex-col gap-2"
+           :class="showFilters ? '' : ' hidden md:block'">
+        <pill-multiselect id="size-filter"
+                          v-model="sizeFilter"
+                          :options="sizeOptions"
+                          placeholder="Size(s)" />
+        <pill-multiselect id="type-filter"
+                          v-model="typeFilter"
+                          :options="typeOptions"
+                          placeholder="Type(s)" />
+        <pill-multiselect id="environment-filter"
+                          v-model="environmentFilter"
+                          :options="environmentOptions"
+                          placeholder="Environment(s)" />
+        <pill-multiselect id="tags-filter"
+                          v-model="tagsFilter"
+                          :options="tagsOptions"
+                          placeholder="Tag(s)" />
+        <pill-multiselect id="system-filter"
+                          v-model="systemFilter"
+                          :options="systemOptions"
+                          placeholder="System(s)" />
+        <pill-multiselect id="cr-filter"
+                          v-model="crFilter"
+                          :options="crOptions"
+                          placeholder="CR(s)" />
+        <pill-multiselect id="cr-filter"
+                          v-model="sourceFilter"
+                          :options="sourceOptions"
+                          placeholder="Source(s)" />
       </div>
     </div>
     <template v-slot:buttons>
-      <button
-        @click="create"
-        class="button-round-large button-on-gold"
-        title="create"
-      >
+      <button class="button-round-large button-on-gold"
+              title="create"
+              @click="create">
         <font-awesome-icon icon="fa-solid fa-plus" />
       </button>
-      <button
-        @click="toggleFilters"
-        class="button-round-large button-on-gold md:hidden"
-        title="toggle filters"
-      >
+      <button class="button-round-large button-on-gold md:hidden"
+              title="toggle filters"
+              @click="toggleFilters">
         <font-awesome-icon icon="fa-solid fa-filter" />
       </button>
-      <button
-        @click="createList()"
-        class="button-round-large button-on-gold"
-        title="create list"
-      >
+      <button class="button-round-large button-on-gold"
+              title="create list"
+              @click="createList()">
         <font-awesome-icon icon="fa-solid fa-list" />
       </button>
     </template>
     <transition>
-      <form v-if="isCreatingList" @submit.stop.prevent="createList(true)">
-        <modal
-          :is-valid="listName.length > 0"
-          @reject="createList(false)"
-          class="text-white"
-        >
+      <form v-if="isCreatingList"
+            @submit.stop.prevent="createList(true)">
+        <modal :is-valid="listName.length > 0"
+               class="text-white"
+               @reject="createList(false)">
           <div class="w-52 flex flex-col gap-1 text-dark-blue">
             <p>Creating a list for {{ filteredCreatures.length }} creatures!</p>
-            <input
-              id="input-1"
-              v-model="listName"
-              type="text"
-              placeholder="List name"
-              required
-              class="rounded-t-lg"
-            />
+            <input id="input-1"
+                   v-model="listName"
+                   type="text"
+                   placeholder="List name"
+                   required
+                   class="rounded-t-lg" />
           </div>
         </modal>
       </form>
@@ -111,7 +84,7 @@ import { useIndexesStore } from "@/store/indexes";
 import { useListStore } from "@/store/rollingLists";
 import { getRollingListItem, RollingListItem } from "@/types";
 import { mapState } from "pinia";
-import Vue from "vue";
+
 import InputWrapper from "../shared/InputWrapper.vue";
 
 const IS_FAVORITE = "is favorite";
@@ -120,7 +93,8 @@ function stringFilter<T>(array: T[], label: string): string {
   return array.length > 0 ? `${label} ${array.toString()}` : "";
 }
 
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   components: { InputWrapper },
   data() {
     return {
@@ -315,5 +289,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -1,19 +1,15 @@
 <template>
   <action-panel-filter>
-    <input
-      id="search-text"
-      type="search"
-      placeholder="Search"
-      v-model="listFilter.search"
-      debounce="300"
-      class="flex-grow"
-    />
+    <input id="search-text"
+           type="search"
+           placeholder="Search"
+           v-model="listFilter.search"
+           debounce="300"
+           class="flex-grow" />
     <template v-slot:buttons>
-      <button
-        @click="create"
-        class="button-round-large button-on-gold"
-        title="create"
-      >
+      <button @click="create"
+              class="button-round-large button-on-gold"
+              title="create">
         <font-awesome-icon icon="fa-solid fa-plus" />
       </button>
     </template>
@@ -24,8 +20,9 @@
 import { useFilterStore } from "@/store/filter";
 import { useListStore } from "@/store/rollingLists";
 import { mapWritableState } from "pinia";
-import Vue from "vue";
-export default Vue.extend({
+
+import { defineComponent } from 'vue'
+export default defineComponent({
   computed: {
     ...mapWritableState(useFilterStore, ["listFilter"]),
   },
@@ -38,5 +35,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

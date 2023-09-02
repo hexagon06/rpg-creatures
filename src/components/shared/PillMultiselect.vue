@@ -1,48 +1,27 @@
 <template>
-  <multiselect
-    v-bind:value="value"
-    v-on:input="changed"
-    :options="options"
-    :multiple="true"
-    :close-on-select="false"
-    :clear-on-select="true"
-    :preserve-search="true"
-    :placeholder="placeholder"
-    :show-labels="false"
-    :preselect-first="false"
-    :taggable="taggable"
-    @tag="$emit('tag', $event)"
-  >
-    <template slot="selection" slot-scope="{ values }">
-      <div class="flex">
-        <array-pills
-          class="flex-grow align-self-center"
-          :data="values"
-        ></array-pills>
-        <button
-          v-if="values.length > 0"
-          @click="changed([])"
-          size="sm"
-          variant="outline-secondary"
-          class="align-self-center my-1"
-        >
-          clear
-        </button>
-      </div>
-    </template>
-  </multiselect>
+  <div class="card flex justify-content-center">
+    <MultiSelect v-model="selection"
+                 display="chip"
+                 :options="mappedOptions"
+                 optionLabel="name"
+                 :placeholder="placeholder"
+                 class="w-full md:w-20rem" />
+  </div>
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from "vue";
-import { Multiselect } from "vue-multiselect";
+import Vue, { PropType } from 'vue';
+import MultiSelect from 'primevue/multiselect';
+// import { Multiselect } from "vue-multiselect";
 
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   components: {
-    Multiselect,
+    MultiSelect,
+
   },
   props: {
-    value: {
+    modelValue: {
       type: Array as PropType<string[]>,
       required: true,
     },
@@ -52,20 +31,52 @@ export default Vue.extend({
     },
     placeholder: {
       type: String,
-      default: "select",
+      default: 'select',
     },
     taggable: {
       type: Boolean,
       default: false,
     },
   },
+  emits: ['update:modelValue'],
+  data: () => {
+    return {
+      isOpen: false,
+    }
+  },
+  computed: {
+    selection: {
+      get: function () { return this.modelValue.map(o => ({ name: o, value: o })) },
+      set: function (newValue: { name: string, value: string }[]) { this.changed(newValue.map(s => s.value)) }
+    },
+    mappedOptions: function () {
+      return this.options.map(o => ({ name: o, value: o }))
+    }
+  },
   methods: {
     changed(selection: string[]) {
-      this.$emit("input", selection);
+      this.$emit('update:modelValue', selection);
+    },
+    add(item: string) {
+      this.changed([...this.modelValue, item])
+    },
+    remove(item: string) {
+      console.log('🚀 ~ file: PillMultiselect.vue:128 ~ remove ~ item:', item)
+      this.changed(this.modelValue.filter(i => i !== item))
+      console.log('🚀 ~ file: PillMultiselect.vue:129 ~ remove ~ this.modelValue.filter(i => i !== item):', this.modelValue.filter(i => i !== item))
+    },
+    toggle(item: string) {
+      if (this.modelValue.indexOf(item) === -1) this.add(item)
+      else this.remove(item)
+    },
+    fold() {
+      this.isOpen = !this.isOpen
+      console.log('🚀 ~ file: PillMultiselect.vue:140 ~ fold ~ this.isOpen:', this.isOpen)
+
     },
   },
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss"
+         scoped></style>

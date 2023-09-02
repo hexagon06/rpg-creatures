@@ -2,14 +2,14 @@
   <div class="d-flex flex-column">
     <h2>Abilities</h2>
     <div class="flex-row">
-      <multiselect id="input-size"
-                   v-model="selection"
-                   :options="abilityOptions"
-                   :clear-on-select="true"
-                   :preselect-first="false"
-                   placeholder="add ability"
-                   label="name"
-                   @input="addAbility"></multiselect>
+      <multi-select id="input-size"
+                    v-model="selection"
+                    :options="abilityOptions"
+                    :clear-on-select="true"
+                    :preselect-first="false"
+                    placeholder="add ability"
+                    label="name"
+                    @input="addAbility" />
     </div>
 
     <div v-for="am in abilityMapped"
@@ -43,14 +43,16 @@ import {
 import { differenceBy } from "lodash";
 import { mapState } from "pinia";
 import Vue, { PropType } from "vue";
-import Multiselect from "vue-multiselect";
+import { defineComponent } from 'vue'
+import MultiSelect from 'primevue/multiselect';
+// import Multiselect from "vue-multiselect";
 
-export default Vue.extend({
+export default defineComponent({
   components: {
-    Multiselect,
+    MultiSelect,
   },
   props: {
-    value: {
+    modelValue: {
       type: Array as PropType<string[]>,
       required: true,
     },
@@ -63,7 +65,7 @@ export default Vue.extend({
   computed: {
     ...mapState(useAbilityStore, ["abilities"]),
     abilityValues(): CreatureAbilityValues[] {
-      return this.value.map(toAbilityValues);
+      return this.modelValue.map(toAbilityValues);
     },
     abilityMapped(): MappedAbility[] {
       return this.abilityValues.map((values) =>
@@ -111,6 +113,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

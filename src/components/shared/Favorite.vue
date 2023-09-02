@@ -1,42 +1,35 @@
 <template>
   <div class="favoriting">
-    <label
-      class="icon"
-      :class="{
-        selected: value,
-        'is-disabled': disabled,
-      }"
-    >
-      <input
-        class="favorite-checkbox"
-        type="checkbox"
-        v-bind:name="name"
-        v-bind:required="required"
-        v-bind:disabled="disabled"
-        v-model="favorite"
-      />
-      <font-awesome-icon
-        icon="fa-solid fa-star"
-        v-if="value"
-      ></font-awesome-icon>
-      <font-awesome-icon icon="fa-regular fa-star" v-else></font-awesome-icon>
+    <label class="icon"
+           :class="{
+             selected: modelValue,
+             'is-disabled': disabled,
+           }">
+      <input class="favorite-checkbox"
+             type="checkbox"
+             v-bind:name="name"
+             v-bind:required="required"
+             v-bind:disabled="disabled"
+             v-model="favorite" />
+      <font-awesome-icon icon="fa-solid fa-star"
+                         v-if="modelValue"></font-awesome-icon>
+      <font-awesome-icon icon="fa-regular fa-star"
+                         v-else></font-awesome-icon>
     </label>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
 
-export default Vue.extend({
-  data: function () {
-    return {};
-  },
+
+import { defineComponent } from 'vue'
+export default defineComponent({
   props: {
     name: {
       type: String,
       default: "favorite",
     },
-    value: {
+    modelValue: {
       type: Boolean,
       default: false,
     },
@@ -49,10 +42,13 @@ export default Vue.extend({
       default: false,
     },
   },
+  data: function () {
+    return {};
+  },
   computed: {
     favorite: {
       get(): boolean {
-        return this.value;
+        return this.modelValue;
       },
       set(value: boolean) {
         this.$emit("input", value);
@@ -65,6 +61,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 $secondary: #f00;
 $warning: hsla(34, 100%, 50%, 0.856);
+
 .favoriting {
   display: inline-block;
 
@@ -82,6 +79,7 @@ $warning: hsla(34, 100%, 50%, 0.856);
     &.is-disabled:hover {
       cursor: default;
     }
+
     &.selected {
       color: $warning;
     }

@@ -72,7 +72,7 @@ import { useFilterStore } from "@/store/filter";
 import { useListStore } from "@/store/rollingLists";
 import { getRollingListItem } from "@/types";
 import { mapState } from "pinia";
-import Vue from "vue";
+
 import InputWrapper from "../shared/InputWrapper.vue";
 
 const IS_FAVORITE = "is favorite";
@@ -81,7 +81,8 @@ function stringFilter<T>(array: T[], label: string): string {
   return array.length > 0 ? `${label} ${array.toString()}` : "";
 }
 
-export default Vue.extend({
+import { defineComponent } from 'vue'
+export default defineComponent({
   components: { InputWrapper },
   data() {
     return {
@@ -275,6 +276,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

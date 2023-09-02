@@ -3,13 +3,11 @@
     <div class="hidden action-menu-action md:action-menu-action-large">
       <slot />
     </div>
-    <div
-      class="
+    <div class="
         hidden
         action-menu-filter-buttons
         md:action-menu-filter-buttons-large
-      "
-    >
+      ">
       <slot name="buttons" />
     </div>
     <!-- for mobile devices -->
@@ -21,9 +19,9 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-export default Vue.extend({});
+
+import { defineComponent } from 'vue'
+export default defineComponent({});
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

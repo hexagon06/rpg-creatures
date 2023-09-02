@@ -1,35 +1,32 @@
 <template>
   <div class="flex gap-2">
-    <multiselect
-      id="input-size"
-      v-model="organisation"
-      :options="organisationOptions"
-      :clear-on-select="false"
-      :show-labels="false"
-      :preselect-first="false"
-    ></multiselect>
-    <multiselect
-      id="input-size"
-      v-model="goodness"
-      :options="goodnessOptions"
-      :clear-on-select="false"
-      :show-labels="false"
-      :preselect-first="false"
-    ></multiselect>
+    <MultiSelect id="input-size"
+                 v-model="organisation"
+                 :options="organisationOptions"
+                 :clear-on-select="false"
+                 :show-labels="false"
+                 :preselect-first="false" />
+    <MultiSelect id="input-size"
+                 v-model="goodness"
+                 :options="goodnessOptions"
+                 :clear-on-select="false"
+                 :show-labels="false"
+                 :preselect-first="false" />
   </div>
 </template>
 
 <script lang="ts">
 import { uniq } from "lodash";
-import Vue, { PropType } from "vue";
-import { Multiselect } from "vue-multiselect";
+import Vue, { PropType, defineComponent } from "vue";
+import MultiSelect from 'primevue/multiselect';
+// import { Multiselect } from "vue-multiselect";
 
-export default Vue.extend({
+export default defineComponent({
   components: {
-    Multiselect,
+    MultiSelect,
   },
   props: {
-    value: {
+    modelValue: {
       type: Array as PropType<string[]>,
       required: true,
     },
@@ -42,22 +39,22 @@ export default Vue.extend({
   },
   computed: {
     isGood(): boolean {
-      return this.value.findIndex((s) => s === "good") >= 0;
+      return this.modelValue.findIndex((s) => s === "good") >= 0;
     },
     isEvil(): boolean {
-      return this.value.findIndex((s) => s === "evil") >= 0;
+      return this.modelValue.findIndex((s) => s === "evil") >= 0;
     },
     isNeutral(): boolean {
-      return this.value.findIndex((s) => s === "neutral") >= 0;
+      return this.modelValue.findIndex((s) => s === "neutral") >= 0;
     },
     isChaotic(): boolean {
-      return this.value.findIndex((s) => s === "chaotic") >= 0;
+      return this.modelValue.findIndex((s) => s === "chaotic") >= 0;
     },
     isLawful(): boolean {
-      return this.value.findIndex((s) => s === "lawful") >= 0;
+      return this.modelValue.findIndex((s) => s === "lawful") >= 0;
     },
     warning(): string | undefined {
-      if (this.value.length > 2) {
+      if (this.modelValue.length > 2) {
         return "There are more than 2 options in the alignment. this is not supported";
       }
     },
@@ -96,5 +93,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

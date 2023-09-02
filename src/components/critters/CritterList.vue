@@ -61,8 +61,9 @@ import { useFilterStore } from "@/store/filter";
 import { ListCreature } from "@/types/creatures";
 import { filter } from "lodash";
 import { mapState } from "pinia";
-import Vue from "vue";
-export default Vue.extend({
+
+import { defineComponent } from 'vue'
+export default defineComponent({
   data() {
     return {
       loadSize: 6,
@@ -122,6 +123,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

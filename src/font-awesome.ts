@@ -10,11 +10,10 @@ import {
 import { faStar, faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 /* import font awesome icon component */
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { App } from 'vue'
 /* import Vue for adding the component */
-import Vue from 'vue'
 
-
-export function addFontAwesome () {
+export function addFontAwesome (app: App) {
   /* add icons to the library */
   library.add(
     faArrowUpRightFromSquare,
@@ -57,5 +56,5 @@ export function addFontAwesome () {
     faChevronDown,
   )
   /* add font awesome icon component */
-  Vue.component('font-awesome-icon', FontAwesomeIcon)
+  app.component('font-awesome-icon', FontAwesomeIcon)
 }
